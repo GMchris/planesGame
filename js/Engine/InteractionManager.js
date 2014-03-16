@@ -5,19 +5,23 @@
         fighterMovementSpeed,
         lastShotPlayerBulletTimestamp,
         lastFighterSpawnTimestamp,
+        lastFighterDirectionChangeTimestamp,
         enemyBullets,
         enemyPlanes,
         fighterSpawnFrequencyMs,
+        fighterDirectionChangeFrequencyMs,
         currentMission,
         setInitialValues = function () {
             playerBullets = [];
             playerBulletsSpeed = 8;
-            fighterMovementSpeed = 15;
+            fighterMovementSpeed = 5;
             fighterSpawnFrequencyMs = 1200;
-            lastFighterSpawnTimestamp = -1;
+            fighterDirectionChangeFrequencyMs = 1000;
             enemyBullets = [];
             enemyPlanes = [];
             lastShotPlayerBulletTimestamp = -1;
+            lastFighterSpawnTimestamp = -1;
+            lastFighterDirectionChangeTimestamp = -1;
             currentMission = null;
         },
 
@@ -45,10 +49,10 @@
             var newLeft, newBottom;
             var nonGameScreenWidth = window.innerWidth - 960;
             //newLeft
-            if (e.screenX > (window.innerWidth - 960) / 2 + 50) {
+            if (e.clientX > nonGameScreenWidth / 2 + 50) {
                 //if mouse is inside the game screen
-                if (e.screenX < (nonGameScreenWidth / 2 + 960) - 50) {
-                    newLeft = e.screenX - (nonGameScreenWidth / 2);
+                if (e.clientX < (nonGameScreenWidth / 2 + 960) - 50) {
+                    newLeft = e.clientX - (nonGameScreenWidth / 2);
                 } else { //mouse is to the right of game screen
                     newLeft = 960 - 50;
                 }
@@ -56,8 +60,8 @@
                 newLeft = 0 + 50;
             }
             //newBottom
-            if (e.screenY <= 700) {
-                newBottom = 700 - e.screenY;
+            if (e.clientY <= 700) {
+                newBottom = 700 - e.clientY - 50;
             } else {
                 newBottom = 0;
             }
@@ -80,6 +84,26 @@
                 }
             }
         },
+
+        moveEnemyPlanes = function () {
+            var i;
+            for (i = 0; i < enemyPlanes.length; i++) {
+                if (enemyPlanes[i] instanceof EnemyFighter) {
+                    moveEnemyFighter(enemyPlanes[i]);
+                }
+            }
+        },
+
+        moveEnemyFighter = function (fighter) {
+            var nowMs = Date.now();
+            fighter.moveAtDirection();
+            fighter.move();
+
+            if (nowMs - fighter.lastDirectionChangeTimestamp > fighterDirectionChangeFrequencyMs) {
+                fighter.lastDirectionChangeTimestamp = nowMs;
+                fighter.changeDirection();
+            }
+        }
 
         playerPlaneShootToggle = function (e) {
             playerPlane.isShooting = e.type == "mousedown";
@@ -107,6 +131,7 @@
         spawnFighter: spawnFighter,
         movePlayerPlane: movePlayerPlane,
         movePlayerBullets: movePlayerBullets,
+        moveEnemyPlanes: moveEnemyPlanes,
         shootPlayerPlane: shootPlayerPlane,
         playerPlaneShootToggle: playerPlaneShootToggle
     }

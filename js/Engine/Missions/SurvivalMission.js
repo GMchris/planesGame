@@ -22,7 +22,7 @@
         interactionManager.shootPlayerPlane();
         interactionManager.movePlayerBullets();
         interactionManager.spawnFighter();
-        //interactionManager.moveEnemyPlanes();
+        interactionManager.moveEnemyPlanes();
     },
 
     checkLossConditions: function () {
