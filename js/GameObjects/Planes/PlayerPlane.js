@@ -9,7 +9,7 @@
     isShooting: null,
     shoot: function () {
         if (this.isShooting) {
-            interactionManager.spawnPlayerBullet(this.leftCoord + 50, this.bottomCoord + 80);
+            interactionManager.spawnBullet("player", this.leftCoord + 50, this.bottomCoord + 80);
         }
     }
 });

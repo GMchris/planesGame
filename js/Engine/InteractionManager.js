@@ -1,27 +1,27 @@
 ﻿var interactionManager = (function () {
     var playerPlane = new PlayerPlane(),
-        playerBullets,
+        bullets,
         playerBulletsSpeed,
+        enemyBulletsSpeed,
         fighterMovementSpeed,
         lastShotPlayerBulletTimestamp,
         lastFighterSpawnTimestamp,
-        lastFighterDirectionChangeTimestamp,
-        enemyBullets,
         enemyPlanes,
         fighterSpawnFrequencyMs,
+        fighterShootFrequencyMs,
         fighterDirectionChangeFrequencyMs,
         currentMission,
         setInitialValues = function () {
-            playerBullets = [];
+            bullets = [];
             playerBulletsSpeed = 8;
-            fighterMovementSpeed = 5;
+            enemyBulletsSpeed = 5;
+            fighterMovementSpeed = 4;
             fighterSpawnFrequencyMs = 1200;
             fighterDirectionChangeFrequencyMs = 1000;
-            enemyBullets = [];
+            fighterShootFrequencyMs = 1500;
             enemyPlanes = [];
             lastShotPlayerBulletTimestamp = -1;
             lastFighterSpawnTimestamp = -1;
-            lastFighterDirectionChangeTimestamp = -1;
             currentMission = null;
         },
 
@@ -29,11 +29,22 @@
             playerPlane.addToScreen();
         },
 
-        spawnPlayerBullet = function (left, bottom) {
-            var newBullet = new PlayerBullet(left, bottom);
-            playerBullets.push(newBullet);
+        spawnBullet = function (type, left, bottom) {
+            var newBullet;
+            switch (type) {
+                case "player":
+                    newBullet = new PlayerBullet(left, bottom);
+                    break;
+                case "enemy":
+                    newBullet = new EnemyBullet(left, bottom);
+                    break;
+                default:
+                    break;
+            }
+            bullets.push(newBullet);
             newBullet.addToScreen();
         },
+
         spawnFighter = function () {
             var nowMs = Date.now();
             if (nowMs - lastFighterSpawnTimestamp > fighterSpawnFrequencyMs) {
@@ -71,19 +82,34 @@
             playerPlane.move();
         },
 
-        movePlayerBullets = function () {
+        moveBullets = function () {
             var i;
-            for (i = 0; i < playerBullets.length; i++) {
-                if (playerBullets[i].bottomCoord > 700) {
-                    $(playerBullets[i].div).remove();
-                    playerBullets.splice(i, 1);
+            for (i = 0; i < bullets.length; i++) {
+                //if out of screen, remove the bullet
+                if (bullets[i].bottomCoord < 0 || bullets[i].bottomCoord > 700) {
+                    $(bullets[i].div).remove();
+                    bullets.splice(i, 1);
                     i++;
                 } else {
-                    playerBullets[i].updateCoords(playerBullets[i].leftCoord, playerBullets[i].bottomCoord + playerBulletsSpeed);
-                    playerBullets[i].move();
+                    if (bullets[i] instanceof PlayerBullet) {
+                        movePlayerBullet(bullets[i]);
+                    } else if (bullets[i] instanceof EnemyBullet) {
+                        moveEnemyBullet(bullets[i]);
+                    }
                 }
+                
             }
         },
+
+        movePlayerBullet = function (bullet) {
+            bullet.updateCoords(bullet.leftCoord, bullet.bottomCoord + playerBulletsSpeed);
+            bullet.move();
+        },
+
+        moveEnemyBullet = function (bullet) {
+            bullet.updateCoords(bullet.leftCoord, bullet.bottomCoord - enemyBulletsSpeed);
+            bullet.move();
+        }
 
         moveEnemyPlanes = function () {
             var i;
@@ -117,6 +143,24 @@
             }
         },
 
+        shootEnemyPlanes = function () {
+            var i;
+            for (i = 0; i < enemyPlanes.length; i++) {
+                if (enemyPlanes[i] instanceof EnemyFighter) {
+                    shootFighter(enemyPlanes[i]);
+                }
+            }
+        },
+
+        shootFighter = function (fighter) {
+            var nowMs = Date.now();
+
+            if (nowMs - fighter.lastShootTimestamp > fighterShootFrequencyMs) {
+                fighter.lastShootTimestamp = nowMs;
+                fighter.shoot();
+            }
+        },
+
         launchMission = function (missionInfo) {
             Game.clearScreen();
             setInitialValues();
@@ -127,12 +171,13 @@
     return {
         startNewMission: launchMission,
         spawnPlayer: spawnPlayer,
-        spawnPlayerBullet: spawnPlayerBullet,
+        spawnBullet: spawnBullet,
         spawnFighter: spawnFighter,
         movePlayerPlane: movePlayerPlane,
-        movePlayerBullets: movePlayerBullets,
+        moveBullets: moveBullets,
         moveEnemyPlanes: moveEnemyPlanes,
         shootPlayerPlane: shootPlayerPlane,
+        shootEnemyPlanes: shootEnemyPlanes,
         playerPlaneShootToggle: playerPlaneShootToggle
     }
 })();

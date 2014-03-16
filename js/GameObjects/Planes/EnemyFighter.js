@@ -6,34 +6,27 @@ EnemyFighter = EnemyPlane.extend({
         this.image.src = 'images/planes/fighter.png';
         this.changeDirection();
         this.lastDirectionChangeTimestamp = -1;
+        this.lastShootTimestamp = -1;
     },
     movementSpeed: null, 
     movingRight: null,   //boolean (movingRight == false) => fighter is moving left
     movingUp: null,      //boolean (movingUp == false)    => figther is moving down
     lastDirectionChangeTimestamp: null,
+    lastShootTimestamp: null,
 
     changeDirection: function () {
         //Generates a random number [0,3] and changes direction accordingly
-        switch (parseInt(Math.random() * 4)) {
+        switch (parseInt(Math.random() * 2)) {
             case 0:
-                this.movingRight = false;
-                this.movingUp = false;
+                this.movingRight = !this.movingRight;
                 break;
             case 1:
-                this.movingRight = false;
-                this.movingUp = true;
-                break;
-            case 2:
-                this.movingRight = true;
-                this.movingUp = false;
-                break;
-            case 3:
-                this.movingRight = true;
-                this.movingUp = true;
+                this.movingUp = !this.movingUp;
                 break;
             default:
-                throw new Error("Error with generating a random number [0,3] @ EnemyFighter::changeDirection()");
+                throw new Error("Error with generating a random number [0,1] @ EnemyFighter::changeDirection()");
         }
+        
     },
 
     moveAtDirection: function () {
@@ -49,5 +42,9 @@ EnemyFighter = EnemyPlane.extend({
         } else if (!this.movingUp && this.bottomCoord > (350)) {
             this.bottomCoord -= this.movementSpeed;
         }
+    },
+
+    shoot: function () {
+        interactionManager.spawnBullet("enemy", this.leftCoord + 45, this.bottomCoord);
     }
 });

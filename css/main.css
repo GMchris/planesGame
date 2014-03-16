@@ -261,3 +261,10 @@ html body{
     width: 4px;
     background-color: lightgreen;
 }
+
+.enemyBulletDiv {
+    position: absolute;
+    height: 15px;
+    width: 4px;
+    background-color: red;
+}

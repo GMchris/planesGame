@@ -20,9 +20,10 @@
 
     mainLoop: function () {
         interactionManager.shootPlayerPlane();
-        interactionManager.movePlayerBullets();
+        interactionManager.moveBullets();
         interactionManager.spawnFighter();
         interactionManager.moveEnemyPlanes();
+        interactionManager.shootEnemyPlanes();
     },
 
     checkLossConditions: function () {
