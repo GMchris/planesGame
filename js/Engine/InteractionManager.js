@@ -4,6 +4,8 @@
         playerBulletsSpeed,
         enemyBulletsSpeed,
         fighterMovementSpeed,
+        fighterMaxHealth,
+        fighterDamage,
         lastShotPlayerBulletTimestamp,
         lastFighterSpawnTimestamp,
         enemyPlanes,
@@ -13,10 +15,12 @@
         currentMission,
         setInitialValues = function () {
             bullets = [];
-            playerBulletsSpeed = 8;
-            enemyBulletsSpeed = 5;
+            playerBulletsSpeed = 15;
+            enemyBulletsSpeed = 7;
             fighterMovementSpeed = 4;
-            fighterSpawnFrequencyMs = 1200;
+            fighterMaxHealth = 5;
+            fighterDamage = 12;
+            fighterSpawnFrequencyMs = 1000;
             fighterDirectionChangeFrequencyMs = 1000;
             fighterShootFrequencyMs = 1500;
             enemyPlanes = [];
@@ -29,14 +33,14 @@
             playerPlane.addToScreen();
         },
 
-        spawnBullet = function (type, left, bottom) {
+        spawnBullet = function (type, left, bottom, owner) {
             var newBullet;
             switch (type) {
                 case "player":
                     newBullet = new PlayerBullet(left, bottom);
                     break;
                 case "enemy":
-                    newBullet = new EnemyBullet(left, bottom);
+                    newBullet = new EnemyBullet(left, bottom, owner);
                     break;
                 default:
                     break;
@@ -50,7 +54,8 @@
             if (nowMs - lastFighterSpawnTimestamp > fighterSpawnFrequencyMs) {
                 lastFighterSpawnTimestamp = nowMs;
 
-                var newFighter = new EnemyFighter(getRandomLeftCoord(45), getRandomBottomCoordTopHalf(35), fighterMovementSpeed);
+                var newFighter = new EnemyFighter(getRandomLeftCoord(45), getRandomBottomCoordTopHalf(35),
+                    fighterMaxHealth, fighterDamage, fighterMovementSpeed);
                 newFighter.addToScreen();
                 enemyPlanes.push(newFighter);   
             }
@@ -94,8 +99,7 @@
                     hitEnemyPlaneIndex = detectCollisionPlayerBullet(bullets[i]);
                     if (hitEnemyPlaneIndex != -1) {
                         toBeDestroyed = true;
-                        enemyPlanes[hitEnemyPlaneIndex].die();
-                        enemyPlanes.splice(hitEnemyPlaneIndex, 1);
+                        handleCollisionPlayerBullet(hitEnemyPlaneIndex);
                     } else {
                         movePlayerBullet(bullets[i]);
                     }
@@ -103,7 +107,7 @@
                 else if (bullets[i] instanceof EnemyBullet) {
                     if (detectCollisionEnemyBullet(bullets[i])) {
                         toBeDestroyed = true;
-                        console.log('player plane hit');
+                        handleCollisionEnemyBullet(bullets[i].owner);
                     } else {
                         moveEnemyBullet(bullets[i]);
                     }
@@ -203,10 +207,30 @@
             }
             //bullet didn't hit anything, return -1
             return -1;
-        }
+        },
+
+        handleCollisionPlayerBullet = function (hitEnemyPlaneIndex) {
+            if (enemyPlanes[hitEnemyPlaneIndex].currentHealth > playerPlane.damage) {
+                enemyPlanes[hitEnemyPlaneIndex].currentHealth -= playerPlane.damage;
+                enemyPlanes[hitEnemyPlaneIndex].updateHpBar();
+            } else {
+                enemyPlanes[hitEnemyPlaneIndex].currentHealth = 0;
+                enemyPlanes[hitEnemyPlaneIndex].die();
+                enemyPlanes.splice(hitEnemyPlaneIndex, 1);
+            }
+        },
+
+        handleCollisionEnemyBullet = function (hitter) {
+            if (playerPlane.currentHealth > hitter.damage) {
+                playerPlane.currentHealth -= hitter.damage;
+            } else {
+                playerPlane.currentHealth = 0;
+                alert('TODO: mission failed');
+            }
+        },
 
         launchMission = function (missionInfo) {
-            Game.clearScreen();
+            Game.clearScreen(); 
             setInitialValues();
             currentMission = new SurvivalMission();
             currentMission.startMission();

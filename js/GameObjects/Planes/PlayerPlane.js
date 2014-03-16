@@ -1,6 +1,6 @@
 ﻿PlayerPlane = Plane.extend({
     init: function () {
-        this._super();
+        this._super(100, 1); //maxHealth, damage
         this.div.id = "playerPlaneDiv";
         this.image.id = "playerPlaneImage";
         this.image.src = 'images/planes/player.png';

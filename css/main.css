@@ -301,6 +301,14 @@ html body{
     background-color: red;
 }
 
+.hpBarEnemy {
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background-color: green;
+    opacity: 0.4;
+}
+
 @-webkit-keyframes enemyDeathAnimation {
 	from  {opacity: 1; -webkit-transform: rotate(0deg) scale(1, 1); }
 	to {opacity: 0.05; -webkit-transform: rotate(520deg) scale(0.01, 0.01);}

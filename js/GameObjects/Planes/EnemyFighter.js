@@ -1,7 +1,7 @@
 ﻿//The generic enemy plane
 EnemyFighter = EnemyPlane.extend({
-    init: function (left, bottom, movementSpeed) {
-        this._super(left, bottom);
+    init: function (left, bottom, maxHealth, damage, movementSpeed) {
+        this._super(left, bottom, maxHealth, damage);
         this.movementSpeed = movementSpeed;
         this.image.src = 'images/planes/fighter.png';
         this.changeDirection();
@@ -45,7 +45,11 @@ EnemyFighter = EnemyPlane.extend({
     },
 
     shoot: function () {
-        interactionManager.spawnBullet("enemy", this.leftCoord + 45, this.bottomCoord);
+        interactionManager.spawnBullet("enemy", this.leftCoord + 45, this.bottomCoord, this);
+    },
+
+    updateHpBar: function () {
+        this.hpBar.style.width = this.currentHealth / this.maxHealth * 100 + '%';
     },
 
     die: function () {

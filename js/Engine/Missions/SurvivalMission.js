@@ -16,7 +16,7 @@
         $(document).on("contextmenu", function (e) {
             e.preventDefault();
         });
-        this.mainLoopInterval = window.setInterval(this.mainLoop, 16.6);
+        this.mainLoopInterval = window.setInterval(this.mainLoop, 1000 / 60);
     },
 
     mainLoop: function () {
