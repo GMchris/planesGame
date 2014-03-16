@@ -231,6 +231,7 @@
 
         launchMission = function (missionInfo) {
             Game.clearScreen(); 
+            Visual.adjustCSSofGameScreen(true);
             setInitialValues();
             currentMission = new SurvivalMission();
             currentMission.startMission();

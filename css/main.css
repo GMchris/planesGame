@@ -291,14 +291,22 @@ html body{
     position: absolute;
     height: 15px;
     width: 4px;
-    background-color: lightgreen;
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#ffcb00), to(#ff7100));
+    background: -webkit-linear-gradient(#ffcb00, #ff7100);
+    background: -moz-linear-gradient(#ffcb00, #ff7100);
+    background: -o-linear-gradient(#ffcb00, #ff7100);
+    background: linear-gradient(#ffcb00, #ff7100);
 }
 
 .enemyBulletDiv {
     position: absolute;
     height: 15px;
     width: 4px;
-    background-color: red;
+  	 background: -webkit-gradient(linear, 0 0, 0 100%, from(#df3100), to(#ff7100));
+     background: -webkit-linear-gradient(#df3100, #ff7100);
+     background: -moz-linear-gradient(#df3100, #ff7100);
+     background: -o-linear-gradient(#df3100, #ff7100);
+     background: linear-gradient(#df3100, #ff7100);
 }
 
 .hpBarEnemy {
@@ -310,6 +318,6 @@ html body{
 }
 
 @-webkit-keyframes enemyDeathAnimation {
-	from  {opacity: 1; -webkit-transform: rotate(0deg) scale(1, 1); }
-	to {opacity: 0.05; -webkit-transform: rotate(520deg) scale(0.01, 0.01);}
+	from  {opacity: 1; -webkit-transform: scale(1, 1) rotateX(0deg)}
+	to {opacity: 0.05; -webkit-transform: scale(0.01, 0.01) rotateX(90deg)}
 }

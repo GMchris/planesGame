@@ -25,6 +25,7 @@
         interactionManager.iterateEnemyPlanes();
         interactionManager.shootPlayerPlane();
         interactionManager.spawnFighter();
+        Visual.iterateBackground();
     },
 
     checkLossConditions: function () {

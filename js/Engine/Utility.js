@@ -28,3 +28,29 @@ var fps = {
         return result;
     }
 };
+
+var Visual = {
+
+    backgroundOffset : 0,
+
+    //Makes the cursor invisible while game is active
+    adjustCSSofGameScreen:function(isStartMission){
+        if(isStartMission){
+            $("#gameScreen").css({
+                "cursor":"none",
+                "background-image":"url(../planesGame/images/backgrounds/Avanseot.jpg)"
+            });
+        }
+        else{
+           $("#gameScreen").css({
+                "cursor":"default"
+            });
+        }
+    },
+
+    //Moves the background
+    iterateBackground: function(){
+        this.backgroundOffset++;
+        document.getElementById("gameScreen").style.backgroundPositionY = this.backgroundOffset +"px";
+}
+}
