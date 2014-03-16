@@ -82,22 +82,39 @@
             playerPlane.move();
         },
 
-        moveBullets = function () {
-            var i;
+        iterateBullets = function () {
+            var i, toBeDestroyed = false, hitEnemyPlaneIndex;
             for (i = 0; i < bullets.length; i++) {
-                //if out of screen, remove the bullet
+                toBeDestroyed = false;
+                //if out of the screen, flag the bullet for removal
                 if (bullets[i].bottomCoord < 0 || bullets[i].bottomCoord > 700) {
-                    $(bullets[i].div).remove();
-                    bullets.splice(i, 1);
-                    i++;
-                } else {
-                    if (bullets[i] instanceof PlayerBullet) {
+                    toBeDestroyed = true;
+                }
+                else if (bullets[i] instanceof PlayerBullet){
+                    hitEnemyPlaneIndex = detectCollisionPlayerBullet(bullets[i]);
+                    if (hitEnemyPlaneIndex != -1) {
+                        toBeDestroyed = true;
+                        enemyPlanes[hitEnemyPlaneIndex].die();
+                        enemyPlanes.splice(hitEnemyPlaneIndex, 1);
+                    } else {
                         movePlayerBullet(bullets[i]);
-                    } else if (bullets[i] instanceof EnemyBullet) {
+                    }
+                }
+                else if (bullets[i] instanceof EnemyBullet) {
+                    if (detectCollisionEnemyBullet(bullets[i])) {
+                        toBeDestroyed = true;
+                        console.log('player plane hit');
+                    } else {
                         moveEnemyBullet(bullets[i]);
                     }
                 }
-                
+
+                if (toBeDestroyed) {
+                    $(bullets[i].div).remove();
+                    bullets.splice(i, 1);
+                    i++;
+                }
+
             }
         },
 
@@ -111,16 +128,17 @@
             bullet.move();
         }
 
-        moveEnemyPlanes = function () {
+        iterateEnemyPlanes = function () {
             var i;
             for (i = 0; i < enemyPlanes.length; i++) {
                 if (enemyPlanes[i] instanceof EnemyFighter) {
-                    moveEnemyFighter(enemyPlanes[i]);
+                    moveFighter(enemyPlanes[i]);
+                    shootFighter(enemyPlanes[i]);
                 }
             }
         },
 
-        moveEnemyFighter = function (fighter) {
+        moveFighter = function (fighter) {
             var nowMs = Date.now();
             fighter.moveAtDirection();
             fighter.move();
@@ -154,12 +172,38 @@
 
         shootFighter = function (fighter) {
             var nowMs = Date.now();
-
             if (nowMs - fighter.lastShootTimestamp > fighterShootFrequencyMs) {
                 fighter.lastShootTimestamp = nowMs;
                 fighter.shoot();
             }
         },
+
+        detectCollisionEnemyBullet = function (bullet) {
+            //returns true if the bullet has hit the player, or false otherwise
+            var i, isHit;
+            isHit = bullet.leftCoord >= playerPlane.leftCoord
+                 && bullet.leftCoord <= playerPlane.leftCoord + 100
+                 && bullet.bottomCoord >= playerPlane.bottomCoord
+                 && bullet.bottomCoord <= playerPlane.bottomCoord + 80;
+            return isHit;
+        },
+
+        detectCollisionPlayerBullet = function (bullet) {
+            var i;
+            for (i = 0; i < enemyPlanes.length; i++) {
+                if (enemyPlanes[i] instanceof EnemyFighter) {
+                    isHit = bullet.leftCoord >= enemyPlanes[i].leftCoord
+                         && bullet.leftCoord <= enemyPlanes[i].leftCoord + 90
+                         && bullet.bottomCoord >= enemyPlanes[i].bottomCoord
+                         && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + 70;
+                    if (isHit) { //return the index of the hit plane in the enemyPlanes array
+                        return i;
+                    }
+                }
+            }
+            //bullet didn't hit anything, return -1
+            return -1;
+        }
 
         launchMission = function (missionInfo) {
             Game.clearScreen();
@@ -174,10 +218,9 @@
         spawnBullet: spawnBullet,
         spawnFighter: spawnFighter,
         movePlayerPlane: movePlayerPlane,
-        moveBullets: moveBullets,
-        moveEnemyPlanes: moveEnemyPlanes,
+        iterateBullets: iterateBullets,
+        iterateEnemyPlanes: iterateEnemyPlanes,
         shootPlayerPlane: shootPlayerPlane,
-        shootEnemyPlanes: shootEnemyPlanes,
         playerPlaneShootToggle: playerPlaneShootToggle
     }
 })();

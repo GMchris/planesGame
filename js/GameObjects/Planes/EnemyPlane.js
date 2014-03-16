@@ -7,5 +7,5 @@
     },
     updateCoords: function (left, bottom) {
         this._super(left, bottom);
-    }
+    },
 });

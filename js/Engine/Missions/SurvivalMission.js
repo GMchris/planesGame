@@ -5,6 +5,7 @@
 
     startMission: function () {
         //TODO: Draw mission interface - call a UI function
+        $("<div id='fps'>112</div>").appendTo("#gameScreen");
         interactionManager.spawnPlayer();
         $(document).on("mousemove", interactionManager.movePlayerPlane);
         $(document).on("mousedown", interactionManager.playerPlaneShootToggle);
@@ -19,11 +20,11 @@
     },
 
     mainLoop: function () {
+        $("#fps").text(fps.getFPS());
+        interactionManager.iterateBullets();
+        interactionManager.iterateEnemyPlanes();
         interactionManager.shootPlayerPlane();
-        interactionManager.moveBullets();
         interactionManager.spawnFighter();
-        interactionManager.moveEnemyPlanes();
-        interactionManager.shootEnemyPlanes();
     },
 
     checkLossConditions: function () {

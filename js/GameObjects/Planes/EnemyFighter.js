@@ -46,5 +46,13 @@ EnemyFighter = EnemyPlane.extend({
 
     shoot: function () {
         interactionManager.spawnBullet("enemy", this.leftCoord + 45, this.bottomCoord);
+    },
+
+    die: function () {
+        var self = this;
+        this.div.style['-webkit-animation'] = 'enemyDeathAnimation 1.5s';
+        window.setTimeout(function () {
+            $(self.div).remove();
+        }, 1500);
     }
 });
