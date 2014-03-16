@@ -2,6 +2,7 @@
     init: function () {
         this._super();
     },
+
     startMission: function () {
         //TODO: Draw mission interface - call a UI function
         interactionManager.spawnPlayer();
@@ -16,10 +17,14 @@
         });
         this.mainLoopInterval = window.setInterval(this.mainLoop, 16.6);
     },
+
     mainLoop: function () {
         interactionManager.shootPlayerPlane();
         interactionManager.movePlayerBullets();
+        interactionManager.spawnFighter();
+        //interactionManager.moveEnemyPlanes();
     },
+
     checkLossConditions: function () {
         
     }

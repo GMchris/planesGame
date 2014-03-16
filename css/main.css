@@ -247,7 +247,12 @@ html body{
     position: absolute;
     left: 0;
     bottom: 0;
+}
 
+.enemyPlane {
+    position: absolute;
+    left: 0;
+    bottom: 0;
 }
 
 .playerBulletDiv {

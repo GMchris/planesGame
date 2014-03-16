@@ -5,7 +5,6 @@
     leftCoord: null,
     bottomCoord: null,
     div: null,
-    image: null,
     addToScreen: function () {
         $(this.div).appendTo("#gameScreen");
     },

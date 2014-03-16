@@ -2,13 +2,19 @@
     var playerPlane = new PlayerPlane(),
         playerBullets,
         playerBulletsSpeed,
+        fighterMovementSpeed,
         lastShotPlayerBulletTimestamp,
+        lastFighterSpawnTimestamp,
         enemyBullets,
         enemyPlanes,
+        fighterSpawnFrequencyMs,
         currentMission,
         setInitialValues = function () {
             playerBullets = [];
             playerBulletsSpeed = 8;
+            fighterMovementSpeed = 15;
+            fighterSpawnFrequencyMs = 1200;
+            lastFighterSpawnTimestamp = -1;
             enemyBullets = [];
             enemyPlanes = [];
             lastShotPlayerBulletTimestamp = -1;
@@ -24,7 +30,16 @@
             playerBullets.push(newBullet);
             newBullet.addToScreen();
         },
+        spawnFighter = function () {
+            var nowMs = Date.now();
+            if (nowMs - lastFighterSpawnTimestamp > fighterSpawnFrequencyMs) {
+                lastFighterSpawnTimestamp = nowMs;
 
+                var newFighter = new EnemyFighter(getRandomLeftCoord(45), getRandomBottomCoordTopHalf(35), fighterMovementSpeed);
+                newFighter.addToScreen();
+                enemyPlanes.push(newFighter);   
+            }
+        },
         movePlayerPlane = function (e) {
             //substracting a half of the non-game screen
             var newLeft, newBottom;
@@ -89,6 +104,7 @@
         startNewMission: launchMission,
         spawnPlayer: spawnPlayer,
         spawnPlayerBullet: spawnPlayerBullet,
+        spawnFighter: spawnFighter,
         movePlayerPlane: movePlayerPlane,
         movePlayerBullets: movePlayerBullets,
         shootPlayerPlane: shootPlayerPlane,
