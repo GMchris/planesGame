@@ -31,14 +31,14 @@ var MissionManager = {
 			.attr('mission',i)
 			.on('click',  function(){
 				//Calls the missionPrompt function, with the clicked area and mission
-				//var thisMission = this.getAttribute("mission");
-				//if(AreaManager.areas[area].missions[thisMission].rank===0){
-				//	MissionManager.missionPrompt(area,thisMission);
-				//}
-				//else{
-				//	Game.errorMessage("Cannot replay mission!");
-			    //}
-			    interactionManager.startNewMission();
+				var thisMission = this.getAttribute("mission");
+				if(AreaManager.areas[area].missions[thisMission].rank===0){
+					MissionManager.missionPrompt(area,thisMission);
+				}
+				else{
+					Game.errorMessage("Cannot replay mission!");
+			    }
+			    
 
 			}).appendTo("#gameScreen");
 		}
@@ -101,6 +101,13 @@ var MissionManager = {
 		//Secondary objective
 		$("<div>"+ secondaryDescription +"<div/>")
 		.addClass("promptText")
+		.appendTo("#missionPrompt");
+		//Start button
+		$("<div>Deploy<div/>")
+		.addClass("deployButton")
+		.on("click",function(){
+			interactionManager.startNewMission();
+		})
 		.appendTo("#missionPrompt");
 
 	}
