@@ -22,7 +22,7 @@ var AreaManager = {
 		}
 	},
 	//Creates the GUI of the menu
-	drawAreas : function(){
+	drawMap : function(){
 		//Creates the main map div
 		$("<div/>",{
 			class:"mainMap"

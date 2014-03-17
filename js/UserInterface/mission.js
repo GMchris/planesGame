@@ -53,7 +53,7 @@ var MissionManager = {
 		switch(primary){
 			case "survival":
 				title = "Survival";
-				primaryDescription = "<p>Surive in the battlefield for two minutes</p>";
+				primaryDescription = "<p>Survive in the battlefield for two minutes</p>";
 				break;
 			case "escort":
 				title = "Escort";
@@ -67,10 +67,10 @@ var MissionManager = {
 				secondaryDescription = "<ul class='secDesc'><li>Remain above 25% health.</li><li>Remain above 50% health.</li><li>Remain above 75% health.</li></ul>";
 				break;
 			case "enemiesKilled":
-				secondaryDescription = "<ul class='secDesc'><li>Kill 15 enemies.</li><li>Kill 25 enemies.</li><li>Kill 35 enemies.</li></ul>";
+				secondaryDescription = "<ul class='secDesc'><li>Kill 27 enemies.</li><li>Kill 30 enemies.</li><li>Kill 35 enemies.</li></ul>";
 				break;
 			case "accuracy":
-				secondaryDescription ="<ul class='secDesc'><li>Have 30% of your shots hit enemies</li><li>Have 50% of your shots hit enemies</li><li>Have 70% of your shots hit enemies</li></ul>"
+				secondaryDescription ="<ul class='secDesc'><li>Have 25% of your shots hit enemies</li><li>Have 35% of your shots hit enemies</li><li>Have 50% of your shots hit enemies</li></ul>"
 		}
 		//Creates:
 		//Black tint
@@ -106,7 +106,7 @@ var MissionManager = {
 		$("<div>Deploy<div/>")
 		.addClass("deployButton")
 		.on("click",function(){
-			interactionManager.startNewMission();
+			interactionManager.startNewMission(primary, secondary);
 		})
 		.appendTo("#missionPrompt");
 

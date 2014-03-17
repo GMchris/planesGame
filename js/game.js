@@ -8,7 +8,7 @@ var Game = {
 		AreaManager.areas[1].active = true;
 		AreaManager.areas[2].active = true;
 		MissionManager.generateMissions();
-		AreaManager.drawAreas();
+		AreaManager.drawMap();
 		window.setInterval(function () {
 		    Timer.increaseTimer();
 		}, 1000);

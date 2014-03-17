@@ -35,6 +35,7 @@
         $(document).off(); //removes all event listeners
         Game.clearScreen();
         Visual.adjustCSSofGameScreen(false);
+        AreaManager.drawMap();
         window.clearInterval(this.mainLoopInterval);
     },
 

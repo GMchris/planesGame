@@ -13,6 +13,7 @@
         fighterShootFrequencyMs,
         fighterDirectionChangeFrequencyMs,
         currentMission,
+        secondaryObjectiveType,
         isPaused,
         setInitialValues = function () {
             isPaused = false;
@@ -32,6 +33,7 @@
         },
 
         spawnPlayer = function () {
+            playerPlane.currentHealth = playerPlane.maxHealth;
             playerPlane.addToScreen();
         },
 
@@ -96,6 +98,9 @@
                 //if out of the screen, flag the bullet for removal
                 if (bullets[i].bottomCoord < 0 || bullets[i].bottomCoord > 700) {
                     toBeDestroyed = true;
+                    if (bullets[i] instanceof PlayerBullet) {
+                        trackAccuracy(false);
+                    }
                 }
                 else if (bullets[i] instanceof PlayerBullet){
                     hitEnemyPlaneIndex = detectCollisionPlayerBullet(bullets[i]);
@@ -219,7 +224,9 @@
                 enemyPlanes[hitEnemyPlaneIndex].currentHealth = 0;
                 enemyPlanes[hitEnemyPlaneIndex].die();
                 enemyPlanes.splice(hitEnemyPlaneIndex, 1);
+                trackEnemiesKilled();
             }
+            trackAccuracy(true);
         },
 
         handleCollisionEnemyBullet = function (hitter) {
@@ -228,20 +235,41 @@
             } else {
                 playerPlane.currentHealth = 0;
             }
+            trackRemainingHealth();
         },
 
-        launchMission = function (missionInfo) {
+        launchMission = function (missionType, secondaryObjective) {
             setInitialValues();
-            currentMission = new SurvivalMission();
+
+            switch (missionType) {
+                case "survival":
+                    currentMission = new SurvivalMission();
+                    break;
+                default:
+                    throw new Error("Unrecognized mission type: " + missionType);
+            }
+            secondaryObjectiveType = secondaryObjective;
             currentMission.startMission();
         },
 
         abortMission = function () {
             setInitialValues();
-        }
+        },
 
         handleMissionWin = function () {
-            alert('WIN');
+            switch (secondaryObjectiveType) {
+                case "remainingHealth":
+                    alert('WIN! You got ' + trackRemainingHealth() + ' stars (remHP)!');
+                    break;
+                case "accuracy":
+                    alert('WIN! You got ' + trackAccuracy() + ' stars(acc)!');
+                    break;
+                case "enemiesKilled":
+                    alert('WIN! You got ' + trackEnemiesKilled() + ' stars(kills)!');
+                    break;
+                default:
+                    break;
+            }
             currentMission.endMission();
             abortMission();
         },
@@ -264,6 +292,74 @@
             }
 
             isPaused = !isPaused;
+        },
+
+        trackAccuracy = function (isHit) {
+            var totalShotsFired = 0, totalShotsHit = 0;
+
+            trackAccuracy = function (isHit) { //call without an argument (trackAccuracy()) to get the current amount of stars earned
+                var accuracyPercentage = parseInt(totalShotsHit / totalShotsFired * 100);
+                console.log("accuracy: " + accuracyPercentage);
+                if (isHit != undefined) {
+                    if (isHit) {
+                        totalShotsHit++;
+                    }
+                    totalShotsFired++;
+                } else {
+                    if (accuracyPercentage >= 50) {
+                        return 3;
+                    } else if (accuracyPercentage >= 35) {
+                        return 2;
+                    } else if (accuracyPercentage >= 25) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                }
+            }
+            trackAccuracy(isHit);
+        },
+
+        trackRemainingHealth = function () {
+            var minimumHealthPercentageReached = 100, currentHealthPercentage = 100;
+
+            trackRemainingHealth = function () {
+                currentHealthPercentage = parseInt(playerPlane.currentHealth / playerPlane.maxHealth * 100);
+                console.log("minHealth: " + minimumHealthPercentageReached);
+                if (currentHealthPercentage < minimumHealthPercentageReached) {
+                    minimumHealthPercentageReached = currentHealthPercentage;
+                }
+                if (minimumHealthPercentageReached >= 75) {
+                    return 3; //currently at 3 stars
+                } else if (minimumHealthPercentageReached >= 50) {
+                    return 2; //currently at 2 stars
+                } else if (minimumHealthPercentageReached >= 25) {
+                    return 1; //currently at 1 star
+                } else {
+                    return 0;
+                }
+            }
+
+            trackRemainingHealth();
+        },
+
+        trackEnemiesKilled = function () {
+            var enemiesKilled = 0;
+
+            trackEnemiesKilled = function () {
+                console.log("enemies killed: " + enemiesKilled);
+                enemiesKilled++;
+
+                if (enemiesKilled >= 35) {
+                    return 3;
+                } else if (enemiesKilled >= 30) {
+                    return 2;
+                } else if (enemiesKilled >= 27) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
         };
 
     return {
