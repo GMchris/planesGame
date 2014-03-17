@@ -6,6 +6,9 @@
     startMission: function () {
         var self = this;
         //TODO: Draw mission interface - call a UI function
+        Game.clearScreen();
+        Visual.adjustCSSofGameScreen(true);
+        
         $("<div id='fps'></div>").appendTo("#gameScreen");
         interactionManager.spawnPlayer();
         $(document).on("mousemove", interactionManager.movePlayerPlane);
@@ -17,9 +20,22 @@
         $(document).on("contextmenu", function (e) {
             e.preventDefault();
         });
+        $(document).on("keypress", function (e) {
+            console.log(e.keyCode);
+            if (e.keyCode == 112) {//p
+                interactionManager.togglePause();
+            }
+        });
         this.mainLoopInterval = window.setInterval(function () {
             self.mainLoop.call(self);
         }, 1000 / 60);
+    },
+
+    endMission: function () {
+        $(document).off(); //removes all event listeners
+        Game.clearScreen();
+        Visual.adjustCSSofGameScreen(false);
+        window.clearInterval(this.mainLoopInterval);
     },
 
     mainLoop: function () {

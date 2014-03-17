@@ -9,7 +9,7 @@ function Mission(primary,secondary){
 
 var MissionManager = {
 	//Contains primary and secondary mission types
-	primary : ["survival","escort"],
+	primary : ["survival"],
 	secondary : ["remainingHealth","enemiesKilled","accuracy"],
 	//Generates an array of mission and returns it
 	generateMissions : function(){

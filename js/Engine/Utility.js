@@ -51,7 +51,8 @@ var Visual = {
         }
         else{
            $("#gameScreen").css({
-                "cursor":"default"
+               "cursor": "default",
+               "background-image": "none"
             });
         }
     },
@@ -60,5 +61,5 @@ var Visual = {
     iterateBackground: function(){
         this.backgroundOffset++;
         document.getElementById("gameScreen").style.backgroundPositionY = this.backgroundOffset +"px";
-}
+    }
 }

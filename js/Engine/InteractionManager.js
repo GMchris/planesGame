@@ -13,7 +13,9 @@
         fighterShootFrequencyMs,
         fighterDirectionChangeFrequencyMs,
         currentMission,
+        isPaused,
         setInitialValues = function () {
+            isPaused = false;
             bullets = [];
             playerBulletsSpeed = 15;
             enemyBulletsSpeed = 7;
@@ -229,25 +231,39 @@
         },
 
         launchMission = function (missionInfo) {
-            Game.clearScreen(); 
-            Visual.adjustCSSofGameScreen(true);
             setInitialValues();
             currentMission = new SurvivalMission();
             currentMission.startMission();
         },
 
+        abortMission = function () {
+            setInitialValues();
+        }
+
         handleMissionWin = function () {
             alert('WIN');
-            clearInterval(currentMission.mainLoopInterval);
+            currentMission.endMission();
+            abortMission();
         },
 
         handleMissionLoss = function () {
             alert('LOSS');
-            clearInterval(currentMission.mainLoopInterval);
+            currentMission.endMission();
+            abortMission();
         },
 
         getPlayerHealth = function () {
             return playerPlane.currentHealth;
+        },
+
+        togglePause = function () {
+            if (isPaused) {
+                currentMission.mainLoopInterval = window.setInterval(currentMission.mainLoop, 1000 / 60);
+            } else {
+                window.clearInterval(currentMission.mainLoopInterval);
+            }
+
+            isPaused = !isPaused;
         };
 
     return {
@@ -262,6 +278,7 @@
         playerPlaneShootToggle: playerPlaneShootToggle,
         getPlayerHealth: getPlayerHealth,
         handleMissionWin: handleMissionWin,
-        handleMissionLoss: handleMissionLoss
+        handleMissionLoss: handleMissionLoss,
+        togglePause: togglePause
     }
 })();
