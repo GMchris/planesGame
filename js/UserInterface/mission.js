@@ -53,7 +53,7 @@ var MissionManager = {
 		switch(primary){
 			case "survival":
 				title = "Survival";
-				primaryDescription = "<p>Survive in the battlefield for two minutes</p>";
+				primaryDescription = "<p>Survive in the battlefield for 45 seconds</p>";
 				break;
 			case "escort":
 				title = "Escort";
