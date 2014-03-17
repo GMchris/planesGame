@@ -224,7 +224,7 @@
                 enemyPlanes[hitEnemyPlaneIndex].currentHealth = 0;
                 enemyPlanes[hitEnemyPlaneIndex].die();
                 enemyPlanes.splice(hitEnemyPlaneIndex, 1);
-                trackEnemiesKilled();
+                trackEnemiesKilled(1);
             }
             trackAccuracy(true);
         },
@@ -235,7 +235,7 @@
             } else {
                 playerPlane.currentHealth = 0;
             }
-            trackRemainingHealth();
+            trackRemainingHealth(playerPlane.currentHealth);
         },
 
         launchMission = function (missionType, secondaryObjective) {
@@ -295,71 +295,93 @@
         },
 
         trackAccuracy = function (isHit) {
-            var totalShotsFired = 0, totalShotsHit = 0;
+            var totalShotsFired = 0, totalShotsHit = 0, accuracyPercentage = 0, stars = 0;
 
-            trackAccuracy = function (isHit) { //call without an argument (trackAccuracy()) to get the current amount of stars earned
-                var accuracyPercentage = parseInt(totalShotsHit / totalShotsFired * 100);
+            trackAccuracy = function (isHit) { //call without an argument (trackAccuracy()) to get the current amount of stars earned and reset the vars
                 console.log("accuracy: " + accuracyPercentage);
                 if (isHit != undefined) {
                     if (isHit) {
                         totalShotsHit++;
                     }
                     totalShotsFired++;
+                    accuracyPercentage = parseInt(totalShotsHit / totalShotsFired * 100);
+
+                    return accuracyPercentage;
                 } else {
                     if (accuracyPercentage >= 50) {
-                        return 3;
+                        stars = 3;
                     } else if (accuracyPercentage >= 35) {
-                        return 2;
+                        stars = 2;
                     } else if (accuracyPercentage >= 25) {
-                        return 1;
+                        stars = 1;
                     } else {
-                        return 0;
+                        stars = 0;
                     }
+                    totalShotsFired = 0; //resetting
+                    totalShotsHit = 0;
+
+                    return stars;
                 }
             }
             trackAccuracy(isHit);
         },
 
-        trackRemainingHealth = function () {
-            var minimumHealthPercentageReached = 100, currentHealthPercentage = 100;
+        trackRemainingHealth = function (currentHealth) {
+            var minimumHealthPercentageReached = 100, stars = 0;
 
-            trackRemainingHealth = function () {
-                currentHealthPercentage = parseInt(playerPlane.currentHealth / playerPlane.maxHealth * 100);
-                console.log("minHealth: " + minimumHealthPercentageReached);
-                if (currentHealthPercentage < minimumHealthPercentageReached) {
-                    minimumHealthPercentageReached = currentHealthPercentage;
-                }
-                if (minimumHealthPercentageReached >= 75) {
-                    return 3; //currently at 3 stars
-                } else if (minimumHealthPercentageReached >= 50) {
-                    return 2; //currently at 2 stars
-                } else if (minimumHealthPercentageReached >= 25) {
-                    return 1; //currently at 1 star
-                } else {
-                    return 0;
+            trackRemainingHealth = function (currentHealth) {
+                if (currentHealth != undefined) {
+                    currentHealthPercentage = parseInt(currentHealth / playerPlane.maxHealth * 100);
+                    console.log("minHealth: " + minimumHealthPercentageReached);
+                    if (currentHealthPercentage < minimumHealthPercentageReached) {
+                        minimumHealthPercentageReached = currentHealthPercentage;
+                    }
+
+                    return minimumHealthPercentageReached;
+                } else { //if called without an argument, the function will return the amount of stars won and will reset the used variables
+                    if (minimumHealthPercentageReached >= 75) {
+                        stars = 3; //currently at 3 stars
+                    } else if (minimumHealthPercentageReached >= 50) {
+                        stars = 2; //currently at 2 stars
+                    } else if (minimumHealthPercentageReached >= 25) {
+                        stars = 1; //currently at 1 star
+                    } else {
+                        stars = 0;
+                    }
+                    minimumHealthPercentageReached = 100;
+                    return stars;
                 }
             }
 
-            trackRemainingHealth();
+            trackRemainingHealth(currentHealth);
         },
 
-        trackEnemiesKilled = function () {
-            var enemiesKilled = 0;
+        trackEnemiesKilled = function (killCount) {
+            var enemiesKilled = 0, stars = 0;
 
-            trackEnemiesKilled = function () {
-                console.log("enemies killed: " + enemiesKilled);
-                enemiesKilled++;
+            trackEnemiesKilled = function (killCount) {
+                if (killCount != undefined) { //if the func is called without arguments, the amount of stars earned will be returned + the vars will reset
+                    console.log("enemies killed: " + enemiesKilled);
+                    enemiesKilled += killCount;
 
-                if (enemiesKilled >= 35) {
-                    return 3;
-                } else if (enemiesKilled >= 30) {
-                    return 2;
-                } else if (enemiesKilled >= 27) {
-                    return 1;
+                    if (enemiesKilled >= 35) {
+                        stars = 3;
+                    } else if (enemiesKilled >= 30) {
+                        stars = 2;
+                    } else if (enemiesKilled >= 27) {
+                        stars = 1;
+                    } else {
+                        stars = 0;
+                    }
+
+                    return enemiesKilled;
                 } else {
-                    return 0;
+                    enemiesKilled = 0;
+                    return stars;
                 }
             }
+
+            trackEnemiesKilled(killCount);
         };
 
     return {

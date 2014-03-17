@@ -46,7 +46,7 @@ var Visual = {
         if(isStartMission){
             $("#gameScreen").css({
                 "cursor":"none",
-                "background-image":"url(../planesGame/images/backgrounds/Avanseot.jpg)"
+                //"background-image":"url(../planesGame/images/backgrounds/Avanseot.jpg)"
             });
         }
         else{
