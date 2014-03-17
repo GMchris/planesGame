@@ -67,10 +67,10 @@ var MissionManager = {
 				secondaryDescription = "<ul class='secDesc'><li>Remain above 25% health.</li><li>Remain above 50% health.</li><li>Remain above 75% health.</li></ul>";
 				break;
 			case "enemiesKilled":
-				secondaryDescription = "<ul class='secDesc'><li>Kill 27 enemies.</li><li>Kill 30 enemies.</li><li>Kill 35 enemies.</li></ul>";
+			    secondaryDescription = "<ul class='secDesc'><li>Kill at least 27 enemies.</li><li>Kill at least 30 enemies.</li><li>Kill at least 35 enemies.</li></ul>";
 				break;
 			case "accuracy":
-				secondaryDescription ="<ul class='secDesc'><li>Have 25% of your shots hit enemies</li><li>Have 35% of your shots hit enemies</li><li>Have 50% of your shots hit enemies</li></ul>"
+			    secondaryDescription = "<ul class='secDesc'><li>Keep your accuracy above 25%</li><li>Keep your accuracy above 35%</li><li>Keep your accuracy above 50%</li></ul>"
 		}
 		//Creates:
 		//Black tint
