@@ -18,7 +18,7 @@
             playerBulletsSpeed = 15;
             enemyBulletsSpeed = 7;
             fighterMovementSpeed = 4;
-            fighterMaxHealth = 5;
+            fighterMaxHealth = 3;
             fighterDamage = 12;
             fighterSpawnFrequencyMs = 1000;
             fighterDirectionChangeFrequencyMs = 1000;
@@ -225,7 +225,6 @@
                 playerPlane.currentHealth -= hitter.damage;
             } else {
                 playerPlane.currentHealth = 0;
-                alert('TODO: mission failed');
             }
         },
 
@@ -235,6 +234,20 @@
             setInitialValues();
             currentMission = new SurvivalMission();
             currentMission.startMission();
+        },
+
+        handleMissionWin = function () {
+            alert('WIN');
+            clearInterval(currentMission.mainLoopInterval);
+        },
+
+        handleMissionLoss = function () {
+            alert('LOSS');
+            clearInterval(currentMission.mainLoopInterval);
+        },
+
+        getPlayerHealth = function () {
+            return playerPlane.currentHealth;
         };
 
     return {
@@ -246,6 +259,9 @@
         iterateBullets: iterateBullets,
         iterateEnemyPlanes: iterateEnemyPlanes,
         shootPlayerPlane: shootPlayerPlane,
-        playerPlaneShootToggle: playerPlaneShootToggle
+        playerPlaneShootToggle: playerPlaneShootToggle,
+        getPlayerHealth: getPlayerHealth,
+        handleMissionWin: handleMissionWin,
+        handleMissionLoss: handleMissionLoss
     }
 })();

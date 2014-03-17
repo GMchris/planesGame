@@ -1,5 +1,13 @@
 ﻿//Utility methods go here
 
+var Timer = {
+    //Counts how many seconds have passed since the start of the game
+    current: 0,
+    increaseTimer: function () {
+        this.current++;
+    }
+}
+
 function getRandomLeftCoord(offsetWidth) {
     //returns a random number between (0 + offsetWidth) and (960 - offsetWidth)
     var randLeftNum = parseInt(Math.random() * (960 - 2 * offsetWidth)); //randLeftNum belongs to [offsetWidth, 960 - offsetWidth]

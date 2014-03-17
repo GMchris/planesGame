@@ -4,8 +4,9 @@
     },
 
     startMission: function () {
+        var self = this;
         //TODO: Draw mission interface - call a UI function
-        $("<div id='fps'>112</div>").appendTo("#gameScreen");
+        $("<div id='fps'></div>").appendTo("#gameScreen");
         interactionManager.spawnPlayer();
         $(document).on("mousemove", interactionManager.movePlayerPlane);
         $(document).on("mousedown", interactionManager.playerPlaneShootToggle);
@@ -16,7 +17,9 @@
         $(document).on("contextmenu", function (e) {
             e.preventDefault();
         });
-        this.mainLoopInterval = window.setInterval(this.mainLoop, 1000 / 60);
+        this.mainLoopInterval = window.setInterval(function () {
+            self.mainLoop.call(self);
+        }, 1000 / 60);
     },
 
     mainLoop: function () {
@@ -26,9 +29,23 @@
         interactionManager.shootPlayerPlane();
         interactionManager.spawnFighter();
         Visual.iterateBackground();
-    },
 
+        if (this.checkWinConditions()) {
+            interactionManager.handleMissionWin();
+        }
+
+        if (this.checkLossConditions()) {
+            interactionManager.handleMissionLoss();
+        }
+    },
+    checkWinConditions: function () {
+        //A survival mission is 'won' if the player manages to survive for (45) seconds;
+        var win = (Timer.current - this.startTime) >= 45;
+        return win;
+    },
     checkLossConditions: function () {
-        
+        //A survival mission is 'lost/failed' if the player dies
+        var loss = (interactionManager.getPlayerHealth()) == 0;
+        return loss;
     }
 });

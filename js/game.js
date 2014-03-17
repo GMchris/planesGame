@@ -9,6 +9,9 @@ var Game = {
 		AreaManager.areas[2].active = true;
 		MissionManager.generateMissions();
 		AreaManager.drawAreas();
+		window.setInterval(function () {
+		    Timer.increaseTimer();
+		}, 1000);
 	},
 
 	//Remove all contents of the main game window
