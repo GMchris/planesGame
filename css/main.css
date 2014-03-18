@@ -314,10 +314,10 @@ html body{
     width: 100%;
     height: 5px;
     background-color: lightgreen;
-    opacity: 0.4;
+    opacity: 0.8;
 }
 
 @-webkit-keyframes enemyDeathAnimation {
-	from  {opacity: 1; -webkit-transform: scale(1, 1) rotateX(0deg)}
-	to {opacity: 0.05; -webkit-transform: scale(0.01, 0.01) rotateX(90deg)}
+	from  {opacity: 1; -webkit-transform: scale(1, 1) rotateY(0deg)}
+	to {opacity: 0.05; -webkit-transform: scale(0.01, 0.01) rotateY(240deg)}
 }

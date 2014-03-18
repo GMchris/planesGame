@@ -10,7 +10,9 @@ function Mission(primary,secondary){
 var MissionManager = {
 	//Contains primary and secondary mission types
 	primary : ["survival"],
-	secondary : ["remainingHealth","enemiesKilled","accuracy"],
+	secondary: ["remainingHealth", "enemiesKilled", "accuracy"],
+	currentAreaIndex: -1,
+    currentMissionIndex: -1,
 	//Generates an array of mission and returns it
 	generateMissions : function(){
 		var tempArray =[];
@@ -45,9 +47,9 @@ var MissionManager = {
 	},
 
 	//Creates a prompt containing information about 
-	missionPrompt : function(area,mission){
-		var primary = AreaManager.areas[area].missions[mission].primary;
-		var secondary = AreaManager.areas[area].missions[mission].secondary;
+	missionPrompt : function(areaIndex,missionIndex){
+	    var primary = AreaManager.areas[areaIndex].missions[missionIndex].primary;
+	    var secondary = AreaManager.areas[areaIndex].missions[missionIndex].secondary;
 		var title,primaryDescription, secondaryDescription;
        
 		switch(primary){
@@ -105,8 +107,10 @@ var MissionManager = {
 		//Start button
 		$("<div>Deploy<div/>")
 		.addClass("deployButton")
-		.on("click",function(){
-			interactionManager.startNewMission(primary, secondary);
+		.on("click", function () {
+		    MissionManager.currentAreaIndex = areaIndex;
+		    MissionManager.currentMissionIndex = missionIndex;
+			interactionManager.startNewMission(areaIndex, missionIndex);
 		})
 		.appendTo("#missionPrompt");
 
