@@ -16,6 +16,9 @@ var AreaManager = {
 		var curMis = MissionManager.currentMissionIndex;
 		var curArea = MissionManager.currentAreaIndex;
 		this.areas[curArea].missions[curMis].complete = true;
+		if(stars===undefined){
+			stars=0;
+		}
 		this.areas[curArea].missions[curMis].rank = stars;
 		this.areas[curArea].pointsInArea += stars;
 		for(var i=0;i<this.areas.length-1;i++){

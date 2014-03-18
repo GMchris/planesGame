@@ -240,7 +240,6 @@
         },
 
         launchMission = function (missionIndex, areaIndex) {
-            console.log('start new mission');
             setInitialValues();
             missionType = AreaManager.areas[areaIndex].missions[missionIndex].primary;
             secondaryObjectiveType = AreaManager.areas[areaIndex].missions[missionIndex].secondary;
@@ -279,7 +278,6 @@
                 default:
                     break;
             }
-            console.log('stars for this mission: ' + starsWonForMission);
             //Finalize mission
             currentMission.endMission();
             abortMission();
@@ -288,7 +286,8 @@
             AreaManager.updateAreaStatus(starsWonForMission);
             AreaManager.drawMap();
             //Draw the win screen
-            //MissionManager.winScreen(starsWon);
+            Game.playerStars += starsWonForMission;
+           MissionManager.winScreen(starsWonForMission);
         },
 
         handleMissionLoss = function () {

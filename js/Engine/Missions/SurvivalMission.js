@@ -5,7 +5,7 @@
 
     checkWinConditions: function () {
         //A survival mission is 'won' if the player manages to survive for (45) seconds;
-        var win = (Timer.current - this.startTime) >= 45;
+        var win = (Timer.current - this.startTime) >= 5;
         return win;
     },
 

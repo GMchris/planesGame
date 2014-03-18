@@ -4,7 +4,7 @@ function Mission(primary,secondary){
 	this.primary = primary;
 	this.secondary = secondary;
 	this.complete = false;
-	this.rank = 0;
+	this.rank = -1;
 }
 
 var MissionManager = {
@@ -77,45 +77,86 @@ var MissionManager = {
 		//Creates:
 		//Black tint
 		$("<div/>",{
-			id:"missionPromptScreen",
+			id:"GamePromptScreen",
 		})
 		.appendTo("#gameScreen");
 		//Prompt box
 		$("<div/>",{
-			id:"missionPrompt"
+			id:"GamePrompt"
 		})
-		.appendTo("#missionPromptScreen");
+		.appendTo("#GamePromptScreen");
 		//Close button
 		$("<div id='closePrompt'>X<div/>")
 		.on("click",function(){
-				document.getElementById("gameScreen").removeChild(document.getElementById("missionPromptScreen"));
+				document.getElementById("gameScreen").removeChild(document.getElementById("GamePromptScreen"));
 		})
-		.appendTo("#missionPrompt");
+		.appendTo("#GamePrompt");
 		//Title
 		$("<div>"+title + "<div/>",{
 		})
 		.addClass("promptText promptTitle")
-		.appendTo("#missionPrompt");
+		.appendTo("#GamePrompt");
 		//Main objective
 		$("<div>"+ primaryDescription +"<div/>")
 		.addClass("promptText")
-		.appendTo("#missionPrompt");
+		.appendTo("#GamePrompt");
 		//Secondary objective
 		$("<div>"+ secondaryDescription +"<div/>")
 		.addClass("promptText")
-		.appendTo("#missionPrompt");
+		.appendTo("#GamePrompt");
 		//Start button
 		$("<div>Deploy<div/>")
 		.addClass("deployButton")
 		.on("click", function () {
 			interactionManager.startNewMission(missionIndex, areaIndex);
 		})
-		.appendTo("#missionPrompt");
+		.appendTo("#GamePrompt");
 
 	},
-	//Creates a window displaying
+	//Creates a window displaying results of victory
 	winScreen : function(stars){
-		
+		//Creates:
+		//Black tint
+		$("<div/>",{
+			id:"GamePromptScreen",
+		})
+		.appendTo("#gameScreen");
+		//Prompt box
+		$("<div/>",{
+			id:"GamePrompt"
+		})
+		.appendTo("#GamePromptScreen");
+		//Close prompt
+		$("<div id='closePrompt'>X<div/>")
+		.on("click",function(){
+				document.getElementById("gameScreen").removeChild(document.getElementById("GamePromptScreen"));
+		})
+		.appendTo("#GamePrompt");
+		//Victory
+		$("<div>Victory<div/>",{
+		})
+		.addClass("promptText promptTitle")
+		.appendTo("#GamePrompt");
+		//Stars
+		for(var i=0;i<stars;i++){
+			$("<span/>")
+			.addClass("promptStar")
+		.appendTo(".prompt title");
+		}
+		//Content box
+		$("<div/>",{
+			id:"ContentBox"
+		})
+		.appendTo("#GamePrompt");
+		//Handles levelling up
+		if(Game.playerStars>=Game.starsToLevelUp[Game.currentLevel-1]){
+			Game.playerStars -= Game.starsToLevelUp[Game.currentLevel-1];
+			Game.currentLevel++;
+			$("#ContentBox").text("You earned enough stars to level up! Your plane has been upgraded and you unlocked the following skill:");
+		}
+		else{
+			$("#ContentBox").text("You finished the mission and earned "+stars+" stars.Earn another "+ (Game.starsToLevelUp[Game.currentLevel-1]-Game.playerStars)+" to level up");
+		}
 	}
 
 }

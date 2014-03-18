@@ -98,6 +98,10 @@ html body{
 	
 }
 
+.Star-1{
+	background-image:url(../images/map/MissionMarkerUnplayed.png);
+}
+
 .Star0{
 	background-image:url(../images/map/MissionMarkerEmpty.png);
 }
@@ -162,7 +166,7 @@ html body{
 
 /*Mission prompt*/
 
-#missionPromptScreen{
+#GamePromptScreen{
 	top:0px;
 	position: relative;
 	width: 960px;
@@ -171,7 +175,7 @@ html body{
 	z-index: 10;
 }
 
-#missionPrompt{
+#GamePrompt{
 	border-radius: 20px;
 	position: relative;
 	top:150px;
@@ -208,12 +212,31 @@ html body{
 }
 
 .promptText{
+	font-family: sans-serif;
 	margin-top:20px;
 	margin-left:20px;
 	border-radius: 10px;
 	padding: 10px;
 	background: rgba(0,0,0,0.5);
 	width: 300px
+}
+
+#ContentBox{
+	font-size: 1.4em;
+	font-family: sans-serif;
+	margin-top:20px;
+	margin-left:20px;
+	border-radius: 10px;
+	padding: 10px;
+	background: rgba(0,0,0,0.5);
+	width: 300px
+}
+
+.promptStar{
+	display: inline-block;
+	background-image: url(../images/map/promptStar.png);
+	height: 50px;
+	width: 50px;
 }
 
 .promptTitle{
@@ -229,6 +252,7 @@ html body{
 	margin-left: 25px;
 	list-style-image:url(../images/map/starMini.png) 
 }
+
 
 .deployButton{
 	cursor: pointer;

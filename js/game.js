@@ -1,6 +1,5 @@
 'use strict'
 var Game = {
-
 	//Initialization
 	init: function(){
 		AreaManager.areas[0].active = true;
@@ -25,6 +24,12 @@ var Game = {
 		$(this).remove();
 	})
 	},
+
+	//Star data
+	playerStars : 0,
+	starsToLevelUp : [2,3,4,5,5,5,5],
+	currentLevel: 1
+
 }
 
 window.addEventListener("load",Game.init,false);
