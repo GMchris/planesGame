@@ -238,9 +238,13 @@
             trackRemainingHealth(playerPlane.currentHealth);
         },
 
-        launchMission = function (missionType, secondaryObjective) {
+        launchMission = function (missionIndex, areaIndex) {
             setInitialValues();
-
+            missionType = AreaManager.areas[areaIndex].missions[missionIndex].primary;
+            secondaryObjectiveType = AreaManager.areas[areaIndex].missions[missionIndex].secondary;
+            //Set the current mission position
+            MissionManager.currentMissionIndex = missionIndex;
+            MissionManager.currentAreaIndex = areaIndex;
             switch (missionType) {
                 case "survival":
                     currentMission = new SurvivalMission();
@@ -248,7 +252,6 @@
                 default:
                     throw new Error("Unrecognized mission type: " + missionType);
             }
-            secondaryObjectiveType = secondaryObjective;
             currentMission.startMission();
         },
 
@@ -257,27 +260,38 @@
         },
 
         handleMissionWin = function () {
+            var starsWon;
             switch (secondaryObjectiveType) {
                 case "remainingHealth":
-                    alert('WIN! You got ' + trackRemainingHealth() + ' stars (remHP)!');
+                    starsWon = trackRemainingHealth();
                     break;
                 case "accuracy":
-                    alert('WIN! You got ' + trackAccuracy() + ' stars(acc)!');
+                   starsWon = trackAccuracy();
                     break;
                 case "enemiesKilled":
-                    alert('WIN! You got ' + trackEnemiesKilled() + ' stars(kills)!');
+                   starsWon = trackEnemiesKilled();
                     break;
                 default:
                     break;
             }
+            //Finalize mission
             currentMission.endMission();
             abortMission();
+            //Clear screen, update the area and mission statuses
+            Game.clearScreen();
+            AreaManager.updateAreaStatus();
+            AreaManager.drawMap();
+            //Draw the win screen
+            MissionManager.winScreen(starsWon);
         },
 
         handleMissionLoss = function () {
-            alert('LOSS');
+
             currentMission.endMission();
             abortMission();
+            Game.clearScreen();
+            AreaManager.drawMap();
+            Game.errorMessage("Mission failed");
         },
 
         getPlayerHealth = function () {

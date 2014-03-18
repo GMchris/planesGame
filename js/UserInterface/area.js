@@ -13,6 +13,9 @@ var AreaManager = {
 	areas : [new Area(MissionManager.generateMissions()),new Area(MissionManager.generateMissions()), new Area(MissionManager.generateMissions())],
 	//Makes corrections to the activity of areas, and activates boss challenge, if neccesary
 	updateAreaStatus : function(){
+		var curMis = MissionManager.currentMissionIndex;
+		var curArea = MissionManager.currentAreaIndex;
+		console.log(curMis + " " + curArea);
 		for(var i=0;i<this.areas.length-1;i++){
 			if(this.areas[i].pointsInArea >= 5){
 				if(this.areas[i+1].active == false){

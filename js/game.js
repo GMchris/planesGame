@@ -3,10 +3,7 @@ var Game = {
 
 	//Initialization
 	init: function(){
-		AreaManager.areas[0].missions[0].rank = 2;
 		AreaManager.areas[0].active = true;
-		AreaManager.areas[1].active = true;
-		AreaManager.areas[2].active = true;
 		MissionManager.generateMissions();
 		AreaManager.drawMap();
 		window.setInterval(function () {

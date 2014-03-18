@@ -51,7 +51,7 @@ var MissionManager = {
 	    var primary = AreaManager.areas[areaIndex].missions[missionIndex].primary;
 	    var secondary = AreaManager.areas[areaIndex].missions[missionIndex].secondary;
 		var title,primaryDescription, secondaryDescription;
-       
+
 		switch(primary){
 			case "survival":
 				title = "Survival";
@@ -108,9 +108,12 @@ var MissionManager = {
 		$("<div>Deploy<div/>")
 		.addClass("deployButton")
 		.on("click", function () {
-			interactionManager.startNewMission(primary, secondary);
+			interactionManager.startNewMission(missionIndex, areaIndex);
 		})
 		.appendTo("#missionPrompt");
+
+	},
+	winScreen : function(stars){
 
 	}
 
