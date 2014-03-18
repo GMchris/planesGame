@@ -12,14 +12,19 @@ function Area(missions){
 var AreaManager = {
 	areas : [new Area(MissionManager.generateMissions()),new Area(MissionManager.generateMissions()), new Area(MissionManager.generateMissions())],
 	//Makes corrections to the activity of areas, and activates boss challenge, if neccesary
-	updateAreaStatus : function(){
+	updateAreaStatus : function(stars){
 		var curMis = MissionManager.currentMissionIndex;
 		var curArea = MissionManager.currentAreaIndex;
-		console.log(curMis + " " + curArea);
+		this.areas[curArea].missions[curMis].complete = true;
+		this.areas[curArea].missions[curMis].rank = stars;
+		this.areas[curArea].pointsInArea += stars;
 		for(var i=0;i<this.areas.length-1;i++){
-			if(this.areas[i].pointsInArea >= 5){
-				if(this.areas[i+1].active == false){
+			if(this.areas[i+1].active == false){
+				if(this.areas[i].pointsInArea >= 5){
 					this.areas[i+1].active = true;
+				}
+				else if(this.areas[i].missions[0].played&&this.areas[i].missions[1].played&&this.areas[i].missions[2].played){
+					this.areas[i].active = true
 				}
 			}
 		}

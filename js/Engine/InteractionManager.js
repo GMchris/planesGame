@@ -279,7 +279,7 @@
             abortMission();
             //Clear screen, update the area and mission statuses
             Game.clearScreen();
-            AreaManager.updateAreaStatus();
+            AreaManager.updateAreaStatus(starsWon);
             AreaManager.drawMap();
             //Draw the win screen
             MissionManager.winScreen(starsWon);

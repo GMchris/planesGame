@@ -34,11 +34,11 @@ var MissionManager = {
 			.on('click',  function(){
 				//Calls the missionPrompt function, with the clicked area and mission
 				var thisMission = this.getAttribute("mission");
-				if(AreaManager.areas[area].missions[thisMission].rank===0){
-					MissionManager.missionPrompt(area,thisMission);
+				if(AreaManager.areas[area].missions[thisMission].complete){
+					Game.errorMessage("Cannot replay mission!");
 				}
 				else{
-					Game.errorMessage("Cannot replay mission!");
+					MissionManager.missionPrompt(area,thisMission);
 			    }
 			    
 
@@ -113,8 +113,9 @@ var MissionManager = {
 		.appendTo("#missionPrompt");
 
 	},
+	//Creates a window displaying
 	winScreen : function(stars){
-
+		
 	}
 
 }
