@@ -16,6 +16,7 @@
         secondaryObjectiveType,
         isPaused,
         setInitialValues = function () {
+            playerPlane.isShooting = false;
             isPaused = false;
             bullets = [];
             playerBulletsSpeed = 15;
@@ -239,6 +240,7 @@
         },
 
         launchMission = function (missionIndex, areaIndex) {
+            console.log('start new mission');
             setInitialValues();
             missionType = AreaManager.areas[areaIndex].missions[missionIndex].primary;
             secondaryObjectiveType = AreaManager.areas[areaIndex].missions[missionIndex].secondary;
@@ -260,29 +262,33 @@
         },
 
         handleMissionWin = function () {
-            var starsWon;
+            var starsWonRemainingHealth = trackRemainingHealth(),
+                starsWonAccuracy = trackAccuracy(),
+                starsWonEnemiesKilled = trackEnemiesKilled(),
+                starsWonForMission;
             switch (secondaryObjectiveType) {
                 case "remainingHealth":
-                    starsWon = trackRemainingHealth();
+                    starsWonForMission = starsWonRemainingHealth;
                     break;
                 case "accuracy":
-                   starsWon = trackAccuracy();
+                    starsWonForMission = starsWonAccuracy;
                     break;
                 case "enemiesKilled":
-                   starsWon = trackEnemiesKilled();
+                    starsWonForMission = starsWonEnemiesKilled;
                     break;
                 default:
                     break;
             }
+            console.log('stars for this mission: ' + starsWonForMission);
             //Finalize mission
             currentMission.endMission();
             abortMission();
             //Clear screen, update the area and mission statuses
             Game.clearScreen();
-            AreaManager.updateAreaStatus(starsWon);
+            AreaManager.updateAreaStatus(starsWonForMission);
             AreaManager.drawMap();
             //Draw the win screen
-            MissionManager.winScreen(starsWon);
+            //MissionManager.winScreen(starsWon);
         },
 
         handleMissionLoss = function () {
@@ -312,13 +318,14 @@
             var totalShotsFired = 0, totalShotsHit = 0, accuracyPercentage = 0, stars = 0;
 
             trackAccuracy = function (isHit) { //call without an argument (trackAccuracy()) to get the current amount of stars earned and reset the vars
-                console.log("accuracy: " + accuracyPercentage);
-                if (isHit != undefined) {
+                
+                if (arguments.length > 0) {
                     if (isHit) {
                         totalShotsHit++;
                     }
                     totalShotsFired++;
                     accuracyPercentage = parseInt(totalShotsHit / totalShotsFired * 100);
+                    console.log("accuracy: " + accuracyPercentage);
 
                     return accuracyPercentage;
                 } else {
@@ -333,6 +340,7 @@
                     }
                     totalShotsFired = 0; //resetting
                     totalShotsHit = 0;
+                    accuracyPercentage = 0;
 
                     return stars;
                 }
@@ -344,7 +352,7 @@
             var minimumHealthPercentageReached = 100, stars = 0;
 
             trackRemainingHealth = function (currentHealth) {
-                if (currentHealth != undefined) {
+                if (arguments.length > 0) {
                     currentHealthPercentage = parseInt(currentHealth / playerPlane.maxHealth * 100);
                     console.log("minHealth: " + minimumHealthPercentageReached);
                     if (currentHealthPercentage < minimumHealthPercentageReached) {
@@ -374,7 +382,7 @@
             var enemiesKilled = 0, stars = 0;
 
             trackEnemiesKilled = function (killCount) {
-                if (killCount != undefined) { //if the func is called without arguments, the amount of stars earned will be returned + the vars will reset
+                if (arguments.length > 0) { //if the func is called without arguments, the amount of stars earned will be returned + the vars will reset
                     console.log("enemies killed: " + enemiesKilled);
                     enemiesKilled += killCount;
 
