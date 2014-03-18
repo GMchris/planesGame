@@ -108,9 +108,7 @@ var MissionManager = {
 		$("<div>Deploy<div/>")
 		.addClass("deployButton")
 		.on("click", function () {
-		    MissionManager.currentAreaIndex = areaIndex;
-		    MissionManager.currentMissionIndex = missionIndex;
-			interactionManager.startNewMission(areaIndex, missionIndex);
+			interactionManager.startNewMission(primary, secondary);
 		})
 		.appendTo("#missionPrompt");
 
