@@ -79,6 +79,19 @@ html body{
     background: linear-gradient(#78f1ff, #277aea);
 }
 
+.homingBulletDiv{
+    position: absolute;
+    height:15px;
+    width:4px;
+    border: 1px solid black;
+    border-radius: 2px 2px 0px 0px;
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#ffcb00), to(#ff7100));
+    background: -webkit-linear-gradient(#ffcb00, #ff7100);
+    background: -moz-linear-gradient(#ffcb00, #ff7100);
+    background: -o-linear-gradient(#ffcb00, #ff7100);
+    background: linear-gradient(#ffcb00, rgba(255,113,0,0.5));
+}
+
 .hpBarEnemy {
     position: absolute;
     width: 100%;

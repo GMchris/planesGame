@@ -19,12 +19,12 @@
             playerPlane.isShooting = false;
             isPaused = false;
             bullets = [];
-            playerBulletsSpeed = 15;
+            playerBulletsSpeed = 10;
             enemyBulletsSpeed = 7;
             fighterMovementSpeed = 4;
             fighterMaxHealth = 3;
             fighterDamage = 12;
-            fighterSpawnFrequencyMs = 1000;
+            fighterSpawnFrequencyMs = 700;
             fighterDirectionChangeFrequencyMs = 1000;
             fighterShootFrequencyMs = 1500;
             enemyPlanes = [];
@@ -39,7 +39,7 @@
         },
 
         spawnBullet = function (type, left, bottom, orientationDeg, owner) {
-            var newBullet;
+            var newBullet, randIndex, target;
             switch (type) {
                 case "player":
                     newBullet = new PlayerBullet(left, bottom, orientationDeg);
@@ -50,6 +50,10 @@
                 case "piercing":
                     newBullet = new PiercingBullet(left, bottom, orientationDeg);
                     break;
+                case "homing":
+                    randIndex = parseInt(Math.random() * enemyPlanes.length);
+                    var target = enemyPlanes[randIndex];
+                    newBullet = new HomingBullet(left, bottom, orientationDeg, target);
                 default:
                     break;
             }
@@ -135,9 +139,32 @@
         },
 
         movePlayerBullet = function (bullet) {
-            var newLeftCoord = bullet.leftCoord + bullet.orientationDeg / 45 * playerBulletsSpeed; //if the degree is (45) or (-45), the bullet
-            //will travel diagonally at (playerBulletsSpeed) speed
-            bullet.updateCoords(newLeftCoord, bullet.bottomCoord + playerBulletsSpeed);
+            if (bullet instanceof HomingBullet) {
+                moveHomingBullet(bullet);
+            } else {
+                var newLeftCoord = bullet.leftCoord + bullet.orientationDeg / 45 * playerBulletsSpeed; //if the degree is (45) or (-45), the bullet
+                //will travel diagonally at (playerBulletsSpeed) speed
+                bullet.updateCoords(newLeftCoord, bullet.bottomCoord + playerBulletsSpeed);
+                bullet.move();
+            }
+        },
+
+        moveHomingBullet = function (bullet) {
+            var newLeftCoord, newBottomCoord;
+            if (enemyPlanes.length > 0) { //if there's at least one enemy on screen
+                if (bullet.targetPlane == undefined || bullet.targetPlane.currentHealth == 0) {
+                    bullet.targetPlane = enemyPlanes[parseInt(Math.random() * enemyPlanes.length)];
+                }
+                newLeftCoord = bullet.leftCoord + bullet.orientationDeg / 45 * playerBulletsSpeed;
+                newBottomCoord = (bullet.bottomCoord < bullet.targetPlane.bottomCoord) ?
+                    (bullet.bottomCoord + playerBulletsSpeed) : (bullet.bottomCoord - playerBulletsSpeed);
+                bullet.chaseTarget();
+            } else { //continue moving in the same direction
+                newLeftCoord = bullet.leftCoord + bullet.orientationDeg / 45 * playerBulletsSpeed;
+                newBottomCoord = bullet.bottomCoord + playerBulletsSpeed;
+            }
+
+            bullet.updateCoords(newLeftCoord, newBottomCoord);
             bullet.move();
         },
 
@@ -314,6 +341,10 @@
             return playerPlane.skills;
         },
 
+        getEnemiesCount = function () {
+            return enemyPlanes.length;
+        },
+
         togglePause = function () {
             if (isPaused) {
                 currentMission.mainLoopInterval = window.setInterval(currentMission.mainLoop, 1000 / 60);
@@ -437,5 +468,6 @@
 
         getPlayerHealth: getPlayerHealth,
         getPlayerSkills: getPlayerSkills,
+        getEnemiesCount: getEnemiesCount
     }
 })();
