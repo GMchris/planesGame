@@ -38,14 +38,14 @@
             playerPlane.addToScreen();
         },
 
-        spawnBullet = function (type, left, bottom, owner) {
+        spawnBullet = function (type, left, bottom, orientationDeg, owner) {
             var newBullet;
             switch (type) {
                 case "player":
-                    newBullet = new PlayerBullet(left, bottom);
+                    newBullet = new PlayerBullet(left, bottom, orientationDeg);
                     break;
                 case "enemy":
-                    newBullet = new EnemyBullet(left, bottom, owner);
+                    newBullet = new EnemyBullet(left, bottom, orientationDeg, owner);
                     break;
                 default:
                     break;
@@ -97,7 +97,7 @@
             for (i = 0; i < bullets.length; i++) {
                 toBeDestroyed = false;
                 //if out of the screen, flag the bullet for removal
-                if (bullets[i].bottomCoord < 0 || bullets[i].bottomCoord > 700) {
+                if (bullets[i].bottomCoord < 0 || bullets[i].bottomCoord > 700 || bullets[i].leftCoord < 10 || bullets[i].leftCoord > 947) {
                     toBeDestroyed = true;
                     if (bullets[i] instanceof PlayerBullet) {
                         trackAccuracy(false);
@@ -131,7 +131,9 @@
         },
 
         movePlayerBullet = function (bullet) {
-            bullet.updateCoords(bullet.leftCoord, bullet.bottomCoord + playerBulletsSpeed);
+            var newLeftCoord = bullet.leftCoord + bullet.orientationDeg / 45 * playerBulletsSpeed; //if the degree is (45) or (-45), the bullet
+            //will travel diagonally at (playerBulletsSpeed) speed
+            bullet.updateCoords(newLeftCoord, bullet.bottomCoord + playerBulletsSpeed);
             bullet.move();
         },
 

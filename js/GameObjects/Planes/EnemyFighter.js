@@ -45,7 +45,7 @@ EnemyFighter = EnemyPlane.extend({
     },
 
     shoot: function () {
-        interactionManager.spawnBullet("enemy", this.leftCoord + 45, this.bottomCoord, this);
+        interactionManager.spawnBullet("enemy", this.leftCoord + 45, this.bottomCoord, 0, this);
     },
 
     updateHpBar: function () {
