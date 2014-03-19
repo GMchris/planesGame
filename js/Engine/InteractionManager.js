@@ -360,7 +360,7 @@
             trackRemainingHealth = function (currentHealth) {
                 if (arguments.length > 0) {
                     currentHealthPercentage = parseInt(currentHealth / playerPlane.maxHealth * 100);
-                    console.log("minHealth: " + minimumHealthPercentageReached);
+                    $("#hpBar").css("width",currentHealthPercentage*2+"px");
                     if (currentHealthPercentage < minimumHealthPercentageReached) {
                         minimumHealthPercentageReached = currentHealthPercentage;
                     }

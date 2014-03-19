@@ -9,7 +9,7 @@
         //TODO: Draw mission interface - call a UI function
         Game.clearScreen();
         Visual.adjustCSSofGameScreen(true);
-
+        Visual.drawUI();
         $("<div id='fps'></div>").appendTo("#gameScreen");
         interactionManager.spawnPlayer();
         $(document).on("mousemove", interactionManager.movePlayerPlane);

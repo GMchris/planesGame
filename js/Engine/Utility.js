@@ -61,5 +61,23 @@ var Visual = {
     iterateBackground: function(){
         this.backgroundOffset++;
         document.getElementById("gameScreen").style.backgroundPositionY = this.backgroundOffset +"px";
+    },
+
+    drawUI: function(){
+        $("<div/>")
+        .addClass("ui")
+        .appendTo("#gameScreen");
+
+        $("<div/>",{
+            id : "hpBar"
+        })
+        .appendTo(".ui");
+        for(var i=0;i<4;i++){
+            $("<div/>",{
+                id : "skill"+i
+            })
+            .addClass("skills")
+            .appendTo(".ui");
+        }
     }
 }
