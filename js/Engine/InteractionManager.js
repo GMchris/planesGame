@@ -109,8 +109,9 @@
                 }
                 else if (bullets[i] instanceof PlayerBullet){
                     hitEnemyPlaneIndex = detectCollisionPlayerBullet(bullets[i]);
-                    if (hitEnemyPlaneIndex != -1) {
-                        bullets[i].handleCollision();
+                    if (hitEnemyPlaneIndex != -1
+                        && (!(bullets[i] instanceof PiercingBullet) || bullets[i].enemiesHit.indexOf(enemyPlanes[hitEnemyPlaneIndex]))) {
+                        bullets[i].handleCollision(enemyPlanes[hitEnemyPlaneIndex]);
                         handleCollisionPlayerBullet(hitEnemyPlaneIndex);
                     } else {
                         movePlayerBullet(bullets[i]);
@@ -118,7 +119,7 @@
                 }
                 else if (bullets[i] instanceof EnemyBullet) {
                     if (detectCollisionEnemyBullet(bullets[i])) {
-                        toBeDestroyed = true;
+                        bullets[i].handleCollision();
                         handleCollisionEnemyBullet(bullets[i].owner);
                     } else {
                         moveEnemyBullet(bullets[i]);

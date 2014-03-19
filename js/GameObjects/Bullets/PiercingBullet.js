@@ -2,9 +2,12 @@
     init: function (left, bottom, orientationDeg) {
         this._super(left, bottom, orientationDeg);
         this.div.className = "piercingBulletDiv";
+        this.enemiesHit = [];
     },
 
-    handleCollision: function () {
-        //do nothing
+    enemiesHit: null,
+
+    handleCollision: function (hitPlane) {
+        this.enemiesHit.push(hitPlane);
     }
 });
