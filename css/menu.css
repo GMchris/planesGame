@@ -1,0 +1,266 @@
+/*MENU---------------------------*/
+
+/*Map*/
+
+.mainMap{
+	background-image: url(../images/map/WorldMapMinified.png);
+	width: 960px;
+	height: 700px;
+	position: absolute;
+	top:0px;
+	left:0px;
+}
+
+.area0{
+	position: absolute;
+	top:180px;
+	left:40px;
+	width: 300px;
+	height: 396px;
+}
+
+.area0.colored{
+	background-image:url(../images/map/AreaOneColored.png);
+}
+
+.area0.greyscale{
+	background-image:url(../images/map/AreaOneGreyscale.png);
+}
+
+.area1{
+	position: absolute;
+	top:60px;
+	left:240px;
+	width: 427px;
+	height: 204px;
+
+}
+
+.area1.colored{
+	background-image:url(../images/map/AreaTwoColored.png);
+}
+
+.area1.greyscale{
+	background-image:url(../images/map/AreaTwoGreyscale.png);
+}
+
+.area2{
+	position: absolute;
+	top:260px;
+	left:600px;
+	width: 293px;
+	height: 384px;
+}
+
+.area2.colored{
+	background-image:url(../images/map/AreaThreeColored.png);
+}
+
+.area2.greyscale{
+	background-image:url(../images/map/AreaThreeGreyscale.png);
+}
+
+.missionMarker{
+	cursor:pointer;
+	position: absolute;
+	height: 77px;
+	width: 70px;
+	
+}
+
+.Star-1{
+	background-image:url(../images/map/MissionMarkerUnplayed.png);
+}
+
+.Star0{
+	background-image:url(../images/map/MissionMarkerEmpty.png);
+}
+
+.Star1{
+	background-image:url(../images/map/MissionMarkerOne.png);
+}
+
+.Star2{
+	background-image:url(../images/map/MissionMarkerTwo.png);
+}
+
+.Star3{
+	background-image:url(../images/map/MissionMarkerThree.png);
+}
+
+/*Mission marker positions. Do not change*/
+.a0m0{
+	top:160px;
+	left:60px;
+}
+
+.a0m1{
+	top:250px;
+	left:180px;
+}
+
+.a0m2{
+	top:410px;
+	left:140px;
+}
+
+.a1m0{
+	top:45px;
+	left:290px;
+}
+
+.a1m1{
+	top:120px;
+	left:420px;
+}
+
+.a1m2{
+	top:60px;
+	left:530px;
+}
+
+.a2m0{
+	top:220px;
+	left:700px;
+}
+
+.a2m1{
+	top:440px;
+	left:600px;
+}
+
+.a2m2{
+	top:460px;
+	left:730px;
+}
+
+/*Mission prompt*/
+
+#GamePromptScreen{
+	top:0px;
+	position: relative;
+	width: 960px;
+	height: 700px;
+	background: rgba(0,0,0,0.5);
+	z-index: 10;
+}
+
+#GamePrompt{
+	border-radius: 20px;
+	position: relative;
+	top:150px;
+	margin:auto;
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#43494b), to(#2e3335));
+	background: -webkit-linear-gradient(#43494b, #2e3335);
+	background: -moz-linear-gradient(#43494b, #2e3335);
+	background: -o-linear-gradient(#43494b, #2e3335);
+	background: linear-gradient(#43494b, #2e3335);
+	border:4px outset #505658;
+	width: 400px;
+	height: 350px;
+}
+
+#closePrompt{
+	left:340px;
+	top:10px;
+	position: absolute;
+	border: 2px solid white;
+	font-size: 1.6em;
+	line-height: 40px;
+	vertical-align: middle;
+	text-align: center;
+	cursor: pointer;
+	border-radius: 30px;
+	background: #da3939;
+	height: 40px;
+	width: 40px;
+}
+
+#closePrompt:hover{
+	background: #3e0d08;
+	font-size: 2em;
+}
+
+.promptText{
+	font-family: sans-serif;
+	margin-top:20px;
+	margin-left:20px;
+	border-radius: 10px;
+	padding: 10px;
+	background: rgba(0,0,0,0.5);
+	width: 300px
+}
+
+#ContentBox{
+	font-size: 1.4em;
+	font-family: sans-serif;
+	margin-top:20px;
+	margin-left:20px;
+	border-radius: 10px;
+	padding: 10px;
+	background: rgba(0,0,0,0.5);
+	width: 300px
+}
+
+.promptStar{
+	display: inline-block;
+	background-image: url(../images/map/promptStar.png);
+	height: 50px;
+	width: 50px;
+}
+
+.promptTitle{
+	font-family: boston;
+	border-radius: 0px;
+	border-bottom: 4px solid #2d2d2d;
+	background: none;
+	text-shadow: 5px 5px 0px rgba(0, 0, 0, 0.8);
+	font-size: 3em;
+}
+
+.secDesc{
+	margin-left: 25px;
+	list-style-image:url(../images/map/starMini.png) 
+}
+
+
+.deployButton{
+	cursor: pointer;
+	box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 1);
+	margin-left: 140px;
+	margin-top: 5px;
+	border-radius: 5px;
+	display: inline-block;
+	padding: 5px;
+	font-family: boston;
+	font-size: 1.5em;
+	background: #56c929;
+	border:4px outset #71e145;
+}
+
+.deployButton:hover{
+	background: #f9ce25;
+	border:4px outset #ffda4d;
+}
+
+.deployButton:active{
+	background: #31562c;
+	border:4px inset #46873f;
+}
+
+/*Other*/
+
+.errorMessage{
+	border:4px solid #8f3434;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 50px;
+	padding: 5px;
+	position: absolute;
+	width: 280px;
+	height: 50px;
+	background: #d83b3b;
+	border-radius: 15px;
+	top:300px;
+	left:300px;
+}
