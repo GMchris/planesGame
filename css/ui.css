@@ -8,9 +8,9 @@
 }
 
 .skills{
-	-webkit-box-shadow: inset 7px 7px 5px 0px rgba(0, 0, 0, 0.75);
-	-moz-box-shadow:    inset 7px 7px 5px 0px rgba(0, 0, 0, 0.75);
-	box-shadow:         inset 7px 7px 5px 0px rgba(0, 0, 0, 0.75);
+	-webkit-box-shadow: inset 3px 3px 5px 0px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: inset 3px 3px 5px 0px rgba(0, 0, 0, 0.75);
+	box-shadow: inset 3px 3px 5px 0px rgba(0, 0, 0, 0.75);
 	top:10px;
 	height: 50px;
 	width: 50px;
@@ -20,12 +20,10 @@
 
 #skill0{
 	left:396px;
-	background-image: url(../images/ui/spreadshot.png);
 }
 
 #skill1{
 	left:452px;
-	background-image: url(../images/ui/penetratingshots.png);
 }
 
 #skill2{
@@ -34,6 +32,18 @@
 
 #skill3{
 	left:564px;
+}
+
+.spreadShotIcon{
+	background-image: url(../images/ui/spreadshot.png);
+}
+
+.piercingShotIcon{
+	background-image: url(../images/ui/penetratingshots.png);
+}
+
+.homingShotIcon{
+	background-image: url(../images/ui/homingshots.png);
 }
 
 #hpBar{

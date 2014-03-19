@@ -72,12 +72,34 @@ var Visual = {
             id : "hpBar"
         })
         .appendTo(".ui");
+        var skillArray = getPlayerSkills();
         for(var i=0;i<4;i++){
+             console.log(skillArray[i]);
             $("<div/>",{
                 id : "skill"+i
             })
             .addClass("skills")
             .appendTo(".ui");
+            //Places correct icons
+            if(skillArray[i]==undefined){}
+            else{
+                  switch(skillArray[i].name){
+                    //Spread shot icon
+                    case "Spread Shot":
+                    $("#skill"+i).addClass("spreadShotIcon");
+                    break;
+                    //Piercing shot icon
+                    case "Piercing Shot":
+                    $("#skill"+i).addClass("piercingShotIcon");
+                    break;
+                    //Homing shot icon
+                    case "Homing Shot":
+                    $("#skill"+i).addClass("homingShotIcon");
+                    break;
+                    default:
+                    break;
+                }
+            }
         }
     }
 }
