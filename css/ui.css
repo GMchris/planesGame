@@ -1,11 +1,9 @@
 .ui{
-	top:600px;
+	top:630px;
 	position: relative;
-	margin-right: auto;
-	margin-left: auto;
 	z-index: 200;
-	width: 700px;
-	height: 100px;
+	width: 960px;
+	height: 70px;
 	background-image: url(../images/ui/ui.png);
 }
 
@@ -13,38 +11,37 @@
 	-webkit-box-shadow: inset 7px 7px 5px 0px rgba(0, 0, 0, 0.75);
 	-moz-box-shadow:    inset 7px 7px 5px 0px rgba(0, 0, 0, 0.75);
 	box-shadow:         inset 7px 7px 5px 0px rgba(0, 0, 0, 0.75);
-	top:15px;
-	height: 70px;
-	width: 70px;
+	top:10px;
+	height: 50px;
+	width: 50px;
 	display: inline-block;
 	position: absolute;
 }
 
 #skill0{
-	left:230px;
-	content:1;
+	left:396px;
 	background-image: url(../images/ui/spreadshot.png);
 }
 
 #skill1{
-	left:310px;
+	left:452px;
 	background-image: url(../images/ui/penetratingshots.png);
 }
 
 #skill2{
-	left:390px;
+	left:508px;
 }
 
 #skill3{
-	left:470px;
+	left:564px;
 }
 
 #hpBar{
 	display: inline-block;
 	position: absolute;
-	top:30px;
-	left: 20px;
-	height: 40px;
+	top:21px;
+	left: 189px;
+	height: 27px;
 	width: 200px;
 	background: -webkit-gradient(linear, 0 0, 0 100%, from(#ce2c28), to(#a02825));
 	background: -webkit-linear-gradient(#ce2c28, #a02825);
