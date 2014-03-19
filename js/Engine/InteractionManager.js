@@ -310,6 +310,10 @@
             return playerPlane.currentHealth;
         },
 
+        getPlayerSkills = function () {
+            return playerPlane.skills;
+        },
+
         togglePause = function () {
             if (isPaused) {
                 currentMission.mainLoopInterval = window.setInterval(currentMission.mainLoop, 1000 / 60);
@@ -426,10 +430,12 @@
         iterateEnemyPlanes: iterateEnemyPlanes,
         shootPlayerPlane: shootPlayerPlane,
         playerPlaneShootToggle: playerPlaneShootToggle,
-        getPlayerHealth: getPlayerHealth,
         handleMissionWin: handleMissionWin,
         handleMissionLoss: handleMissionLoss,
         togglePause: togglePause,
-        handleSkillUsage: handleSkillUsage
+        handleSkillUsage: handleSkillUsage,
+
+        getPlayerHealth: getPlayerHealth,
+        getPlayerSkills: getPlayerSkills,
     }
 })();
