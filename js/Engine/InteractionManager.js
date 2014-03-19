@@ -138,7 +138,8 @@
         },
 
         moveEnemyBullet = function (bullet) {
-            bullet.updateCoords(bullet.leftCoord, bullet.bottomCoord - enemyBulletsSpeed);
+            var newLeftCoord = bullet.leftCoord + bullet.orientationDeg / 45 * enemyBulletsSpeed;
+            bullet.updateCoords(newLeftCoord, bullet.bottomCoord - enemyBulletsSpeed);
             bullet.move();
         }
 
@@ -289,7 +290,7 @@
             AreaManager.drawMap();
             //Draw the win screen
             Game.playerStars += starsWonForMission;
-           MissionManager.winScreen(starsWonForMission);
+            MissionManager.winScreen(starsWonForMission);
         },
 
         handleMissionLoss = function () {
@@ -319,7 +320,7 @@
             var totalShotsFired = 0, totalShotsHit = 0, accuracyPercentage = 0, stars = 0;
 
             trackAccuracy = function (isHit) { //call without an argument (trackAccuracy()) to get the current amount of stars earned and reset the vars
-                
+
                 if (arguments.length > 0) {
                     if (isHit) {
                         totalShotsHit++;
@@ -405,6 +406,10 @@
             }
 
             trackEnemiesKilled(killCount);
+        },
+
+        handleSkillUsage = function (keyPressed) {
+            playerPlane.skills[keyPressed].use();
         };
 
     return {
@@ -420,6 +425,7 @@
         getPlayerHealth: getPlayerHealth,
         handleMissionWin: handleMissionWin,
         handleMissionLoss: handleMissionLoss,
-        togglePause: togglePause
+        togglePause: togglePause,
+        handleSkillUsage: handleSkillUsage
     }
 })();

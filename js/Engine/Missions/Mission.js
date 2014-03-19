@@ -25,6 +25,8 @@
             console.log(e.keyCode);
             if (e.keyCode == 112) {//p
                 interactionManager.togglePause();
+            } else if (e.keyCode >= 49 && e.keyCode <= 52) { //1-4 key was pressed
+                interactionManager.handleSkillUsage(e.keyCode - 49);
             }
         });
         this.mainLoopInterval = window.setInterval(function () {
