@@ -5,13 +5,15 @@
         this.image.id = "playerPlaneImage";
         this.image.src = 'images/planes/player.png';
         this.isShooting = false;
-        this.skills = [new SpreadShot(this)];
+        this.skills = [new SpreadShot(this), new PiercingShot(this)];
+
+        this.bulletType = "player";
     },
     isShooting: null,
     skills: [],
     shoot: function () {
         if (this.isShooting) {
-            interactionManager.spawnBullet("player", this.leftCoord + 50, this.bottomCoord + 80, 0);
+            interactionManager.spawnBullet(this.bulletType, this.leftCoord + 50, this.bottomCoord + 80, 0);
         }
     }
 });

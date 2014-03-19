@@ -17,11 +17,10 @@
     oldShoot: function () { },
 
     newShoot: function () {
-        var playerOrEnemy = (this instanceof PlayerPlane) ? "player" : "enemy";
         if ((this instanceof EnemyPlane) || this.isShooting) {
-            for (var i = 1; i <= 10; i++) {
-                interactionManager.spawnBullet(playerOrEnemy, this.leftCoord + 50, this.bottomCoord + 80, -45 + i * 9);
-            }
+            interactionManager.spawnBullet(this.bulletType, this.leftCoord + 50, this.bottomCoord + 80, -15);
+            interactionManager.spawnBullet(this.bulletType, this.leftCoord + 50, this.bottomCoord + 80, 0);
+            interactionManager.spawnBullet(this.bulletType, this.leftCoord + 50, this.bottomCoord + 80, 15);
         }
     }
 });

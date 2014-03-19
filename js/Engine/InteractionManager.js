@@ -47,6 +47,9 @@
                 case "enemy":
                     newBullet = new EnemyBullet(left, bottom, orientationDeg, owner);
                     break;
+                case "piercing":
+                    newBullet = new PiercingBullet(left, bottom, orientationDeg);
+                    break;
                 default:
                     break;
             }
@@ -98,7 +101,8 @@
                 toBeDestroyed = false;
                 //if out of the screen, flag the bullet for removal
                 if (bullets[i].bottomCoord < 0 || bullets[i].bottomCoord > 700 || bullets[i].leftCoord < 10 || bullets[i].leftCoord > 947) {
-                    toBeDestroyed = true;
+                    bullets[i].toBeSpliced = true;
+                    bullets[i].die();
                     if (bullets[i] instanceof PlayerBullet) {
                         trackAccuracy(false);
                     }
@@ -106,7 +110,7 @@
                 else if (bullets[i] instanceof PlayerBullet){
                     hitEnemyPlaneIndex = detectCollisionPlayerBullet(bullets[i]);
                     if (hitEnemyPlaneIndex != -1) {
-                        toBeDestroyed = true;
+                        bullets[i].handleCollision();
                         handleCollisionPlayerBullet(hitEnemyPlaneIndex);
                     } else {
                         movePlayerBullet(bullets[i]);
@@ -121,8 +125,7 @@
                     }
                 }
 
-                if (toBeDestroyed) {
-                    $(bullets[i].div).remove();
+                if (bullets[i].toBeSpliced) {
                     bullets.splice(i, 1);
                     i++;
                 }

@@ -322,6 +322,17 @@ html body{
     background: linear-gradient(#ffcb00, #ff7100);
 }
 
+.piercingBulletDiv {
+    position: absolute;
+    height: 15px;
+    width: 4px;
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#78f1ff), to(#277aea));
+    background: -webkit-linear-gradient(#78f1ff, #277aea);
+    background: -moz-linear-gradient(#78f1ff, #277aea);
+    background: -o-linear-gradient(#78f1ff, #277aea);
+    background: linear-gradient(#78f1ff, #277aea);
+}
+
 .enemyBulletDiv {
     position: absolute;
     height: 15px;

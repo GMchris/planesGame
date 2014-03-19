@@ -3,6 +3,7 @@
         this._super(maxHealth, damage);
         this.updateCoords(left, bottom);
         this.move();
+        this.bulletType = "enemy";
         this.div.className = "enemyPlane";
         this.hpBar = document.createElement('div');
         this.hpBar.className = "hpBarEnemy";

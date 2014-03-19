@@ -10,6 +10,8 @@
     maxHealth: null,
     currentHealth: null,
     image: null,
+    bulletType: null,
+
     updateCoords: function (left, bottom) {
         this._super(left, bottom);
     }
