@@ -8,9 +8,17 @@
 	font-weight: bold;
 }
 
-html body{
+html,body{
 	overflow:hidden;
 	height: 100%;
+}
+
+body{
+    background: -webkit-gradient(linear, 0 0, 100% 0, from(#0e1b20), to(#23363c));
+    background: -webkit-linear-gradient( #23363c, #0e1b20, #23363c);
+    background: -moz-linear-gradient( #23363c, #0e1b20, #23363c);
+    background: -o-linear-gradient( #23363c, #0e1b20, #23363c);
+    background: linear-gradient( #23363c, #0e1b20, #23363c);
 }
 
 @font-face{
@@ -18,17 +26,38 @@ html body{
 	src: url(../css/boston_traffic.ttf);
 }
 
+section{
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#43494b), to(#2e3335));
+    background: -webkit-linear-gradient(#43494b, #2e3335);
+    background: -moz-linear-gradient(#43494b, #2e3335);
+    background: -o-linear-gradient(#43494b, #2e3335);
+    background: linear-gradient(#43494b, #2e3335);
+    width: 960px;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #gameScreen{
 	position: relative;
 	margin-top:0%;
 	height: 700px;
 	width: 960px;
-	margin-left: auto;
-	margin-right: auto;
 	background: #4fbee7;
 }
 
 /*GAME-----------------*/
+
+#effectScreen{
+    top:0px;
+    z-index: 50;
+    position: absolute;
+    height: 700px;
+    width: 960px;
+    background: black;
+    opacity: 0;
+}
+
 /*Planes*/
 
 #playerPlaneDiv {
@@ -83,20 +112,16 @@ html body{
     position: absolute;
     height:15px;
     width:4px;
-    border: 1px solid black;
     border-radius: 2px 2px 0px 0px;
-    background: -webkit-gradient(linear, 0 0, 0 100%, from(#ffcb00), to(#ff7100));
-    background: -webkit-linear-gradient(#ffcb00, #ff7100);
-    background: -moz-linear-gradient(#ffcb00, #ff7100);
-    background: -o-linear-gradient(#ffcb00, #ff7100);
-    background: linear-gradient(#ffcb00, rgba(255,113,0,0.5));
+    background: linear-gradient(#dd1d00, #dd1d00 30%,#5a5a5a 31%);
 }
 
 .hpBarEnemy {
     position: absolute;
     width: 100%;
     height: 5px;
-    background-color: lightgreen;
+    border:2px solid black;
+    background-color: #d22d13;
     opacity: 0.8;
 }
 

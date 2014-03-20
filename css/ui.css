@@ -1,7 +1,7 @@
 .ui{
 	top:630px;
 	position: relative;
-	z-index: 200;
+	z-index: 20;
 	width: 960px;
 	height: 70px;
 	background-image: url(../images/ui/ui.png);

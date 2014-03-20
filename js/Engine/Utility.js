@@ -44,9 +44,10 @@ var Visual = {
     //Makes the cursor invisible while game is active
     adjustCSSofGameScreen:function(isStartMission){
         if(isStartMission){
+            this.backgroundOffset = 0;
             $("#gameScreen").css({
                 "cursor":"none",
-                "background-image":"url(../planesGame/images/backgrounds/Avanseot.jpg)"
+                "background-image":"url(../planesGame/images/backgrounds/river.jpg)"
             });
         }
         else{

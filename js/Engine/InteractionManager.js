@@ -312,7 +312,11 @@
                 default:
                     break;
             }
-            //Finalize mission
+            $("<div/>",{
+                id:"effectScreen"
+            })
+            .fadeIn(1500,"swing",function(){
+                //Finalize mission
             currentMission.endMission();
             abortMission();
             //Clear screen, update the area and mission statuses
@@ -322,15 +326,22 @@
             //Draw the win screen
             Game.playerStars += starsWonForMission;
             MissionManager.winScreen(starsWonForMission);
+            })
+            .appendTo("#gameScreen");
         },
 
         handleMissionLoss = function () {
-
-            currentMission.endMission();
-            abortMission();
-            Game.clearScreen();
-            AreaManager.drawMap();
-            Game.errorMessage("Mission failed");
+             $("<div/>",{
+                id:"effectScreen"
+            })
+            .fadeIn(1500,"swing",function(){
+              currentMission.endMission();
+              abortMission();
+              Game.clearScreen();
+              AreaManager.drawMap();
+               Game.errorMessage("Mission failed");
+               })
+            .appendTo("#gameScreen");
         },
 
         getPlayerHealth = function () {
