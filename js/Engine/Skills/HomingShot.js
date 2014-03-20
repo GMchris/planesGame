@@ -11,6 +11,8 @@
 
     deactivate: function () {
         this._super();
-        this.plane.bulletType = "player";
+        if (this.plane.bulletType == "homing") { //avoid overlap bug with other bullet-affecting skills
+            this.plane.bulletType = "player";
+        }
     }
 });
