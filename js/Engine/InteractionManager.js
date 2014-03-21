@@ -370,15 +370,15 @@
             })
             .fadeIn(1500,"swing",function(){
                 //Finalize mission
-            abortMission();
+                abortMission();
                 //Clear screen, update the area and mission statuses
-            Visual.adjustCSSofGameScreen(false);
-            Game.clearScreen();
-            AreaManager.updateAreaStatus(starsWonForMission);
-            AreaManager.drawMap();
-            //Draw the win screen
-            Game.playerStars += starsWonForMission;
-            MissionManager.winScreen(starsWonForMission);
+                Visual.adjustCSSofGameScreen(false);
+                Game.clearScreen();
+                AreaManager.updateAreaStatus(starsWonForMission);
+                AreaManager.drawMap();
+                //Draw the win screen
+                Game.playerStars += starsWonForMission;
+                MissionManager.winScreen(starsWonForMission);
             })
             .appendTo("#gameScreen");
         },
@@ -388,11 +388,11 @@
                 id:"effectScreen"
             })
             .fadeIn(1500,"swing",function(){
-              currentMission.endMission();
-              abortMission();
-              Game.clearScreen();
-              AreaManager.drawMap();
-               Game.errorMessage("Mission failed");
+                abortMission();
+                Visual.adjustCSSofGameScreen(false);
+                Game.clearScreen();
+                AreaManager.drawMap();
+                Game.errorMessage("Mission failed");
                })
             .appendTo("#gameScreen");
         },
