@@ -43,17 +43,16 @@
 
         if (this.checkWinConditions()) {
             interactionManager.handleMissionWin();
+            this.endMission();
         }
 
         if (this.checkLossConditions()) {
             interactionManager.handleMissionLoss();
+            this.endMission();
         }
     },
     endMission: function () {
         $(document).off(); //removes all event listeners
-        Game.clearScreen();
-        Visual.adjustCSSofGameScreen(false);
-        AreaManager.drawMap();
         window.clearInterval(this.mainLoopInterval);
     },
     checkWinConditions: function () { },

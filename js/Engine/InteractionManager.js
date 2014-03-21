@@ -370,9 +370,9 @@
             })
             .fadeIn(1500,"swing",function(){
                 //Finalize mission
-            currentMission.endMission();
             abortMission();
-            //Clear screen, update the area and mission statuses
+                //Clear screen, update the area and mission statuses
+            Visual.adjustCSSofGameScreen(false);
             Game.clearScreen();
             AreaManager.updateAreaStatus(starsWonForMission);
             AreaManager.drawMap();
