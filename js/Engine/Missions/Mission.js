@@ -38,7 +38,7 @@
         interactionManager.iterateBullets();
         interactionManager.iterateEnemyPlanes();
         interactionManager.shootPlayerPlane();
-        interactionManager.spawnFighter();
+        interactionManager.spawnEnemy();
         Visual.iterateBackground();
 
         if (this.checkWinConditions()) {

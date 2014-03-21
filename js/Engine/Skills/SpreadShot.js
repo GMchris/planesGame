@@ -17,10 +17,14 @@
     oldShoot: function () { },
 
     newShoot: function () {
-        if ((this instanceof EnemyPlane) || this.isShooting) {
+        if ((this instanceof PlayerPlane) && this.isShooting) {
             interactionManager.spawnBullet(this.bulletType, this.leftCoord + 50, this.bottomCoord + 80, -15);
             interactionManager.spawnBullet(this.bulletType, this.leftCoord + 50, this.bottomCoord + 80, 0);
             interactionManager.spawnBullet(this.bulletType, this.leftCoord + 50, this.bottomCoord + 80, 15);
+        } else if (this instanceof EnemyFighter) {
+            interactionManager.spawnBullet(this.bulletType, this.leftCoord + 45, this.bottomCoord, -15, this);
+            interactionManager.spawnBullet(this.bulletType, this.leftCoord + 45, this.bottomCoord, 0, this);
+            interactionManager.spawnBullet(this.bulletType, this.leftCoord + 45, this.bottomCoord, 15, this);
         }
     }
 });

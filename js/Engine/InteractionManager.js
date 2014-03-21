@@ -4,8 +4,11 @@
         playerBulletsSpeed,
         enemyBulletsSpeed,
         fighterMovementSpeed,
+        supplierMovementSpeed,
         fighterMaxHealth,
+        supplierMaxHealth,
         fighterDamage,
+        supplierDamage,
         lastShotPlayerBulletTimestamp,
         lastFighterSpawnTimestamp,
         enemyPlanes,
@@ -22,14 +25,18 @@
             playerBulletsSpeed = 10;
             enemyBulletsSpeed = 7;
             fighterMovementSpeed = 4;
+            supplierMovementSpeed = 1;
             fighterMaxHealth = 3;
-            fighterDamage = 12;
-            fighterSpawnFrequencyMs = 700;
+            supplierMaxHealth = 5;
+            fighterDamage = 7;
+            supplierDamage = 0;
+            enemySpawnFrequencyMs = 700;
             fighterDirectionChangeFrequencyMs = 1000;
             fighterShootFrequencyMs = 1500;
+            supplierSupplyFrequencyMs = 1500;
             enemyPlanes = [];
             lastShotPlayerBulletTimestamp = -1;
-            lastFighterSpawnTimestamp = -1;
+            lastEnemySpawnTimestamp = -1;
             currentMission = null;
         },
 
@@ -61,17 +68,35 @@
             newBullet.addToScreen();
         },
 
-        spawnFighter = function () {
-            var nowMs = Date.now();
-            if (nowMs - lastFighterSpawnTimestamp > fighterSpawnFrequencyMs) {
-                lastFighterSpawnTimestamp = nowMs;
-
-                var newFighter = new EnemyFighter(getRandomLeftCoord(45), getRandomBottomCoordTopHalf(35),
-                    fighterMaxHealth, fighterDamage, fighterMovementSpeed);
-                newFighter.addToScreen();
-                enemyPlanes.push(newFighter);   
+        spawnEnemy = function () {
+            //90% chance to spawn fighter, 10% chance to spawn supplier
+            var nowMs = Date.now(), rand;
+            if (nowMs - lastEnemySpawnTimestamp > enemySpawnFrequencyMs) {
+                lastEnemySpawnTimestamp = nowMs;
+                rand = parseInt(Math.random() * 100) + 1; //[1, 100]
+                if (rand >= 90) {
+                    spawnSupplier();
+                } else {
+                    spawnFighter();
+                }
             }
+            
         },
+
+        spawnFighter = function () {
+            var newFighter = new EnemyFighter(getRandomLeftCoord(45), getRandomBottomCoordTopHalf(35),
+                fighterMaxHealth, fighterDamage, fighterMovementSpeed);
+            newFighter.addToScreen();
+            enemyPlanes.push(newFighter);   
+        },
+
+        spawnSupplier = function () {
+            var newSupplier = new EnemySupplier(getRandomLeftCoord(45), getRandomBottomCoordTopHalf(35),
+                supplierMaxHealth, supplierDamage, supplierMovementSpeed);
+            newSupplier.addToScreen();
+            enemyPlanes.push(newSupplier);
+        },
+
         movePlayerPlane = function (e) {
             //substracting a half of the non-game screen
             var newLeft, newBottom;
@@ -169,7 +194,7 @@
         },
 
         moveEnemyBullet = function (bullet) {
-            var newLeftCoord = bullet.leftCoord + bullet.orientationDeg / 45 * enemyBulletsSpeed;
+            var newLeftCoord = bullet.leftCoord - bullet.orientationDeg / 45 * enemyBulletsSpeed;
             bullet.updateCoords(newLeftCoord, bullet.bottomCoord - enemyBulletsSpeed);
             bullet.move();
         }
@@ -178,20 +203,23 @@
             var i;
             for (i = 0; i < enemyPlanes.length; i++) {
                 if (enemyPlanes[i] instanceof EnemyFighter) {
-                    moveFighter(enemyPlanes[i]);
+                    moveEnemyPlane(enemyPlanes[i]);
                     shootFighter(enemyPlanes[i]);
+                } else if (enemyPlanes[i] instanceof EnemySupplier) {
+                    moveEnemyPlane(enemyPlanes[i]);
+                    supplySupplier(enemyPlanes[i]);
                 }
             }
         },
 
-        moveFighter = function (fighter) {
+        moveEnemyPlane = function (enemyPlane) {
             var nowMs = Date.now();
-            fighter.moveAtDirection();
-            fighter.move();
+            enemyPlane.moveAtDirection();
+            enemyPlane.move();
 
-            if (nowMs - fighter.lastDirectionChangeTimestamp > fighterDirectionChangeFrequencyMs) {
-                fighter.lastDirectionChangeTimestamp = nowMs;
-                fighter.changeDirection();
+            if (nowMs - enemyPlane.lastDirectionChangeTimestamp > fighterDirectionChangeFrequencyMs) {
+                enemyPlane.lastDirectionChangeTimestamp = nowMs;
+                enemyPlane.changeDirection();
             }
         }
 
@@ -207,14 +235,14 @@
             }
         },
 
-        shootEnemyPlanes = function () {
-            var i;
-            for (i = 0; i < enemyPlanes.length; i++) {
-                if (enemyPlanes[i] instanceof EnemyFighter) {
-                    shootFighter(enemyPlanes[i]);
-                }
-            }
-        },
+    //shootEnemyPlanes = function () {
+    //    var i;
+    //    for (i = 0; i < enemyPlanes.length; i++) {
+    //        if (enemyPlanes[i] instanceof EnemyFighter) {
+    //            shootFighter(enemyPlanes[i]);
+    //        }
+    //    }
+    //},
 
         shootFighter = function (fighter) {
             var nowMs = Date.now();
@@ -222,6 +250,26 @@
                 fighter.lastShootTimestamp = nowMs;
                 fighter.shoot();
             }
+        },
+
+        supplySupplier = function (supplier) {
+            var nowMs = Date.now(), i;
+            if (nowMs - supplier.lastSupplyTimestamp > supplierSupplyFrequencyMs) {
+                for (i = 0; i < enemyPlanes.length; i++) {
+                    if (enemyPlanes[i] instanceof EnemyFighter && distance(supplier, enemyPlanes[i]) < 250) {
+                        supplier.supply(enemyPlanes[i]);
+                    }
+                }
+            }
+        },
+
+        distance = function (gameObject1, gameObject2) {
+            //computes distance between two objects, using the pythagorean theorem
+            var leftCoordsDistance = Math.abs(gameObject1.leftCoord - gameObject2.leftCoord),
+                bottomCoordsDistance = Math.abs(gameObject1.bottomCoord - gameObject2.bottomCoord);
+            objectDistance = Math.sqrt(leftCoordsDistance * leftCoordsDistance + bottomCoordsDistance * bottomCoordsDistance);
+
+            return objectDistance;
         },
 
         detectCollisionEnemyBullet = function (bullet) {
@@ -242,9 +290,14 @@
                          && bullet.leftCoord <= enemyPlanes[i].leftCoord + 90
                          && bullet.bottomCoord >= enemyPlanes[i].bottomCoord
                          && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + 70;
-                    if (isHit) { //return the index of the hit plane in the enemyPlanes array
-                        return i;
-                    }
+                } else if (enemyPlanes[i] instanceof EnemySupplier) {
+                    isHit = bullet.leftCoord >= enemyPlanes[i].leftCoord
+                         && bullet.leftCoord <= enemyPlanes[i].leftCoord + 100
+                         && bullet.bottomCoord >= enemyPlanes[i].bottomCoord
+                         && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + 80;
+                }
+                if (isHit) { //return the index of the hit plane in the enemyPlanes array
+                    return i;
                 }
             }
             //bullet didn't hit anything, return -1
@@ -466,7 +519,7 @@
         startNewMission: launchMission,
         spawnPlayer: spawnPlayer,
         spawnBullet: spawnBullet,
-        spawnFighter: spawnFighter,
+        spawnEnemy: spawnEnemy,
         movePlayerPlane: movePlayerPlane,
         iterateBullets: iterateBullets,
         iterateEnemyPlanes: iterateEnemyPlanes,
