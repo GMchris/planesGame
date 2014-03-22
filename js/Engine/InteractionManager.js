@@ -5,10 +5,13 @@
         enemyBulletsSpeed,
         fighterMovementSpeed,
         supplierMovementSpeed,
+        kamikazeMovementSpeed,
         fighterMaxHealth,
         supplierMaxHealth,
+        kamikazeMaxHealth,
         fighterDamage,
         supplierDamage,
+        kamikazeDamage,
         lastShotPlayerBulletTimestamp,
         lastFighterSpawnTimestamp,
         enemyPlanes,
@@ -26,10 +29,13 @@
             enemyBulletsSpeed = 7;
             fighterMovementSpeed = 4;
             supplierMovementSpeed = 1;
+            kamikazeMovementSpeed = 2;
             fighterMaxHealth = 3;
             supplierMaxHealth = 5;
+            kamikazeMaxHealth = 10;
             fighterDamage = 7;
             supplierDamage = 0;
+            kamikazeDamage = playerPlane.maxHealth / 3;
             enemySpawnFrequencyMs = 700;
             fighterDirectionChangeFrequencyMs = 1000;
             fighterShootFrequencyMs = 1500;
@@ -69,12 +75,14 @@
         },
 
         spawnEnemy = function () {
-            //90% chance to spawn fighter, 10% chance to spawn supplier
+            //80% chance to spawn fighter, 10% chance to spawn supplier, 10% chance to spawn kamikaze
             var nowMs = Date.now(), rand;
             if (nowMs - lastEnemySpawnTimestamp > enemySpawnFrequencyMs) {
                 lastEnemySpawnTimestamp = nowMs;
                 rand = parseInt(Math.random() * 100) + 1; //[1, 100]
                 if (rand >= 90) {
+                    spawnKamikaze();
+                } else if (rand >= 80) {
                     spawnSupplier();
                 } else {
                     spawnFighter();
@@ -95,6 +103,13 @@
                 supplierMaxHealth, supplierDamage, supplierMovementSpeed);
             newSupplier.addToScreen();
             enemyPlanes.push(newSupplier);
+        },
+
+        spawnKamikaze = function () {
+            var newKamikaze = new EnemyKamikaze(getRandomLeftCoord(45), getRandomBottomCoordTopHalf(35),
+                kamikazeMaxHealth, kamikazeDamage, kamikazeMovementSpeed);
+            newKamikaze.addToScreen();
+            enemyPlanes.push(newKamikaze);
         },
 
         movePlayerPlane = function (e) {
@@ -149,7 +164,7 @@
                 else if (bullets[i] instanceof EnemyBullet) {
                     if (detectCollisionEnemyBullet(bullets[i])) {
                         bullets[i].handleCollision();
-                        handleCollisionEnemyBullet(bullets[i].owner);
+                        handleCollisionEnemy(bullets[i].owner);
                     } else {
                         moveEnemyBullet(bullets[i]);
                     }
@@ -208,6 +223,13 @@
                 } else if (enemyPlanes[i] instanceof EnemySupplier) {
                     moveEnemyPlane(enemyPlanes[i]);
                     supplySupplier(enemyPlanes[i]);
+                } else if (enemyPlanes[i] instanceof EnemyKamikaze) {
+                    moveKamikaze(enemyPlanes[i]);
+                    if (detectCollisionKamikaze(enemyPlanes[i])) {
+                        handleCollisionKamikaze(enemyPlanes[i]);
+                        enemyPlanes.splice(i, 1);
+                        i++;
+                    }
                 }
             }
         },
@@ -221,7 +243,16 @@
                 enemyPlane.lastDirectionChangeTimestamp = nowMs;
                 enemyPlane.changeDirection();
             }
-        }
+        },
+
+        moveKamikaze = function (kamikaze) {
+            var newLeft = kamikaze.leftCoord + kamikaze.orientationDeg / 45 * kamikaze.movementSpeed,
+                newBottom = (kamikaze.bottomCoord > playerPlane.bottomCoord) ? 
+                (kamikaze.bottomCoord - kamikaze.movementSpeed) : (kamikaze.bottomCoord + kamikaze.movementSpeed);
+            kamikaze.chasePlayer();
+            kamikaze.updateCoords(newLeft, newBottom);
+            kamikaze.move();
+        },
 
         playerPlaneShootToggle = function (e) {
             playerPlane.isShooting = e.type == "mousedown";
@@ -283,7 +314,7 @@
         },
 
         detectCollisionPlayerBullet = function (bullet) {
-            var i;
+            var i, isHit;
             for (i = 0; i < enemyPlanes.length; i++) {
                 if (enemyPlanes[i] instanceof EnemyFighter) {
                     isHit = bullet.leftCoord >= enemyPlanes[i].leftCoord
@@ -295,6 +326,11 @@
                          && bullet.leftCoord <= enemyPlanes[i].leftCoord + 100
                          && bullet.bottomCoord >= enemyPlanes[i].bottomCoord
                          && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + 80;
+                } else if (enemyPlanes[i] instanceof EnemyKamikaze) {
+                    isHit = bullet.leftCoord >= enemyPlanes[i].leftCoord
+                         && bullet.leftCoord <= enemyPlanes[i].leftCoord + 100
+                         && bullet.bottomCoord >= enemyPlanes[i].bottomCoord
+                         && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + 75;
                 }
                 if (isHit) { //return the index of the hit plane in the enemyPlanes array
                     return i;
@@ -302,6 +338,26 @@
             }
             //bullet didn't hit anything, return -1
             return -1;
+        },
+
+        detectCollisionKamikaze = function (kamikaze) {
+            var isHit = ((kamikaze.bottomCoord > playerPlane.bottomCoord &&
+                kamikaze.bottomCoord < playerPlane.bottomCoord + 80) ||
+                ((kamikaze.bottomCoord + 75) > playerPlane.bottomCoord &&
+                (kamikaze.bottomCoord + 75) < playerPlane.bottomCoord + 80))
+            &&
+                ((kamikaze.leftCoord > playerPlane.leftCoord &&
+                kamikaze.leftCoord < playerPlane.leftCoord + 100) ||
+                (kamikaze.leftCoord + 100 > playerPlane.leftCoord &&
+                kamikaze.leftCoord + 100 < playerPlane.leftCoord + 100));
+
+            return isHit;
+        },
+
+        handleCollisionKamikaze = function (kamikaze) {
+            kamikaze.die();
+
+            handleCollisionEnemy(kamikaze);
         },
 
         handleCollisionPlayerBullet = function (hitEnemyPlaneIndex) {
@@ -317,7 +373,7 @@
             trackAccuracy(true);
         },
 
-        handleCollisionEnemyBullet = function (hitter) {
+        handleCollisionEnemy = function (hitter) {
             if (playerPlane.currentHealth > hitter.damage) {
                 playerPlane.currentHealth -= hitter.damage;
             } else {
@@ -401,6 +457,14 @@
             return playerPlane.currentHealth;
         },
 
+        getPlayerLeftCoord = function () {
+            return playerPlane.leftCoord;
+        },
+
+        getPlayerBottomCoord = function () {
+            return playerPlane.bottomCoord;
+        },
+
         getPlayerSkills = function () {
             return playerPlane.skills;
         },
@@ -430,7 +494,7 @@
                     }
                     totalShotsFired++;
                     accuracyPercentage = parseInt(totalShotsHit / totalShotsFired * 100);
-                    console.log("accuracy: " + accuracyPercentage);
+                    //console.log("accuracy: " + accuracyPercentage);
 
                     return accuracyPercentage;
                 } else {
@@ -488,7 +552,7 @@
 
             trackEnemiesKilled = function (killCount) {
                 if (arguments.length > 0) { //if the func is called without arguments, the amount of stars earned will be returned + the vars will reset
-                    console.log("enemies killed: " + enemiesKilled);
+                    //console.log("enemies killed: " + enemiesKilled);
                     enemiesKilled += killCount;
 
                     if (enemiesKilled >= 35) {
@@ -531,6 +595,8 @@
         handleSkillUsage: handleSkillUsage,
 
         getPlayerHealth: getPlayerHealth,
+        getPlayerLeftCoord: getPlayerLeftCoord,
+        getPlayerBottomCoord: getPlayerBottomCoord,
         getPlayerSkills: getPlayerSkills,
         getEnemiesCount: getEnemiesCount
     }

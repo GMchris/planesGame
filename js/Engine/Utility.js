@@ -75,7 +75,6 @@ var Visual = {
         .appendTo(".ui");
         var skillArray = getPlayerSkills();
         for(var i=0;i<4;i++){
-             console.log(skillArray[i]);
             $("<div/>",{
                 id : "skill"+i
             })
