@@ -6,19 +6,33 @@ var Timer = {
     increaseTimer: function () {
         this.current++;
     }
-}
+};
 
 function getRandomLeftCoord(offsetWidth) {
     //returns a random number between (0 + offsetWidth) and (960 - offsetWidth)
     var randLeftNum = parseInt(Math.random() * (960 - 2 * offsetWidth)); //randLeftNum belongs to [offsetWidth, 960 - offsetWidth]
     return randLeftNum;
-}
+};
 
 function getRandomBottomCoordTopHalf(offsetHeight) {
     //returns a bottom coord in the top half of the screen
     var randBottNum = parseInt(Math.random() * (350 - offsetHeight) + 350);
     return randBottNum;
-}
+};
+
+function getChaseAngle(chaserLeft, chaserBottom, targetLeft, targetBottom) {
+    //always returns a positive number
+    var angle;
+    if (chaserBottom == targetBottom) {
+        angle = 90;
+    } else {
+        angle = parseInt(Math.atan(
+            Math.abs(chaserLeft - targetLeft) / Math.abs(chaserBottom - targetBottom))
+            / (Math.PI / 180));
+    }
+
+    return angle;
+};
 
 var fps = {
     startTime: 0,
@@ -39,67 +53,67 @@ var fps = {
 
 var Visual = {
 
-    backgroundOffset : 0,
+    backgroundOffset: 0,
 
     //Makes the cursor invisible while game is active
-    adjustCSSofGameScreen:function(isStartMission){
-        if(isStartMission){
+    adjustCSSofGameScreen: function (isStartMission) {
+        if (isStartMission) {
             this.backgroundOffset = 0;
             $("#gameScreen").css({
-                "cursor":"none",
-                "background-image":"url(../planesGame/images/backgrounds/river.jpg)"
+                "cursor": "none",
+                "background-image": "url(../planesGame/images/backgrounds/river.jpg)"
             });
         }
-        else{
-           $("#gameScreen").css({
-               "cursor": "default",
-               "background-image": "none"
+        else {
+            $("#gameScreen").css({
+                "cursor": "default",
+                "background-image": "none"
             });
         }
     },
 
     //Moves the background
-    iterateBackground: function(){
+    iterateBackground: function () {
         this.backgroundOffset++;
-        document.getElementById("gameScreen").style.backgroundPositionY = this.backgroundOffset +"px";
+        document.getElementById("gameScreen").style.backgroundPositionY = this.backgroundOffset + "px";
     },
 
-    drawUI: function(){
+    drawUI: function () {
         $("<div/>")
         .addClass("ui")
         .appendTo("#gameScreen");
 
-        $("<div/>",{
-            id : "hpBar"
+        $("<div/>", {
+            id: "hpBar"
         })
         .appendTo(".ui");
         var skillArray = getPlayerSkills();
-        for(var i=0;i<4;i++){
-            $("<div/>",{
-                id : "skill"+i
+        for (var i = 0; i < 4; i++) {
+            $("<div/>", {
+                id: "skill" + i
             })
             .addClass("skills")
             .appendTo(".ui");
             //Places correct icons
-            if(skillArray[i]==undefined){}
-            else{
-                  switch(skillArray[i].name){
+            if (skillArray[i] == undefined) { }
+            else {
+                switch (skillArray[i].name) {
                     //Spread shot icon
                     case "Spread Shot":
-                    $("#skill"+i).addClass("spreadShotIcon");
-                    break;
-                    //Piercing shot icon
+                        $("#skill" + i).addClass("spreadShotIcon");
+                        break;
+                        //Piercing shot icon
                     case "Piercing Shot":
-                    $("#skill"+i).addClass("piercingShotIcon");
-                    break;
-                    //Homing shot icon
+                        $("#skill" + i).addClass("piercingShotIcon");
+                        break;
+                        //Homing shot icon
                     case "Homing Shot":
-                    $("#skill"+i).addClass("homingShotIcon");
-                    break;
+                        $("#skill" + i).addClass("homingShotIcon");
+                        break;
                     default:
-                    break;
+                        break;
                 }
             }
         }
     }
-}
+};

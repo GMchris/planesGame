@@ -35,7 +35,7 @@
             kamikazeMaxHealth = 10;
             fighterDamage = 7;
             supplierDamage = 0;
-            kamikazeDamage = playerPlane.maxHealth / 3;
+            kamikazeDamage = parseInt(playerPlane.maxHealth / 3);
             enemySpawnFrequencyMs = 700;
             fighterDirectionChangeFrequencyMs = 1000;
             fighterShootFrequencyMs = 1500;
@@ -191,18 +191,26 @@
 
         moveHomingBullet = function (bullet) {
             var newLeftCoord, newBottomCoord;
+            
             if (enemyPlanes.length > 0) { //if there's at least one enemy on screen
                 if (bullet.targetPlane == undefined || bullet.targetPlane.currentHealth == 0) {
                     bullet.targetPlane = enemyPlanes[parseInt(Math.random() * enemyPlanes.length)];
                 }
-                newLeftCoord = bullet.leftCoord + bullet.orientationDeg / 45 * playerBulletsSpeed;
-                newBottomCoord = (bullet.bottomCoord < bullet.targetPlane.bottomCoord) ?
-                    (bullet.bottomCoord + playerBulletsSpeed) : (bullet.bottomCoord - playerBulletsSpeed);
                 bullet.chaseTarget();
-            } else { //continue moving in the same direction
-                newLeftCoord = bullet.leftCoord + bullet.orientationDeg / 45 * playerBulletsSpeed;
+                newLeftCoord = bullet.leftCoord + bullet.orientationDeg / 90 * playerBulletsSpeed;
+                newBottomCoord = (bullet.bottomCoord > bullet.targetPlane.bottomCoord) ?
+                    (bullet.bottomCoord - (playerBulletsSpeed * (1 - Math.abs(bullet.orientationDeg / 90))))
+                    : (bullet.bottomCoord + (playerBulletsSpeed * (1 - Math.abs(bullet.orientationDeg / 90))));
+            } else {
+                //the bullets travel forward
+                if (bullet.isVisible) {
+                    bullet.disappear();
+                }
+                newLeftCoord = newLeftCoord = bullet.leftCoord + bullet.orientationDeg / 90 * playerBulletsSpeed;
                 newBottomCoord = bullet.bottomCoord + playerBulletsSpeed;
             }
+
+            
 
             bullet.updateCoords(newLeftCoord, newBottomCoord);
             bullet.move();
@@ -246,9 +254,11 @@
         },
 
         moveKamikaze = function (kamikaze) {
-            var newLeft = kamikaze.leftCoord + kamikaze.orientationDeg / 45 * kamikaze.movementSpeed,
+            //speed * (1 - deg/90)
+            var newLeft = kamikaze.leftCoord + kamikaze.orientationDeg / 90 * kamikaze.movementSpeed,
                 newBottom = (kamikaze.bottomCoord > playerPlane.bottomCoord) ? 
-                (kamikaze.bottomCoord - kamikaze.movementSpeed) : (kamikaze.bottomCoord + kamikaze.movementSpeed);
+                (kamikaze.bottomCoord - (kamikaze.movementSpeed * (1 - Math.abs(kamikaze.orientationDeg / 90))))
+                : (kamikaze.bottomCoord + (kamikaze.movementSpeed * (1 - Math.abs(kamikaze.orientationDeg / 90))));
             kamikaze.chasePlayer();
             kamikaze.updateCoords(newLeft, newBottom);
             kamikaze.move();
@@ -475,7 +485,9 @@
 
         togglePause = function () {
             if (isPaused) {
-                currentMission.mainLoopInterval = window.setInterval(currentMission.mainLoop, 1000 / 60);
+                currentMission.mainLoopInterval = window.setInterval(function () {
+                    currentMission.mainLoop.call(currentMission);
+                }, 1000 / 60);
             } else {
                 window.clearInterval(currentMission.mainLoopInterval);
             }

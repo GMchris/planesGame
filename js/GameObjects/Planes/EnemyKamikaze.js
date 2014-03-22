@@ -10,9 +10,8 @@ EnemyKamikaze = EnemyPlane.extend({
     chasePlayer: function () {
         var playerLeft = interactionManager.getPlayerLeftCoord(),
             playerBottom = interactionManager.getPlayerBottomCoord();
-        this.orientationDeg = parseInt(Math.atan(
-            Math.abs(this.leftCoord - playerLeft) / Math.abs(this.bottomCoord - playerBottom))
-            / (Math.PI / 180));
+        this.orientationDeg = getChaseAngle(this.leftCoord, this.bottomCoord, playerLeft, playerBottom);
+        
         if (this.leftCoord > playerLeft) {
             this.orientationDeg *= -1;
         }

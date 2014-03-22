@@ -22,7 +22,6 @@
             e.preventDefault();
         });
         $(document).on("keypress", function (e) {
-            console.log(e.keyCode);
             if (e.keyCode == 112) {//p
                 interactionManager.togglePause();
             } else if (e.keyCode >= 49 && e.keyCode <= 52) { //1-4 key was pressed
@@ -34,6 +33,7 @@
         }, 1000 / 60);
     },
     mainLoop: function () {
+        var self = this;
         $("#fps").text(fps.getFPS());
         interactionManager.iterateBullets();
         interactionManager.iterateEnemyPlanes();
@@ -41,14 +41,14 @@
         interactionManager.spawnEnemy();
         Visual.iterateBackground();
 
-        if (this.checkWinConditions()) {
+        if (self.checkWinConditions()) {
             interactionManager.handleMissionWin();
-            this.endMission();
+            self.endMission();
         }
 
-        if (this.checkLossConditions()) {
+        if (self.checkLossConditions()) {
             interactionManager.handleMissionLoss();
-            this.endMission();
+            self.endMission();
         }
     },
     endMission: function () {
