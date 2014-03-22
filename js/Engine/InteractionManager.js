@@ -432,19 +432,31 @@
             $("<div/>", {
                 id: "effectScreen"
             })
-            .appendTo("#gameScreen")
-            .fadeIn(1500, "swing", function () {
-                //Finalize mission
-                abortMission();
-                //Clear screen, update the area and mission statuses
-                Visual.adjustCSSofGameScreen(false);
-                Game.clearScreen();
-                AreaManager.updateAreaStatus(starsWonForMission);
-                AreaManager.drawMap();
-                //Draw the win screen
-                Game.playerStars += starsWonForMission;
-                MissionManager.winScreen(starsWonForMission);
-            });
+            .appendTo("#gameScreen");
+            window.setTimeout(function () {
+                    //Finalize mission
+                    abortMission();
+                    //Clear screen, update the area and mission statuses
+                    Visual.adjustCSSofGameScreen(false);
+                    Game.clearScreen();
+                    AreaManager.updateAreaStatus(starsWonForMission);
+                    AreaManager.drawMap();
+                    //Draw the win screen
+                    Game.playerStars += starsWonForMission;
+                    MissionManager.winScreen(starsWonForMission);
+            }, 1500);
+            //.fadeIn(1500, "swing", function () {
+            //    //Finalize mission
+            //    abortMission();
+            //    //Clear screen, update the area and mission statuses
+            //    Visual.adjustCSSofGameScreen(false);
+            //    Game.clearScreen();
+            //    AreaManager.updateAreaStatus(starsWonForMission);
+            //    AreaManager.drawMap();
+            //    //Draw the win screen
+            //    Game.playerStars += starsWonForMission;
+            //    MissionManager.winScreen(starsWonForMission);
+            //});
             
         },
 
@@ -453,13 +465,13 @@
                 id: "effectScreen"
             })
            .appendTo("#gameScreen")
-           .fadeIn(1500, "swing", function () {
+           window.setTimeout(function () {
                abortMission();
                Visual.adjustCSSofGameScreen(false);
                Game.clearScreen();
                AreaManager.drawMap();
                Game.errorMessage("Mission failed");
-           });
+           }, 1500);
             
         },
 

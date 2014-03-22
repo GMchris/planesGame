@@ -55,7 +55,8 @@ section{
     height: 700px;
     width: 960px;
     background: black;
-    display: none;
+    opacity: 0;
+    -webkit-animation: effectsScreenAnimation 1.5s;
 }
 
 /*Planes*/
@@ -128,4 +129,9 @@ section{
 @-webkit-keyframes enemyDeathAnimation {
 	from  {opacity: 1; -webkit-transform: scale(1, 1) rotateY(0deg)}
 	to {opacity: 0.05; -webkit-transform: scale(0.01, 0.01) rotateY(240deg)}
+}
+
+@-webkit-keyframes effectsScreenAnimation {
+	from  {opacity: 0; }
+	to {opacity: 1; }
 }
