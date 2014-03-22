@@ -37,9 +37,9 @@
 
     moveAtDirection: function () {
         //fighters can only move diagonally
-        if (this.movingRight && this.leftCoord < (960 - 90)) {
+        if (this.movingRight && this.leftCoord < (960 - 95)) {
             this.leftCoord += this.movementSpeed;
-        } else if (!this.movingRight && this.leftCoord > 0) {
+        } else if (!this.movingRight && this.leftCoord > 3) {
             this.leftCoord -= this.movementSpeed;
         }
 
