@@ -56,9 +56,5 @@
         window.clearInterval(this.mainLoopInterval);
     },
     checkWinConditions: function () { },
-    checkLossConditions: function () { },
-
-    spawnPlayer: function () {
-        
-    }
+    checkLossConditions: function () { }
 });

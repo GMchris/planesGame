@@ -203,9 +203,7 @@
                     : (bullet.bottomCoord + (playerBulletsSpeed * (1 - Math.abs(bullet.orientationDeg / 90))));
             } else {
                 //the bullets travel forward
-                if (bullet.isVisible) {
-                    bullet.disappear();
-                }
+                bullet.removeTarget();
                 newLeftCoord = newLeftCoord = bullet.leftCoord + bullet.orientationDeg / 90 * playerBulletsSpeed;
                 newBottomCoord = bullet.bottomCoord + playerBulletsSpeed;
             }
@@ -430,7 +428,7 @@
                     break;
                 default:
                     break;
-            }
+            };
             $("<div/>",{
                 id:"effectScreen"
             })

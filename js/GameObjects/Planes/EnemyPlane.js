@@ -51,7 +51,7 @@
     },
 
     updateHpBar: function () {
-        this.hpBar.style.width = this.currentHealth / this.maxHealth * 100 + '%';
+        this.hpBar.style.width = parseInt(this.currentHealth / this.maxHealth * 100) + '%';
     },
 
     die: function () {
