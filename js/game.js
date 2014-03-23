@@ -12,7 +12,7 @@ var Game = {
 
 	//Remove all contents of the main game window
 	clearScreen : function(){
-		$("#gameScreen").html("");
+	    $("#gameScreen").html("");
 	},
 
 	//Creates an error message with given content
@@ -32,4 +32,4 @@ var Game = {
 
 }
 
-window.addEventListener("load",Game.init,false);
+window.addEventListener("load", Game.init, false);  

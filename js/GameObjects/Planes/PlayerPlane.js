@@ -18,7 +18,6 @@
             } else {
                 interactionManager.spawnBullet("player", this.leftCoord + 50, this.bottomCoord + 80, 0);
             }
-            
         }
     }
 });

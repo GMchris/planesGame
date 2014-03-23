@@ -15,7 +15,7 @@
         lastShotPlayerBulletTimestamp,
         lastFighterSpawnTimestamp,
         enemyPlanes,
-        fighterSpawnFrequencyMs,
+        enemySpawnFrequencyMs,
         fighterShootFrequencyMs,
         fighterDirectionChangeFrequencyMs,
         currentMission,
@@ -36,7 +36,7 @@
             fighterDamage = 7;
             supplierDamage = 0;
             kamikazeDamage = parseInt(playerPlane.maxHealth / 3);
-            enemySpawnFrequencyMs = 700;
+            enemySpawnFrequencyMs = 600;
             fighterDirectionChangeFrequencyMs = 1000;
             fighterShootFrequencyMs = 1500;
             supplierSupplyFrequencyMs = 1500;
@@ -400,11 +400,28 @@
             switch (missionType) {
                 case "survival":
                     currentMission = new SurvivalMission();
+                    currentMission.startMission();
+                    break;
+                case "domination":
+                    currentMission = new DominationMission();
+                    currentMission.startMission();
+                    dominationSpawnStartingEnemies();
                     break;
                 default:
                     throw new Error("Unrecognized mission type: " + missionType);
             }
-            currentMission.startMission();
+            
+        },
+
+        dominationSpawnStartingEnemies = function () {
+            var i;
+            for (i = 0; i < 13; i++) {
+                spawnFighter();
+            }
+        },
+
+        increaseSpawnTime = function () {
+            enemySpawnFrequencyMs+=0.01;
         },
 
         abortMission = function () {
@@ -611,6 +628,7 @@
         movePlayerPlane: movePlayerPlane,
         iterateBullets: iterateBullets,
         iterateEnemyPlanes: iterateEnemyPlanes,
+        increaseSpawnTime: increaseSpawnTime,
         shootPlayerPlane: shootPlayerPlane,
         playerPlaneShootToggle: playerPlaneShootToggle,
         handleMissionWin: handleMissionWin,

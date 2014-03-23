@@ -9,7 +9,7 @@ function Mission(primary,secondary){
 
 var MissionManager = {
 	//Contains primary and secondary mission types
-	primary : ["survival"],
+	primary : ["survival", "domination"],
 	secondary: ["remainingHealth", "enemiesKilled", "accuracy"],
 	currentAreaIndex: -1,
     currentMissionIndex: -1,
@@ -57,9 +57,9 @@ var MissionManager = {
 				title = "Survival";
 				primaryDescription = "<p>Survive in the battlefield for 45 seconds</p>";
 				break;
-			case "escort":
-				title = "Escort";
-				primaryDescription = "<p>Escort the carrier airship. Don't let more than ten planes get past you.</p>";
+			case "domination":
+				title = "Domination";
+				primaryDescription = "<p>Dominate your enemies for 15 seconds</p>";
 				break;
 
 		}
