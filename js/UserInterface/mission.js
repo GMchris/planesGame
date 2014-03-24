@@ -59,7 +59,7 @@ var MissionManager = {
 				break;
 			case "domination":
 				title = "Domination";
-				primaryDescription = "<p>Dominate your enemies for 15 seconds</p>";
+				primaryDescription = "<p>Do not allow more than 7 enemies to appear simultaneously for 30 seconds</p>";
 				break;
 
 		}
@@ -69,7 +69,7 @@ var MissionManager = {
 				secondaryDescription = "<ul class='secDesc'><li>Remain above 25% health.</li><li>Remain above 50% health.</li><li>Remain above 75% health.</li></ul>";
 				break;
 			case "enemiesKilled":
-			    secondaryDescription = "<ul class='secDesc'><li>Kill at least 27 enemies.</li><li>Kill at least 30 enemies.</li><li>Kill at least 35 enemies.</li></ul>";
+			    secondaryDescription = "<ul class='secDesc'><li>Kill at least 45 enemies.</li><li>Kill at least 50 enemies.</li><li>Kill at least 60 enemies.</li></ul>";
 				break;
 			case "accuracy":
 			    secondaryDescription = "<ul class='secDesc'><li>Keep your accuracy above 25%</li><li>Keep your accuracy above 35%</li><li>Keep your accuracy above 50%</li></ul>"

@@ -154,9 +154,9 @@
                 else if (bullets[i] instanceof PlayerBullet){
                     hitEnemyPlaneIndex = detectCollisionPlayerBullet(bullets[i]);
                     if (hitEnemyPlaneIndex != -1
-                        && (!(bullets[i] instanceof PiercingBullet) || bullets[i].enemiesHit.indexOf(enemyPlanes[hitEnemyPlaneIndex]))) {
+                        && (!(bullets[i] instanceof PiercingBullet) || bullets[i].enemiesHit.indexOf(enemyPlanes[hitEnemyPlaneIndex]) == -1)) {
                         bullets[i].handleCollision(enemyPlanes[hitEnemyPlaneIndex]);
-                        handleCollisionPlayerBullet(hitEnemyPlaneIndex);
+                        handleCollisionPlayerBullet(bullets[i], hitEnemyPlaneIndex);
                     } else {
                         movePlayerBullet(bullets[i]);
                     }
@@ -368,12 +368,14 @@
             handleCollisionEnemy(kamikaze);
         },
 
-        handleCollisionPlayerBullet = function (hitEnemyPlaneIndex) {
-            if (enemyPlanes[hitEnemyPlaneIndex].currentHealth > playerPlane.damage) {
-                enemyPlanes[hitEnemyPlaneIndex].currentHealth -= playerPlane.damage;
+        handleCollisionPlayerBullet = function (bullet, hitEnemyPlaneIndex) {
+            var playerDamage = (bullet instanceof HomingBullet) ? playerPlane.damage * 0.75 : playerPlane.damage;
+            if (enemyPlanes[hitEnemyPlaneIndex].currentHealth > playerDamage) {
+                enemyPlanes[hitEnemyPlaneIndex].currentHealth -= playerDamage;
                 enemyPlanes[hitEnemyPlaneIndex].updateHpBar();
             } else {
                 enemyPlanes[hitEnemyPlaneIndex].currentHealth = 0;
+                enemyPlanes[hitEnemyPlaneIndex].updateHpBar();
                 enemyPlanes[hitEnemyPlaneIndex].die();
                 enemyPlanes.splice(hitEnemyPlaneIndex, 1);
                 trackEnemiesKilled(1);
@@ -421,7 +423,7 @@
         },
 
         increaseSpawnTime = function () {
-            enemySpawnFrequencyMs+=0.01;
+            enemySpawnFrequencyMs+=0.1;
         },
 
         abortMission = function () {
@@ -596,11 +598,11 @@
                     //console.log("enemies killed: " + enemiesKilled);
                     enemiesKilled += killCount;
 
-                    if (enemiesKilled >= 35) {
+                    if (enemiesKilled >= 60) {
                         stars = 3;
-                    } else if (enemiesKilled >= 30) {
+                    } else if (enemiesKilled >= 50) {
                         stars = 2;
-                    } else if (enemiesKilled >= 27) {
+                    } else if (enemiesKilled >= 45) {
                         stars = 1;
                     } else {
                         stars = 0;
