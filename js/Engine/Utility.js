@@ -87,7 +87,7 @@ var Visual = {
             id: "hpBar"
         })
         .appendTo(".ui");
-        var skillArray = getPlayerSkills();
+        var skillArray = interactionManager.getPlayerSkills();
         for (var i = 0; i < 4; i++) {
             $("<div/>", {
                 id: "skill" + i

@@ -67,6 +67,12 @@ section{
     bottom: 0;
 }
 
+.sentryPlaneDiv {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
 .enemyPlane {
     position: absolute;
     left: 0;
@@ -123,6 +129,15 @@ section{
     height: 5px;
     border:2px solid black;
     background-color: #d22d13;
+    opacity: 0.8;
+}
+
+.hpBarFriendly {
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    border:2px solid black;
+    background-color: lightgreen;
     opacity: 0.8;
 }
 

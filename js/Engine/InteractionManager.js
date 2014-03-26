@@ -15,8 +15,10 @@
         lastShotPlayerBulletTimestamp,
         lastFighterSpawnTimestamp,
         enemyPlanes,
+        friendlyPlanes,
         enemySpawnFrequencyMs,
         fighterShootFrequencyMs,
+        sentryShootFrequencyMs,
         fighterDirectionChangeFrequencyMs,
         currentMission,
         secondaryObjectiveType,
@@ -33,14 +35,18 @@
             fighterMaxHealth = 3;
             supplierMaxHealth = 5;
             kamikazeMaxHealth = 10;
+            sentryMaxHealth = parseInt(playerPlane.maxHealth / 3);
             fighterDamage = 7;
+            sentryDamage = playerPlane.damage / 3;
             supplierDamage = 0;
             kamikazeDamage = parseInt(playerPlane.maxHealth / 3);
             enemySpawnFrequencyMs = 600;
             fighterDirectionChangeFrequencyMs = 1000;
             fighterShootFrequencyMs = 1500;
+            sentryShootFrequencyMs = 150;
             supplierSupplyFrequencyMs = 1500;
             enemyPlanes = [];
+            friendlyPlanes = [];
             lastShotPlayerBulletTimestamp = -1;
             lastEnemySpawnTimestamp = -1;
             currentMission = null;
@@ -49,6 +55,16 @@
         spawnPlayer = function () {
             playerPlane.currentHealth = playerPlane.maxHealth;
             playerPlane.addToScreen();
+        },
+
+        spawnSentry = function (left, bottom) {
+            var sentryTargetIndex = parseInt(Math.random() * enemyPlanes.length),
+                sentryTarget = enemyPlanes[sentryTargetIndex],
+                sentry = new SentryPlane(left, bottom, sentryMaxHealth, sentryDamage, sentryTarget);
+
+            friendlyPlanes.push(sentry);
+            sentry.addToScreen();
+
         },
 
         spawnBullet = function (type, left, bottom, orientationDeg, owner) {
@@ -140,7 +156,7 @@
         },
 
         iterateBullets = function () {
-            var i, toBeDestroyed = false, hitEnemyPlaneIndex;
+            var i, toBeDestroyed = false, hitEnemyPlaneIndex, hitFriendlyPlaneIndex;
             for (i = 0; i < bullets.length; i++) {
                 toBeDestroyed = false;
                 //if out of the screen, flag the bullet for removal
@@ -153,6 +169,7 @@
                 }
                 else if (bullets[i] instanceof PlayerBullet){
                     hitEnemyPlaneIndex = detectCollisionPlayerBullet(bullets[i]);
+                    //if the bullet is piercing, make sure it doesn't hit the same target multiple times
                     if (hitEnemyPlaneIndex != -1
                         && (!(bullets[i] instanceof PiercingBullet) || bullets[i].enemiesHit.indexOf(enemyPlanes[hitEnemyPlaneIndex]) == -1)) {
                         bullets[i].handleCollision(enemyPlanes[hitEnemyPlaneIndex]);
@@ -162,11 +179,17 @@
                     }
                 }
                 else if (bullets[i] instanceof EnemyBullet) {
-                    if (detectCollisionEnemyBullet(bullets[i])) {
+                    if (detectCollisionEnemyBulletWithPlayer(bullets[i])) { //bullet hit the player
                         bullets[i].handleCollision();
                         handleCollisionEnemy(bullets[i].owner);
-                    } else {
-                        moveEnemyBullet(bullets[i]);
+                    } else { 
+                        hitFriendlyPlaneIndex = detectCollisionEnemyBulletWithFriendlyPlane(bullets[i]);
+                        if (hitFriendlyPlaneIndex != -1) { //bullet hit a friendly plane
+                            bullets[i].handleCollision();
+                            handleCollisionEnemyWithFriendlyPlane(bullets[i].owner, hitFriendlyPlaneIndex);
+                        } else { //bullet didn't hit anything yet, keeps moving
+                            moveEnemyBullet(bullets[i]);
+                        }
                     }
                 }
 
@@ -218,7 +241,16 @@
             var newLeftCoord = bullet.leftCoord - bullet.orientationDeg / 45 * enemyBulletsSpeed;
             bullet.updateCoords(newLeftCoord, bullet.bottomCoord - enemyBulletsSpeed);
             bullet.move();
-        }
+        },
+
+        iterateFriendlyPlanes = function () {
+            var i;
+            for (i = 0; i < friendlyPlanes.length; i++) {
+                if (friendlyPlanes[i] instanceof SentryPlane) {
+                    shootSentry(friendlyPlanes[i]);
+                }
+            }
+        },
 
         iterateEnemyPlanes = function () {
             var i;
@@ -274,6 +306,14 @@
             }
         },
 
+        shootSentry = function (sentry) {
+            var nowMs = Date.now();
+            if (nowMs - sentry.lastShootTimestamp > sentryShootFrequencyMs) {
+                sentry.lastShootTimestamp = nowMs;
+                sentry.shoot();
+            }
+        },
+
     //shootEnemyPlanes = function () {
     //    var i;
     //    for (i = 0; i < enemyPlanes.length; i++) {
@@ -311,7 +351,7 @@
             return objectDistance;
         },
 
-        detectCollisionEnemyBullet = function (bullet) {
+        detectCollisionEnemyBulletWithPlayer = function (bullet) {
             //returns true if the bullet has hit the player, or false otherwise
             var i, isHit;
             isHit = bullet.leftCoord >= playerPlane.leftCoord
@@ -319,6 +359,24 @@
                  && bullet.bottomCoord >= playerPlane.bottomCoord
                  && bullet.bottomCoord <= playerPlane.bottomCoord + 80;
             return isHit;
+        },
+
+        detectCollisionEnemyBulletWithFriendlyPlane = function (bullet) {
+            var i, isHit;
+            for (i = 0; i < friendlyPlanes.length; i++) {
+                if (friendlyPlanes[i] instanceof SentryPlane) {
+                    isHit = bullet.leftCoord >= friendlyPlanes[i].leftCoord
+                         && bullet.leftCoord <= friendlyPlanes[i].leftCoord + 100
+                         && bullet.bottomCoord >= friendlyPlanes[i].bottomCoord
+                         && bullet.bottomCoord <= friendlyPlanes[i].bottomCoord + 75;
+                }
+
+                if (isHit) {
+                    return i;
+                }
+            }
+            //bullet didn't hit a friendly plane, return -1
+            return -1;
         },
 
         detectCollisionPlayerBullet = function (bullet) {
@@ -390,6 +448,19 @@
                 playerPlane.currentHealth = 0;
             }
             trackRemainingHealth(playerPlane.currentHealth);
+        },
+
+        handleCollisionEnemyWithFriendlyPlane = function (hitter, friendlyIndex) {
+            var friendly = friendlyPlanes[friendlyIndex];
+            if (friendly.currentHealth > hitter.damage) {
+                friendly.currentHealth -= hitter.damage;
+                friendly.updateHpBar();
+            } else {
+                friendly.currentHealth = 0;
+                friendly.updateHpBar();
+                friendly.die();
+                friendlyPlanes.splice(friendlyIndex, 1);
+            }
         },
 
         launchMission = function (missionIndex, areaIndex) {
@@ -625,10 +696,12 @@
     return {
         startNewMission: launchMission,
         spawnPlayer: spawnPlayer,
+        spawnSentry: spawnSentry,
         spawnBullet: spawnBullet,
         spawnEnemy: spawnEnemy,
         movePlayerPlane: movePlayerPlane,
         iterateBullets: iterateBullets,
+        iterateFriendlyPlanes: iterateFriendlyPlanes,
         iterateEnemyPlanes: iterateEnemyPlanes,
         increaseSpawnTime: increaseSpawnTime,
         shootPlayerPlane: shootPlayerPlane,

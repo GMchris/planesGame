@@ -36,6 +36,7 @@
         var self = this;
         $("#fps").text(fps.getFPS());
         interactionManager.iterateBullets();
+        interactionManager.iterateFriendlyPlanes();
         interactionManager.iterateEnemyPlanes();
         interactionManager.shootPlayerPlane();
         interactionManager.spawnEnemy();
