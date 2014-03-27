@@ -84,6 +84,7 @@ var MissionManager = {
 		$("<div/>",{
 			id:"GamePrompt"
 		})
+		.addClass("gameWindow")
 		.appendTo("#GamePromptScreen");
 		//Close button
 		$("<div id='closePrompt'>X<div/>")
@@ -115,6 +116,7 @@ var MissionManager = {
 	},
 	//Creates a window displaying results of victory
 	winScreen : function(stars){
+		var skillClass,skillDescription;
 		//Creates:
 		//Black tint
 		$("<div/>",{
@@ -125,6 +127,7 @@ var MissionManager = {
 		$("<div/>",{
 			id:"GamePrompt"
 		})
+		.addClass("gameWindow")
 		.appendTo("#GamePromptScreen");
 		//Close prompt
 		$("<div id='closePrompt'>X<div/>")
@@ -153,6 +156,40 @@ var MissionManager = {
 			Game.playerStars -= Game.starsToLevelUp[Game.currentLevel-1];
 			Game.currentLevel++;
 			$("#ContentBox").text("You earned enough stars to level up! Your plane has been upgraded and you unlocked the following skill:");
+			
+			$("<div/>")
+			.addClass("promptText")
+			.appendTo("#GamePrompt");
+
+			switch(Game.addSkill()){
+
+				case "spreadshot":
+					skillClass = "spreadShotIcon";
+					skillDescription = "Temporarily gain a three shot attack";
+					break;
+
+				case "penetratingshot":
+					skillClass = "penetratingShotIcon";
+					skillDescription = "Your bullets temporarily pierce targets";
+					break;
+
+				case "homingshot":
+					skillClass = "homingShotIcon";
+					skillDescription = "Your projectiles seek out enemies";
+					break;
+
+				case "sentry":
+					skillClass = "sentryIcon";
+					skillDescription = "Place a sentry which attacks enemies";
+					break;
+			}
+			$("<div/>")
+			.addClass("skillIcon "+skillClass)
+			.appendTo(".promptText:odd");
+			
+			$("<div>"+skillDescription+"</div>")
+			.addClass("skillDescription")
+			.appendTo(".promptText:odd");
 		}
 		else{
 			$("#ContentBox").text("You finished the mission and earned "+stars+" stars.Earn another "+ (Game.starsToLevelUp[Game.currentLevel-1]-Game.playerStars)+" to level up");

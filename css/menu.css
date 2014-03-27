@@ -134,6 +134,18 @@
 	left:730px;
 }
 
+/*Shared window style*/
+
+.gameWindow{
+	border-radius: 20px;
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#43494b), to(#2e3335));
+	background: -webkit-linear-gradient(#43494b, #2e3335);
+	background: -moz-linear-gradient(#43494b, #2e3335);
+	background: -o-linear-gradient(#43494b, #2e3335);
+	background: linear-gradient(#43494b, #2e3335);
+	border:4px outset #505658;
+}
+
 /*Mission prompt*/
 
 #GamePromptScreen{
@@ -146,16 +158,9 @@
 }
 
 #GamePrompt{
-	border-radius: 20px;
 	position: relative;
 	top:150px;
 	margin:auto;
-	background: -webkit-gradient(linear, 0 0, 0 100%, from(#43494b), to(#2e3335));
-	background: -webkit-linear-gradient(#43494b, #2e3335);
-	background: -moz-linear-gradient(#43494b, #2e3335);
-	background: -o-linear-gradient(#43494b, #2e3335);
-	background: linear-gradient(#43494b, #2e3335);
-	border:4px outset #505658;
 	width: 400px;
 	height: 350px;
 }
@@ -192,7 +197,7 @@
 }
 
 #ContentBox{
-	font-size: 1.4em;
+	font-size: 1.2em;
 	font-family: sans-serif;
 	margin-top:20px;
 	margin-left:20px;
@@ -279,18 +284,56 @@
 }
 
 .loadoutScreen{
-	border-radius: 20px;
 	position: relative;
+	border-radius: 20px;
 	top:100px;
 	margin:auto;
-	background: -webkit-gradient(linear, 0 0, 0 100%, from(#43494b), to(#2e3335));
-	background: -webkit-linear-gradient(#43494b, #2e3335);
-	background: -moz-linear-gradient(#43494b, #2e3335);
-	background: -o-linear-gradient(#43494b, #2e3335);
-	background: linear-gradient(#43494b, #2e3335);
-	border:4px outset #505658;
-	width: 600px;
+	width: 400px;
 	height: 500px;
+}
+
+.skillBox{
+	margin: 5px;
+	-webkit-box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.4);
+	-moz-box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.4);
+	box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.4);
+	height: 180px;
+	width: 380px;
+}
+
+.skillIcon{
+	display: inline-block;
+	height: 50px;
+	width: 50px;
+}
+
+.skillBox>.skillIcon{
+	border-radius: 3px;
+	border:2px solid rgb(30,30,30);
+	margin: 10px 0px 0px 10px;
+}
+
+.currentSkillBox{
+	top:10px;
+	margin:auto;
+	position: relative;
+	width: 250px;
+	height: 75px;
+	border-radius: 10px;
+	background: linear-gradient(#a55e2f, #7c4f32);
+	border:4px outset #b66937;
+
+}
+
+.skillBox>.skillIcon:hover{
+	border:2px solid #ffcb2f;
+}
+
+.skillDescription{
+	font-size: 1.1em;
+	width: 220px;
+	display: inline-block;
+	margin-left: 20px;
 }
 
 /*Other*/

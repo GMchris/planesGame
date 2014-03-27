@@ -104,7 +104,7 @@ var Visual = {
                         break;
                         //Piercing shot icon
                     case "Piercing Shot":
-                        $("#skill" + i).addClass("piercingShotIcon");
+                        $("#skill" + i).addClass("penetratingShotIcon");
                         break;
                         //Homing shot icon
                     case "Homing Shot":
