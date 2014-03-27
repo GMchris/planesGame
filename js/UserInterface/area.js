@@ -38,6 +38,13 @@ var AreaManager = {
 		$("<div/>",{
 			class:"mainMap"
 		}).appendTo("#gameScreen");
+		//Creates loadout button
+		$("<div>LOADOUT</div>")
+		.addClass("loadoutButton")
+		.on("click",function(){
+			Loadout.drawLoadoutScreen();
+		})
+		.appendTo("#gameScreen");
 		//Creates the three areas
 		for(var i=0;i<AreaManager.areas.length;i++){
 			var tempArea = document.createElement("div");

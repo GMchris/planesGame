@@ -46,6 +46,10 @@
 	background-image: url(../images/ui/homingshots.png);
 }
 
+.sentryIcon{
+	background-image: url(../images/ui/sentry.png)
+}
+
 #hpBar{
 	display: inline-block;
 	position: absolute;

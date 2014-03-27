@@ -161,7 +161,7 @@
 }
 
 #closePrompt{
-	left:340px;
+	right:15px;
 	top:10px;
 	position: absolute;
 	border: 2px solid white;
@@ -246,6 +246,51 @@
 .deployButton:active{
 	background: #31562c;
 	border:4px inset #46873f;
+}
+
+/*Loadout*/
+
+.loadoutButton{
+	text-align: center;
+	vertical-align: middle;
+	line-height: 40px;
+	border: 2px solid #402110;
+	border-radius: 10px;
+	cursor: pointer;
+	width: 120px;
+	height: 40px;
+	background: linear-gradient(#b46a25,#89441e);
+	text-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
+	font-size: 1.5em;
+	font-family: boston;
+	position: absolute;
+	bottom:20px;
+	left: 30px;
+}
+
+.loadoutButton:hover{
+	background: linear-gradient(#da8333,#b25f32);
+}
+
+.loadoutButton:active{
+	background: linear-gradient(#89441e,#b46a25);
+	font-size: 1.4em;
+	color:rgb(200,200,200);
+}
+
+.loadoutScreen{
+	border-radius: 20px;
+	position: relative;
+	top:100px;
+	margin:auto;
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#43494b), to(#2e3335));
+	background: -webkit-linear-gradient(#43494b, #2e3335);
+	background: -moz-linear-gradient(#43494b, #2e3335);
+	background: -o-linear-gradient(#43494b, #2e3335);
+	background: linear-gradient(#43494b, #2e3335);
+	border:4px outset #505658;
+	width: 600px;
+	height: 500px;
 }
 
 /*Other*/

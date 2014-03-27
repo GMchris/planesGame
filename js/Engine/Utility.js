@@ -110,6 +110,9 @@ var Visual = {
                     case "Homing Shot":
                         $("#skill" + i).addClass("homingShotIcon");
                         break;
+                        //Sentry plane icon
+                    case "Sentry":
+                        $("#skill"+ i).addClass("sentryIcon");
                     default:
                         break;
                 }
