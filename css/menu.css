@@ -353,3 +353,10 @@
 	top:300px;
 	left:330px;
 }
+
+
+@media screen and (max-height: 700px){
+	.loadoutButton{
+		bottom:40px;
+	}
+}

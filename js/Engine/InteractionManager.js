@@ -35,9 +35,9 @@
             fighterMaxHealth = 3;
             supplierMaxHealth = 5;
             kamikazeMaxHealth = 10;
-            sentryMaxHealth = parseInt(playerPlane.maxHealth / 3);
+            sentryMaxHealth = parseInt(playerPlane.maxHealth / 4);
             fighterDamage = 7;
-            sentryDamage = playerPlane.damage / 3;
+            sentryDamage = playerPlane.damage / 4;
             supplierDamage = 0;
             kamikazeDamage = parseInt(playerPlane.maxHealth / 3);
             enemySpawnFrequencyMs = null; //is set when a mission is started

@@ -80,6 +80,8 @@ var Visual = {
 
     //Draws the user interface during missions
     drawUI: function () {
+        
+        
         $("<div/>")
         .addClass("ui")
         .appendTo("#gameScreen");
