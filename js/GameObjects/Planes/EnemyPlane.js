@@ -1,23 +1,17 @@
-﻿EnemyPlane = Plane.extend({
+﻿EnemyPlane = AIPlane.extend({
     init: function (left, bottom, maxHealth, damage, movementSpeed) {
-        this._super(maxHealth, damage);
+        this._super(left, bottom, maxHealth, damage);
         this.movementSpeed = movementSpeed;
         this.updateCoords(left, bottom);
         this.move();
         this.bulletType = "enemy";
         this.div.className = "enemyPlane";
-        this.hpBar = document.createElement('div');
         this.hpBar.className = "hpBarEnemy";
         this.lastDirectionChangeTimestamp = -1;
         $(this.hpBar).appendTo(this.div);
     },
     movingRight: null,
     movingUp: null,
-    hpBar: null,
-    updateCoords: function (left, bottom) {
-        this._super(left, bottom);
-    },
-
     lastDirectionChangeTimestamp: null,
 
     changeDirection: function () {
@@ -48,17 +42,5 @@
         } else if (!this.movingUp && this.bottomCoord > (350)) {
             this.bottomCoord -= this.movementSpeed;
         }
-    },
-
-    updateHpBar: function () {
-        this.hpBar.style.width = parseInt(this.currentHealth / this.maxHealth * 100) + '%';
-    },
-
-    die: function () {
-        var self = this;
-        this.div.style['-webkit-animation'] = 'enemyDeathAnimation 1.5s';
-        window.setTimeout(function () {
-            $(self.div).remove();
-        }, 1500);
     }
 });
