@@ -114,7 +114,7 @@
             var newFighter = new EnemyFighter(getRandomLeftCoord(45), getRandomBottomCoordTopHalf(35),
                 fighterMaxHealth, fighterDamage, fighterMovementSpeed);
             newFighter.addToScreen();
-            enemyPlanes.push(newFighter);   
+            enemyPlanes.push(newFighter);
         },
 
         spawnSupplier = function () {
@@ -177,7 +177,7 @@
                         trackAccuracy(false);
                     }
                 }
-                else if ((type == 'all' || type == 'player' ) && bullets[i] instanceof PlayerBullet){
+                else if ((type == 'all' || type == 'player') && bullets[i] instanceof PlayerBullet) {
                     hitEnemyPlaneIndex = detectCollisionPlayerBullet(bullets[i]);
                     //if the bullet is piercing, make sure it doesn't hit the same target multiple times
                     if (hitEnemyPlaneIndex != -1
@@ -192,7 +192,7 @@
                     if (detectCollisionEnemyBulletWithPlayer(bullets[i])) { //bullet hit the player
                         bullets[i].handleCollision();
                         handleCollisionEnemy(bullets[i].owner);
-                    } else { 
+                    } else {
                         hitFriendlyPlaneIndex = detectCollisionEnemyBulletWithFriendlyPlane(bullets[i]);
                         if (hitFriendlyPlaneIndex != -1) { //bullet hit a friendly plane
                             bullets[i].handleCollision();
@@ -224,7 +224,7 @@
 
         moveHomingBullet = function (bullet) {
             var newLeftCoord, newBottomCoord;
-            
+
             if (enemyPlanes.length > 0) { //if there's at least one enemy on screen
                 if (bullet.targetPlane == undefined || bullet.targetPlane.currentHealth == 0) {
                     bullet.targetPlane = enemyPlanes[parseInt(Math.random() * enemyPlanes.length)];
@@ -241,7 +241,7 @@
                 newBottomCoord = bullet.bottomCoord + playerBulletsSpeed;
             }
 
-            
+
 
             bullet.updateCoords(newLeftCoord, newBottomCoord);
             bullet.move();
@@ -296,7 +296,7 @@
         moveKamikaze = function (kamikaze) {
             //speed * (1 - deg/90)
             var newLeft = kamikaze.leftCoord + kamikaze.orientationDeg / 90 * kamikaze.movementSpeed,
-                newBottom = (kamikaze.bottomCoord > playerPlane.bottomCoord) ? 
+                newBottom = (kamikaze.bottomCoord > playerPlane.bottomCoord) ?
                 (kamikaze.bottomCoord - (kamikaze.movementSpeed * (1 - Math.abs(kamikaze.orientationDeg / 90))))
                 : (kamikaze.bottomCoord + (kamikaze.movementSpeed * (1 - Math.abs(kamikaze.orientationDeg / 90))));
             kamikaze.chasePlayer();
@@ -510,7 +510,7 @@
         },
 
         increaseSpawnTime = function () {
-            enemySpawnFrequencyMs+=0.1;
+            enemySpawnFrequencyMs += 0.1;
         },
 
         abortMission = function () {
@@ -536,16 +536,16 @@
             })
             .appendTo("#gameScreen");
             window.setTimeout(function () {
-                    //Finalize mission
-                    abortMission();
-                    //Clear screen, update the area and mission statuses
-                    Visual.adjustCSSofGameScreen(false);
-                    Game.clearScreen();
-                    AreaManager.updateAreaStatus(starsWonForMission);
-                    AreaManager.drawMap();
-                    //Draw the win screen
-                    Game.playerStars += starsWonForMission;
-                    MissionManager.winScreen(starsWonForMission);
+                //Finalize mission
+                abortMission();
+                //Clear screen, update the area and mission statuses
+                Visual.adjustCSSofGameScreen(false);
+                Game.clearScreen();
+                AreaManager.updateAreaStatus(starsWonForMission);
+                AreaManager.drawMap();
+                //Draw the win screen
+                Game.playerStars += starsWonForMission;
+                MissionManager.winScreen(starsWonForMission);
             }, 1500);
         },
 
@@ -554,14 +554,14 @@
                 id: "effectScreen"
             })
            .appendTo("#gameScreen")
-           window.setTimeout(function () {
-               abortMission();
-               Visual.adjustCSSofGameScreen(false);
-               Game.clearScreen();
-               AreaManager.drawMap();
-               Game.errorMessage("Mission failed");
-           }, 1500);
-            
+            window.setTimeout(function () {
+                abortMission();
+                Visual.adjustCSSofGameScreen(false);
+                Game.clearScreen();
+                AreaManager.drawMap();
+                Game.errorMessage("Mission failed");
+            }, 1500);
+
         },
 
         getPlayerHealth = function () {
@@ -636,7 +636,7 @@
             trackRemainingHealth = function (currentHealth) {
                 if (arguments.length > 0) {
                     currentHealthPercentage = parseInt(currentHealth / playerPlane.maxHealth * 100);
-                    $("#hpBar").css("width",currentHealthPercentage*2+"px");
+                    $("#hpBar").css("width", currentHealthPercentage * 2 + "px");
                     if (currentHealthPercentage < minimumHealthPercentageReached) {
                         minimumHealthPercentageReached = currentHealthPercentage;
                     }
@@ -702,6 +702,57 @@
             }, 1000 / 60);
         },
 
+        handleDeathRay = function (left, bottom) {
+            animateDeathRay(left, bottom);
+            dealDamageDeathRay(left, bottom);
+        },
+
+        animateDeathRay = function (left, bottom) {
+            var deathRayDiv =
+                $('<div></div>')
+                .addClass('deathRayDiv')
+                .css({
+                    'height': (700 - bottom + 80) + 'px',
+                    'left': left + 22 + 'px',
+                    'bottom': bottom + 80 + 'px'
+                })
+                .appendTo('#gameScreen')
+                .animate({
+                    opacity: 0,
+                    left: '+=28',
+                    width: 0
+                }, function () {
+                    deathRayDiv.remove();
+                });
+
+        },
+
+        dealDamageDeathRay = function (left, bottom) {
+            var i, isHit, deathRayDamage = playerPlane.damage * 10;
+            for (i = 0; i < enemyPlanes.length; i++) {
+                isHit = (enemyPlanes[i].bottomCoord > bottom + 75) &&   //enemy is above the player
+                    ((enemyPlanes[i].leftCoord > (left + 22) && enemyPlanes[i].leftCoord < (left + 78)) || //enemy's left side has been hit
+                     ((enemyPlanes[i].leftCoord + 100) > (left + 22) && (enemyPlanes[i].leftCoord + 100) < (left + 78)) ||    //enemy's right side has been hit
+                     ((enemyPlanes[i].leftCoord < (left + 22)) && (enemyPlanes[i].leftCoord + 100) > (left + 78))); //enemy is hit in the middle
+
+                if (isHit) {
+                    if (enemyPlanes[i].currentHealth > deathRayDamage) {
+                        enemyPlanes[i].currentHealth -= deathRayDamage;
+                        enemyPlanes[i].updateHpBar();
+                    } else {
+                        enemyPlanes[i].currentHealth = 0;
+                        enemyPlanes[i].updateHpBar();
+                        enemyPlanes[i].die();
+                        enemyPlanes.splice(i, 1);
+                        i--;
+                        if (currentMission instanceof GauntletMission) {
+                            currentMission.incrementEnemiesKilled();
+                        }
+                    }
+                }
+            }
+        },
+
         handleSkillUsage = function (keyPressed) {
             playerPlane.skills[keyPressed].use();
         };
@@ -726,6 +777,7 @@
         handleSkillUsage: handleSkillUsage,
         stopTimeOn: stopTimeOn,
         stopTimeOff: stopTimeOff,
+        handleDeathRay: handleDeathRay,
 
         getPlayerHealth: getPlayerHealth,
         getPlayerLeftCoord: getPlayerLeftCoord,

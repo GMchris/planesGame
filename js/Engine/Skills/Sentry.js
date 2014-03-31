@@ -1,7 +1,6 @@
 ﻿Sentry = Skill.extend({
     init: function (plane) {
         this._super("Sentry", plane, 1, 6000); //plane using the skill, duration, cooldown
-        this.oldShoot = this.plane.shoot;
     },
 
     activate: function () {
