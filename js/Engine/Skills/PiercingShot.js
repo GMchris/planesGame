@@ -1,6 +1,6 @@
 ﻿PiercingShot = Skill.extend({
     init: function (plane) {
-        this._super("Piercing Shot", plane, 5000, 15000); //plane using the skill, duration, cooldown
+        this._super("Piercing Shot", plane, 5000, 15000,"penetratingShotIcon"); //plane using the skill, duration, cooldown
         this.oldShoot = this.plane.shoot;
     },
 

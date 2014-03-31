@@ -8,6 +8,7 @@ var Game = {
 		window.setInterval(function () {
 		    Timer.increaseTimer();
 		}, 1000);
+		Game.addSkill();
 	},
 
 	//Remove all contents of the main game window
@@ -27,7 +28,7 @@ var Game = {
 
 	//Star data
 	playerStars : 0,
-	starsToLevelUp : [2,3,4,5,5,5,5],
+	starsToLevelUp : [2,3,4,5,5,5],
 	currentLevel: 1,
 
 	//Skills

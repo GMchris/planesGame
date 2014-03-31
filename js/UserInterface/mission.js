@@ -9,8 +9,8 @@ function Mission(primary,secondary){
 
 var MissionManager = {
 	//Contains primary and secondary mission types
-	primary : ["survival", "domination", "gauntlet"],
-	secondary: ["remainingHealth", "accuracy"],
+	primary : ["survival", "domination"],
+	secondary: ["remainingHealth", "enemiesKilled", "accuracy"],
 	currentAreaIndex: -1,
     currentMissionIndex: -1,
 	//Generates an array of mission and returns it
@@ -40,7 +40,7 @@ var MissionManager = {
 				else{
 					MissionManager.missionPrompt(area,thisMission);
 			    }
-			    
+
 
 			}).appendTo("#gameScreen");
 		}
@@ -61,23 +61,18 @@ var MissionManager = {
 				title = "Domination";
 				primaryDescription = "<p>Do not allow more than 7 enemies to appear simultaneously for 30 seconds</p>";
 				break;
-		    case "gauntlet":
-		        title = "Gauntlet";
-		        primaryDescription = "<p>Kill 70 enemies. Pressing E will spawn 3 enemy planes</p>";
+
 		}
 
 		switch(secondary){
 			case "remainingHealth":
 				secondaryDescription = "<ul class='secDesc'><li>Remain above 25% health.</li><li>Remain above 50% health.</li><li>Remain above 75% health.</li></ul>";
 				break;
-			//case "enemiesKilled":
-			//    secondaryDescription = "<ul class='secDesc'><li>Kill at least 45 enemies.</li><li>Kill at least 50 enemies.</li><li>Kill at least 60 enemies.</li></ul>";
-			//	break;
+			case "enemiesKilled":
+			    secondaryDescription = "<ul class='secDesc'><li>Kill at least 45 enemies.</li><li>Kill at least 50 enemies.</li><li>Kill at least 60 enemies.</li></ul>";
+				break;
 			case "accuracy":
-			    secondaryDescription = "<ul class='secDesc'><li>Keep your accuracy above 25%</li><li>Keep your accuracy above 35%</li><li>Keep your accuracy above 50%</li></ul>";
-			    break;
-		    default:
-		        break;
+			    secondaryDescription = "<ul class='secDesc'><li>Keep your accuracy above 25%</li><li>Keep your accuracy above 35%</li><li>Keep your accuracy above 50%</li></ul>"
 		}
 		//Creates:
 		//Black tint
@@ -161,7 +156,7 @@ var MissionManager = {
 			Game.playerStars -= Game.starsToLevelUp[Game.currentLevel-1];
 			Game.currentLevel++;
 			$("#ContentBox").text("You earned enough stars to level up! Your plane has been upgraded and you unlocked the following skill:");
-			
+
 			$("<div/>")
 			.addClass("promptText")
 			.appendTo("#GamePrompt");
@@ -191,7 +186,7 @@ var MissionManager = {
 			$("<div/>")
 			.addClass("skillIcon "+skillClass)
 			.appendTo(".promptText:odd");
-			
+
 			$("<div>"+skillDescription+"</div>")
 			.addClass("skillDescription")
 			.appendTo(".promptText:odd");

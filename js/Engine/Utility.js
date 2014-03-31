@@ -78,6 +78,7 @@ var Visual = {
         document.getElementById("gameScreen").style.backgroundPositionY = this.backgroundOffset + "px";
     },
 
+    //Draws the user interface during missions
     drawUI: function () {
         $("<div/>")
         .addClass("ui")
@@ -113,10 +114,30 @@ var Visual = {
                         //Sentry plane icon
                     case "Sentry":
                         $("#skill"+ i).addClass("sentryIcon");
+                        break;
+                        //Death ray icon
+                    case "Death Ray":
+                        $("#skill"+ i).addClass("deathRayIcon");
+                        break;
+                        //Stop time icon
+                     case "Stop Time":
+                        $("#skill"+ i).addClass("stopTimeIcon");
+                        break;
+
                     default:
                         break;
                 }
             }
         }
+    },
+
+    //Make a skill's icon grey
+    cooldownIcon : function(icon){
+        $("."+icon).css("background-image","url(images/UI/"+icon+"CD.png)");
+    },
+
+    activateIcon : function(icon){
+         $("."+icon).css("background-image","url(images/UI/"+icon+".png)");
     }
+    
 };

@@ -3,11 +3,13 @@ var Loadout = {
 
 	drawCurrentSkills : function(){
 		for(var i=0;i<this.current.length;i++){
-			
+
 		}
 	},
 
 	drawUnlockedSkills : function(){
+		$(".skillBox").html("");
+
 		var skillClass;
 		for(var i=0;i<Game.unlockedSkills.length;i++){
 			switch(Game.unlockedSkills[i]){
@@ -31,8 +33,11 @@ var Loadout = {
 		$("<div/>")
 		.addClass("skillIcon "+skillClass)
 		.attr("skillIndex",i)
+		//Add the clicked skill
 		.on("click",function(){
-			Loadout.current.push(Game.unlockedSkills[$(this).attr("skillIndex")]);
+			Loadout.current.push(Game.unlockedSkills.splice($(this).attr("skillIndex"),1)[0]);
+			Loadout.drawUnlockedSkills();
+			Loadout.drawCurrentSkills();
 		})
 		.appendTo(".skillBox");
 		}
@@ -51,6 +56,11 @@ var Loadout = {
 		//Close button
 		$("<div id='closePrompt'>X<div/>")
 		.on("click",function(){
+			//Puts unused skills back before closing the page
+				var count = Loadout.current.length;
+				for(var i=0;i<count;i++){
+					Game.unlockedSkills.push(Loadout.current.splice(0,1)[0]);
+			}
 				document.getElementById("gameScreen").removeChild(document.getElementById("GamePromptScreen"));
 		})
 		.appendTo(".loadoutScreen");

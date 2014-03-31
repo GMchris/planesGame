@@ -1,6 +1,6 @@
 ﻿HomingShot = Skill.extend({
     init: function (plane) {
-        this._super("Homing Shot", plane, 3000, 15000); //plane using the skill, duration, cooldown
+        this._super("Homing Shot", plane, 3000, 15000,"homingShotIcon"); //plane using the skill, duration, cooldown
         this.oldShoot = this.plane.shoot;
     },
 
