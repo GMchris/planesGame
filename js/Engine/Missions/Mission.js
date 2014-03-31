@@ -12,18 +12,18 @@
         Game.clearScreen();
         Visual.adjustCSSofGameScreen(true);
         Visual.drawUI();
-        $("<div id='fps'></div>").appendTo("#gameScreen");
+        $("<div id='fps'></div>").appendTo('#gameScreen');
         interactionManager.spawnPlayer();
-        $(document).on("mousemove", interactionManager.movePlayerPlane);
-        $(document).on("mousedown", interactionManager.playerPlaneShootToggle);
-        $(document).on("mouseup", interactionManager.playerPlaneShootToggle);
-        $(document).on("dragstart", function (e) {
+        $(document).on('mousemove', interactionManager.movePlayerPlane);
+        $(document).on('mousedown', interactionManager.playerPlaneShootToggle);
+        $(document).on('mouseup', interactionManager.playerPlaneShootToggle);
+        $(document).on('dragstart', function (e) {
             e.preventDefault();
         });
-        $(document).on("contextmenu", function (e) {
+        $(document).on('contextmenu', function (e) {
             e.preventDefault();
         });
-        $(document).on("keypress", function (e) {
+        $(document).on('keypress', function (e) {
             if (e.keyCode == 112) {//p
                 interactionManager.togglePause();
             } else if (e.keyCode >= 49 && e.keyCode <= 52) { //1-4 key was pressed
@@ -36,8 +36,8 @@
     },
     mainLoop: function () {
         var self = this;
-        $("#fps").text(fps.getFPS());
-        interactionManager.iterateBullets();
+        $('#fps').text(fps.getFPS());
+        interactionManager.iterateBullets('all');
         interactionManager.iterateFriendlyPlanes();
         interactionManager.iterateEnemyPlanes();
         interactionManager.shootPlayerPlane();

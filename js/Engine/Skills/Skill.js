@@ -15,19 +15,16 @@
     isActive: null,
     isOnCooldown: null,
     activate: function () {
-        //console.log('active!');
         this.isAvailable = false;
         this.isActive = true;
         this.isOnCooldown = true;
     },
 
     deactivate: function () {
-        //console.log('cooldown!');
         this.isActive = false;
     },
 
     makeAvailable: function () {
-        //console.log('available!');
         this.isAvailable = true;
         this.isOnCooldown = false;
     },

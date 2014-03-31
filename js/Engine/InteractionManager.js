@@ -165,7 +165,7 @@
             playerPlane.move();
         },
 
-        iterateBullets = function () {
+        iterateBullets = function (type) { //types: 'all', 'player', 'enemy'
             var i, toBeDestroyed = false, hitEnemyPlaneIndex, hitFriendlyPlaneIndex;
             for (i = 0; i < bullets.length; i++) {
                 toBeDestroyed = false;
@@ -177,7 +177,7 @@
                         trackAccuracy(false);
                     }
                 }
-                else if (bullets[i] instanceof PlayerBullet){
+                else if ((type == 'all' || type == 'player' ) && bullets[i] instanceof PlayerBullet){
                     hitEnemyPlaneIndex = detectCollisionPlayerBullet(bullets[i]);
                     //if the bullet is piercing, make sure it doesn't hit the same target multiple times
                     if (hitEnemyPlaneIndex != -1
@@ -188,7 +188,7 @@
                         movePlayerBullet(bullets[i]);
                     }
                 }
-                else if (bullets[i] instanceof EnemyBullet) {
+                else if ((type == 'all' || type == 'enemy') && bullets[i] instanceof EnemyBullet) {
                     if (detectCollisionEnemyBulletWithPlayer(bullets[i])) { //bullet hit the player
                         bullets[i].handleCollision();
                         handleCollisionEnemy(bullets[i].owner);
@@ -688,6 +688,20 @@
         //    trackEnemiesKilled(killCount);
         //},
 
+        stopTimeOn = function (newMainLoop) {
+            window.clearInterval(currentMission.mainLoopInterval);
+            currentMission.mainLoopInterval = window.setInterval(function () {
+                newMainLoop();
+            }, 1000 / 60);
+        },
+
+        stopTimeOff = function () {
+            window.clearInterval(currentMission.mainLoopInterval);
+            currentMission.mainLoopInterval = window.setInterval(function () {
+                currentMission.mainLoop.call(currentMission);
+            }, 1000 / 60);
+        },
+
         handleSkillUsage = function (keyPressed) {
             playerPlane.skills[keyPressed].use();
         };
@@ -710,6 +724,8 @@
         handleMissionLoss: handleMissionLoss,
         togglePause: togglePause,
         handleSkillUsage: handleSkillUsage,
+        stopTimeOn: stopTimeOn,
+        stopTimeOff: stopTimeOff,
 
         getPlayerHealth: getPlayerHealth,
         getPlayerLeftCoord: getPlayerLeftCoord,
