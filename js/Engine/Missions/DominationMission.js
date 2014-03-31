@@ -1,6 +1,7 @@
 ﻿DominationMission = Mission.extend({
-    init: function (areaIndex, missionIndex) {
-        this._super(areaIndex, missionIndex);
+    init: function () {
+        var enemySpawnFrequencyMs = 600;
+        this._super(enemySpawnFrequencyMs);
         this.currentDominationStartTime = this.startTime;
     },
 

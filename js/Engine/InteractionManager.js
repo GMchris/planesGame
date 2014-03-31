@@ -40,7 +40,7 @@
             sentryDamage = playerPlane.damage / 3;
             supplierDamage = 0;
             kamikazeDamage = parseInt(playerPlane.maxHealth / 3);
-            enemySpawnFrequencyMs = 600;
+            enemySpawnFrequencyMs = null; //is set when a mission is started
             fighterDirectionChangeFrequencyMs = 1000;
             fighterShootFrequencyMs = 1500;
             sentryShootFrequencyMs = 150;
@@ -92,19 +92,22 @@
 
         spawnEnemy = function () {
             //80% chance to spawn fighter, 10% chance to spawn supplier, 10% chance to spawn kamikaze
-            var nowMs = Date.now(), rand;
+            var nowMs = Date.now();
             if (nowMs - lastEnemySpawnTimestamp > enemySpawnFrequencyMs) {
                 lastEnemySpawnTimestamp = nowMs;
-                rand = parseInt(Math.random() * 100) + 1; //[1, 100]
-                if (rand >= 90) {
-                    spawnKamikaze();
-                } else if (rand >= 80) {
-                    spawnSupplier();
-                } else {
-                    spawnFighter();
-                }
+                spawnRandomEnemy();
             }
-            
+        },
+
+        spawnRandomEnemy = function () {
+            var rand = parseInt(Math.random() * 100) + 1; //[1, 100]
+            if (rand >= 90) {
+                spawnKamikaze();
+            } else if (rand >= 80) {
+                spawnSupplier();
+            } else {
+                spawnFighter();
+            }
         },
 
         spawnFighter = function () {
@@ -126,6 +129,13 @@
                 kamikazeMaxHealth, kamikazeDamage, kamikazeMovementSpeed);
             newKamikaze.addToScreen();
             enemyPlanes.push(newKamikaze);
+        },
+
+        gauntletSpawnEnemies = function () {
+            var i;
+            for (i = 0; i < currentMission.enemiesSpawnedPerTaunt; i++) {
+                spawnRandomEnemy();
+            }
         },
 
         movePlayerPlane = function (e) {
@@ -436,7 +446,9 @@
                 enemyPlanes[hitEnemyPlaneIndex].updateHpBar();
                 enemyPlanes[hitEnemyPlaneIndex].die();
                 enemyPlanes.splice(hitEnemyPlaneIndex, 1);
-                trackEnemiesKilled(1);
+                if (currentMission instanceof GauntletMission) {
+                    currentMission.incrementEnemiesKilled();
+                }
             }
             trackAccuracy(true);
         },
@@ -480,10 +492,14 @@
                     currentMission.startMission();
                     dominationSpawnStartingEnemies();
                     break;
+                case "gauntlet":
+                    currentMission = new GauntletMission();
+                    currentMission.startMission();
+                    break;
                 default:
                     throw new Error("Unrecognized mission type: " + missionType);
             }
-            
+            enemySpawnFrequencyMs = currentMission.enemySpawnFrequencyMs;
         },
 
         dominationSpawnStartingEnemies = function () {
@@ -504,7 +520,6 @@
         handleMissionWin = function () {
             var starsWonRemainingHealth = trackRemainingHealth(),
                 starsWonAccuracy = trackAccuracy(),
-                starsWonEnemiesKilled = trackEnemiesKilled(),
                 starsWonForMission;
             switch (secondaryObjectiveType) {
                 case "remainingHealth":
@@ -512,9 +527,6 @@
                     break;
                 case "accuracy":
                     starsWonForMission = starsWonAccuracy;
-                    break;
-                case "enemiesKilled":
-                    starsWonForMission = starsWonEnemiesKilled;
                     break;
                 default:
                     break;
@@ -535,19 +547,6 @@
                     Game.playerStars += starsWonForMission;
                     MissionManager.winScreen(starsWonForMission);
             }, 1500);
-            //.fadeIn(1500, "swing", function () {
-            //    //Finalize mission
-            //    abortMission();
-            //    //Clear screen, update the area and mission statuses
-            //    Visual.adjustCSSofGameScreen(false);
-            //    Game.clearScreen();
-            //    AreaManager.updateAreaStatus(starsWonForMission);
-            //    AreaManager.drawMap();
-            //    //Draw the win screen
-            //    Game.playerStars += starsWonForMission;
-            //    MissionManager.winScreen(starsWonForMission);
-            //});
-            
         },
 
         handleMissionLoss = function () {
@@ -661,33 +660,33 @@
             trackRemainingHealth(currentHealth);
         },
 
-        trackEnemiesKilled = function (killCount) {
-            var enemiesKilled = 0, stars = 0;
+        //trackEnemiesKilled = function (killCount) {
+        //    var enemiesKilled = 0, stars = 0;
 
-            trackEnemiesKilled = function (killCount) {
-                if (arguments.length > 0) { //if the func is called without arguments, the amount of stars earned will be returned + the vars will reset
-                    //console.log("enemies killed: " + enemiesKilled);
-                    enemiesKilled += killCount;
+        //    trackEnemiesKilled = function (killCount) {
+        //        if (arguments.length > 0) { //if the func is called without arguments, the amount of stars earned will be returned + the vars will reset
+        //            //console.log("enemies killed: " + enemiesKilled);
+        //            enemiesKilled += killCount;
 
-                    if (enemiesKilled >= 60) {
-                        stars = 3;
-                    } else if (enemiesKilled >= 50) {
-                        stars = 2;
-                    } else if (enemiesKilled >= 45) {
-                        stars = 1;
-                    } else {
-                        stars = 0;
-                    }
+        //            if (enemiesKilled >= 60) {
+        //                stars = 3;
+        //            } else if (enemiesKilled >= 50) {
+        //                stars = 2;
+        //            } else if (enemiesKilled >= 45) {
+        //                stars = 1;
+        //            } else {
+        //                stars = 0;
+        //            }
 
-                    return enemiesKilled;
-                } else {
-                    enemiesKilled = 0;
-                    return stars;
-                }
-            }
+        //            return enemiesKilled;
+        //        } else {
+        //            enemiesKilled = 0;
+        //            return stars;
+        //        }
+        //    }
 
-            trackEnemiesKilled(killCount);
-        },
+        //    trackEnemiesKilled(killCount);
+        //},
 
         handleSkillUsage = function (keyPressed) {
             playerPlane.skills[keyPressed].use();
@@ -699,6 +698,7 @@
         spawnSentry: spawnSentry,
         spawnBullet: spawnBullet,
         spawnEnemy: spawnEnemy,
+        gauntletSpawnEnemies: gauntletSpawnEnemies, 
         movePlayerPlane: movePlayerPlane,
         iterateBullets: iterateBullets,
         iterateFriendlyPlanes: iterateFriendlyPlanes,

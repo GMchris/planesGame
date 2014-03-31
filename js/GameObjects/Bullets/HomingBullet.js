@@ -9,7 +9,7 @@
         if (this.targetPlane != undefined && this.targetPlane.currentHealth > 0) {
             this.orientationDeg = parseInt(Math.atan(
                     Math.abs(this.leftCoord - (this.targetPlane.leftCoord + 40)) / Math.abs(this.bottomCoord - (this.targetPlane.bottomCoord + 20)))
-                    / (Math.PI / 180));
+                    / (Math.PI / 180)); //measures the angle the bullet needs to rotate to face its target
             if (this.leftCoord > this.targetPlane.leftCoord) {
                 this.orientationDeg *= -1;
             }
