@@ -579,6 +579,33 @@
         getPlayerSkills = function () {
             return playerPlane.skills;
         },
+        setPlayerSkills = function(skillArray){
+            playerPlane.skills = [];
+            "spreadshot","homingshot","penetratingshot","sentry","stoptime","deathray"
+            for(var i=0;i<skillArray.length;i++){
+                switch(skillArray[i]){
+                    case "spreadshot":
+                        playerPlane.skills.push(new SpreadShot(playerPlane));
+                        break;
+                    case "homingshot":
+                        playerPlane.skills.push(new HomingShot(playerPlane));
+                        break;
+                    case "penetratingshot":
+                        playerPlane.skills.push(new PiercingShot(playerPlane));
+                        break;
+                    case "sentry":
+                        playerPlane.skills.push(new Sentry(playerPlane));
+                        break;
+                    case "stoptime":
+                        playerPlane.skills.push(new StopTime(playerPlane));
+                        break;
+                    case "deathray":
+                        playerPlane.skills.push(new DeathRay(playerPlane));
+                        break;
+                }
+            }
+        },
+
 
         getEnemiesCount = function () {
             return enemyPlanes.length;
@@ -754,6 +781,7 @@
         },
 
         handleSkillUsage = function (keyPressed) {
+            if(playerPlane.skills[keyPressed]==undefined){return;}
             playerPlane.skills[keyPressed].use();
         };
 
@@ -783,6 +811,7 @@
         getPlayerLeftCoord: getPlayerLeftCoord,
         getPlayerBottomCoord: getPlayerBottomCoord,
         getPlayerSkills: getPlayerSkills,
+        setPlayerSkills: setPlayerSkills,
         getEnemiesCount: getEnemiesCount
     }
 })();

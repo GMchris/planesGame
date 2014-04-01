@@ -5,7 +5,7 @@
         this.image.id = "playerPlaneImage";
         this.image.src = 'images/planes/player.png';
         this.isShooting = false;
-        this.skills = [new SpreadShot(this), new DeathRay(this), new HomingShot(this), new StopTime(this)];
+        this.skills = [];
 
         this.bulletType = "player";
     },

@@ -9,8 +9,8 @@ function Mission(primary,secondary){
 
 var MissionManager = {
 	//Contains primary and secondary mission types
-	primary : ["survival", "domination"],
-	secondary: ["remainingHealth", "enemiesKilled", "accuracy"],
+	primary : ["survival", "domination", "gauntlet"],
+	secondary: ["remainingHealth", "accuracy"],
 	currentAreaIndex: -1,
     currentMissionIndex: -1,
 	//Generates an array of mission and returns it
@@ -61,18 +61,23 @@ var MissionManager = {
 				title = "Domination";
 				primaryDescription = "<p>Do not allow more than 7 enemies to appear simultaneously for 30 seconds</p>";
 				break;
-
+		    case "gauntlet":
+		        title = "Gauntlet";
+		        primaryDescription = "<p>Kill 70 enemies. Pressing E will spawn 3 enemy planes</p>";
 		}
 
 		switch(secondary){
 			case "remainingHealth":
 				secondaryDescription = "<ul class='secDesc'><li>Remain above 25% health.</li><li>Remain above 50% health.</li><li>Remain above 75% health.</li></ul>";
 				break;
-			case "enemiesKilled":
-			    secondaryDescription = "<ul class='secDesc'><li>Kill at least 45 enemies.</li><li>Kill at least 50 enemies.</li><li>Kill at least 60 enemies.</li></ul>";
-				break;
+			//case "enemiesKilled":
+			//    secondaryDescription = "<ul class='secDesc'><li>Kill at least 45 enemies.</li><li>Kill at least 50 enemies.</li><li>Kill at least 60 enemies.</li></ul>";
+			//	break;
 			case "accuracy":
-			    secondaryDescription = "<ul class='secDesc'><li>Keep your accuracy above 25%</li><li>Keep your accuracy above 35%</li><li>Keep your accuracy above 50%</li></ul>"
+			    secondaryDescription = "<ul class='secDesc'><li>Keep your accuracy above 25%</li><li>Keep your accuracy above 35%</li><li>Keep your accuracy above 50%</li></ul>";
+			    break;
+		    default:
+		        break;
 		}
 		//Creates:
 		//Black tint
