@@ -16,7 +16,7 @@
     isActive: null,
     isOnCooldown: null,
     activate: function () {
-        if(this.plane.bulletType !="enemy"){
+        if(this.plane instanceof PlayerPlane){
             Visual.cooldownIcon(this.icon);
         }
         this.isAvailable = false;
