@@ -100,13 +100,15 @@
         },
 
         spawnRandomEnemy = function () {
-            var rand = parseInt(Math.random() * 100) + 1; //[1, 100]
-            if (rand >= 90) {
-                spawnKamikaze();
-            } else if (rand >= 80) {
-                spawnSupplier();
-            } else {
-                spawnFighter();
+            if (enemyPlanes.length <= 20) {
+                var rand = parseInt(Math.random() * 100) + 1; //[1, 100]
+                if (rand >= 90) {
+                    spawnKamikaze();
+                } else if (rand >= 80) {
+                    spawnSupplier();
+                } else {
+                    spawnFighter();
+                }
             }
         },
 
