@@ -781,8 +781,9 @@
 
         placeBlackHole = function (e) {
             //add black hole image
-            var convertedCoords = convertEventCoordinates(e.clientX, e.clientY);
-            moveEnemiesBlackHole(convertedCoords.left, convertedCoords.bottom);
+            var convertedCoords = convertEventCoordinates(e.clientX, e.clientY),
+                convertedLeft = (convertedCoords.left <= 860) ? convertedCoords.left : 860;
+            moveEnemiesBlackHole(convertedLeft, convertedCoords.bottom);
             window.setTimeout(function () {
                 $(document).bind('mouseup mousedown', handleMouseClick);
                 $(document).bind('mousemove', movePlayerPlane);
