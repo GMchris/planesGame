@@ -11,6 +11,6 @@
     },
 
     shoot: function () {
-        interactionManager.spawnBullet(this.bulletType, this.leftCoord + 49, this.bottomCoord + 80, 0);
+        interactionManager.spawnBullet(this.bulletType, this.leftCoord + 49, this.bottomCoord + 80, 0, this);
     }
 });

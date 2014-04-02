@@ -58,6 +58,10 @@
 	background-image: url(../images/ui/stopTimeIcon.png);
 }
 
+.blackHoleIcon {
+    background-image: url(../images/ui/blackHoleIcon.png);
+}
+
 #hpBar{
 	display: inline-block;
 	position: absolute;

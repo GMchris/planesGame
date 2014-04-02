@@ -1,6 +1,6 @@
 ﻿HomingBullet = PlayerBullet.extend({
-    init: function (left, bottom, orientationDeg, targetPlane) {
-        this._super(left, bottom, orientationDeg);
+    init: function (left, bottom, orientationDeg, owner, targetPlane) {
+        this._super(left, bottom, orientationDeg, owner);
         this.div.className = "homingBulletDiv";
         this.targetPlane = targetPlane;
     },

@@ -1,6 +1,7 @@
 ﻿Bullet = GameObject.extend({
-    init: function (left, bottom, orientationDeg) {
+    init: function (left, bottom, orientationDeg, owner) {
         this._super();
+        this.owner = owner;
         this.updateCoords(left, bottom);
         this.move();
         this.orientationDeg = orientationDeg;
@@ -9,6 +10,7 @@
         this.div.style['-webkit-transform'] = 'rotate(' + this.orientationDeg + 'deg)';
     },
 
+    owner: null,
     toBeSpliced: null,
 
     handleCollision: function () {

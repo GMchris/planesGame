@@ -37,7 +37,7 @@
             kamikazeMaxHealth = 10;
             sentryMaxHealth = parseInt(playerPlane.maxHealth / 4);
             fighterDamage = 7;
-            sentryDamage = playerPlane.damage / 4;
+            sentryDamage = playerPlane.damage / 3;
             supplierDamage = 0;
             kamikazeDamage = parseInt(playerPlane.maxHealth / 3);
             enemySpawnFrequencyMs = null; //is set when a mission is started
@@ -71,18 +71,18 @@
             var newBullet, randIndex, target;
             switch (type) {
                 case "player":
-                    newBullet = new PlayerBullet(left, bottom, orientationDeg);
+                    newBullet = new PlayerBullet(left, bottom, orientationDeg, owner);
                     break;
                 case "enemy":
                     newBullet = new EnemyBullet(left, bottom, orientationDeg, owner);
                     break;
                 case "piercing":
-                    newBullet = new PiercingBullet(left, bottom, orientationDeg);
+                    newBullet = new PiercingBullet(left, bottom, orientationDeg, owner);
                     break;
                 case "homing":
                     randIndex = parseInt(Math.random() * enemyPlanes.length);
                     var target = enemyPlanes[randIndex];
-                    newBullet = new HomingBullet(left, bottom, orientationDeg, target);
+                    newBullet = new HomingBullet(left, bottom, orientationDeg, owner, target);
                 default:
                     break;
             }
@@ -142,28 +142,10 @@
 
         movePlayerPlane = function (e) {
             //substracting a half of the non-game screen
-            var newLeft, newBottom;
-            var nonGameScreenWidth = window.innerWidth - 960;
-            //newLeft
-            if (e.clientX > nonGameScreenWidth / 2 + 50) {
-                //if mouse is inside the game screen
-                if (e.clientX < (nonGameScreenWidth / 2 + 960) - 50) {
-                    newLeft = e.clientX - (nonGameScreenWidth / 2);
-                } else { //mouse is to the right of game screen
-                    newLeft = 960 - 50;
-                }
-            } else { //mouse is to the left of game screen
-                newLeft = 0 + 50;
-            }
-            //newBottom
-            if (e.clientY <= 700) {
-                newBottom = 700 - e.clientY - 50;
-            } else {
-                newBottom = 0;
-            }
+            var newCoords = convertEventCoordinates(e.clientX, e.clientY);
 
-            newLeft -= 50; //adjust plane to cursor
-            playerPlane.updateCoords(newLeft, newBottom);
+            newCoords.left -= 50; //adjust plane to cursor
+            playerPlane.updateCoords(newCoords.left, newCoords.bottom);
             playerPlane.move();
         },
 
@@ -184,8 +166,8 @@
                     //if the bullet is piercing, make sure it doesn't hit the same target multiple times
                     if (hitEnemyPlaneIndex != -1
                         && (!(bullets[i] instanceof PiercingBullet) || bullets[i].enemiesHit.indexOf(enemyPlanes[hitEnemyPlaneIndex]) == -1)) {
-                        bullets[i].handleCollision(enemyPlanes[hitEnemyPlaneIndex]);
                         handleCollisionPlayerBullet(bullets[i], hitEnemyPlaneIndex);
+                        bullets[i].handleCollision(enemyPlanes[hitEnemyPlaneIndex]);
                     } else {
                         movePlayerBullet(bullets[i]);
                     }
@@ -306,7 +288,7 @@
             kamikaze.move();
         },
 
-        playerPlaneShootToggle = function (e) {
+        handleMouseClick = function (e) {
             playerPlane.isShooting = e.type == "mousedown";
         },
 
@@ -439,9 +421,10 @@
         },
 
         handleCollisionPlayerBullet = function (bullet, hitEnemyPlaneIndex) {
-            var playerDamage = (bullet instanceof HomingBullet) ? playerPlane.damage * 0.75 : playerPlane.damage;
-            if (enemyPlanes[hitEnemyPlaneIndex].currentHealth > playerDamage) {
-                enemyPlanes[hitEnemyPlaneIndex].currentHealth -= playerDamage;
+            var ownerPlane = bullet.owner,
+                damage = (bullet instanceof HomingBullet) ? ownerPlane.damage * 0.75 : ownerPlane.damage;
+            if (enemyPlanes[hitEnemyPlaneIndex].currentHealth > damage) {
+                enemyPlanes[hitEnemyPlaneIndex].currentHealth -= damage;
                 enemyPlanes[hitEnemyPlaneIndex].updateHpBar();
             } else {
                 enemyPlanes[hitEnemyPlaneIndex].currentHealth = 0;
@@ -604,6 +587,11 @@
                     case "deathray":
                         playerPlane.skills.push(new DeathRay(playerPlane));
                         break;
+                    case "blackhole":
+                        playerPlane.skills.push(new BlackHole(playerPlane));
+                        break;
+                    default:
+                        throw new Error("Unrecognized skill type");
                 }
             }
         },
@@ -782,6 +770,75 @@
             }
         },
 
+        handleBlackHole = function () {
+            $("#gameScreen").css({
+                "cursor": "pointer"
+            });
+            $(document).unbind('mouseup mousedown', handleMouseClick);
+            $(document).unbind('mousemove', movePlayerPlane);
+            $(document).on('click', placeBlackHole);
+        },
+
+        placeBlackHole = function (e) {
+            //add black hole image
+            var convertedCoords = convertEventCoordinates(e.clientX, e.clientY);
+            moveEnemiesBlackHole(convertedCoords.left, convertedCoords.bottom);
+            window.setTimeout(function () {
+                $(document).bind('mouseup mousedown', handleMouseClick);
+                $(document).bind('mousemove', movePlayerPlane);
+                $(document).off('click', placeBlackHole);
+                $("#gameScreen").css({
+                    "cursor": "none"
+                });
+            }, 300);
+        },
+
+        moveEnemiesBlackHole = function (left, bottom) {
+            var i,
+                currentMoveEnemyPlaneFunction = moveEnemyPlane,
+                currentKamikazeMoveFunction = moveKamikaze,
+                animationLengthMs = 400;
+            moveEnemyPlane = function () { };
+            moveKamikaze = function () { };
+            for (i = 0; i < enemyPlanes.length; i++) {
+                $(enemyPlanes[i].div)
+                    .animate({
+                        left: left,
+                        bottom: bottom
+                    }, animationLengthMs);
+                enemyPlanes[i].leftCoord = left;
+                enemyPlanes[i].bottomCoord = bottom;
+            }
+            window.setTimeout(function () {
+                moveEnemyPlane = currentMoveEnemyPlaneFunction;
+                moveKamikaze = currentKamikazeMoveFunction;
+            }, animationLengthMs);
+        },
+
+        convertEventCoordinates = function (clientX, clientY) {
+            var converted = { left: 0, bottom: 0 };
+            var nonGameScreenWidth = window.innerWidth - 960;
+            //newLeft
+            if (clientX > nonGameScreenWidth / 2 + 50) {
+                //if mouse is inside the game screen
+                if (clientX < (nonGameScreenWidth / 2 + 960) - 50) {
+                    converted.left = clientX - (nonGameScreenWidth / 2);
+                } else { //mouse is to the right of game screen
+                    converted.left = 960 - 50;
+                }
+            } else { //mouse is to the left of game screen
+                converted.left = 0 + 50;
+            }
+            //newBottom
+            if (clientY <= 700) {
+                converted.bottom = 700 - clientY - 50;
+            } else {
+                converted.bottom = 0;
+            }
+
+            return converted;
+        },
+
         handleSkillUsage = function (keyPressed) {
             if(playerPlane.skills[keyPressed]==undefined){return;}
             playerPlane.skills[keyPressed].use();
@@ -800,7 +857,7 @@
         iterateEnemyPlanes: iterateEnemyPlanes,
         increaseSpawnTime: increaseSpawnTime,
         shootPlayerPlane: shootPlayerPlane,
-        playerPlaneShootToggle: playerPlaneShootToggle,
+        handleMouseClick: handleMouseClick,
         handleMissionWin: handleMissionWin,
         handleMissionLoss: handleMissionLoss,
         togglePause: togglePause,
@@ -808,6 +865,7 @@
         stopTimeOn: stopTimeOn,
         stopTimeOff: stopTimeOff,
         handleDeathRay: handleDeathRay,
+        handleBlackHole: handleBlackHole,
 
         getPlayerHealth: getPlayerHealth,
         getPlayerLeftCoord: getPlayerLeftCoord,

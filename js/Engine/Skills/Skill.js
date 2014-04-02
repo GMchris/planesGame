@@ -1,5 +1,5 @@
 ﻿Skill = Class.extend({
-    init: function (name, plane, durationMs, cooldownMs,icon) {
+    init: function (name, plane, durationMs, cooldownMs, icon) {
         this.name = name;
         this.plane = plane;
         this.icon = icon;
@@ -9,7 +9,9 @@
         this.isActive = false;
         this.isOnCooldown = false;
     },
+    name: null,
     plane: null,
+    icon: null,
     durationMs: null,
     cooldownMs: null,
     isAvailable: null,

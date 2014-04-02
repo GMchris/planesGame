@@ -46,34 +46,37 @@ var Loadout = {
 		var skillClass;
 		switch(name){
 
-				case "spreadshot":
-					skillClass = "spreadShotIcon";
-					break;
+			case "spreadshot":
+				skillClass = "spreadShotIcon";
+				break;
 
-				case "penetratingshot":
-					skillClass = "penetratingShotIcon";
-					break;
+			case "penetratingshot":
+				skillClass = "penetratingShotIcon";
+				break;
 
-				case "homingshot":
-					skillClass = "homingShotIcon";
-					break;
+			case "homingshot":
+				skillClass = "homingShotIcon";
+				break;
 
-				case "sentry":
-					skillClass = "sentryIcon";
-					break;
+			case "sentry":
+				skillClass = "sentryIcon";
+				break;
 
-				case "deathray":
-					skillClass = "deathRayIcon";
-					break;
+			case "deathray":
+				skillClass = "deathRayIcon";
+				break;
 
-				case "stoptime":
-					skillClass = "stopTimeIcon";
-					break;
+			case "stoptime":
+				skillClass = "stopTimeIcon";
+				break;
 
-				default:
-					return;
-					break;
-			}
+		    case "blackhole":
+		        skillClass = "blackHoleIcon";
+		        break;
+
+			default:
+				throw new Error("Unrecognized skill name");
+		}
 		return skillClass;
 	},
 

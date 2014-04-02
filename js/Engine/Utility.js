@@ -125,9 +125,12 @@ var Visual = {
                      case "Stop Time":
                         $("#skill"+ i).addClass("stopTimeIcon");
                         break;
+                    case "Black Hole":
+                        $("#skill" + i).addClass("blackHoleIcon");
+                        break;
 
                     default:
-                        break;
+                        throw new Error('Unrecognized skill name');
                 }
             }
         }
