@@ -487,6 +487,10 @@
             enemySpawnFrequencyMs = currentMission.enemySpawnFrequencyMs;
         },
 
+        getSecondaryMission = function(){
+            return secondaryObjectiveType;
+        },
+
         dominationSpawnStartingEnemies = function () {
             var i;
             for (i = 0; i < 13; i++) {
@@ -624,7 +628,9 @@
                     }
                     totalShotsFired++;
                     accuracyPercentage = parseInt(totalShotsHit / totalShotsFired * 100);
-                    //console.log("accuracy: " + accuracyPercentage);
+                    if(secondaryObjectiveType=="accuracy"){
+                        Visual.crossOutSecondaries(accuracyPercentage)
+                    }
 
                     return accuracyPercentage;
                 } else {
@@ -656,6 +662,9 @@
                     $("#hpBar").css("width", currentHealthPercentage * 2 + "px");
                     if (currentHealthPercentage < minimumHealthPercentageReached) {
                         minimumHealthPercentageReached = currentHealthPercentage;
+                    }
+                    if(secondaryObjectiveType=="remainingHealth"){
+                        Visual.crossOutSecondaries(currentHealthPercentage);
                     }
 
                     return minimumHealthPercentageReached;
@@ -784,6 +793,7 @@
             var convertedCoords = convertEventCoordinates(e.clientX, e.clientY),
                 convertedLeft = (convertedCoords.left <= 860) ? convertedCoords.left : 860;
             moveEnemiesBlackHole(convertedLeft, convertedCoords.bottom);
+
             window.setTimeout(function () {
                 $(document).bind('mouseup mousedown', handleMouseClick);
                 $(document).bind('mousemove', movePlayerPlane);
@@ -847,6 +857,7 @@
 
     return {
         startNewMission: launchMission,
+        getSecondaryMission:getSecondaryMission,
         spawnPlayer: spawnPlayer,
         spawnSentry: spawnSentry,
         spawnBullet: spawnBullet,

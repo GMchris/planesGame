@@ -1,3 +1,31 @@
+.uncompletedSecondary{
+	color:gray;
+}
+
+.missionList{
+	position: absolute;
+	z-index: 50;
+	top:10px;
+	left:10px;
+	list-style-image:url(../images/map/starMini.png)
+}
+.missionList>li{
+	text-shadow: 0px 0px 6px rgba(0, 0, 0, 1),0px 0px 6px rgba(0, 0, 0, 1),0px 0px 6px rgba(0, 0, 0, 1);
+	font-size: 0.8em;
+	margin-left: 25px;
+}
+.mainMissionName{
+	text-shadow: 0px 0px 6px rgba(0, 0, 0, 1),0px 0px 6px rgba(0, 0, 0, 1),0px 0px 6px rgba(0, 0, 0, 1);
+	font-weight: bolder;
+	font-size: 0.9em;
+}
+
+#fps{
+	position: absolute;
+	top:10px;
+	right:10px;
+}
+
 .ui{
 	bottom:0px;
 	position: absolute;
@@ -78,6 +106,7 @@
 
 @media screen and (max-height: 700px){
 	.ui{
-		bottom:20px;
+		position: fixed;
+		bottom:0px;
 	}
 }

@@ -78,9 +78,85 @@ var Visual = {
         document.getElementById("gameScreen").style.backgroundPositionY = this.backgroundOffset + "px";
     },
 
+    //Gives text for the primary mission Description
+    returnPrimaryDescription: function(mission){
+        if(mission instanceof SurvivalMission){
+            return "Survive in the battlefield for 45 seconds"
+        }
+        else if(mission instanceof DominationMission){
+            return "Don't let more than 7 enemies spawn for 30 seconds"
+        }
+        else if(mission instanceof GauntletMission){
+            return "Kill 75 enemies. Press E to summon additional ones."
+        }
+        else{
+            throw new Error("No such mission");
+        }
+    },
+
+
+    crossOutSecondaries: function(stat){
+        var conditions;
+        switch(interactionManager.getSecondaryMission()){
+            case "accuracy":
+                conditions=[25,35,50];
+                break;
+            case "remainingHealth":
+                conditions=[25,50,75];
+                break;
+            default:
+                break;
+        }
+        for(var i=0;i<conditions.length;i++){
+            if(conditions[i]>stat){
+                $("#listItem"+i).addClass("uncompletedSecondary");
+            }
+            else{
+                 $("#listItem"+i).removeClass("uncompletedSecondary");
+                }
+            }
+    },
+
+    setSecondaryDescriptions: function(){
+        var conditions;
+         switch(interactionManager.getSecondaryMission()){
+            case "accuracy":
+            conditions = [25,35,50];
+            for(var i=0;i<conditions.length;i++){
+                $("#listItem"+i).text("Keep your accuracy above "+conditions[i]+"%");
+            }
+            break;
+
+            case "remainingHealth":
+            conditions = [25,50,75];
+            for(var i=0;i<conditions.length;i++){
+                $("#listItem"+i).text("Keep your health above "+conditions[i]+"%");
+            }
+            break;
+        }
+    },
+
     //Draws the user interface during missions
-    drawUI: function () {
-        
+    drawUI: function (mission) {
+
+        $("<ul/>")
+        .addClass("missionList")
+        .appendTo("#gameScreen");
+
+        $("<span/>")
+        .addClass("mainMissionName")
+        .appendTo(".missionList")
+        .text(this.returnPrimaryDescription(mission));
+
+        for(var i=0;i<3;i++){
+            $("<li/>")
+            .attr("id","listItem"+i)
+            .addClass("secondaryListItem").
+            appendTo(".missionList");
+        }
+
+        this.setSecondaryDescriptions();
+
         
         $("<div/>")
         .addClass("ui")
@@ -98,40 +174,9 @@ var Visual = {
             .addClass("skills")
             .appendTo(".ui");
             //Places correct icons
-            if (skillArray[i] == undefined) { }
+            if (skillArray[i] == undefined) { return;}
             else {
-                switch (skillArray[i].name) {
-                    //Spread shot icon
-                    case "Spread Shot":
-                        $("#skill" + i).addClass("spreadShotIcon");
-                        break;
-                        //Piercing shot icon
-                    case "Piercing Shot":
-                        $("#skill" + i).addClass("penetratingShotIcon");
-                        break;
-                        //Homing shot icon
-                    case "Homing Shot":
-                        $("#skill" + i).addClass("homingShotIcon");
-                        break;
-                        //Sentry plane icon
-                    case "Sentry":
-                        $("#skill"+ i).addClass("sentryIcon");
-                        break;
-                        //Death ray icon
-                    case "Death Ray":
-                        $("#skill"+ i).addClass("deathRayIcon");
-                        break;
-                        //Stop time icon
-                     case "Stop Time":
-                        $("#skill"+ i).addClass("stopTimeIcon");
-                        break;
-                    case "Black Hole":
-                        $("#skill" + i).addClass("blackHoleIcon");
-                        break;
-
-                    default:
-                        throw new Error('Unrecognized skill name');
-                }
+                $("#skill"+i).addClass(skillArray[i].icon);
             }
         }
     },

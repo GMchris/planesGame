@@ -135,7 +135,7 @@ section{
     height:15px;
     width:4px;
     border-radius: 2px 2px 0px 0px;
-    background: linear-gradient(#dd1d00, #dd1d00 30%,#5a5a5a 31%);
+    -webkit-animation:homingPing 0.2s infinite;
 }
 
 .hpBarEnemy {
@@ -164,4 +164,11 @@ section{
 @-webkit-keyframes effectsScreenAnimation {
 	from  {opacity: 0; }
 	to {opacity: 1; }
+}
+
+
+@-webkit-keyframes homingPing {
+    0%  {background:  -webkit-gradient(linear, 0 0, 0 100%, from(#dd1d00), color-stop(0.3, #dd1d00), color-stop(0.31, #5a5a5a));background:  -webkit-linear-gradient(#dd1d00, #dd1d00 30%, #5a5a5a 31%);background:  -moz-linear-gradient(#dd1d00, #dd1d00 30%, #5a5a5a 31%);background:  -o-linear-gradient(#dd1d00, #dd1d00 30%, #5a5a5a 31%);background:  background: linear-gradient(#dd1d00, #dd1d00 30%, #5a5a5a 31%); }
+    50% {background:  -webkit-gradient(linear, 0 0, 0 100%, from(#fff1f1), color-stop(0.3, #fff1f1), color-stop(0.31, #5a5a5a));background:  -webkit-linear-gradient(#fff1f1, #fff1f1 30%, #5a5a5a 31%);background:  -moz-linear-gradient(#fff1f1, #fff1f1 30%, #5a5a5a 31%);background:  -o-linear-gradient(#fff1f1, #fff1f1 30%, #5a5a5a 31%);background:  background: linear-gradient(#fff1f1, #fff1f1 30%, #5a5a5a 31%); }
+    100%{background:  -webkit-gradient(linear, 0 0, 0 100%, from(#dd1d00), color-stop(0.3, #dd1d00), color-stop(0.31, #5a5a5a));background:  -webkit-linear-gradient(#dd1d00, #dd1d00 30%, #5a5a5a 31%);background:  -moz-linear-gradient(#dd1d00, #dd1d00 30%, #5a5a5a 31%);background:  -o-linear-gradient(#dd1d00, #dd1d00 30%, #5a5a5a 31%);background:  background: linear-gradient(#dd1d00, #dd1d00 30%, #5a5a5a 31%); }
 }
