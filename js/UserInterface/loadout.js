@@ -40,6 +40,7 @@ var Loadout = {
 		})
 		.appendTo(".skillBox");
 		}
+		Loadout.attachIconDescriptionEvents();
 	},
 
 	giveClass : function(name){
@@ -80,7 +81,24 @@ var Loadout = {
 		return skillClass;
 	},
 
+	//Draw the currently selected skills, taken from the player plane
+	savedSkills : function(){
+		var skillArray=interactionManager.getPlayerSkills(), currentSkill;
+			for(var i=0;i<skillArray.length;i++){
+				currentSkill = skillArray[i].icon.toLowerCase();
+				currentSkill = currentSkill.slice(0,-4)
+				this.current.push(currentSkill);
+				for(var j=0;j<Game.unlockedSkills.length;j++){
+					if(currentSkill==Game.unlockedSkills[j]){
+						Game.unlockedSkills.splice(j,1);
+					}
+				}
+			}
+
+	},
+
 	drawLoadoutScreen : function(){
+		this.savedSkills();
 		//Draws transparent black layer
 		$("<div/>",{
 			id: "GamePromptScreen"
@@ -129,7 +147,43 @@ var Loadout = {
 				document.getElementById("gameScreen").removeChild(document.getElementById("GamePromptScreen"));
 		})
 		.appendTo(".loadoutScreen");
-	}
+	},
 
+	//Generates descriptions for the skills
+	generateDescription:function(skill){
+		switch(skill.attr("class")){
+			case "skillIcon spreadShotIcon":
+			return "Spread shot   You temporarily shoot three bullets in a cone in front of you.";
+
+			case "skillIcon penetratingShotIcon":
+			return "Piercing shot   Your bullets temporarily pierce targets and hit and enemies behind the target.";
+
+			case "skillIcon stopTimeIcon":
+			return "Stop time   Freeze enemies in place for a few seconds, while retaining your ability to move.";
+
+			case "skillIcon blackHoleIcon":
+			return "Black hole   After use, click someone on the battlefield to suck all enemies there.";
+
+			case "skillIcon homingShotIcon":
+			return "Homing shot  Projectiles you fire, seek out enemy planes.";
+
+			case "skillIcon deathRayIcon":
+			return "Death ray   Annihilate all enemies in a line in front of you.";
+
+			case "skillIcon sentryIcon":
+			return "Place sentry   Place an immobile sentry that shoots your enemies down.";
+		}
+	},
+
+	//Adds and removes the description box when needed
+	attachIconDescriptionEvents : function(){
+        $(".skillIcon").on("mouseenter",function(){
+            $("<div/>").addClass("descriptionBox gameWindow").text(Loadout.generateDescription($(this))).appendTo("#gameScreen")
+        });
+
+        $(".skillIcon").on("mouseleave click",function(){
+           $(".descriptionBox").remove();
+        });
+	}
 
 }

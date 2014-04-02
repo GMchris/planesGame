@@ -143,11 +143,6 @@ var Visual = {
         .addClass("missionList")
         .appendTo("#gameScreen");
 
-        $("<span/>")
-        .addClass("mainMissionName")
-        .appendTo(".missionList")
-        .text(this.returnPrimaryDescription(mission));
-
         for(var i=0;i<3;i++){
             $("<li/>")
             .attr("id","listItem"+i)
@@ -179,6 +174,12 @@ var Visual = {
                 $("#skill"+i).addClass(skillArray[i].icon);
             }
         }
+        //Places the primary mission
+          $("<span/>")
+        .addClass("mainMissionName")
+        .appendTo(".ui")
+        .text(this.returnPrimaryDescription(mission));
+
     },
 
     //Make a skill's icon grey

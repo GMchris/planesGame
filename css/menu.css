@@ -354,6 +354,26 @@
 	left:330px;
 }
 
+.descriptionBox{
+	color:#aaa;
+	z-index: 200;
+	font-size:1.1em;
+	padding: 10px;
+	border-radius: 10px;
+	width: 200px;
+	height: 150px;
+	position: absolute;
+	top:250px;
+	right:20px;
+
+}
+
+.descriptionBox:first-line{
+	color:white;
+	font-size:1.6em;
+	text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.8);
+}
+
 
 @media screen and (max-height: 700px){
 	.loadoutButton{
