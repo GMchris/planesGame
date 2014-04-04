@@ -112,7 +112,7 @@
         spawnRandomEnemy = function () {
             if (enemyPlanes.length <= 20) {
                 var rand = parseInt(Math.random() * 100) + 1; //[1, 100]
-                if (rand >= 0) {
+                if (rand >= 95) {
                     spawnStormer();
                 } else if (rand >= 90) {
                     spawnKamikaze();
@@ -510,17 +510,17 @@
             handleCollisionEnemy(kamikaze);
         },
 
-        handleCollisionStormCloudFriendlyPlane = function (stormCloud, hitPlane) {
+        handleCollisionStormCloudFriendlyPlane = function (stormCloud, hitPlaneIndex) {
             var nowMs = Date.now();
             if (nowMs - stormCloud.lastDamageTickTimestamp > stormCloudDamageFrequencyMs) {
                 stormCloud.lastDamageTickTimestamp = nowMs;
-                if (hitPlane.currentHealth > stormerDamage) {
-                    hitPlane.currentHealth -= stormerDamage;
-                    hitPlane.updateHpBar();
+                if (friendlyPlanes[hitPlaneIndex].currentHealth > stormerDamage) {
+                    friendlyPlanes[hitPlaneIndex].currentHealth -= stormerDamage;
+                    friendlyPlanes[hitPlaneIndex].updateHpBar();
                 } else {
-                    hitPlane.currentHealth = 0;
-                    hitPlane.updateHpBar();
-                    hitPlane.die();
+                    friendlyPlanes[hitPlaneIndex].currentHealth = 0;
+                    friendlyPlanes[hitPlaneIndex].updateHpBar();
+                    friendlyPlanes[hitPlaneIndex].die();
                 }
             }
         },
