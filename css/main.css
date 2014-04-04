@@ -65,6 +65,7 @@ section{
     position: absolute;
     left: 0;
     bottom: 0;
+    z-index: 1000;
 }
 
 .sentryPlaneDiv {
@@ -136,6 +137,16 @@ section{
     width:4px;
     border-radius: 2px 2px 0px 0px;
     -webkit-animation:homingPing 0.2s infinite;
+}
+
+.stormCloudDiv {
+    position: absolute;
+    border-radius: 80px;
+    height: 80px;
+    width: 80px;
+    background-color: blue;
+    opacity: 0.5;
+    z-index: 1;
 }
 
 .hpBarEnemy {

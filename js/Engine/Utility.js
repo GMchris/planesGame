@@ -20,6 +20,12 @@ function getRandomBottomCoordTopHalf(offsetHeight) {
     return randBottNum;
 };
 
+function getRandomBottomCoordBottomHalf(offsetHeight) {
+    //returns a bottom coord in the bottom half of the screen
+    var randBottNum = parseInt(Math.random() * (280 - offsetHeight) + 70);
+    return randBottNum;
+};
+
 function getChaseAngle(chaserLeft, chaserBottom, targetLeft, targetBottom) {
     //always returns a positive number
     var angle;

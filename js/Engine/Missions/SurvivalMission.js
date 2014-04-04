@@ -1,6 +1,6 @@
 ﻿SurvivalMission = Mission.extend({
     init: function () {
-        var enemySpawnFrequencyMs = 600;
+        var enemySpawnFrequencyMs = 800;
         this._super(enemySpawnFrequencyMs);
     },
 

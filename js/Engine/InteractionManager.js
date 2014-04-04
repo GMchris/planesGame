@@ -1,6 +1,7 @@
 ﻿var interactionManager = (function () {
     var playerPlane = new PlayerPlane(),
         bullets,
+        hazards,
         playerBulletsSpeed,
         enemyBulletsSpeed,
         fighterMovementSpeed,
@@ -9,9 +10,11 @@
         fighterMaxHealth,
         supplierMaxHealth,
         kamikazeMaxHealth,
+        stormerMaxHealth,
         fighterDamage,
         supplierDamage,
         kamikazeDamage,
+        stormerDamage,
         lastShotPlayerBulletTimestamp,
         lastFighterSpawnTimestamp,
         enemyPlanes,
@@ -19,6 +22,8 @@
         enemySpawnFrequencyMs,
         fighterShootFrequencyMs,
         sentryShootFrequencyMs,
+        stormerStormFrequencyMs,
+        stormCloudDamageFrequencyMs,
         fighterDirectionChangeFrequencyMs,
         currentMission,
         secondaryObjectiveType,
@@ -27,6 +32,7 @@
             playerPlane.isShooting = false;
             isPaused = false;
             bullets = [];
+            hazards = [];
             playerBulletsSpeed = 10;
             enemyBulletsSpeed = 7;
             fighterMovementSpeed = 4;
@@ -35,16 +41,20 @@
             fighterMaxHealth = 3;
             supplierMaxHealth = 5;
             kamikazeMaxHealth = 10;
+            stormerMaxHealth = 2,
             sentryMaxHealth = parseInt(playerPlane.maxHealth / 4);
             fighterDamage = 7;
             sentryDamage = playerPlane.damage / 3;
             supplierDamage = 0;
             kamikazeDamage = parseInt(playerPlane.maxHealth / 3);
+            stormerDamage = 3;
             enemySpawnFrequencyMs = null; //is set when a mission is started
             fighterDirectionChangeFrequencyMs = 1000;
             fighterShootFrequencyMs = 1500;
             sentryShootFrequencyMs = 150;
             supplierSupplyFrequencyMs = 1500;
+            stormerStormFrequencyMs = 2000;
+            stormCloudDamageFrequencyMs = 500;
             enemyPlanes = [];
             friendlyPlanes = [];
             lastShotPlayerBulletTimestamp = -1;
@@ -102,9 +112,11 @@
         spawnRandomEnemy = function () {
             if (enemyPlanes.length <= 20) {
                 var rand = parseInt(Math.random() * 100) + 1; //[1, 100]
-                if (rand >= 90) {
+                if (rand >= 0) {
+                    spawnStormer();
+                } else if (rand >= 90) {
                     spawnKamikaze();
-                } else if (rand >= 80) {
+                } else if (rand >= 85) {
                     spawnSupplier();
                 } else {
                     spawnFighter();
@@ -131,6 +143,19 @@
                 kamikazeMaxHealth, kamikazeDamage, kamikazeMovementSpeed);
             newKamikaze.addToScreen();
             enemyPlanes.push(newKamikaze);
+        },
+
+        spawnStormer = function () {
+            var newStormer = new EnemyStormer(getRandomLeftCoord(45), getRandomBottomCoordTopHalf(35),
+                stormerMaxHealth, stormerDamage);
+            newStormer.addToScreen();
+            enemyPlanes.push(newStormer);
+        },
+
+        spawnStormCloud = function (left, bottom) {
+            var newStormCloud = new StormCloud(left, bottom);
+            newStormCloud.addToScreen();
+            hazards.push(newStormCloud);
         },
 
         gauntletSpawnEnemies = function () {
@@ -262,6 +287,21 @@
                         enemyPlanes.splice(i, 1);
                         i++;
                     }
+                } else if (enemyPlanes[i] instanceof EnemyStormer) {
+                    stormStormer(enemyPlanes[i]);
+                }
+            }
+        },
+
+        iterateHazards = function () {
+            var i, hitFriendlyPlaneIndex;
+            for (i = 0; i < hazards.length; i++) {
+                hitFriendlyPlaneIndex = detectCollisionStormCloudFriendlyPlane(hazards[i]);
+                if (hitFriendlyPlaneIndex >= 0) {
+                    handleCollisionStormCloudFriendlyPlane(hazards[i], hitFriendlyPlaneIndex);
+                }
+                if (detectCollisionStormCloudPlayer(hazards[i])) {
+                    handleCollisionStormCloudPlayer(hazards[i]);
                 }
             }
         },
@@ -336,6 +376,14 @@
             }
         },
 
+        stormStormer = function (stormer) {
+            var nowMs = Date.now();
+            if (nowMs - stormer.lastStormTimestamp > stormerStormFrequencyMs) {
+                stormer.lastStormTimestamp = nowMs;
+                stormer.summonStorm();
+            }
+        },
+
         distance = function (gameObject1, gameObject2) {
             //computes distance between two objects, using the pythagorean theorem
             var leftCoordsDistance = Math.abs(gameObject1.leftCoord - gameObject2.leftCoord),
@@ -373,6 +421,48 @@
             return -1;
         },
 
+        detectCollisionStormCloudFriendlyPlane = function (stormCloud) {
+            var i, isHit;
+            for (i = 0; i < friendlyPlanes.length; i++) {
+                if (friendlyPlanes[i] instanceof SentryPlane) {
+                    isHit = ((stormCloud.bottomCoord + 12 > friendlyPlanes[i].bottomCoord &&
+                        stormCloud.bottomCoord + 12 < friendlyPlanes[i].bottomCoord + 75) ||
+                        ((stormCloud.bottomCoord + 68) > friendlyPlanes[i].bottomCoord &&
+                        (stormCloud.bottomCoord + 68) < friendlyPlanes[i].bottomCoord + 75))
+                    &&
+                        ((stormCloud.leftCoord + 12 > friendlyPlanes[i].leftCoord &&
+                        stormCloud.leftCoord + 12< friendlyPlanes[i].leftCoord + 100) ||
+                        (stormCloud.leftCoord + 68 > friendlyPlanes[i].leftCoord &&
+                        stormCloud.leftCoord + 68 < friendlyPlanes[i].leftCoord + 100));
+
+                    if (isHit) {
+                        return i;
+                    }
+                }
+            }
+
+            return -1;
+        },
+
+        detectCollisionStormCloudPlayer = function (stormCloud) {
+            var isHit = ((stormCloud.bottomCoord + 12 > playerPlane.bottomCoord + 20 &&
+                        stormCloud.bottomCoord + 12 < playerPlane.bottomCoord + 75) ||
+                        ((stormCloud.bottomCoord + 68) > playerPlane.bottomCoord + 20 &&
+                        (stormCloud.bottomCoord + 68) < playerPlane.bottomCoord + 75))
+                    &&
+                        ((stormCloud.leftCoord + 12 > playerPlane.leftCoord + 20 &&
+                        stormCloud.leftCoord + 12 < playerPlane.leftCoord + 80) ||
+                        (stormCloud.leftCoord + 68 > playerPlane.leftCoord + 20 &&
+                        stormCloud.leftCoord + 68 < playerPlane.leftCoord + 80))
+                    ||
+                        (stormCloud.bottomCoord > playerPlane.bottomCoord &&
+                        stormCloud.bottomCoord + 80 < playerPlane.bottomCoord + 70 &&
+                        stormCloud.leftCoord > playerPlane.leftcoord &&
+                        stormCloud.leftCoord + 80 < playerPlane.leftCoord + 100);
+
+            return isHit;
+        }
+
         detectCollisionPlayerBullet = function (bullet) {
             var i, isHit;
             for (i = 0; i < enemyPlanes.length; i++) {
@@ -386,7 +476,7 @@
                          && bullet.leftCoord <= enemyPlanes[i].leftCoord + 100
                          && bullet.bottomCoord >= enemyPlanes[i].bottomCoord
                          && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + 80;
-                } else if (enemyPlanes[i] instanceof EnemyKamikaze) {
+                } else if (enemyPlanes[i] instanceof EnemyKamikaze || enemyPlanes[i] instanceof EnemyStormer) {
                     isHit = bullet.leftCoord >= enemyPlanes[i].leftCoord
                          && bullet.leftCoord <= enemyPlanes[i].leftCoord + 100
                          && bullet.bottomCoord >= enemyPlanes[i].bottomCoord
@@ -418,6 +508,34 @@
             kamikaze.die();
 
             handleCollisionEnemy(kamikaze);
+        },
+
+        handleCollisionStormCloudFriendlyPlane = function (stormCloud, hitPlane) {
+            var nowMs = Date.now();
+            if (nowMs - stormCloud.lastDamageTickTimestamp > stormCloudDamageFrequencyMs) {
+                stormCloud.lastDamageTickTimestamp = nowMs;
+                if (hitPlane.currentHealth > stormerDamage) {
+                    hitPlane.currentHealth -= stormerDamage;
+                    hitPlane.updateHpBar();
+                } else {
+                    hitPlane.currentHealth = 0;
+                    hitPlane.updateHpBar();
+                    hitPlane.die();
+                }
+            }
+        },
+
+        handleCollisionStormCloudPlayer = function (stormCloud) {
+            var nowMs = Date.now();
+            if (nowMs - stormCloud.lastDamageTickTimestamp > stormCloudDamageFrequencyMs) {
+                stormCloud.lastDamageTickTimestamp = nowMs;
+                if (playerPlane.currentHealth > stormerDamage) {
+                    playerPlane.currentHealth -= stormerDamage;
+                } else {
+                    playerPlane.currentHealth = 0;
+                }
+                trackRemainingHealth(playerPlane.currentHealth);
+            }
         },
 
         handleCollisionPlayerBullet = function (bullet, hitEnemyPlaneIndex) {
@@ -867,6 +985,7 @@
         iterateBullets: iterateBullets,
         iterateFriendlyPlanes: iterateFriendlyPlanes,
         iterateEnemyPlanes: iterateEnemyPlanes,
+        iterateHazards: iterateHazards,
         increaseSpawnTime: increaseSpawnTime,
         shootPlayerPlane: shootPlayerPlane,
         handleMouseClick: handleMouseClick,
@@ -878,6 +997,7 @@
         stopTimeOff: stopTimeOff,
         handleDeathRay: handleDeathRay,
         handleBlackHole: handleBlackHole,
+        spawnStormCloud: spawnStormCloud,
 
         getPlayerHealth: getPlayerHealth,
         getPlayerLeftCoord: getPlayerLeftCoord,

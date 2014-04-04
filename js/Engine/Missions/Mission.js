@@ -40,6 +40,7 @@
         interactionManager.iterateBullets('all');
         interactionManager.iterateFriendlyPlanes();
         interactionManager.iterateEnemyPlanes();
+        interactionManager.iterateHazards();
         interactionManager.shootPlayerPlane();
         interactionManager.spawnEnemy();
         Visual.iterateBackground();
