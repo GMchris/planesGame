@@ -1,12 +1,9 @@
 Chris//
 
 *2 more backgrounds
-*new sentry graphic
 *dynamic primary mission tracker
 *improve victory screen
-*black hole animation
 *introScreen
-*AoE plane and AoE cloud graphics
 
 All//
 

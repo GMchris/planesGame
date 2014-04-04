@@ -910,6 +910,7 @@
             //add black hole image
             var convertedCoords = convertEventCoordinates(e.clientX, e.clientY),
                 convertedLeft = (convertedCoords.left <= 860) ? convertedCoords.left : 860;
+                Visual.drawBlackHole(convertedCoords.left,convertedCoords.bottom);
             moveEnemiesBlackHole(convertedLeft, convertedCoords.bottom);
 
             window.setTimeout(function () {

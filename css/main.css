@@ -44,6 +44,7 @@ section{
 	height: 700px;
 	width: 960px;
 	background: #4fbee7;
+    overflow: hidden;
 }
 
 /*GAME-----------------*/
@@ -136,17 +137,25 @@ section{
     height:15px;
     width:4px;
     border-radius: 2px 2px 0px 0px;
-    -webkit-animation:homingPing 0.2s infinite;
+    background: linear-gradient(#e5ff51,#4e5142);
+}
+
+.blackHole{
+    position: absolute;
+    height: 400px;
+    width:400px;
+    border-radius: 200px;
+    -webkit-animation : blackHoleAnimation 0.5s ease-out;
 }
 
 .stormCloudDiv {
     position: absolute;
-    border-radius: 80px;
     height: 80px;
     width: 80px;
-    background-color: blue;
-    opacity: 0.5;
     z-index: 1;
+    background-image: url(../images/planes/stormCloudFrames.png);
+    -webkit-animation: stormCloudAnimation 0.3s infinite
+
 }
 
 .hpBarEnemy {
@@ -163,7 +172,7 @@ section{
     width: 100%;
     height: 5px;
     border:2px solid black;
-    background-color: lightgreen;
+    background-color: #45cb36;
     opacity: 0.8;
 }
 
@@ -177,9 +186,27 @@ section{
 	to {opacity: 1; }
 }
 
+@-webkit-keyframes stormCloudAnimation{
+                0%{background-position: 0px 0px}
+                24.9%{background-position: 0px 0px}
+                25%{background-position: 80px 0px}
+                49.9%{background-position: 80px 0px}
+                50%{background-position: 160px 0px}
+                74.9%{background-position: 160px 0px}
+                75%{background-position: 240px 0px}
+                99.9%{background-position: 240px 0px}
+                100%{background-position: 0px 0px}
+            }
 
-@-webkit-keyframes homingPing {
-    0%  {background:  -webkit-gradient(linear, 0 0, 0 100%, from(#dd1d00), color-stop(0.3, #dd1d00), color-stop(0.31, #5a5a5a));background:  -webkit-linear-gradient(#dd1d00, #dd1d00 30%, #5a5a5a 31%);background:  -moz-linear-gradient(#dd1d00, #dd1d00 30%, #5a5a5a 31%);background:  -o-linear-gradient(#dd1d00, #dd1d00 30%, #5a5a5a 31%);background:  background: linear-gradient(#dd1d00, #dd1d00 30%, #5a5a5a 31%); }
-    50% {background:  -webkit-gradient(linear, 0 0, 0 100%, from(#fff1f1), color-stop(0.3, #fff1f1), color-stop(0.31, #5a5a5a));background:  -webkit-linear-gradient(#fff1f1, #fff1f1 30%, #5a5a5a 31%);background:  -moz-linear-gradient(#fff1f1, #fff1f1 30%, #5a5a5a 31%);background:  -o-linear-gradient(#fff1f1, #fff1f1 30%, #5a5a5a 31%);background:  background: linear-gradient(#fff1f1, #fff1f1 30%, #5a5a5a 31%); }
-    100%{background:  -webkit-gradient(linear, 0 0, 0 100%, from(#dd1d00), color-stop(0.3, #dd1d00), color-stop(0.31, #5a5a5a));background:  -webkit-linear-gradient(#dd1d00, #dd1d00 30%, #5a5a5a 31%);background:  -moz-linear-gradient(#dd1d00, #dd1d00 30%, #5a5a5a 31%);background:  -o-linear-gradient(#dd1d00, #dd1d00 30%, #5a5a5a 31%);background:  background: linear-gradient(#dd1d00, #dd1d00 30%, #5a5a5a 31%); }
-}
+@-webkit-keyframes blackHoleAnimation{
+                0%{
+                    background: #795a98;
+                    -webkit-transform: scale(1);
+                    opacity: 0.2;
+                }
+                100%{
+                    background: #342740;
+                    -webkit-transform: scale(0);
+                    opacity: 0.8;
+                }
+            }
