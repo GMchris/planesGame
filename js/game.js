@@ -2,6 +2,7 @@
 var Game = {
 	//Initialization
 	init: function(){
+		this.clearScreen();
 		AreaManager.areas[0].active = true;
 		MissionManager.generateMissions();
 		AreaManager.drawMap();
@@ -48,4 +49,4 @@ var Game = {
 
 }
 
-window.addEventListener("load", Game.init, false);  
+window.addEventListener("load", Visual.drawIntroScreen, false);  

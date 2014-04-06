@@ -1,5 +1,22 @@
 var Visual = {
 
+    drawIntroScreen:function(){
+
+        $("<div id='introScreen'></div>")
+        .css("background-image","url(images/map/IntroScreen.png)")
+        .appendTo("#gameScreen");
+
+        $("<div>Play</div>")
+        .addClass("introButton")
+        .appendTo("#introScreen")
+        .on("click",function(){
+            Game.init();
+        });
+
+        $("<div>Instructions</div>")
+        .addClass("introButton")
+        .appendTo("#introScreen");
+    },
     backgroundOffset: 0,
 
     //Makes the cursor invisible while game is active
@@ -8,7 +25,7 @@ var Visual = {
             this.backgroundOffset = 0;
             $("#gameScreen").css({
                 "cursor": "none",
-                "background-image": "url(../planesGame/images/backgrounds/river.jpg)"
+                "background-image": "url(images/backgrounds/river.jpg)"
             });
         }
         else {
