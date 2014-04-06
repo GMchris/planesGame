@@ -128,40 +128,29 @@
             var newFighter = new EnemyFighter(getRandomLeftCoord(45), getRandomBottomCoordTopHalf(35),
                 fighterMaxHealth, fighterDamage, fighterMovementSpeed);
             newFighter.addToScreen();
-            newFighter.animateSpawn();
-            window.setTimeout(function () {
-                enemyPlanes.push(newFighter);
-            }, 1500);
+
+            enemyPlanes.push(newFighter);
         },
 
         spawnSupplier = function () {
             var newSupplier = new EnemySupplier(getRandomLeftCoord(45), getRandomBottomCoordTopHalf(35),
                 supplierMaxHealth, supplierDamage, supplierMovementSpeed);
             newSupplier.addToScreen();
-            newSupplier.animateSpawn();
-            window.setTimeout(function () {
-                enemyPlanes.push(newSupplier);
-            }, 1500);
+            enemyPlanes.push(newSupplier);
         },
 
         spawnKamikaze = function () {
             var newKamikaze = new EnemyKamikaze(getRandomLeftCoord(45), getRandomBottomCoordTopHalf(35),
                 kamikazeMaxHealth, kamikazeDamage, kamikazeMovementSpeed);
             newKamikaze.addToScreen();
-            newKamikaze.animateSpawn();
-            window.setTimeout(function () {
-                enemyPlanes.push(newKamikaze);
-            }, 1500);
+            enemyPlanes.push(newKamikaze);
         },
 
         spawnStormer = function () {
             var newStormer = new EnemyStormer(getRandomLeftCoord(45), getRandomBottomCoordTopHalf(35),
                 stormerMaxHealth, stormerDamage);
             newStormer.addToScreen();
-            newStormer.animateSpawn();
-            window.setTimeout(function () {
-                enemyPlanes.push(newStormer);
-            }, 1500);
+            enemyPlanes.push(newStormer);
         },
 
         spawnStormCloud = function (left, bottom) {

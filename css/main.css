@@ -199,14 +199,14 @@ section{
             }
 
 @-webkit-keyframes blackHoleAnimation{
-                0%{
-                    background: #795a98;
-                    -webkit-transform: scale(1);
-                    opacity: 0.2;
-                }
-                100%{
-                    background: #342740;
-                    -webkit-transform: scale(0);
-                    opacity: 0.8;
-                }
+            0%{
+                background: #795a98;
+                -webkit-transform: scale(1);
+                opacity: 0.2;
             }
+            100%{
+                background: #342740;
+                -webkit-transform: scale(0);
+                opacity: 0.8;
+            }
+        }
