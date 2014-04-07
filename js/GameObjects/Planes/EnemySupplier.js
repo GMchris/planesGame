@@ -9,7 +9,7 @@ EnemySupplier = EnemyPlane.extend({
     lastSupplyTimestamp: null,
 
     supply: function (fighter) {
-        fighter.skills[0].activate();
         fighter.image.src = 'images/planes/fighter_spreadshot.png';
+        fighter.shoot = spreadShotEnemyShoot;
     }
 });

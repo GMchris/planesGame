@@ -4,9 +4,11 @@
         this._super(enemySpawnFrequencyMs);
         this.enemiesKilled = 0;
         this.enemiesSpawnedPerTaunt = 3;
+        this.lastTauntTimestamp = -1;
     },
     enemiesSpawnedPerTaunt: null,
     enemiesKilled: null,
+    lastTauntTimestamp: null,
 
     startMission: function () {
         $(document).on("keypress", function (e) {

@@ -117,7 +117,7 @@
                 } else if (rand >= 90) {
                     spawnKamikaze();
                 } else if (rand >= 85) {
-                    spawnSupplier();
+                    spawnFighter();
                 } else {
                     spawnFighter();
                 }
@@ -171,9 +171,12 @@
         },
 
         gauntletSpawnEnemies = function () {
-            var i;
-            for (i = 0; i < currentMission.enemiesSpawnedPerTaunt; i++) {
-                spawnRandomEnemy();
+            var nowMs = Date.now(), i;
+            if (nowMs - currentMission.lastTauntTimestamp > 1500) {
+                currentMission.lastTauntTimestamp = nowMs;
+                for (i = 0; i < currentMission.enemiesSpawnedPerTaunt; i++) {
+                    spawnRandomEnemy();
+                }
             }
         },
 

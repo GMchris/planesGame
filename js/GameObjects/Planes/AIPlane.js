@@ -36,7 +36,6 @@
         }, {
             step: function (now, fx) {
                 if (fx.prop == 'opacity') {
-                    console.log(now);
                     $(this).css('-webkit-transform', 'scale(' + now + ', ' + now + ')');
                 }
             },

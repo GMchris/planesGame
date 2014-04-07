@@ -56,3 +56,9 @@ var fps = {
         return result;
     }
 };
+
+function spreadShotEnemyShoot () {
+    interactionManager.spawnBullet(this.bulletType, this.leftCoord + 45, this.bottomCoord, -15, this);
+    interactionManager.spawnBullet(this.bulletType, this.leftCoord + 45, this.bottomCoord, 0, this);
+    interactionManager.spawnBullet(this.bulletType, this.leftCoord + 45, this.bottomCoord, 15, this);
+}
