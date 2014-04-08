@@ -90,6 +90,10 @@
     background-image: url(../images/ui/blackHoleIcon.png);
 }
 
+.stealthIcon {
+    background-image: url(../images/ui/stealthIcon.png);
+}
+
 #hpBar{
 	display: inline-block;
 	position: absolute;

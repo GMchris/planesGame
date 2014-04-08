@@ -75,6 +75,10 @@ var Loadout = {
 		        skillClass = "blackHoleIcon";
 		        break;
 
+		    case "stealth":
+		        skillClass = "stealthIcon";
+		        break;
+
 			default:
 				throw new Error("Unrecognized skill name");
 		}
@@ -153,32 +157,35 @@ var Loadout = {
 	generateDescription:function(skill){
 		switch(skill.attr("class")){
 			case "skillIcon spreadShotIcon":
-			return "Spread shot   You temporarily shoot three bullets in a cone in front of you.";
+			    return "Spread Shot<br/>You temporarily shoot three bullets in a cone in front of you.";
 
 			case "skillIcon penetratingShotIcon":
-			return "Piercing shot   Your bullets temporarily pierce targets and hit and enemies behind the target.";
+			    return "Piercing Shot<br/>Your bullets temporarily pierce targets and hit and enemies behind the target.";
 
 			case "skillIcon stopTimeIcon":
-			return "Stop time   Freeze enemies in place for a few seconds, while retaining your ability to move.";
+			    return "Stop Time<br/>Freeze enemies in place for a few seconds, while retaining your ability to move.";
 
 			case "skillIcon blackHoleIcon":
-			return "Black hole   After use, click someone on the battlefield to suck all enemies there.";
+			    return "Black Hole<br/>After use, click someone on the battlefield to suck all enemies there.";
 
 			case "skillIcon homingShotIcon":
-			return "Homing shot  Projectiles you fire, seek out enemy planes.";
+			    return "Homing Shot<br/>Projectiles you fire, seek out enemy planes.";
 
 			case "skillIcon deathRayIcon":
-			return "Death ray   Annihilate all enemies in a line in front of you.";
+			    return "Death Ray<br/>Annihilate all enemies in a line in front of you.";
 
 			case "skillIcon sentryIcon":
-			return "Place sentry   Place an immobile sentry that shoots your enemies down.";
+			    return "Sentry<br/>Place an immobile sentry that shoots your enemies down.";
+
+		    case "skillIcon stealthIcon":
+		        return "Stealth<br/>Vanish from your enemies' sight, causing all bullets to miss you for 2 seconds";
 		}
 	},
 
 	//Adds and removes the description box when needed
 	attachIconDescriptionEvents : function(){
         $(".skillIcon").on("mouseenter",function(){
-            $("<div/>").addClass("descriptionBox gameWindow").text(Loadout.generateDescription($(this))).appendTo("#gameScreen")
+            $("<div/>").addClass("descriptionBox gameWindow").html(Loadout.generateDescription($(this))).appendTo("#gameScreen")
         });
 
         $(".skillIcon").on("mouseleave click",function(){

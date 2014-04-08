@@ -5,11 +5,13 @@
         this.image.id = "playerPlaneImage";
         this.image.src = 'images/planes/player.png';
         this.isShooting = false;
+        this.isStealthed = false;
         this.skills = [];
 
         this.bulletType = "player";
     },
     isShooting: null,
+    isStealthed: null,
     skills: null,
     shoot: function () {
         if (this.isShooting) {

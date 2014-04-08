@@ -9,7 +9,7 @@ var Game = {
 		window.setInterval(function () {
 		    Timer.increaseTimer();
 		}, 1000);
-		for(var i=0;i<7;i++){
+		for(var i=0;i<8;i++){
 			Game.addSkill();
 		}
 	},
@@ -44,7 +44,7 @@ var Game = {
 		this.unlockedSkills.push(this.allSkills.splice(index,1)[0]);
 		return this.unlockedSkills[this.unlockedSkills.length-1];
 	},
-	allSkills : ["spreadshot","homingshot","penetratingshot","sentry","stoptime","deathray", "blackhole"],
+	allSkills : ["spreadshot","homingshot","penetratingshot","sentry","stoptime","deathray", "blackhole", "stealth"],
 	unlockedSkills :[]
 
 }
