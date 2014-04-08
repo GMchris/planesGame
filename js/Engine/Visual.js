@@ -21,11 +21,13 @@ var Visual = {
 
     //Makes the cursor invisible while game is active
     adjustCSSofGameScreen: function (isStartMission) {
+        var backgrounds = ["river","snow","desert"];
+
         if (isStartMission) {
             this.backgroundOffset = 0;
             $("#gameScreen").css({
                 "cursor": "none",
-                "background-image": "url(images/backgrounds/snow.jpg)"
+                "background-image": "url(images/backgrounds/"+backgrounds[MissionManager.currentAreaIndex]+".jpg)"
             });
         }
         else {
@@ -169,5 +171,3 @@ var Visual = {
     }
     
 };
-
-//Test comment
