@@ -25,7 +25,7 @@ var Visual = {
             this.backgroundOffset = 0;
             $("#gameScreen").css({
                 "cursor": "none",
-                "background-image": "url(images/backgrounds/river.jpg)"
+                "background-image": "url(images/backgrounds/snow.jpg)"
             });
         }
         else {
