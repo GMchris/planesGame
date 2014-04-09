@@ -54,6 +54,8 @@ var Visual = {
         }
         else if(mission instanceof GauntletMission){
             return "Kill 75 enemies. Press E to summon additional ones."
+        } else if (mission instanceof BossMission) {
+            return 'Defeat the boss.';
         }
         else{
             throw new Error("No such mission");

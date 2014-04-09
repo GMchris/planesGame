@@ -4,6 +4,8 @@
         this.oldShoot = this.plane.shoot;
     },
 
+    numberOfBullets: null,
+
     activate: function () {
         this._super();
         this.plane.shoot = this.newShoot;
@@ -17,6 +19,7 @@
     oldShoot: function () { },
 
     newShoot: function () {
+        var i;
         if ((this instanceof PlayerPlane) && this.isShooting) {
             interactionManager.spawnBullet(this.bulletType, this.leftCoord + 50, this.bottomCoord + 80, -15, this);
             interactionManager.spawnBullet(this.bulletType, this.leftCoord + 50, this.bottomCoord + 80, 0, this);
@@ -25,6 +28,11 @@
             interactionManager.spawnBullet(this.bulletType, this.leftCoord + 45, this.bottomCoord, -15, this);
             interactionManager.spawnBullet(this.bulletType, this.leftCoord + 45, this.bottomCoord, 0, this);
             interactionManager.spawnBullet(this.bulletType, this.leftCoord + 45, this.bottomCoord, 15, this);
+        } else if (this instanceof BossPlane) {
+            var amountOfBullets = 25;
+            for (i = 0; i < amountOfBullets; i++) {
+                interactionManager.spawnBullet(this.bulletType, this.leftCoord + 145, this.bottomCoord, -15 + (i * (30 / (amountOfBullets - 1))), this);
+            }
         }
     }
 });

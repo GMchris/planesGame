@@ -4,7 +4,6 @@
         this.movementSpeed = movementSpeed;
         this.updateCoords(left, bottom);
         this.move();
-        this.bulletType = "enemy";
         this.div.className = "enemyPlane";
         this.hpBar.className = "hpBarEnemy";
         this.lastDirectionChangeTimestamp = -1;
@@ -30,7 +29,6 @@
     },
 
     moveAtDirection: function () {
-        //fighters can only move diagonally
         if (this.movingRight && this.leftCoord < (960 - 95)) {
             this.leftCoord += this.movementSpeed;
         } else if (!this.movingRight && this.leftCoord > 3) {

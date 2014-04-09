@@ -1,9 +1,11 @@
 ﻿var interactionManager = (function () {
     var playerPlane = new PlayerPlane(),
+        boss,
         bullets,
         hazards,
         playerBulletsSpeed,
-        enemyBulletsSpeed,
+        fighterBulletsSpeed,
+        bossBulletsSpeed,
         fighterMovementSpeed,
         supplierMovementSpeed,
         kamikazeMovementSpeed,
@@ -29,12 +31,14 @@
         secondaryObjectiveType,
         isPaused,
         setInitialValues = function () {
+            boss = null;
             playerPlane.isShooting = false;
             isPaused = false;
             bullets = [];
             hazards = [];
             playerBulletsSpeed = 10;
-            enemyBulletsSpeed = 7;
+            fighterBulletsSpeed = 7;
+            bossBulletsSpeed = 12;
             fighterMovementSpeed = 4;
             supplierMovementSpeed = 1;
             kamikazeMovementSpeed = 2;
@@ -67,6 +71,15 @@
             playerPlane.addToScreen();
         },
 
+        spawnBoss = function () {
+            boss = new BossPlane(getRandomLeftCoord(150), getRandomBottomCoordTopHalf(120));
+            boss.addToScreen();
+            boss.animateSpawn();
+            window.setTimeout(function () {
+                enemyPlanes.push(boss);
+            }, 1500);
+        },
+
         spawnSentry = function (left, bottom) {
             var sentryTargetIndex = parseInt(Math.random() * enemyPlanes.length),
                 sentryTarget = enemyPlanes[sentryTargetIndex],
@@ -83,8 +96,8 @@
                 case "player":
                     newBullet = new PlayerBullet(left, bottom, orientationDeg, owner);
                     break;
-                case "enemy":
-                    newBullet = new EnemyBullet(left, bottom, orientationDeg, owner);
+                case "fighter":
+                    newBullet = new FighterBullet(left, bottom, orientationDeg, owner);
                     break;
                 case "piercing":
                     newBullet = new PiercingBullet(left, bottom, orientationDeg, owner);
@@ -93,6 +106,10 @@
                     randIndex = parseInt(Math.random() * enemyPlanes.length);
                     var target = enemyPlanes[randIndex];
                     newBullet = new HomingBullet(left, bottom, orientationDeg, owner, target);
+                    break;
+                case "boss":
+                    newBullet = new BossBullet(left, bottom, orientationDeg, owner);
+                    break;
                 default:
                     break;
             }
@@ -229,7 +246,7 @@
 
                 if (bullets[i].toBeSpliced) {
                     bullets.splice(i, 1);
-                    i++;
+                    i--;
                 }
 
             }
@@ -272,8 +289,9 @@
         },
 
         moveEnemyBullet = function (bullet) {
-            var newLeftCoord = bullet.leftCoord - bullet.orientationDeg / 45 * enemyBulletsSpeed;
-            bullet.updateCoords(newLeftCoord, bullet.bottomCoord - enemyBulletsSpeed);
+            var bulletSpeed = (bullet instanceof BossBullet) ? bossBulletsSpeed : fighterBulletsSpeed,
+                newLeftCoord = bullet.leftCoord - bullet.orientationDeg / 45 * bulletSpeed;
+            bullet.updateCoords(newLeftCoord, bullet.bottomCoord - bulletSpeed);
             bullet.move();
         },
 
@@ -304,6 +322,9 @@
                     }
                 } else if (enemyPlanes[i] instanceof EnemyStormer) {
                     stormStormer(enemyPlanes[i]);
+                } else if (enemyPlanes[i] instanceof BossPlane) {
+                    moveEnemyPlane(enemyPlanes[i]);
+                    shootBoss();
                 }
             }
         },
@@ -379,6 +400,14 @@
                 fighter.shoot();
             }
         },
+
+        shootBoss = function () {
+            var nowMs = Date.now();
+            if (nowMs - boss.lastShootTimestamp > boss.shootFrequency) {
+                boss.lastShootTimestamp = nowMs;
+                boss.shoot();
+            }
+        }
 
         supplySupplier = function (supplier) {
             var nowMs = Date.now(), i;
@@ -497,6 +526,11 @@
                          && bullet.leftCoord <= enemyPlanes[i].leftCoord + 100
                          && bullet.bottomCoord >= enemyPlanes[i].bottomCoord
                          && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + 75;
+                } else if (enemyPlanes[i] instanceof BossPlane) {
+                    isHit = bullet.leftCoord >= enemyPlanes[i].leftCoord
+                         && bullet.leftCoord <= enemyPlanes[i].leftCoord + 300
+                         && bullet.bottomCoord >= enemyPlanes[i].bottomCoord
+                         && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + 240;
                 }
                 if (isHit) { //return the index of the hit plane in the enemyPlanes array
                     return i;
@@ -615,6 +649,10 @@
                     currentMission = new GauntletMission();
                     currentMission.startMission();
                     break;
+                case "boss":
+                    currentMission = new BossMission();
+                    currentMission.startMission();
+                    break;
                 default:
                     throw new Error("Unrecognized mission type: " + missionType);
             }
@@ -689,6 +727,10 @@
 
         getPlayerHealth = function () {
             return playerPlane.currentHealth;
+        },
+
+        getBossHealth = function () {
+            return boss.currentHealth;
         },
 
         getPlayerLeftCoord = function () {
@@ -819,7 +861,11 @@
                 }
             }
 
-            trackRemainingHealth(currentHealth);
+            if (currentHealth) {
+                trackRemainingHealth(currentHealth);
+            } else {
+                trackRemainingHealth();
+            }
         },
 
         //trackEnemiesKilled = function (killCount) {
@@ -898,6 +944,7 @@
                      ((enemyPlanes[i].leftCoord < (left + 22)) && (enemyPlanes[i].leftCoord + 100) > (left + 78))); //enemy is hit in the middle
 
                 if (isHit) {
+                    console.log('hit');
                     if (enemyPlanes[i].currentHealth > deathRayDamage) {
                         enemyPlanes[i].currentHealth -= deathRayDamage;
                         enemyPlanes[i].updateHpBar();
@@ -996,6 +1043,7 @@
         startNewMission: launchMission,
         getSecondaryMission:getSecondaryMission,
         spawnPlayer: spawnPlayer,
+        spawnBoss: spawnBoss,
         spawnSentry: spawnSentry,
         spawnBullet: spawnBullet,
         spawnEnemy: spawnEnemy,
@@ -1019,6 +1067,7 @@
         spawnStormCloud: spawnStormCloud,
 
         getPlayerHealth: getPlayerHealth,
+        getBossHealth: getBossHealth,
         getPlayerLeftCoord: getPlayerLeftCoord,
         getPlayerBottomCoord: getPlayerBottomCoord,
         getPlayerSkills: getPlayerSkills,

@@ -9,7 +9,8 @@ function Mission(primary,secondary){
 
 var MissionManager = {
 	//Contains primary and secondary mission types
-	primary : ["survival", "domination", "gauntlet"],
+    primary : ["survival", "domination", "gauntlet"],
+    //primary: ["boss"],
 	secondary: ["remainingHealth", "accuracy"],
 	currentAreaIndex: -1,
     currentMissionIndex: -1,
@@ -64,6 +65,13 @@ var MissionManager = {
 		    case "gauntlet":
 		        title = "Gauntlet";
 		        primaryDescription = "<p>Kill 70 enemies. Pressing E will spawn 3 enemy planes</p>";
+		        break;
+		    case "boss":
+		        title = 'Boss Fight';
+		        primaryDescription = '<p>Defeat the boss.</p>';
+		        break;
+		    default:
+		        throw new Error('Uncrecognized primary mission type');
 		}
 
 		switch(secondary){

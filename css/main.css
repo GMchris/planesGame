@@ -109,15 +109,27 @@ section{
 }
 
 .enemyBulletDiv {
-     border-radius:  0px 0px 2px 2px;
+    border-radius:  0px 0px 2px 2px;
     position: absolute;
     height: 15px;
     width: 4px;
-  	 background: -webkit-gradient(linear, 0 0, 0 100%, from(#df3100), to(#ff7100));
-     background: -webkit-linear-gradient(#df3100, #ff7100);
-     background: -moz-linear-gradient(#df3100, #ff7100);
-     background: -o-linear-gradient(#df3100, #ff7100);
-     background: linear-gradient(#df3100, #ff7100);
+  	background: -webkit-gradient(linear, 0 0, 0 100%, from(#df3100), to(#ff7100));
+    background: -webkit-linear-gradient(#df3100, #ff7100);
+    background: -moz-linear-gradient(#df3100, #ff7100);
+    background: -o-linear-gradient(#df3100, #ff7100);
+    background: linear-gradient(#df3100, #ff7100);
+}
+
+.bossBulletDiv {
+    border-radius:  0px 0px 4px 4px;
+    position: absolute;
+    height: 30px;
+    width: 6px;
+  	background: -webkit-gradient(linear, 0 0, 0 100%, from(#df3100), to(#ff7100));
+    background: -webkit-linear-gradient(#df3100, #ff7100);
+    background: -moz-linear-gradient(#df3100, #ff7100);
+    background: -o-linear-gradient(#df3100, #ff7100);
+    background: linear-gradient(#df3100, #ff7100);
 }
 
 .piercingBulletDiv {
