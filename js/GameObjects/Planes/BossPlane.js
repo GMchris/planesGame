@@ -6,8 +6,7 @@
         this.shootFrequency = 500;
         this.isCasting = false;
         this.bulletType = 'boss';
-        this.skills = [new SpreadShot(this)];
-        this.skills[0].activate();
+        this.skills = [new BossSpreadShot(this)];
     },
 
     isCasting: null,

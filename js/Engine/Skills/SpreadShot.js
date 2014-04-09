@@ -4,8 +4,6 @@
         this.oldShoot = this.plane.shoot;
     },
 
-    numberOfBullets: null,
-
     activate: function () {
         this._super();
         this.plane.shoot = this.newShoot;
@@ -31,7 +29,7 @@
         } else if (this instanceof BossPlane) {
             var amountOfBullets = 25;
             for (i = 0; i < amountOfBullets; i++) {
-                interactionManager.spawnBullet(this.bulletType, this.leftCoord + 145, this.bottomCoord, -15 + (i * (30 / (amountOfBullets - 1))), this);
+                interactionManager.spawnBullet(this.bulletType, this.leftCoord + 145, this.bottomCoord, -40 + (i * (80 / (amountOfBullets - 1))), this);
             }
         }
     }
