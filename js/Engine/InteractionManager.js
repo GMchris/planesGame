@@ -134,7 +134,7 @@
                 } else if (rand >= 90) {
                     spawnKamikaze();
                 } else if (rand >= 85) {
-                    spawnFighter();
+                    spawnSupplier();
                 } else {
                     spawnFighter();
                 }

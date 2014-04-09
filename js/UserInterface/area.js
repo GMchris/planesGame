@@ -26,8 +26,9 @@ var AreaManager = {
 				if(this.areas[i].pointsInArea >= 5){
 					this.areas[i+1].active = true;
 				}
-				else if(this.areas[i].missions[0].complete&&this.areas[i].missions[1].complete&&this.areas[i].missions[2].complete){
-					this.areas[i].active = true
+				else if (this.areas[i + 1] != undefined &&
+                        this.areas[i].missions[0].complete && this.areas[i].missions[1].complete && this.areas[i].missions[2].complete) {
+					this.areas[i + 1].active = true
 				}
 			}
 		}
