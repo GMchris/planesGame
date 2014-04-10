@@ -228,7 +228,7 @@
                         && (!(bullets[i] instanceof PiercingBullet) || bullets[i].enemiesHit.indexOf(enemyPlanes[hitEnemyPlaneIndex]) == -1)) {
                         handleCollisionPlayerBullet(bullets[i], hitEnemyPlaneIndex);
                         bullets[i].handleCollision(enemyPlanes[hitEnemyPlaneIndex]);
-                    } else if (detectCollisionPlayerBulletWithBoss(bullets[i])){
+                    } else if (boss && detectCollisionPlayerBulletWithBoss(bullets[i])){
                         handleCollisionPlayerBulletWithBoss(bullets[i]);
                         bullets[i].handleCollision(boss);
                     } else {

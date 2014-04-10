@@ -65,18 +65,17 @@
             step: function (now, fx) {
                 $(this).css('-webkit-transform', 'scale(' + now + ', ' + now + ')');
             },
+            complete: function () {
+                self.quarterPhaseHealthRegenInterval = window.setInterval(function () {
+                    if (self.currentHealth <= self.maxHealth - 5) {
+                        self.currentHealth += 2;
+                    } else {
+                        self.currentHealth = self.maxHealth;
+                    }
+                }, 1000);
+            },
             duration: 3000
         });
-
-        window.setTimeout(function () {
-            self.quarterPhaseHealthRegenInterval = window.setInterval(function () {
-                if (self.currentHealth <= self.maxHealth - 5) {
-                    self.currentHealth += 2;
-                } else {
-                    self.currentHealth = self.maxHealth;
-                }
-            }, 1000);
-        }, 3000);
     },
 
     leaveQuarterPhase: function () {
