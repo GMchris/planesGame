@@ -2,7 +2,9 @@
     init: function (left, bottom, maxHealth, damage) {
         this._super(maxHealth, damage);
         this.hpBar = document.createElement('div');
+        this.hpBarEmpty = document.createElement('div');
         $(this.hpBar).appendTo(this.div);
+        $(this.hpBarEmpty).appendTo(this.div);
         this.updateCoords(left, bottom);
         this.move();
     },
@@ -49,6 +51,8 @@
 
     die: function () {
         var self = this;
+        $(this.hpBarEmpty).remove();
+        $(this.hpBar).remove();
         this.div.style['-webkit-animation'] = 'enemyDeathAnimation 1.5s';
         window.setTimeout(function () {
             $(self.div).remove();

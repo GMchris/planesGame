@@ -21,7 +21,7 @@ BossSkill = Skill.extend({
 
     tryUse: function () {
         var self = this;
-        if (!this.plane.isCasting) {
+        if (!this.plane.isCasting && this.plane.skills.indexOf(this) != -1) {
             this.use();
         } else {
             window.setTimeout(function () {

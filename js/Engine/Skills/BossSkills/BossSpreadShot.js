@@ -20,7 +20,7 @@
     newShoot: function () {
         var amountOfBullets = 25;
         for (i = 0; i < amountOfBullets; i++) {
-            interactionManager.spawnBullet(this.bulletType, this.leftCoord + 145, this.bottomCoord, -40 + (i * (80 / (amountOfBullets - 1))), this);
+            interactionManager.spawnBullet(this.bulletType, this.leftCoord + 145, this.bottomCoord, -this.orientationDeg -40 + (i * (80 / (amountOfBullets - 1))), this);
         }
     }
 });

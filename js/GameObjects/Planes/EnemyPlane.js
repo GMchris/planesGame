@@ -6,6 +6,7 @@
         this.move();
         this.div.className = "enemyPlane";
         this.hpBar.className = "hpBarEnemy";
+        this.hpBarEmpty.className = 'hpBarEnemyEmpty';
         this.lastDirectionChangeTimestamp = -1;
         $(this.hpBar).appendTo(this.div);
     },
