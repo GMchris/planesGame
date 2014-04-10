@@ -29,10 +29,10 @@
         }
 
         this.move();
-        $(this.div).css('opacity', '0');
+        $(this.div).css('opacity', 0);
         $(this.div).animate({
             'left': currentLeftCoord,
-            'opacity': '1'
+            'opacity': 1
         }, {
             step: function (now, fx) {
                 if (fx.prop == 'opacity') {

@@ -17,6 +17,7 @@
         interactionManager.iterateEnemyPlanes();
         interactionManager.iterateHazards();
         interactionManager.shootPlayerPlane();
+        interactionManager.handleBossIteration();
         Visual.iterateBackground();
 
         if (self.checkWinConditions()) {

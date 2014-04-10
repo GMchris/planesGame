@@ -19,6 +19,17 @@ BossSkill = Skill.extend({
         this.isOnCooldown = false;
     },
 
+    tryUse: function () {
+        var self = this;
+        if (!this.plane.isCasting) {
+            this.use();
+        } else {
+            window.setTimeout(function () {
+                self.tryUse.call(self);
+            }, 100);
+        }
+    },
+
     use: function () {
         var self = this;
 
@@ -31,7 +42,7 @@ BossSkill = Skill.extend({
 
             window.setTimeout(function () {
                 self.makeAvailable.call(self);
-                self.use.call(self);
+                self.tryUse();
             }, self.cooldownMs);
         }
     }

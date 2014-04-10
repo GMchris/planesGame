@@ -10,7 +10,7 @@
             this.orientationDeg = parseInt(Math.atan(
                     Math.abs(this.leftCoord - (this.targetPlane.leftCoord + 40)) / Math.abs(this.bottomCoord - (this.targetPlane.bottomCoord + 20)))
                     / (Math.PI / 180)); //measures the angle the bullet needs to rotate to face its target
-            if (this.leftCoord > this.targetPlane.leftCoord) {
+            if (this.leftCoord > this.targetPlane.leftCoord + 40) {
                 this.orientationDeg *= -1;
             }
 
