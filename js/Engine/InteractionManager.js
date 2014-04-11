@@ -139,7 +139,7 @@
         spawnRandomEnemy = function () {
             if (enemyPlanes.length <= 20) {
                 var rand = parseInt(Math.random() * 100) + 1; //[1, 100]
-                if (rand >= 0) {
+                if (rand >= 95) {
                     spawnStormer();
                 } else if (rand >= 90) {
                     spawnKamikaze();
