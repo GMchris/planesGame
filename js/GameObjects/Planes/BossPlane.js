@@ -7,7 +7,7 @@
         this.shootFrequency = 500;
         this.isCasting = false;
         this.bulletType = 'boss';
-        this.skills = [new BossSpreadShot(this)];
+        this.skills = [];
         this.healthPercentage = 100;
         this.reached75Percent = false;
         this.reached50Percent = false;
@@ -134,8 +134,13 @@
         window.clearInterval(this.quarterPhaseHealthRegenInterval);
     },
 
-    phase50percent: function () {
+    phase50Percent: function () {
+        this.skills.shift().detach();
+        this.skills.push(new BossSummonStormClouds(this));
+    },
+
+    phase25Percent: function () {
         this.moveAtDirection = this.moveAtDirectionChase;
-        this.skills = [];
+        this.skills.shift().detach();
     }
 });

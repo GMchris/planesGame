@@ -21,7 +21,7 @@ BossSkill = Skill.extend({
 
     tryUse: function () {
         var self = this;
-        if (!this.plane.isCasting && this.plane.skills.indexOf(this) != -1) {
+        if (interactionManager.getCurrentMission() && !this.plane.isCasting && this.plane.skills.indexOf(this) != -1) {
             this.use();
         } else {
             window.setTimeout(function () {
@@ -45,5 +45,9 @@ BossSkill = Skill.extend({
                 self.tryUse();
             }, self.cooldownMs);
         }
+    },
+
+    detach: function () {
+        delete this.plane; //deletes the reference to this.plane -> skill won't be used anymore
     }
 });

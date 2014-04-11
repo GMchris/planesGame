@@ -10,6 +10,6 @@
         var stormBottomCoord = getRandomBottomCoordBottomHalf(35),
             stormLeftCoord = getRandomLeftCoord(45);
 
-        interactionManager.spawnStormCloud(stormLeftCoord, stormBottomCoord);
+        interactionManager.spawnStormCloud(stormLeftCoord, stormBottomCoord, this.leftCoord, this.bottomCoord, 100);
     }
 });

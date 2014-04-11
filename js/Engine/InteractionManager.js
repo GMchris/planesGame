@@ -86,6 +86,7 @@
             boss.animateSpawn();
             window.setTimeout(function () {
                 self.handleBossIteration = handleBoss;
+                boss.skills.push(new BossSpreadShot(boss));
             }, 1500);
         },
 
@@ -138,7 +139,7 @@
         spawnRandomEnemy = function () {
             if (enemyPlanes.length <= 20) {
                 var rand = parseInt(Math.random() * 100) + 1; //[1, 100]
-                if (rand >= 95) {
+                if (rand >= 0) {
                     spawnStormer();
                 } else if (rand >= 90) {
                     spawnKamikaze();
@@ -190,9 +191,12 @@
             }, 1500);
         },
 
-        spawnStormCloud = function (left, bottom) {
+        spawnStormCloud = function (left, bottom, casterLeft, casterBottom, casterWidth) {
             var newStormCloud = new StormCloud(left, bottom);
-            newStormCloud.addToScreen();
+            newStormCloud.animateCast(casterLeft, casterBottom, casterWidth);
+            window.setTimeout(function () {
+                newStormCloud.addToScreen();
+            }, 300);
             hazards.push(newStormCloud);
         },
 
@@ -706,6 +710,14 @@
         },
 
         abortMission = function () {
+            if (boss) {
+                delete boss.skills; //prevents spamming of boss' skills after the mission is over
+                //removes the reference to all the boss' skills -> the skills themselves get picked up by the garbage collector
+                //as nothing is referencing them
+                //if the reference to the skills is not deleted, after the mission ends the boss object and all the bossSkill objects
+                //continue to exist as they're coupled (reference eachother) and all the skills continue to get used on cooldown
+                //(storm clouds continue to appear every 20 seconds, even on the area screen)
+            }
             setInitialValues();
         },
 
@@ -815,6 +827,10 @@
 
         getEnemiesCount = function () {
             return enemyPlanes.length;
+        },
+
+        getCurrentMission = function () {
+            return currentMission;
         },
 
         togglePause = function () {
@@ -1042,9 +1058,6 @@
         },
 
         handleBossDeathRay = function (castTime) {
-            var stormCloud = new StormCloud(boss.leftCoord + 150 + Math.ceil(boss.orientationDeg * 5 / 3),
-                boss.bottomCoord + Math.abs(boss.orientationDeg * 4 / 3));
-            stormCloud.addToScreen();
         },
 
         animateDeathRay = function (left, bottom) {
@@ -1096,10 +1109,10 @@
         },
 
         dealDamageDeathRayToBoss = function (left, bottom) {
-            var isHit = (boss.bottomCoord > bottom + 75) &&   //enemy is above the player
-                   ((boss.leftCoord > (left + 22) && boss.leftCoord < (left + 78)) || //enemy's left side has been hit
-                    ((boss.leftCoord + 300) > (left + 22) && (boss.leftCoord + 300) < (left + 78)) ||    //enemy's right side has been hit
-                    ((boss.leftCoord < (left + 22)) && (boss.leftCoord + 300) > (left + 78))); //enemy is hit in the middle
+            var isHit = (boss.bottomCoord > bottom + 75) &&   //boss is above the player
+                   ((boss.leftCoord > (left + 22) && boss.leftCoord < (left + 78)) || //boss' left side has been hit
+                    ((boss.leftCoord + 300) > (left + 22) && (boss.leftCoord + 300) < (left + 78)) ||    //boss' right side has been hit
+                    ((boss.leftCoord < (left + 22)) && (boss.leftCoord + 300) > (left + 78))); //boss is hit in the middle
             if (isHit) {
                 if (boss.currentHealth > deathRayDamage) {
                     boss.currentHealth -= deathRayDamage;
@@ -1194,13 +1207,14 @@
                 window.setTimeout(function () {
                     if (currentMission) {
                         interactionManager.handleBossQuarterPhase();
+                        boss.skills.push(new BossSummonStormClouds(boss));
                     }
                 }, 3000);
             }
             if (!boss.reached50Percent && boss.healthPercentage <= 50) {
                 boss.reached50Percent = true;
                 boss.enterQuarterPhase();
-                boss.phase50percent();
+                boss.phase50Percent();
                 window.setTimeout(function () {
                     if (currentMission) {
                         interactionManager.handleBossQuarterPhase();
@@ -1210,6 +1224,7 @@
             if (!boss.reached25Percent && boss.healthPercentage <= 25) {
                 boss.reached25Percent = true;
                 boss.enterQuarterPhase();
+                boss.phase25Percent();
                 window.setTimeout(function () {
                     if (currentMission) {
                         interactionManager.handleBossQuarterPhase();
@@ -1275,6 +1290,7 @@
         getPlayerBottomCoord: getPlayerBottomCoord,
         getPlayerSkills: getPlayerSkills,
         setPlayerSkills: setPlayerSkills,
-        getEnemiesCount: getEnemiesCount
+        getEnemiesCount: getEnemiesCount,
+        getCurrentMission: getCurrentMission
     }
 })();
