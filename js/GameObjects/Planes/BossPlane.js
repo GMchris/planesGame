@@ -1,6 +1,6 @@
 ﻿BossPlane = EnemyChasePlane.extend({
     init: function (left, bottom) {
-        this._super(left, bottom, 500, 5, 3);
+        this._super(left, bottom, 500, 0, 3);
         var self = this;
         this.image.src = 'images/planes/boss.png';
         this.lastShootTimestamp = -1;
@@ -134,9 +134,12 @@
         window.clearInterval(this.quarterPhaseHealthRegenInterval);
     },
 
+    phase75Percent: function () {
+        this.skills.push(new BossSummonStormClouds(this));
+    },
+
     phase50Percent: function () {
         this.skills.shift().detach();
-        this.skills.push(new BossSummonStormClouds(this));
     },
 
     phase25Percent: function () {

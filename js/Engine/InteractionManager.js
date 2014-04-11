@@ -1169,10 +1169,10 @@
             if (!boss.reached75Percent && boss.healthPercentage <= 75) { //boss reached 75% hp, enter reinforcements phase
                 boss.reached75Percent = true;
                 boss.enterQuarterPhase();
+                boss.phase75Percent();
                 window.setTimeout(function () {
                     if (currentMission) {
                         interactionManager.handleBossQuarterPhase();
-                        boss.skills.push(new BossSummonStormClouds(boss));
                     }
                 }, 3000);
             }

@@ -22,6 +22,7 @@ BossSkill = Skill.extend({
     tryUse: function () {
         var self = this;
         if (interactionManager.getCurrentMission() && !this.plane.isCasting && this.plane.skills.indexOf(this) != -1) {
+            self.makeAvailable.call(self);
             this.use();
         } else {
             window.setTimeout(function () {
@@ -41,7 +42,6 @@ BossSkill = Skill.extend({
             }, self.durationMs);
 
             window.setTimeout(function () {
-                self.makeAvailable.call(self);
                 self.tryUse();
             }, self.cooldownMs);
         }
