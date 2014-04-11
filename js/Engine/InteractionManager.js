@@ -429,7 +429,8 @@
             var nowMs = Date.now(), i;
             if (nowMs - supplier.lastSupplyTimestamp > supplierSupplyFrequencyMs) {
                 for (i = 0; i < enemyPlanes.length; i++) {
-                    if (enemyPlanes[i] instanceof EnemyFighter && distance(supplier, enemyPlanes[i]) < 250) {
+                    if (enemyPlanes[i] instanceof EnemyFighter
+                        && distanceBetweenTwoPoints(supplier.leftCoord, supplier.bottomCoord, enemyPlanes[i].leftCoord, enemyPlanes[i].bottomCoord) < 250) {
                         supplier.supply(enemyPlanes[i]);
                     }
                 }
@@ -442,15 +443,6 @@
                 stormer.lastStormTimestamp = nowMs;
                 stormer.summonStorm();
             }
-        },
-
-        distance = function (gameObject1, gameObject2) {
-            //computes distance between two objects, using the pythagorean theorem
-            var leftCoordsDistance = Math.abs(gameObject1.leftCoord - gameObject2.leftCoord),
-                bottomCoordsDistance = Math.abs(gameObject1.bottomCoord - gameObject2.bottomCoord);
-            objectDistance = Math.sqrt(leftCoordsDistance * leftCoordsDistance + bottomCoordsDistance * bottomCoordsDistance);
-
-            return objectDistance;
         },
 
         detectCollisionEnemyBulletWithPlayer = function (bullet) {
@@ -918,33 +910,6 @@
             }
         },
 
-    //trackEnemiesKilled = function (killCount) {
-    //    var enemiesKilled = 0, stars = 0;
-
-    //    trackEnemiesKilled = function (killCount) {
-    //        if (arguments.length > 0) { //if the func is called without arguments, the amount of stars earned will be returned + the vars will reset
-    //            //console.log("enemies killed: " + enemiesKilled);
-    //            enemiesKilled += killCount;
-
-    //            if (enemiesKilled >= 60) {
-    //                stars = 3;
-    //            } else if (enemiesKilled >= 50) {
-    //                stars = 2;
-    //            } else if (enemiesKilled >= 45) {
-    //                stars = 1;
-    //            } else {
-    //                stars = 0;
-    //            }
-
-    //            return enemiesKilled;
-    //        } else {
-    //            enemiesKilled = 0;
-    //            return stars;
-    //        }
-    //    }
-
-    //    trackEnemiesKilled(killCount);
-    //},
         distanceBetweenTwoPoints = function (x1, y1, x2, y2) {
             return Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)); 
         },
