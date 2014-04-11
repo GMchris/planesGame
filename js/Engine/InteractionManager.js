@@ -18,6 +18,8 @@
         kamikazeDamage,
         stormerDamage,
         deathRayDamage,
+        radioactiveDamage,
+        radioactiveRadius,
         lastShotPlayerBulletTimestamp,
         lastFighterSpawnTimestamp,
         enemyPlanes,
@@ -54,6 +56,8 @@
             kamikazeDamage = parseInt(playerPlane.maxHealth / 3);
             stormerDamage = 3;
             deathRayDamage = playerPlane.damage * 10;
+            radioactiveDamage = playerPlane.damage * 3;
+            radioactiveRadius = 500;
             enemySpawnFrequencyMs = null; //is set when a mission is started
             fighterDirectionChangeFrequencyMs = 1000;
             fighterShootFrequencyMs = 1500;
@@ -799,6 +803,9 @@
                     case "stealth":
                         playerPlane.skills.push(new Stealth(playerPlane));
                         break;
+                    case "radioactive":
+                        playerPlane.skills.push(new Radioactive(playerPlane));
+                        break;
                     default:
                         throw new Error("Unrecognized skill type");
                 }
@@ -922,7 +929,96 @@
 
     //    trackEnemiesKilled(killCount);
     //},
+        distanceBetweenTwoPoints = function (x1, y1, x2, y2) {
+            return Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)); 
+        },
 
+        handleRadioactive = function (left, bottom) {
+            animateRadioactive(left, bottom);
+            dealDamageRadioactive(left, bottom);
+            if (boss) {
+                dealDamageRadioactiveToBoss(left, bottom);
+            }
+        },
+
+        animateRadioactive = function (left, bottom) {
+            var radioactiveDiv =
+                $('<div></div>')
+                .addClass('radioactiveDiv')
+                .css({
+                    'bottom': bottom + 40 + 'px',
+                    'left': left + 50 +'px'
+                })
+                .appendTo('#gameScreen')
+                .animate({
+                    bottom: bottom + 40 - radioactiveRadius/2, 
+                    left: left + 50 - radioactiveRadius/2, 
+                    width: radioactiveRadius + "px", 
+                    height: radioactiveRadius +"px", 
+                    opacity: 0
+                },
+                800,
+                function () {
+                    radioactiveDiv.remove();
+                });
+
+        },
+
+        dealDamageRadioactive = function (left, bottom) {
+            var i, isHit,
+            enemyPlaneHeight = 72,
+            enemyPlaneWidth = 90,
+            X = left + 50, //PlayerPlane Center X
+            Y = bottom + 40; //PlayerPlane Center Y
+            //enemy planes
+            for (i = 0; i < enemyPlanes.length; i++) {
+                isHit = ((distanceBetweenTwoPoints(enemyPlanes[i].leftCoord, enemyPlanes[i].bottomCoord, X, Y)) < radioactiveRadius) && 
+                    ((distanceBetweenTwoPoints(enemyPlanes[i].leftCoord + enemyPlaneWidth, enemyPlanes[i].bottomCoord, X, Y)) < radioactiveRadius) &&
+                    ((distanceBetweenTwoPoints(enemyPlanes[i].leftCoord + enemyPlaneWidth, enemyPlanes[i].bottomCoord + enemyPlaneHeight, X, Y)) < radioactiveRadius) &&
+                    ((distanceBetweenTwoPoints(enemyPlanes[i].leftCoord, enemyPlanes[i].bottomCoord + enemyPlaneHeight, X, Y)) < radioactiveRadius);
+
+                if (isHit) {
+                    if (enemyPlanes[i].currentHealth > radioactiveDamage) {
+                        enemyPlanes[i].currentHealth -= radioactiveDamage;
+                        enemyPlanes[i].updateHpBar();
+                    } else {
+                        enemyPlanes[i].currentHealth = 0;
+                        enemyPlanes[i].updateHpBar();
+                        enemyPlanes[i].die();
+                        enemyPlanes.splice(i, 1);
+                        i--;
+                        if (currentMission instanceof GauntletMission) {
+                            currentMission.incrementEnemiesKilled();
+                        }
+                    }
+                }
+            }
+            //boss
+        },
+
+        dealDamageRadioactiveToBoss = function (left, bottom) {
+            var isHit,
+            bossHeight = 240,
+            bossWidth = 300,
+            X = left + 50, //PlayerPlane Center X
+            Y = bottom + 40; //PlayerPlane Center Y
+
+            isHit = ((distanceBetweenTwoPoints(boss.leftCoord, boss.bottomCoord, X, Y)) < radioactiveRadius) && 
+                    ((distanceBetweenTwoPoints(boss.leftCoord + bossWidth, boss.bottomCoord, X, Y)) < radioactiveRadius) &&
+                    ((distanceBetweenTwoPoints(boss.leftCoord + bossWidth, boss.bottomCoord + bossHeight, X, Y)) < radioactiveRadius) &&
+                    ((distanceBetweenTwoPoints(boss.leftCoord, boss.bottomCoord + bossHeight, X, Y)) < radioactiveRadius);
+
+            if (isHit) {
+                if (boss.currentHealth > radioactiveDamage) {
+                    boss.currentHealth -= radioactiveDamage;
+                    boss.updateHpBar();
+                } else {
+                    boss.currentHealth = 0;
+                    boss.updateHpBar();
+                    boss.die();
+                }
+            }
+        },
         stopTimeOn = function (newMainLoop) {
             window.clearInterval(currentMission.mainLoopInterval);
             currentMission.mainLoopInterval = window.setInterval(function () {
@@ -981,7 +1077,6 @@
                      ((enemyPlanes[i].leftCoord < (left + 22)) && (enemyPlanes[i].leftCoord + 100) > (left + 78))); //enemy is hit in the middle
 
                 if (isHit) {
-                    console.log('hit');
                     if (enemyPlanes[i].currentHealth > deathRayDamage) {
                         enemyPlanes[i].currentHealth -= deathRayDamage;
                         enemyPlanes[i].updateHpBar();
@@ -1167,6 +1262,7 @@
         stopTimeOn: stopTimeOn,
         stopTimeOff: stopTimeOff,
         handleDeathRay: handleDeathRay,
+        handleRadioactive: handleRadioactive, //new 
         handleBossDeathRay: handleBossDeathRay,
         handleBlackHole: handleBlackHole,
         spawnStormCloud: spawnStormCloud,

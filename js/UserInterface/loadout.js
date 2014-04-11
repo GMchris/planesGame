@@ -79,6 +79,10 @@ var Loadout = {
 		        skillClass = "stealthIcon";
 		        break;
 
+		    case "radioactive":
+		        skillClass = "radioactiveIcon";
+		        break;
+
 			default:
 				throw new Error("Unrecognized skill name");
 		}
@@ -179,6 +183,9 @@ var Loadout = {
 
 		    case "skillIcon stealthIcon":
 		        return "Stealth<br/>Vanish from your enemies' sight, causing all bullets to miss you for 2 seconds";
+
+		    case "skillIcon radioactiveIcon":
+		        return "Radioactive<br/>Send radioactive wave to your enemies";
 		}
 	},
 

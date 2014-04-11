@@ -94,6 +94,10 @@
     background-image: url(../images/ui/stealthIcon.png);
 }
 
+.radioactiveIcon {
+    background-image: url(../images/ui/radioactiveIcon.png);
+}
+
 #hpBar{
 	display: inline-block;
 	position: absolute;
