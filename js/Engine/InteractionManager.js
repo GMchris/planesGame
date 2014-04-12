@@ -1172,6 +1172,7 @@
             }
             window.setTimeout(function () {
                 moveEnemyPlane = currentMoveEnemyPlaneFunction;
+                moveKamikaze = currentKamikazeMoveFunction;
             }, animationLengthMs);
         },
 
