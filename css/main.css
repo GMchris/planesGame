@@ -213,6 +213,18 @@ section{
     opacity: 0.8;
 }
 
+.castBarBoss {
+    position: absolute;
+    width: 0%;
+    display: none;
+    height: 5px;
+    border-style: solid;
+    border-color: black;
+    border-bottom-width: 2px;
+    border-top-width: 2px;
+    background-color: antiquewhite;
+}
+
 .hpBarFriendly {
     position: absolute;
     width: 100%;

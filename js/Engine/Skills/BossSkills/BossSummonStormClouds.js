@@ -17,6 +17,7 @@
 
     deactivate: function () {
         this._super();
+        console.log(this.name);
         this.plane.isCasting = false;
     }
 });

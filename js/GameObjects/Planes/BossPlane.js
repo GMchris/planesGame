@@ -2,6 +2,10 @@
     init: function (left, bottom) {
         this._super(left, bottom, 500, 0, 3);
         var self = this;
+        this.castBar = document.createElement('div');
+        $(this.castBar)
+            .toggleClass('castBarBoss')
+            .appendTo(this.div);
         this.image.src = 'images/planes/boss.png';
         this.lastShootTimestamp = -1;
         this.shootFrequency = 500;
@@ -17,6 +21,7 @@
         this.finishedSpawningReinforcements = false;
     },
 
+    castBar: null,
     isCasting: null,
     isInvulnerable: null,
     isInQuarterPhase: null,

@@ -10,8 +10,8 @@ function Mission(primary,secondary){
 var MissionManager = {
 	//Contains primary and secondary mission types
     //
-    primary : ["survival", "domination", "gauntlet"],
-    //primary: ["boss"],
+    //primary : ["survival", "domination", "gauntlet"],
+    primary: ["boss"],
 	secondary: ["remainingHealth", "accuracy"],
 	currentAreaIndex: -1,
     currentMissionIndex: -1,
