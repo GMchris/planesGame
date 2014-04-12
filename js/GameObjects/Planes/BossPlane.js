@@ -1,6 +1,6 @@
 ﻿BossPlane = EnemyChasePlane.extend({
     init: function (left, bottom) {
-        this._super(left, bottom, 500, 0, 3);
+        this._super(left, bottom, 500, 5, 3);
         var self = this;
         this.castBar = document.createElement('div');
         $(this.castBar)
@@ -93,7 +93,7 @@
     },
 
     enterQuarterPhase: function () {
-        var self = this;
+        var self = this, i;
         this.isCasting = true;
         this.isInvulnerable = true;
         this.isInQuarterPhase = true;
@@ -140,15 +140,17 @@
     },
 
     phase75Percent: function () {
-        this.skills.push(new BossSummonStormClouds(this));
+        this.skills[1].unlock(); //unlock summon storm clouds
     },
 
     phase50Percent: function () {
-        this.skills.shift().detach();
+        this.skills[0].lock();
     },
 
     phase25Percent: function () {
         this.moveAtDirection = this.moveAtDirectionChase;
-        this.skills.shift().detach();
+        this.skills[0].lock();
     }
 });
+
+//TODO: remove boss from enemyPlanes array during quarter phase, add him after quarter phase is done

@@ -15,7 +15,7 @@
     skills: null,
     shoot: function () {
         if (this.isShooting) {
-            if (interactionManager.getEnemiesCount() > 0) {
+            if (interactionManager.getEnemiesCount() > 0 || interactionManager.getCurrentMission() instanceof BossMission)  {
                 interactionManager.spawnBullet(this.bulletType, this.leftCoord + 50, this.bottomCoord + 80, 0, this);
             } else {
                 interactionManager.spawnBullet("player", this.leftCoord + 50, this.bottomCoord + 80, 0, this);

@@ -3,9 +3,11 @@ BossSkill = Skill.extend({
     init: function (name, plane, durationMs, cooldownMs, icon) {
         this._super(name, plane, durationMs, cooldownMs, icon);
         this.castTime = 500;
+        this.isUnlocked = false; //the skill is/isn't currently unlocked by the boss (can change on diff. phases)
     },
 
     castTime: null,
+    isUnlocked: null,
 
     activate: function () {
         this.isAvailable = false;
@@ -15,6 +17,9 @@ BossSkill = Skill.extend({
 
     deactivate: function () {
         this._super();
+        if (!this.plane.isInQuarterPhase) {
+            this.plane.isCasting = false;
+        }
     },
 
     makeAvailable: function () {
@@ -27,7 +32,7 @@ BossSkill = Skill.extend({
         if (interactionManager.getCurrentMission() && !this.plane.isCasting && this.plane.skills.indexOf(this) != -1) {
             self.makeAvailable.call(self);
             this.use();
-        } else {
+        } else if (this.isUnlocked) {
             window.setTimeout(function () {
                 self.tryUse.call(self);
             }, 100);
@@ -37,7 +42,7 @@ BossSkill = Skill.extend({
     use: function () {
         var self = this;
 
-        if (this.isAvailable) {
+        if (this.isUnlocked && this.isAvailable) {
             this.plane.isCasting = true;
             $(this.plane.castBar)
                 .css('display', 'block')
@@ -64,7 +69,12 @@ BossSkill = Skill.extend({
         }
     },
 
-    detach: function () {
-        delete this.plane; //deletes the reference to this.plane -> skill won't be used anymore
+    unlock: function () {
+        this.isUnlocked = true;
+        this.tryUse();
+    },
+
+    lock: function () {
+        this.isUnlocked = false;
     }
 });
