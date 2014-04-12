@@ -114,9 +114,8 @@ section{
     left: 0px;
     width: 0px; 
     height: 0px;
-    border:1px solid yellow;
     border-radius:100%;
-    background-color:rgba(255,255,0,0.4);
+    background: radial-gradient(#22e700, #f0ff00)
     
 }
 
