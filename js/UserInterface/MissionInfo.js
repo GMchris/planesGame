@@ -28,7 +28,7 @@ var MissionManager = {
 	drawMissions : function(area){
 		for(var i=0;i<AreaManager.areas[area].missions.length;i++){
 			var stars = AreaManager.areas[area].missions[i].rank;
-			var className = "missionMarker Star"+stars+" a"+area+"m"+i;
+			var className = "missionMarker " + ((area==3)? "boss" : "Star"+stars+" a"+area+"m"+i);
 			//Creates mission icons
 			$("<div/>")
 			.addClass(className)
@@ -85,6 +85,10 @@ var MissionManager = {
 			case "accuracy":
 			    secondaryDescription = "<ul class='secDesc'><li>Keep your accuracy above 25%</li><li>Keep your accuracy above 35%</li><li>Keep your accuracy above 50%</li></ul>";
 			    break;
+
+			case "boss":
+				secondaryDescription = "We've managed to intercept the aircraft initiating all these attacks. Take it down, and bring an end to this war.";
+				break;
 		    default:
 		        break;
 		}

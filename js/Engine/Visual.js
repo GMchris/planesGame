@@ -21,7 +21,7 @@ var Visual = {
 
     //Makes the cursor invisible while game is active
     adjustCSSofGameScreen: function (isStartMission) {
-        var backgrounds = ["river","snow","desert"];
+        var backgrounds = ["river","snow","desert","ocean"];
 
         if (isStartMission) {
             this.backgroundOffset = 0;

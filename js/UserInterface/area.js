@@ -4,13 +4,13 @@ function Area(missions){
 	//Array of all missions in the area
 	this.missions = missions;
 	//Determines if this area is unlocked
-	this.active = false;
+	this.active = true;
 	//Ammount of points won from missions
 	this.pointsInArea = 0;
 }
 
 var AreaManager = {
-	areas : [new Area(MissionManager.generateMissions()),new Area(MissionManager.generateMissions()), new Area(MissionManager.generateMissions())],
+	areas : [new Area(MissionManager.generateMissions()),new Area(MissionManager.generateMissions()), new Area(MissionManager.generateMissions()),new Area([new Mission("boss","boss")])],
 	//Makes corrections to the activity of areas, and activates boss challenge, if neccesary
 	updateAreaStatus : function(stars){
 		var curMis = MissionManager.currentMissionIndex;

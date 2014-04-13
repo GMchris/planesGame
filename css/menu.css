@@ -108,6 +108,14 @@
 	
 }
 
+.missionMarker.boss{
+	background-image:url(../images/map/MissionMarkerBoss.png);
+	top:360px;
+	left:410px;
+	height: 99px;
+	width: 90px
+}
+
 .Star-1{
 	background-image:url(../images/map/MissionMarkerUnplayed.png);
 }
