@@ -163,7 +163,8 @@
 
     phase25Percent: function () {
         this.moveAtDirection = this.moveAtDirectionChase;
-        this.skills[0].unlock();
+        this.skills[0].lock();
+        this.skills[1].unlock();
     }
 });
 

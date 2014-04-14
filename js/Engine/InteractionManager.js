@@ -18,6 +18,7 @@
         kamikazeDamage,
         stormerDamage,
         deathRayDamage,
+        bossDeathRayDamage,
         radioactiveDamage,
         radioactiveRadius,
         lastShotPlayerBulletTimestamp,
@@ -56,6 +57,7 @@
             kamikazeDamage = parseInt(playerPlane.maxHealth / 3);
             stormerDamage = 3;
             deathRayDamage = playerPlane.damage * 10;
+            bossDeathRayDamage = 10;
             radioactiveDamage = playerPlane.damage * 3;
             radioactiveRadius = 500;
             enemySpawnFrequencyMs = null; //is set when a mission is started
@@ -1043,10 +1045,6 @@
             }
         },
 
-        handleBossDeathRay = function (deathRay) {
-            animateBossDeathRay(deathRay);
-        },
-
         animateDeathRay = function (left, bottom) {
             var deathRayDiv =
                 $('<div></div>')
@@ -1065,47 +1063,6 @@
                     deathRayDiv.remove();
                 });
 
-        },
-
-        createAndSkewBossDeathRay = function (orientationDeg) {
-            //skew is an expensive operation, we do it preemptively to reduce performance issues
-            var rayHeight = 550,
-                rayLeft = Math.floor(boss.leftCoord - (Math.tan(degreeToRadian(orientationDeg)) * (rayHeight / 2))),
-                rayTop = 700 - Math.floor(boss.bottomCoord),
-                
-                deathRay =
-                $('<div></div>')
-                .addClass('bossDeathRayDiv')
-                .css({
-                    'opacity': 0,
-                    'left': rayLeft + 'px',
-                    'top': rayTop + 'px',
-                    'height': rayHeight + 'px',
-                    '-webkit-transform': 'skewX(' + -orientationDeg + 'deg)'
-                })
-                .appendTo('#gameScreen');
-            return deathRay;
-        },
-
-        animateBossDeathRay = function (deathRay) {
-            var rayLeftOffset = 100 + Math.ceil(boss.orientationDeg * 5 / 3),
-                rayTopOffset = -Math.abs(boss.orientationDeg * 4 / 3);
-                $(deathRay)
-                .css({
-                    'opacity': 1,
-                    'left': '+=' + rayLeftOffset,
-                    'top': '+=' + rayTopOffset,
-                })
-                .animate({
-                    //'opacity': 0,
-                    'left': '+=75',
-                    'width': 0
-                }, {
-                    duration: 400,
-                    complete: function () {
-                        $(deathRay).remove();
-                    }
-                });
         },
 
         dealDamageDeathRay = function (left, bottom) {
@@ -1150,6 +1107,192 @@
                     boss.updateHpBar();
                     boss.die();
                 }
+            }
+        },
+
+        handleBossDeathRay = function (deathRay) {
+            animateBossDeathRay(deathRay);
+            computeVectorsDeathRay(deathRay);
+            dealDamageBossDeathRay(deathRay);
+        },
+
+        createAndSkewBossDeathRay = function (orientationDeg) {
+            //skew is an expensive operation, we do it preemptively to reduce performance issues
+            var rayHeight = 500,
+                rayLeft = Math.floor(boss.leftCoord - (Math.tan(degreeToRadian(orientationDeg)) * (rayHeight / 2))),
+                rayTop = 700 - Math.floor(boss.bottomCoord),
+                deathRay = {
+                    div: null,
+                    leftCoord: null,
+                    bottomCoord: null,
+                    skewDegree: (orientationDeg != 0) ? -orientationDeg : 1, //avoid dividing by zero 
+                    leftVector: {
+                        a: null,
+                        b: null,
+                    }, //f(x) = ax + b;
+                    rightVector: {
+                        a: null,
+                        b: null,
+                    }, //f(x) = ax + b;
+                };
+            deathRay.div =
+                $('<div></div>')
+                .addClass('bossDeathRayDiv')
+                .css({
+                    'opacity': 0,
+                    'left': rayLeft + 'px',
+                    'top': rayTop + 'px',
+                    'height': rayHeight + 'px',
+                    '-webkit-transform': 'skewX(' + -orientationDeg + 'deg)'
+                })
+                .appendTo('#gameScreen');
+            return deathRay;
+        },
+
+        animateBossDeathRay = function (deathRay) {
+            var rayLeftOffset = 100 + Math.ceil(boss.orientationDeg * 5 / 3),
+                rayTopOffset = -Math.abs(boss.orientationDeg * 4 / 3);
+            deathRay.leftCoord = boss.leftCoord + rayLeftOffset;
+            deathRay.bottomCoord = boss.bottomCoord - rayTopOffset;
+            $(deathRay.div)
+            .css({
+                'opacity': 1,
+                'left': '+=' + rayLeftOffset,
+                'top': '+=' + rayTopOffset,
+            })
+            .animate({
+                'left': '+=75',
+                'width': 0
+            }, {
+                duration: 400,
+                complete: function () {
+                    $(deathRay.div).remove();
+                }
+            });
+        },
+
+        computeVectorsDeathRay = function (deathRay) {
+            var deathRayWidth = parseInt($(deathRay.div).css('width')),
+                deathRayHeight = parseInt($(deathRay.div).css('height')),
+                leftVectorFirstPointX = deathRay.leftCoord + 15,
+                leftVectorFirstPointY = deathRay.bottomCoord,
+                rightVectorFirstPointX = leftVectorFirstPointX + deathRayWidth - 45,
+                rightVectorFirstPointY = deathRay.bottomCoord,
+                leftVectorSecondPointX,
+                leftVectorSecondPointY = leftVectorFirstPointY - deathRayHeight,
+                rightVectorSecondPointX,
+                rightVectorSecondPointY = rightVectorFirstPointY - deathRayHeight;
+            leftVectorSecondPointX = (deathRay.skewDegree > 0) ?
+                leftVectorFirstPointX + Math.tan(Math.abs(degreeToRadian(deathRay.skewDegree))) * deathRayHeight
+                : leftVectorFirstPointX - Math.tan(Math.abs(degreeToRadian(deathRay.skewDegree))) * deathRayHeight;
+            rightVectorSecondPointX = leftVectorSecondPointX + deathRayWidth - 45;
+
+            deathRay.leftVector.a = (leftVectorFirstPointY - leftVectorSecondPointY) / (leftVectorFirstPointX - leftVectorSecondPointX); //a = (y1 - y2) / (x1 - x2); 
+            deathRay.leftVector.b = (leftVectorSecondPointY * leftVectorFirstPointX - leftVectorFirstPointY * leftVectorSecondPointX)
+                                        / (leftVectorFirstPointX - leftVectorSecondPointX);
+            //b = (y2x1 - y1x2) / (x1 - x2)
+            //analogically compute right vector
+            deathRay.rightVector.a = (rightVectorFirstPointY - rightVectorSecondPointY) / (rightVectorFirstPointX - rightVectorSecondPointX);
+            deathRay.rightVector.b = (rightVectorSecondPointY * rightVectorFirstPointX - rightVectorFirstPointY * rightVectorSecondPointX)
+                                        / (rightVectorFirstPointX - rightVectorSecondPointX);
+
+            //these divs are used for debugging purposes, uncomment them to see the vector start and end point of the ray(marked by red squares)
+
+            //$('<div></div>')
+            //    .css({
+            //        'position': 'absolute',
+            //        'width': '10px',
+            //        'height': '10px',
+            //        'background-color': 'red',
+            //        'bottom': leftVectorFirstPointY,
+            //        'left': leftVectorFirstPointX,
+            //        'z-index': 1000
+            //    })
+            //    .appendTo('#gameScreen')
+            //    .fadeOut();
+            //$('<div></div>')
+            //    .css({
+            //        'position': 'absolute',
+            //        'width': '10px',
+            //        'height': '10px',
+            //        'background-color': 'red',
+            //        'bottom': leftVectorSecondPointY,
+            //        'left': leftVectorSecondPointX,
+            //        'z-index': 1000
+            //    })
+            //    .appendTo('#gameScreen')
+            //    .fadeOut();
+            //$('<div></div>')
+            //    .css({
+            //        'position': 'absolute',
+            //        'width': '10px',
+            //        'height': '10px',
+            //        'background-color': 'red',
+            //        'bottom': rightVectorSecondPointY,
+            //        'left': rightVectorSecondPointX,
+            //        'z-index': 1000
+            //    })
+            //    .appendTo('#gameScreen')
+            //    .fadeOut();
+            //$('<div></div>')
+            //    .css({
+            //        'position': 'absolute',
+            //        'width': '10px',
+            //        'height': '10px',
+            //        'background-color': 'red',
+            //        'bottom': rightVectorFirstPointY,
+            //        'left': rightVectorFirstPointX,
+            //        'z-index': 1000
+            //    })
+            //    .appendTo('#gameScreen')
+            //    .fadeOut();
+        },
+
+        dealDamageBossDeathRay = function (deathRay) {
+            var isHit = false, isHitByLeft = false, isHitByRight = false, leftVectorAtPlayerLeft, leftVectorAtPlayerRight,
+                leftVectorAtPlayerTop, leftVectorAtPlayerBottom, rightVectorAtPlayerLeft, rightVectorAtPlayerRight,
+                rightVectorAtPlayerTop, rightVectorAtPlayerBottom;
+            //f(x) = ax + b;
+            //<=> y = ax + b <=> bottom = a*left + b; left = (bottom - b) / a (a != 0);
+            //check if left vector crosses the player
+            function vectorFunction(x, a, b) { //input x, get y
+                return a * x + b;
+            };
+            function reverseVectorFunction(y, a, b) { //input y, get x
+                if (a == 0) {
+                    return;
+                }
+                return (y - b) / a;
+            };
+
+            leftVectorAtPlayerLeft = vectorFunction(playerPlane.leftCoord, deathRay.leftVector.a, deathRay.leftVector.b);
+            leftVectorAtPlayerRight = vectorFunction(playerPlane.leftCoord + 100, deathRay.leftVector.a, deathRay.leftVector.b);
+            leftVectorAtPlayerTop = reverseVectorFunction(playerPlane.bottomCoord + 75, deathRay.leftVector.a, deathRay.leftVector.b);
+            leftVectorAtPlayerBottom = reverseVectorFunction(playerPlane.bottomCoord, deathRay.leftVector.a, deathRay.leftVector.b);
+            rightVectorAtPlayerLeft = vectorFunction(playerPlane.leftCoord, deathRay.rightVector.a, deathRay.rightVector.b);
+            rightVectorAtPlayerRight = vectorFunction(playerPlane.leftCoord + 100, deathRay.rightVector.a, deathRay.rightVector.b);
+            rightVectorAtPlayerTop = reverseVectorFunction(playerPlane.bottomCoord + 75, deathRay.rightVector.a, deathRay.rightVector.b);
+            rightVectorAtPlayerBottom = reverseVectorFunction(playerPlane.bottomCoord, deathRay.rightVector.a, deathRay.rightVector.b);
+
+            isHitByLeft = (leftVectorAtPlayerLeft >= playerPlane.bottomCoord && leftVectorAtPlayerLeft <= playerPlane.bottomCoord + 75)
+                       || (leftVectorAtPlayerRight >= playerPlane.bottomCoord && leftVectorAtPlayerRight <= playerPlane.bottomCoord + 75)
+                       || (leftVectorAtPlayerBottom >= playerPlane.leftCoord && leftVectorAtPlayerBottom <= playerPlane.leftCoord + 100)
+                       || (leftVectorAtPlayerTop >= playerPlane.leftCoord && leftVectorAtPlayerTop <= playerPlane.leftCoord + 100);
+
+            isHitByRight = (rightVectorAtPlayerLeft >= playerPlane.bottomCoord && rightVectorAtPlayerLeft <= playerPlane.bottomCoord + 75)
+                       || (rightVectorAtPlayerRight >= playerPlane.bottomCoord && rightVectorAtPlayerRight <= playerPlane.bottomCoord + 75)
+                       || (rightVectorAtPlayerBottom >= playerPlane.leftCoord && rightVectorAtPlayerBottom <= playerPlane.leftCoord + 100)
+                       || (rightVectorAtPlayerTop >= playerPlane.leftCoord && rightVectorAtPlayerTop <= playerPlane.leftCoord + 100);
+
+            isHit = isHitByLeft || isHitByRight;
+
+            if (isHit) {
+                if (playerPlane.currentHealth > bossDeathRayDamage) {
+                    playerPlane.currentHealth -= bossDeathRayDamage;
+                } else {
+                    playerPlane.currentHealth = 0;
+                }
+                trackRemainingHealth(playerPlane.currentHealth);
             }
         },
 
@@ -1310,6 +1453,7 @@
                 window.setTimeout(function () {
                     if (currentMission) {
                         handleBoss25Phase();
+                        boss.skills.splice(0, 1);
                     }
                 }, 3000);
             }

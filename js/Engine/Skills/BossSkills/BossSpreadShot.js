@@ -11,7 +11,9 @@
 
     deactivate: function () {
         this._super();
-        this.plane.shoot = this.oldShoot;
+        if (this.plane.shoot == this.newShoot) {
+            this.plane.shoot = this.oldShoot;
+        }
     },
 
     oldShoot: function () { },
