@@ -20,7 +20,7 @@
         this.isInQuarterPhase = false;
         this.finishedSpawningReinforcements = false;
         this.normalShootFunction = this.shoot;
-        this.thirdPhaseBulletDegrees = [];
+        this.thirdPhaseDeathRays = []; //array of jQuery objects of death ray divs; this is used for optimization purposes
     },
 
     castBar: null,
@@ -99,8 +99,8 @@
     shootThirdPhase: function () {
         if (!this.isCasting && !this.isInQuarterPhase) {
             interactionManager.spawnBullet("boss", this.leftCoord + 150 + Math.ceil(this.orientationDeg * 5 / 3), this.bottomCoord + Math.abs(this.orientationDeg * 4 / 3), -this.orientationDeg, this);
-            this.thirdPhaseBulletDegrees.push(-this.orientationDeg);
-            if (this.thirdPhaseBulletDegrees.length >= 3) { //after shooting 5 bullets, the plane shoots 5 death rays, each in the same place as one of the 5 shot bullets
+            this.thirdPhaseDeathRays.push(interactionManager.createAndSkewBossDeathRay(-this.orientationDeg));
+            if (this.thirdPhaseDeathRays.length >= 3) { //after shooting 5 bullets, the plane shoots 5 death rays, each in the same place as one of the 5 shot bullets
                 this.skills[0].use();
             }
         }
@@ -158,7 +158,6 @@
 
     phase50Percent: function () {
         this.moveAtDirection = this.chasePlayer;
-        this.shoot = this.shootThirdPhase;
         this.skills[0].lock();
     },
 

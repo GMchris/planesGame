@@ -438,7 +438,7 @@
                 boss.lastShootTimestamp = nowMs;
                 boss.shoot();
             }
-        }
+        },
 
         supplySupplier = function (supplier) {
             var nowMs = Date.now(), i;
@@ -1043,10 +1043,8 @@
             }
         },
 
-        handleBossDeathRay = function (orientationDeg) {
-            var bossLeft = boss.leftCoord,
-                bossBottom = boss.bottomCoord;
-            animateBossDeathRay(bossLeft, bossBottom, orientationDeg);
+        handleBossDeathRay = function (deathRay) {
+            animateBossDeathRay(deathRay);
         },
 
         animateDeathRay = function (left, bottom) {
@@ -1069,25 +1067,44 @@
 
         },
 
-        animateBossDeathRay = function (left, bottom, orientationDeg) {
-            var newLeft = left - ((Math.tan(degreeToRadian(orientationDeg)) * 350) - 100 - Math.ceil(boss.orientationDeg * 5 / 3)),
-                newBottom = bottom + Math.abs(boss.orientationDeg * 4 / 3),
-                deathRayDiv =
+        createAndSkewBossDeathRay = function (orientationDeg) {
+            //skew is an expensive operation, we do it preemptively to reduce performance issues
+            var rayHeight = 550,
+                rayLeft = Math.floor(boss.leftCoord - (Math.tan(degreeToRadian(orientationDeg)) * (rayHeight / 2))),
+                rayTop = 700 - Math.floor(boss.bottomCoord),
+                
+                deathRay =
                 $('<div></div>')
                 .addClass('bossDeathRayDiv')
                 .css({
-                    'height': '700px',
-                    'left': newLeft + 'px',
-                    'top': 700 - newBottom + 'px',
+                    'opacity': 0,
+                    'left': rayLeft + 'px',
+                    'top': rayTop + 'px',
+                    'height': rayHeight + 'px',
                     '-webkit-transform': 'skewX(' + -orientationDeg + 'deg)'
                 })
-                .appendTo('#gameScreen')
+                .appendTo('#gameScreen');
+            return deathRay;
+        },
+
+        animateBossDeathRay = function (deathRay) {
+            var rayLeftOffset = 100 + Math.ceil(boss.orientationDeg * 5 / 3),
+                rayTopOffset = -Math.abs(boss.orientationDeg * 4 / 3);
+                $(deathRay)
+                .css({
+                    'opacity': 1,
+                    'left': '+=' + rayLeftOffset,
+                    'top': '+=' + rayTopOffset,
+                })
                 .animate({
-                    opacity: 0,
-                    left: '+=75',
-                    width: 0
-                }, function () {
-                    deathRayDiv.remove();
+                    //'opacity': 0,
+                    'left': '+=75',
+                    'width': 0
+                }, {
+                    duration: 400,
+                    complete: function () {
+                        $(deathRay).remove();
+                    }
                 });
         },
 
@@ -1319,6 +1336,7 @@
 
         handleBoss50Phase = function () {
             var i;
+            boss.shoot = boss.shootThirdPhase;
             for (i = 0; i < 10; i++) {
                 spawnKamikaze();
             }
@@ -1331,6 +1349,7 @@
 
         handleBoss25Phase = function () {
             var i;
+            boss.shoot = boss.normalShootFunction;
             for (i = 0; i < 8; i++) {
                 spawnKamikaze();
                 spawnFighter();
@@ -1373,6 +1392,7 @@
         stopTimeOff: stopTimeOff,
         handleDeathRay: handleDeathRay,
         handleRadioactive: handleRadioactive,
+        createAndSkewBossDeathRay: createAndSkewBossDeathRay,
         handleBossDeathRay: handleBossDeathRay,
         handleBlackHole: handleBlackHole,
         spawnStormCloud: spawnStormCloud,

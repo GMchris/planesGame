@@ -9,13 +9,13 @@ BossDeathRays = BossSkill.extend({
         this._super();
         
         for (i = 0; i < 3; i++) {
-            interactionManager.handleBossDeathRay(this.plane.thirdPhaseBulletDegrees[i]);
+            interactionManager.handleBossDeathRay(this.plane.thirdPhaseDeathRays[i]);
         }
     },
 
     deactivate: function () {
         this._super();
-        this.plane.thirdPhaseBulletDegrees = [];
+        this.plane.thirdPhaseDeathRays = [];
     },
 
     use: function () {
