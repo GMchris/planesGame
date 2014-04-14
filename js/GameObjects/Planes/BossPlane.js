@@ -32,7 +32,6 @@
     reached75Percent: null,
     reached50Percent: null,
     reached25Percent: null,
-    quarterPhaseHealthRegenInterval: null,
     finishedSpawningReinforcements: null,
     thirdPhaseBulletDegrees: null,
     normalShootFunction: null,
@@ -119,15 +118,6 @@
             step: function (now, fx) {
                 $(this).css('-webkit-transform', 'scale(' + now + ', ' + now + ')');
             },
-            complete: function () {
-                self.quarterPhaseHealthRegenInterval = window.setInterval(function () {
-                    if (self.currentHealth <= self.maxHealth - 5) {
-                        self.currentHealth += 2;
-                    } else {
-                        self.currentHealth = self.maxHealth;
-                    }
-                }, 1000);
-            },
             duration: 3000
         });
     },
@@ -150,7 +140,6 @@
             },
             duration: 3000
         });
-        window.clearInterval(this.quarterPhaseHealthRegenInterval);
     },
 
     phase75Percent: function () {
