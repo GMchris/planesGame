@@ -54,7 +54,9 @@ BossSkill = Skill.extend({
                             'display': 'none',
                             'width': '0%'
                         });
-                        self.activate.call(self);
+                        if (interactionManager.getCurrentMission()) {
+                            self.activate.call(self);
+                        }
                     },
                     duration: self.castTime
                 });

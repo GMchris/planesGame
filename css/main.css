@@ -19,6 +19,7 @@ body{
     background: -moz-linear-gradient( #23363c, #0e1b20, #23363c);
     background: -o-linear-gradient( #23363c, #0e1b20, #23363c);
     background: linear-gradient( #23363c, #0e1b20, #23363c);
+    -webkit-user-select: none;
 }
 
 @font-face{
@@ -100,6 +101,21 @@ section{
     left: 0;
     bottom: 0;
     width: 56px;
+    background: -webkit-gradient(linear, 100% 0, 0 0, from(rgba(86,181,255,0)), color-stop(0.1, rgba(86,181,255,1)), color-stop(0.2, white), color-stop(0.8, white), color-stop(0.9, rgba(86,181,255,1)), to(rgba(86,181,255,0)));
+    background: -webkit-linear-gradient(to right, rgba(86,181,255,0) 0%, rgba(86,181,255,1) 10%, white 20%, white 80%, rgba(86,181,255,1) 90%, rgba(86,181,255,0) 100%);
+    background: -moz-linear-gradient(to right, rgba(86,181,255,0) 0%, rgba(86,181,255,1) 10%, white 20%, white 80%, rgba(86,181,255,1) 90%, rgba(86,181,255,0) 100%);
+    background: -o-linear-gradient(to right, rgba(86,181,255,0) 0%, rgba(86,181,255,1) 10%, white 20%, white 80%, rgba(86,181,255,1) 90%, rgba(86,181,255,0) 100%);
+    background: linear-gradient(to right, rgba(86,181,255,0) 0%, rgba(86,181,255,1) 10%, white 20%, white 80%, rgba(86,181,255,1) 90%, rgba(86,181,255,0) 100%);
+    
+}
+
+.bossDeathRayDiv {
+    border-top-left-radius: 25px 50px;
+    border-top-right-radius: 25px 50px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 150px;
     background: -webkit-gradient(linear, 100% 0, 0 0, from(rgba(86,181,255,0)), color-stop(0.1, rgba(86,181,255,1)), color-stop(0.2, white), color-stop(0.8, white), color-stop(0.9, rgba(86,181,255,1)), to(rgba(86,181,255,0)));
     background: -webkit-linear-gradient(to right, rgba(86,181,255,0) 0%, rgba(86,181,255,1) 10%, white 20%, white 80%, rgba(86,181,255,1) 90%, rgba(86,181,255,0) 100%);
     background: -moz-linear-gradient(to right, rgba(86,181,255,0) 0%, rgba(86,181,255,1) 10%, white 20%, white 80%, rgba(86,181,255,1) 90%, rgba(86,181,255,0) 100%);

@@ -57,8 +57,12 @@ var fps = {
     }
 };
 
-function spreadShotEnemyShoot () {
+function spreadShotEnemyShoot() {
     interactionManager.spawnBullet(this.bulletType, this.leftCoord + 45, this.bottomCoord, -15, this);
     interactionManager.spawnBullet(this.bulletType, this.leftCoord + 45, this.bottomCoord, 0, this);
     interactionManager.spawnBullet(this.bulletType, this.leftCoord + 45, this.bottomCoord, 15, this);
+};
+
+function degreeToRadian(deg) {
+    return deg * Math.PI / 180;
 }

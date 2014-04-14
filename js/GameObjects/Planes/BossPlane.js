@@ -1,6 +1,6 @@
 ﻿BossPlane = EnemyChasePlane.extend({
     init: function (left, bottom) {
-        this._super(left, bottom, 500, 5, 3);
+        this._super(left, bottom, 100, 0, 3);
         var self = this;
         this.castBar = document.createElement('div');
         $(this.castBar)
@@ -11,7 +11,7 @@
         this.shootFrequency = 500;
         this.isCasting = false;
         this.bulletType = 'boss';
-        this.skills = [];
+        this.skills = [new BossSpreadShot(this), new BossDeathRays(this), new BossSummonStormClouds(this)];
         this.healthPercentage = 100;
         this.reached75Percent = false;
         this.reached50Percent = false;
@@ -19,6 +19,8 @@
         this.isInvulnerable = false;
         this.isInQuarterPhase = false;
         this.finishedSpawningReinforcements = false;
+        this.normalShootFunction = this.shoot;
+        this.thirdPhaseBulletDegrees = [];
     },
 
     castBar: null,
@@ -32,6 +34,8 @@
     reached25Percent: null,
     quarterPhaseHealthRegenInterval: null,
     finishedSpawningReinforcements: null,
+    thirdPhaseBulletDegrees: null,
+    normalShootFunction: null,
 
     updateHealthPercentage: function () {
         this.healthPercentage = Math.ceil(this.currentHealth / this.maxHealth * 100);
@@ -87,8 +91,18 @@
     },
 
     shoot: function () {
-        if (!this.isCasting) {
+        if (!this.isCasting && !this.isInQuarterPhase) {
             interactionManager.spawnBullet("boss", this.leftCoord + 150 + Math.ceil(this.orientationDeg * 5 / 3), this.bottomCoord + Math.abs(this.orientationDeg * 4 / 3) , -this.orientationDeg, this);
+        }
+    },
+
+    shootThirdPhase: function () {
+        if (!this.isCasting && !this.isInQuarterPhase) {
+            interactionManager.spawnBullet("boss", this.leftCoord + 150 + Math.ceil(this.orientationDeg * 5 / 3), this.bottomCoord + Math.abs(this.orientationDeg * 4 / 3), -this.orientationDeg, this);
+            this.thirdPhaseBulletDegrees.push(-this.orientationDeg);
+            if (this.thirdPhaseBulletDegrees.length >= 3) { //after shooting 5 bullets, the plane shoots 5 death rays, each in the same place as one of the 5 shot bullets
+                this.skills[0].use();
+            }
         }
     },
 
@@ -140,16 +154,17 @@
     },
 
     phase75Percent: function () {
-        this.skills[1].unlock(); //unlock summon storm clouds
     },
 
     phase50Percent: function () {
+        this.moveAtDirection = this.chasePlayer;
+        this.shoot = this.shootThirdPhase;
         this.skills[0].lock();
     },
 
     phase25Percent: function () {
         this.moveAtDirection = this.moveAtDirectionChase;
-        this.skills[0].lock();
+        this.skills[0].unlock();
     }
 });
 

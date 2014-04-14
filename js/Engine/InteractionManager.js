@@ -84,8 +84,6 @@
             boss = new BossPlane(getRandomLeftCoord(150), getRandomBottomCoordTopHalf(120));
             boss.addToScreen();
             boss.animateSpawn();
-            boss.skills.push(new BossSpreadShot(boss));
-            boss.skills.push(new BossSummonStormClouds(boss));
             window.setTimeout(function () {
                 self.handleBossIteration = handleBoss;
                 boss.skills[0].unlock(); //unlocks spread shot
@@ -215,7 +213,8 @@
 
         movePlayerPlane = function (e) {
             //substracting a half of the non-game screen
-            var newCoords = convertEventCoordinates(e.clientX, e.clientY);
+            var newCoords = (currentMission instanceof BossMission) ?
+               convertEventCoordinatesBossMission(e.clientX, e.clientY) : convertEventCoordinates(e.clientX, e.clientY);
 
             newCoords.left -= 50; //adjust plane to cursor
             playerPlane.updateCoords(newCoords.left, newCoords.bottom);
@@ -1044,7 +1043,10 @@
             }
         },
 
-        handleBossDeathRay = function (castTime) {
+        handleBossDeathRay = function (orientationDeg) {
+            var bossLeft = boss.leftCoord,
+                bossBottom = boss.bottomCoord;
+            animateBossDeathRay(bossLeft, bossBottom, orientationDeg);
         },
 
         animateDeathRay = function (left, bottom) {
@@ -1065,6 +1067,28 @@
                     deathRayDiv.remove();
                 });
 
+        },
+
+        animateBossDeathRay = function (left, bottom, orientationDeg) {
+            var newLeft = left - ((Math.tan(degreeToRadian(orientationDeg)) * 350) - 100 - Math.ceil(boss.orientationDeg * 5 / 3)),
+                newBottom = bottom + Math.abs(boss.orientationDeg * 4 / 3),
+                deathRayDiv =
+                $('<div></div>')
+                .addClass('bossDeathRayDiv')
+                .css({
+                    'height': '700px',
+                    'left': newLeft + 'px',
+                    'top': 700 - newBottom + 'px',
+                    '-webkit-transform': 'skewX(' + -orientationDeg + 'deg)'
+                })
+                .appendTo('#gameScreen')
+                .animate({
+                    opacity: 0,
+                    left: '+=75',
+                    width: 0
+                }, function () {
+                    deathRayDiv.remove();
+                });
         },
 
         dealDamageDeathRay = function (left, bottom) {
@@ -1200,6 +1224,34 @@
             return converted;
         },
 
+        convertEventCoordinatesBossMission = function (clientX, clientY) {
+            var converted = { left: 0, bottom: 0 };
+            var nonGameScreenWidth = window.innerWidth - 960;
+            //newLeft
+            if (clientX > nonGameScreenWidth / 2 + 50) {
+                //if mouse is inside the game screen
+                if (clientX < (nonGameScreenWidth / 2 + 960) - 50) {
+                    converted.left = clientX - (nonGameScreenWidth / 2);
+                } else { //mouse is to the right of game screen
+                    converted.left = 960 - 50;
+                }
+            } else { //mouse is to the left of game screen
+                converted.left = 0 + 50;
+            }
+            //newBottom
+            if (clientY >= 350 && clientY <= 700) {
+                converted.bottom = 700 - clientY - 50;
+                $('#gameScreen').css('cursor', 'none');
+            } else if (clientY > 700) {
+                converted.bottom = 0;
+            } else {
+                converted.bottom = 300;
+                $('#gameScreen').css('cursor', 'initial');
+            }
+
+            return converted;
+        },
+
         handleBossIteration = function () {
             var bossIndex;
             moveEnemyPlane(boss);
@@ -1213,7 +1265,7 @@
                 enemyPlanes.splice(bossIndex, 1);
                 window.setTimeout(function () {
                     if (currentMission) {
-                        interactionManager.handleBossQuarterPhase();
+                        handleBoss75Phase();
                     }
                 }, 3000);
             }
@@ -1226,7 +1278,7 @@
                 enemyPlanes.splice(bossIndex, 1);
                 window.setTimeout(function () {
                     if (currentMission) {
-                        interactionManager.handleBossQuarterPhase();
+                        handleBoss50Phase();
                         boss.skills.splice(0, 1);
                     }
                 }, 3000);
@@ -1240,8 +1292,7 @@
                 enemyPlanes.splice(bossIndex, 1);
                 window.setTimeout(function () {
                     if (currentMission) {
-                        interactionManager.handleBossQuarterPhase();
-                        boss.skills.splice(0, 1);
+                        handleBoss25Phase();
                     }
                 }, 3000);
             }
@@ -1253,9 +1304,35 @@
             }
         },
 
-        handleBossQuarterPhase = function () {
+        handleBoss75Phase = function () {
+            var i;
+            for (i = 0; i < 15; i++) {
+                spawnFighter();
+            }
+            spawnSupplier();
+            window.setTimeout(function () {
+                if (boss) {
+                    boss.finishedSpawningReinforcements = true;
+                }
+            }, 1500);
+        },
+
+        handleBoss50Phase = function () {
             var i;
             for (i = 0; i < 10; i++) {
+                spawnKamikaze();
+            }
+            window.setTimeout(function () {
+                if (boss) {
+                    boss.finishedSpawningReinforcements = true;
+                }
+            }, 1500);
+        },
+
+        handleBoss25Phase = function () {
+            var i;
+            for (i = 0; i < 8; i++) {
+                spawnKamikaze();
                 spawnFighter();
             }
             window.setTimeout(function () {
@@ -1300,7 +1377,6 @@
         handleBlackHole: handleBlackHole,
         spawnStormCloud: spawnStormCloud,
         handleBossIteration: handleBossIteration,
-        handleBossQuarterPhase: handleBossQuarterPhase,
 
         getPlayerHealth: getPlayerHealth,
         getBossHealth: getBossHealth,
