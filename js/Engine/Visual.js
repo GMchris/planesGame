@@ -16,6 +16,13 @@ var Visual = {
         $("<div>Instructions</div>")
         .addClass("introButton")
         .appendTo("#introScreen");
+
+         $("<div>Leaderboard</div>")
+        .addClass("introButton")
+        .appendTo("#introScreen")
+        .on("click",function(){
+              Test.generateScores();
+        });
     },
     backgroundOffset: 0,
 
@@ -170,6 +177,37 @@ var Visual = {
         .appendTo("#gameScreen");
 
         setTimeout(function(){$('.blackHole').remove()},500);
+    },
+    //Creates the leaderboard
+    drawLeaderBoard: function(topArray,playerPosition){
+        $("<div/>",{"id":"GamePromptScreen"}).appendTo("#gameScreen")
+        var leaderboardWindow = $("<div/>")
+        .addClass("gameWindow leaderboardWindow")
+
+        $("<table/>")
+        .addClass("leaderboard")
+        .appendTo(leaderboardWindow)
+
+        leaderboardWindow.appendTo("#GamePromptScreen")
+
+        for(var i=0;i<15;i++){
+            if(topArray[i]){
+                var tableRow = $("<tr/>");
+
+                $("<td/>").addClass("nicknameCell").text(topArray[i].nickname).appendTo(tableRow);
+                $("<td/>").addClass("scoreCell").text(topArray[i].score).appendTo(tableRow);
+                tableRow.appendTo(".leaderboard")
+            }
+        }
+
+        if(playerPosition){
+            $("<div id='closePrompt'>X<div/>")
+                 .on("click",function(){
+                $("#GamePromptScreen").remove();
+                })
+                .appendTo(".leaderboardWindow");
+        }
     }
+
     
 };

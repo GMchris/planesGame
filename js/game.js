@@ -43,8 +43,21 @@ var Game = {
 		return this.unlockedSkills[this.unlockedSkills.length-1];
 	},
 	allSkills : ["spreadshot","homingshot","penetratingshot","sentry","stoptime","deathray", "blackhole", "stealth", "radioactive"],
-	unlockedSkills :[]
-
+	unlockedSkills :[],
 }
+
+var Test = {
+		Score:function(nickname,score){
+			this.nickname = nickname;
+			this.score = score;
+		},
+		testScores: [],
+		generateScores: function(){
+			for(var i=0;i<15;i++){
+				this.testScores.push(new this.Score("wow"+i,i*100));
+			}
+			Visual.drawLeaderBoard(this.testScores,true)
+		},
+	}
 
 window.addEventListener("load", Visual.drawIntroScreen, false);  

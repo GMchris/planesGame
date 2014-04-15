@@ -422,6 +422,55 @@
 	text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.8);
 }
 
+.leaderboardWindow{
+	position:relative;
+	top:20px;
+	padding-top: 30px;
+	height:600px;
+	width:600px;
+	margin:auto;
+}
+
+.leaderboardWindow>#closePrompt{
+	top:555px;
+	right:270px;
+}
+
+.leaderboard{
+	border:2px solid #111;
+	border-collapse: collapse;
+	position:relative;
+	margin:auto;
+	width:500px;
+	height:500px;
+}
+
+td{
+	text-shadow:0px 0px 3px black,
+	0px 0px 3px black;
+	box-shadow: 2px 2px 10px 0px black inset;
+	padding-left: 15px;
+}
+
+.nicknameCell{
+	width:375px;
+}
+
+tr:nth-child(even)>.nicknameCell{
+	background-color:#a7640a;
+}
+
+tr:nth-child(odd)>.nicknameCell{
+	background-color:#874d00;
+}
+
+tr:nth-child(even)>.scoreCell{
+	background-color:#54432c;
+}
+
+tr:nth-child(odd)>.scoreCell{
+	background-color:#362a19;
+}
 
 @media screen and (max-height: 700px){
 	.loadoutButton{
