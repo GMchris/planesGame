@@ -26,6 +26,12 @@
 	right:10px;
 }
 
+#timer {
+    position: absolute;
+    top: 20px;
+    right: 15px;
+}
+
 .ui{
 	bottom:0px;
 	position: absolute;

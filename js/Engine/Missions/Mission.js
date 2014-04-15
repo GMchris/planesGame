@@ -1,7 +1,7 @@
 ﻿Mission = Class.extend({
     init: function (enemySpawnFrequencyMs) {
         this.enemySpawnFrequencyMs = enemySpawnFrequencyMs;
-        this.startTime = Timer.current;
+        this.startTime = interactionManager.getSeconds();
     },
     enemySpawnFrequencyMs: null,
     mainLoopInterval: null,
@@ -12,7 +12,7 @@
         Game.clearScreen();
         Visual.adjustCSSofGameScreen(true);
         Visual.drawUI(self);
-        $("<div id='fps'></div>").appendTo('#gameScreen');
+        $('<div id="fps"></div>').appendTo('#gameScreen');
         interactionManager.spawnPlayer();
         $(document).on('mousemove', interactionManager.movePlayerPlane);
         $(document).on('mousedown', interactionManager.handleMouseClick);

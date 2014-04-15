@@ -34,6 +34,33 @@
         currentMission,
         secondaryObjectiveType,
         timeIsStopped,
+        Timer = {
+            //Counts how many seconds have passed since the start of the game
+            current: 0,
+            increaseTimer: function () {
+                this.current++;
+            },
+            updateTimerDiv: function () {
+                $('#timer').text(this.getTime());
+            },
+            getTime: function () {
+                var seconds = this.current % 60,
+                    minutes = Math.floor(this.current / 60),
+                    formattedSeconds = (seconds >= 10) ? seconds : ('0' + seconds),
+                    formattedMinutes = (minutes >= 10) ? minutes : ('0' + minutes),
+                    time = formattedMinutes + ':' + formattedSeconds;
+
+                return time;
+            }
+        },
+        startTimer = function () {
+            $('<div id="timer"></div>').appendTo('#gameScreen');
+            window.setInterval(function () {
+                Timer.increaseTimer();
+                Timer.updateTimerDiv();
+            }, 1000);
+            startTimer = function () { };
+        },
         setInitialValues = function () {
             boss = null;
             playerPlane.isShooting = false;
@@ -783,6 +810,14 @@
 
         },
 
+        getTime = function () {
+            return Timer.getTime();
+        },
+
+        getSeconds = function () {
+            return Timer.current;
+        },
+
         getPlayerHealth = function () {
             return playerPlane.currentHealth;
         },
@@ -1519,7 +1554,8 @@
 
     return {
         startNewMission: launchMission,
-        getSecondaryMission:getSecondaryMission,
+        startTimer: startTimer,
+        getSecondaryMission: getSecondaryMission,
         spawnPlayer: spawnPlayer,
         spawnBoss: spawnBoss,
         spawnSentry: spawnSentry,
@@ -1549,6 +1585,8 @@
         handleBossIteration: handleBossIteration,
         isTimeStopped: isTimeStopped,
 
+        getTime: getTime,
+        getSeconds: getSeconds,
         getPlayerHealth: getPlayerHealth,
         getBossHealth: getBossHealth,
         getPlayerLeftCoord: getPlayerLeftCoord,

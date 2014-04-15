@@ -6,9 +6,7 @@ var Game = {
 		AreaManager.areas[0].active = true;
 		MissionManager.generateMissions();
 		AreaManager.drawMap();
-		window.setInterval(function () {
-		    Timer.increaseTimer();
-		}, 1000);
+		interactionManager.startTimer();
 		for(var i=0;i<9;i++){
 			Game.addSkill();
 		}
