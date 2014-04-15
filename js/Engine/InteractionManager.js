@@ -86,7 +86,7 @@
             deathRayDamage = playerPlane.damage * 10;
             bossDeathRayDamage = 10;
             radioactiveDamage = playerPlane.damage * 3;
-            radioactiveRadius = 500;
+            radioactiveRadius = 400;
             enemySpawnFrequencyMs = null; //is set when a mission is started
             fighterDirectionChangeFrequencyMs = 1000;
             fighterShootFrequencyMs = 1500;
@@ -972,9 +972,12 @@
             return Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)); 
         },
 
-        handleRadioactive = function (left, bottom) {
+         handleRadioactive = function (left, bottom) {
             animateRadioactive(left, bottom);
-            dealDamageRadioactive(left, bottom);
+            setTimeout(function(){
+                dealDamageRadioactive(left, bottom);
+            },400);
+            
             if (boss && !boss.isInQuarterPhase) {
                 dealDamageRadioactiveToBoss(left, bottom);
             }
@@ -1011,10 +1014,10 @@
             Y = bottom + 40; //PlayerPlane Center Y
             //enemy planes
             for (i = 0; i < enemyPlanes.length; i++) {
-                isHit = ((distanceBetweenTwoPoints(enemyPlanes[i].leftCoord, enemyPlanes[i].bottomCoord, X, Y)) < radioactiveRadius) && 
-                    ((distanceBetweenTwoPoints(enemyPlanes[i].leftCoord + enemyPlaneWidth, enemyPlanes[i].bottomCoord, X, Y)) < radioactiveRadius) &&
-                    ((distanceBetweenTwoPoints(enemyPlanes[i].leftCoord + enemyPlaneWidth, enemyPlanes[i].bottomCoord + enemyPlaneHeight, X, Y)) < radioactiveRadius) &&
-                    ((distanceBetweenTwoPoints(enemyPlanes[i].leftCoord, enemyPlanes[i].bottomCoord + enemyPlaneHeight, X, Y)) < radioactiveRadius);
+                isHit = ((distanceBetweenTwoPoints(enemyPlanes[i].leftCoord, enemyPlanes[i].bottomCoord, X, Y)) < (radioactiveRadius-100)) && 
+                    ((distanceBetweenTwoPoints(enemyPlanes[i].leftCoord + enemyPlaneWidth, enemyPlanes[i].bottomCoord, X, Y)) < (radioactiveRadius-100)) &&
+                    ((distanceBetweenTwoPoints(enemyPlanes[i].leftCoord + enemyPlaneWidth, enemyPlanes[i].bottomCoord + enemyPlaneHeight, X, Y)) < (radioactiveRadius-100)) &&
+                    ((distanceBetweenTwoPoints(enemyPlanes[i].leftCoord, enemyPlanes[i].bottomCoord + enemyPlaneHeight, X, Y)) < (radioactiveRadius-100));
 
                 if (isHit) {
                     if (enemyPlanes[i].currentHealth > radioactiveDamage) {
@@ -1042,10 +1045,10 @@
             X = left + 50, //PlayerPlane Center X
             Y = bottom + 40; //PlayerPlane Center Y
 
-            isHit = ((distanceBetweenTwoPoints(boss.leftCoord, boss.bottomCoord, X, Y)) < radioactiveRadius) && 
-                    ((distanceBetweenTwoPoints(boss.leftCoord + bossWidth, boss.bottomCoord, X, Y)) < radioactiveRadius) &&
-                    ((distanceBetweenTwoPoints(boss.leftCoord + bossWidth, boss.bottomCoord + bossHeight, X, Y)) < radioactiveRadius) &&
-                    ((distanceBetweenTwoPoints(boss.leftCoord, boss.bottomCoord + bossHeight, X, Y)) < radioactiveRadius);
+            isHit = ((distanceBetweenTwoPoints(boss.leftCoord, boss.bottomCoord, X, Y)) < (radioactiveRadius-100)) && 
+                    ((distanceBetweenTwoPoints(boss.leftCoord + bossWidth, boss.bottomCoord, X, Y)) < (radioactiveRadius-100)) &&
+                    ((distanceBetweenTwoPoints(boss.leftCoord + bossWidth, boss.bottomCoord + bossHeight, X, Y)) < (radioactiveRadius-100)) &&
+                    ((distanceBetweenTwoPoints(boss.leftCoord, boss.bottomCoord + bossHeight, X, Y)) < (radioactiveRadius-100));
 
             if (isHit) {
                 if (boss.currentHealth > radioactiveDamage) {
