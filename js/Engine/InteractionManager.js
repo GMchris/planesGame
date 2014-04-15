@@ -76,18 +76,18 @@
             fighterMaxHealth = 3;
             supplierMaxHealth = 5;
             kamikazeMaxHealth = 10;
-            stormerMaxHealth = 2,
+            stormerMaxHealth = 2;
             sentryMaxHealth = parseInt(playerPlane.maxHealth / 4);
-            fighterDamage = 7;
+            fighterDamage = 5;
             sentryDamage = playerPlane.damage / 3;
             supplierDamage = 0;
-            kamikazeDamage = parseInt(playerPlane.maxHealth / 3);
+            kamikazeDamage = 33;
             stormerDamage = 3;
             deathRayDamage = playerPlane.damage * 10;
             bossDeathRayDamage = 10;
             radioactiveDamage = playerPlane.damage * 3;
             radioactiveRadius = 400;
-            enemySpawnFrequencyMs = null; //is set when a mission is started
+            enemySpawnFrequencyMs = null; //set when the mission starts
             fighterDirectionChangeFrequencyMs = 1000;
             fighterShootFrequencyMs = 1500;
             sentryShootFrequencyMs = 150;
@@ -99,6 +99,26 @@
             lastShotPlayerBulletTimestamp = -1;
             lastEnemySpawnTimestamp = -1;
             currentMission = null;
+        },
+
+        setScalingValues = function () {
+            var areaIndex = currentMission.areaIndex;
+            //health
+            fighterMaxHealth = Scaling.getValue(areaIndex, 'fighterMaxHealth');
+            kamikazeMaxHealth = Scaling.getValue(areaIndex, 'kamikazeMaxHealth');
+            supplierMaxHealth = Scaling.getValue(areaIndex, 'supplierMaxHealth');
+            stormerMaxHealth = Scaling.getValue(areaIndex, 'stormerMaxHealth');
+            //damage
+            fighterDamage = Scaling.getValue(areaIndex, 'fighterDamage');
+            kamikazeDamage = Scaling.getValue(areaIndex, 'kamikazeDamage');
+            supplierDamage = Scaling.getValue(areaIndex, 'supplierDamage');
+            stormerDamage = Scaling.getValue(areaIndex, 'stormerDamage');
+            //movementSpeed
+            fighterMovementSpeed = Scaling.getValue(areaIndex, 'fighterMovementSpeed');
+            kamikazeMovementSpeed = Scaling.getValue(areaIndex, 'kamikazeMovementSpeed');
+            supplierMovementSpeed = Scaling.getValue(areaIndex, 'supplierMovementSpeed');
+            //bullet speed
+            fighterBulletsSpeed = Scaling.getValue(areaIndex, 'fighterBulletsSpeed');
         },
 
         spawnPlayer = function () {
@@ -167,14 +187,15 @@
         },
 
         spawnRandomEnemy = function () {
+            var areaIndex = currentMission.areaIndex;
             if (enemyPlanes.length <= 20) {
                 var rand = parseInt(Math.random() * 100) + 1; //[1, 100]
-                if (rand >= 95) {
+                if (rand >= 95 && areaIndex >= 2) {
                     spawnStormer();
-                } else if (rand >= 90) {
-                    spawnKamikaze();
-                } else if (rand >= 85) {
+                } else if (rand >= 90 && areaIndex >= 1) {
                     spawnSupplier();
+                } else if (rand >= 85) {
+                    spawnKamikaze();
                 } else {
                     spawnFighter();
                 }
@@ -714,16 +735,16 @@
             MissionManager.currentAreaIndex = areaIndex;
             switch (missionType) {
                 case "survival":
-                    currentMission = new SurvivalMission();
+                    currentMission = new SurvivalMission(areaIndex);
                     currentMission.startMission();
                     break;
                 case "domination":
-                    currentMission = new DominationMission();
+                    currentMission = new DominationMission(areaIndex);
                     currentMission.startMission();
                     dominationSpawnStartingEnemies();
                     break;
                 case "gauntlet":
-                    currentMission = new GauntletMission();
+                    currentMission = new GauntletMission(areaIndex);
                     currentMission.startMission();
                     break;
                 case "boss":
@@ -733,6 +754,7 @@
                 default:
                     throw new Error("Unrecognized mission type: " + missionType);
             }
+            setScalingValues();
             enemySpawnFrequencyMs = currentMission.enemySpawnFrequencyMs;
         },
 

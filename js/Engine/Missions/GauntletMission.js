@@ -1,11 +1,14 @@
 ﻿GauntletMission = Mission.extend({
-    init: function () {
+    init: function (areaIndex) {
         var enemySpawnFrequencyMs = 1200;
         this._super(enemySpawnFrequencyMs);
+        this.areaIndex = areaIndex;
         this.enemiesKilled = 0;
         this.enemiesSpawnedPerTaunt = 3;
         this.lastTauntTimestamp = -1;
     },
+
+    areaIndex: null,
     enemiesSpawnedPerTaunt: null,
     enemiesKilled: null,
     lastTauntTimestamp: null,

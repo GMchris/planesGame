@@ -1,12 +1,15 @@
 ﻿SurvivalMission = Mission.extend({
-    init: function () {
+    init: function (areaIndex) {
         var enemySpawnFrequencyMs = 800;
         this._super(enemySpawnFrequencyMs);
+        this.areaIndex = areaIndex;
     },
+
+    areaIndex: null,
 
     checkWinConditions: function () {
         //A survival mission is 'won' if the player manages to survive for (45) seconds;
-        var win = (Timer.current - this.startTime) >= 45;
+        var win = (interactionManager.getSeconds() - this.startTime) >= 45;
         return win;
     },
 

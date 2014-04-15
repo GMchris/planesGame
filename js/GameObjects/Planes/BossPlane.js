@@ -1,6 +1,6 @@
 ﻿BossPlane = EnemyChasePlane.extend({
     init: function (left, bottom) {
-        this._super(left, bottom, 700, 5, 3);
+        this._super(left, bottom, 700, 7, 3);
         var self = this;
         this.castBar = document.createElement('div');
         $(this.castBar)
