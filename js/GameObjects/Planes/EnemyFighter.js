@@ -3,6 +3,8 @@ EnemyFighter = EnemyPlane.extend({
     init: function (left, bottom, maxHealth, damage, movementSpeed) {
         this._super(left, bottom, maxHealth, damage, movementSpeed);
         this.image.src = 'images/planes/fighter.png';
+		this.width = 90;
+		this.height = 72;
         this.bulletType = "fighter";
         this.changeDirection();
         this.lastShootTimestamp = -1;
@@ -12,7 +14,7 @@ EnemyFighter = EnemyPlane.extend({
     lastShootTimestamp: null,
 
     shoot: function () {
-        interactionManager.spawnBullet("fighter", this.leftCoord + 45, this.bottomCoord, 0, this);
+        interactionManager.spawnBullet("fighter", this.leftCoord + this.width/2, this.bottomCoord, 0, this);
     },
 
 });

@@ -7,6 +7,8 @@
             .toggleClass('castBarBoss')
             .appendTo(this.div);
         this.image.src = 'images/planes/boss.png';
+		this.width = 300;
+		this.height = 240;
         this.lastShootTimestamp = -1;
         this.shootFrequency = 500;
         this.isCasting = false;

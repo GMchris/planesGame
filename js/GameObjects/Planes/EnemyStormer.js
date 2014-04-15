@@ -2,6 +2,8 @@
     init: function (left, bottom, maxHealth, damage) {
         this._super(left, bottom, maxHealth, damage, 0); //stormer doesn't move
         this.image.src = 'images/planes/stormer.png';
+		this.width = 100;
+		this.height = 80;
         this.lastStormTimestamp = Date.now();
     },
     lastStormTimestamp: null,
