@@ -1,6 +1,6 @@
 ﻿BossSpreadShot = BossSkill.extend({
     init: function (plane) {
-        this._super("Boss Spread Shot", plane, 5000, 15000, ""); //plane using the skill, duration, cooldown
+        this._super("Boss Spread Shot", plane, 5000, 5000, ""); //plane using the skill, duration, cooldown
         this.oldShoot = this.plane.shoot;
     },
 

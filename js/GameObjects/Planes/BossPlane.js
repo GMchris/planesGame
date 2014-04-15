@@ -1,6 +1,6 @@
 ﻿BossPlane = EnemyChasePlane.extend({
     init: function (left, bottom) {
-        this._super(left, bottom, 100, 0, 3);
+        this._super(left, bottom, 700, 5, 3);
         var self = this;
         this.castBar = document.createElement('div');
         $(this.castBar)
@@ -35,6 +35,7 @@
     finishedSpawningReinforcements: null,
     thirdPhaseBulletDegrees: null,
     normalShootFunction: null,
+    secondPhaseStats: null,
 
     updateHealthPercentage: function () {
         this.healthPercentage = Math.ceil(this.currentHealth / this.maxHealth * 100);
@@ -72,9 +73,17 @@
         }
     },
 
-    moveAtDirectionChase: function () {
-        if (!this.isCasting) {
+    moveThirdPhase: function () {
+        if (!this.isInQuarterPhase) {
             this.chasePlayer();
+        }
+    },
+
+    moveFourthPhase: function () {
+        if (!this.isInQuarterPhase) {
+            this.chasePlayer();
+        }
+        if (!this.isCasting) {
             if (this.movingRight && this.leftCoord < (960 - 300)) {
                 this.leftCoord += this.movementSpeed;
             } else if (!this.movingRight && this.leftCoord > 3) {
@@ -92,6 +101,30 @@
     shoot: function () {
         if (!this.isCasting && !this.isInQuarterPhase) {
             interactionManager.spawnBullet("boss", this.leftCoord + 150 + Math.ceil(this.orientationDeg * 5 / 3), this.bottomCoord + Math.abs(this.orientationDeg * 4 / 3) , -this.orientationDeg, this);
+        }
+    },
+
+    shootSecondPhase: function () {
+        if (!this.secondPhaseStats) {
+            this.secondPhaseStats = {
+                bulletsPerShot: 1,
+                arcDegree: 8,
+                shootCount: 0
+            }
+        }
+        if (!this.isCasting && !this.isInQuarterPhase) {
+            if (this.secondPhaseStats.bulletsPerShot == 1) {
+                interactionManager.spawnBullet("boss", this.leftCoord + 150 + Math.ceil(this.orientationDeg * 5 / 3), this.bottomCoord + Math.abs(this.orientationDeg * 4 / 3), -this.orientationDeg, this);
+            } else {
+                for (i = 0; i < this.secondPhaseStats.bulletsPerShot; i++) {
+                    interactionManager.spawnBullet(this.bulletType, this.leftCoord + 145, this.bottomCoord, -(this.secondPhaseStats.arcDegree / 2) + (i * (this.secondPhaseStats.arcDegree / (this.secondPhaseStats.bulletsPerShot - 1))), this);
+                }
+            }
+            this.secondPhaseStats.shootCount++;
+            if (this.secondPhaseStats.shootCount % 3 == 0 && this.secondPhaseStats.arcDegree < 60) { //every third shot , the amount of bullets increases
+                this.secondPhaseStats.bulletsPerShot += 2;
+                this.secondPhaseStats.arcDegree += 4;
+            }
         }
     },
 
@@ -143,15 +176,16 @@
     },
 
     phase75Percent: function () {
-    },
-
-    phase50Percent: function () {
-        this.moveAtDirection = this.chasePlayer;
+        this.shoot = this.shootSecondPhase;
         this.skills[0].lock();
     },
 
+    phase50Percent: function () {
+        this.moveAtDirection = this.moveThirdPhase;
+    },
+
     phase25Percent: function () {
-        this.moveAtDirection = this.moveAtDirectionChase;
+        this.moveAtDirection = this.moveFourthPhase;
         this.skills[0].lock();
         this.skills[1].unlock();
     }

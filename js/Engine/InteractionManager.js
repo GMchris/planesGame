@@ -33,11 +33,11 @@
         fighterDirectionChangeFrequencyMs,
         currentMission,
         secondaryObjectiveType,
-        isPaused,
+        timeIsStopped,
         setInitialValues = function () {
             boss = null;
             playerPlane.isShooting = false;
-            isPaused = false;
+            timeIsStopped = false;
             bullets = [];
             hazards = [];
             playerBulletsSpeed = 10;
@@ -1024,6 +1024,7 @@
             }
         },
         stopTimeOn = function (newMainLoop) {
+            timeIsStopped = true;
             window.clearInterval(currentMission.mainLoopInterval);
             currentMission.mainLoopInterval = window.setInterval(function () {
                 newMainLoop();
@@ -1031,6 +1032,7 @@
         },
 
         stopTimeOff = function () {
+            timeIsStopped = false;
             window.clearInterval(currentMission.mainLoopInterval);
             currentMission.mainLoopInterval = window.setInterval(function () {
                 currentMission.mainLoop.call(currentMission);
@@ -1426,6 +1428,7 @@
                 window.setTimeout(function () {
                     if (currentMission) {
                         handleBoss75Phase();
+                        boss.skills.splice(0, 1);
                     }
                 }, 3000);
             }
@@ -1439,7 +1442,6 @@
                 window.setTimeout(function () {
                     if (currentMission) {
                         handleBoss50Phase();
-                        boss.skills.splice(0, 1);
                     }
                 }, 3000);
             }
@@ -1467,7 +1469,7 @@
 
         handleBoss75Phase = function () {
             var i;
-            for (i = 0; i < 15; i++) {
+            for (i = 0; i < 8; i++) {
                 spawnFighter();
             }
             spawnSupplier();
@@ -1503,6 +1505,10 @@
                     boss.finishedSpawningReinforcements = true;
                 }
             }, 1500);
+        },
+
+        isTimeStopped = function () {
+            return timeIsStopped;
         },
 
         handleSkillUsage = function (keyPressed) {
@@ -1541,6 +1547,7 @@
         handleBlackHole: handleBlackHole,
         spawnStormCloud: spawnStormCloud,
         handleBossIteration: handleBossIteration,
+        isTimeStopped: isTimeStopped,
 
         getPlayerHealth: getPlayerHealth,
         getBossHealth: getBossHealth,
