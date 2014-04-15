@@ -56,7 +56,7 @@ var Test = {
 			for(var i=0;i<15;i++){
 				this.testScores.push(new this.Score("wow"+i,i*100));
 			}
-			Visual.drawLeaderBoard(this.testScores,true)
+			Visual.drawLeaderBoard(this.testScores,100)
 		},
 	}
 

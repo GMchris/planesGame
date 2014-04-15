@@ -180,9 +180,8 @@ var Visual = {
     },
     //Creates the leaderboard
     drawLeaderBoard: function(topArray,playerPosition){
+        var leaderboardWindow = $("<div/>").addClass("gameWindow leaderboardWindow"),topFifteen;
         $("<div/>",{"id":"GamePromptScreen"}).appendTo("#gameScreen")
-        var leaderboardWindow = $("<div/>")
-        .addClass("gameWindow leaderboardWindow")
 
         $("<table/>")
         .addClass("leaderboard")
@@ -200,13 +199,22 @@ var Visual = {
             }
         }
 
-        if(playerPosition){
+        //If called with the arguement false instead of a numeric player position, it will just make a close button;
+        if(playerPosition==false){
             $("<div id='closePrompt'>X<div/>")
                  .on("click",function(){
                 $("#GamePromptScreen").remove();
                 })
                 .appendTo(".leaderboardWindow");
+                return;
         }
+
+        topFifteen = (playerPosition<14)? "Congratulations! You are among the top fifteen players in the world!":"You ranked at position "+playerPosition+".</br> Think you can get in the top fifteen?";
+
+        $("<div/>").html(topFifteen).addClass("leaderboardText").appendTo(".leaderboardWindow");
+
+        $("<div>Replay</div>").addClass("replayButton").appendTo(".leaderboardWindow").on("click",function(){location.reload()});
+
     }
 
     

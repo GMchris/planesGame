@@ -472,6 +472,29 @@ tr:nth-child(odd)>.scoreCell{
 	background-color:#362a19;
 }
 
+.leaderboardText{
+	margin:20px;
+	width:400px;
+	font-size: 1.3em;
+	text-align: center;
+	text-shadow:0px 0px 5px black;
+}
+
+.replayButton{
+	position:absolute;
+	right:50px;
+	bottom:30px;
+	cursor: pointer;
+	box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 1);
+	border-radius: 5px;
+	display: inline-block;
+	padding: 5px;
+	font-family: boston;
+	font-size: 1.5em;
+	background: #56c929;
+	border:4px outset #71e145;
+}
+
 @media screen and (max-height: 700px){
 	.loadoutButton{
 		bottom:40px;
