@@ -1,12 +1,12 @@
 'use strict'
 var Game = {
 	//Initialization
-	init: function(){
+    init: function () {
+        interactionManager.startTimer();
 		this.clearScreen();
 		AreaManager.areas[0].active = true;
 		MissionManager.generateMissions();
 		AreaManager.drawMap();
-		interactionManager.startTimer();
 		for(var i=0;i<9;i++){
 			Game.addSkill();
 		}

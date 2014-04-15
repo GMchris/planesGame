@@ -12,7 +12,7 @@
     },
 
     resetDominationStartTime: function () {
-        this.currentDominationStartTime = Timer.current;
+        this.currentDominationStartTime = interactionManager.getSeconds();
     },
 
     mainLoop: function () {
@@ -25,7 +25,7 @@
 
     checkWinConditions: function () {
         //A domination mission is 'won' if the player manages to dominate his enemies for (30) seconds;
-        var win = (Timer.current - this.currentDominationStartTime) >= 30;
+        var win = (interactionManager.getSeconds() - this.currentDominationStartTime) >= 30;
         return win;
     },
 
