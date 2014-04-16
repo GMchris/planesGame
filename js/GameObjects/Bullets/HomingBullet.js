@@ -8,9 +8,9 @@
     chaseTarget: function () {
         if (this.targetPlane != undefined && this.targetPlane.currentHealth > 0) {
             this.orientationDeg = parseInt(Math.atan(
-                    Math.abs(this.leftCoord - (this.targetPlane.leftCoord + 40)) / Math.abs(this.bottomCoord - (this.targetPlane.bottomCoord + 20)))
+                    Math.abs(this.leftCoord - (this.targetPlane.leftCoord + (this.targetPlane.width / 2))) / Math.abs(this.bottomCoord - (this.targetPlane.bottomCoord + 35)))
                     / (Math.PI / 180)); //measures the angle the bullet needs to rotate to face its target
-            if (this.leftCoord > this.targetPlane.leftCoord + 40) {
+            if (this.leftCoord > this.targetPlane.leftCoord + (this.targetPlane.width / 2)) {
                 this.orientationDeg *= -1;
             }
 
@@ -19,7 +19,7 @@
     },
 
     rotate: function () {
-        if (this.bottomCoord > this.targetPlane.bottomCoord) {
+        if (this.bottomCoord > this.targetPlane.bottomCoord + 35) {
             this.div.style['-webkit-transform'] = 'rotate(' + (180 - this.orientationDeg) + 'deg)';
         } else {
             this.div.style['-webkit-transform'] = 'rotate(' + (this.orientationDeg) + 'deg)';

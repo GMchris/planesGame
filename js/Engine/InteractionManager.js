@@ -330,26 +330,6 @@
 
         moveHomingBullet = function (bullet) {
             var newLeftCoord, newBottomCoord;
-            //if (enemyPlanes.length > 1 || (boss && !boss.isInQuarterPhase)) {
-            //    if (bullet.targetPlane == undefined || bullet.targetPlane.currentHealth == 0) {
-            //        if (boss && !boss.isInQuarterPhase) {
-            //            bullet.targetPlane = boss;
-            //        } else if (!boss || boss.isInQuarterPhase) {
-            //            bullet.targetPlane = enemyPlanes[parseInt(Math.random() * enemyPlanes.length)];
-            //        }
-            //    }
-            //    if (bullet.targetPlane && bullet.targetPlane.currentHealth > 0) {
-            //        bullet.chaseTarget();
-            //        newLeftCoord = bullet.leftCoord + bullet.orientationDeg / 90 * playerBulletsSpeed;
-            //        newBottomCoord = (bullet.bottomCoord > bullet.targetPlane.bottomCoord + 40) ?
-            //            (bullet.bottomCoord - (playerBulletsSpeed * (1 - Math.abs(bullet.orientationDeg / 90))))
-            //            : (bullet.bottomCoord + (playerBulletsSpeed * (1 - Math.abs(bullet.orientationDeg / 90))));
-            //    }
-            //} else {
-            //    bullet.removeTarget();
-            //    newLeftCoord = newLeftCoord = bullet.leftCoord + bullet.orientationDeg / 90 * playerBulletsSpeed;
-            //    newBottomCoord = bullet.bottomCoord + playerBulletsSpeed;
-            //}
             if (enemyPlanes.length > 0) {
                 if (bullet.targetPlane == undefined || bullet.targetPlane.currentHealth == 0 || (boss && bullet.targetPlane == boss && boss.isInQuarterPhase)) {
                     bullet.targetPlane = enemyPlanes[parseInt(Math.random() * enemyPlanes.length)];
@@ -600,11 +580,35 @@
                          && bullet.bottomCoord >= enemyPlanes[i].bottomCoord
                          && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + 75;
                 } else if (enemyPlanes[i] instanceof BossPlane) {
-                    isHit = !boss.isInvulnerable
-                         && bullet.leftCoord >= boss.leftCoord
-                         && bullet.leftCoord <= boss.leftCoord + 300
-                         && bullet.bottomCoord >= boss.bottomCoord
-                         && bullet.bottomCoord <= boss.bottomCoord + 240;
+                    isHit = !boss.isInvulnerable && (
+                         //left wing
+                         (bullet.leftCoord >= boss.leftCoord
+                             && bullet.leftCoord <= boss.leftCoord + 75
+                             && bullet.bottomCoord >= boss.bottomCoord + 90
+                             && bullet.bottomCoord <= boss.bottomCoord + 240)
+                         //between left wing and cockpit
+                         ||
+                            (bullet.leftCoord >= boss.leftCoord + 75
+                             && bullet.leftCoord <= boss.leftCoord + 110
+                             && bullet.bottomCoord >= boss.bottomCoord + 65
+                             && bullet.bottomCoord <= boss.bottomCoord + 240)
+                         //cockpit
+                         || (bullet.leftCoord >= boss.leftCoord + 110
+                             && bullet.leftCoord <= boss.leftCoord + 185
+                             && bullet.bottomCoord >= boss.bottomCoord + 30
+                             && bullet.bottomCoord <= boss.bottomCoord + 240)
+                         //between cockpit and right wing
+                         ||
+                            (bullet.leftCoord >= boss.leftCoord + 185
+                             && bullet.leftCoord <= boss.leftCoord + 220
+                             && bullet.bottomCoord >= boss.bottomCoord + 65
+                             && bullet.bottomCoord <= boss.bottomCoord + 240)
+                         //right wing
+                         || (bullet.leftCoord >= boss.leftCoord + 220
+                             && bullet.leftCoord <= boss.leftCoord + 300
+                             && bullet.bottomCoord >= boss.bottomCoord + 90
+                             && bullet.bottomCoord <= boss.bottomCoord + 240)
+                    );
                 }
                 if (isHit) { //return the index of the hit plane in the enemyPlanes array
                     return i;
