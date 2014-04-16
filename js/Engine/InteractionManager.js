@@ -321,9 +321,12 @@
             if (bullet instanceof HomingBullet) {
                 moveHomingBullet(bullet);
             } else {
-                var newLeftCoord = bullet.leftCoord + bullet.orientationDeg / 45 * playerBulletsSpeed; //if the degree is (45) or (-45), the bullet
+                var newLeftCoord = bullet.leftCoord + bullet.orientationDeg / 45 * playerBulletsSpeed, //if the degree is (45) or (-45), the bullet
+                    newBottomCoord = parseInt((bullet.orientationDeg > -90 && bullet.orientationDeg < 90) ?
+                (bullet.bottomCoord + (playerBulletsSpeed * (1 - Math.abs(bullet.orientationDeg / 90))))
+                : (bullet.bottomCoord - (playerBulletsSpeed * (1 - Math.abs(bullet.orientationDeg / 90)))));
                 //will travel diagonally at (playerBulletsSpeed) speed
-                bullet.updateCoords(newLeftCoord, bullet.bottomCoord + playerBulletsSpeed);
+                bullet.updateCoords(newLeftCoord, newBottomCoord);
                 bullet.move();
             }
         },
@@ -341,7 +344,7 @@
                     : (bullet.bottomCoord + (playerBulletsSpeed * (1 - Math.abs(bullet.orientationDeg / 90))));
             } else {
                 bullet.removeTarget();
-                newLeftCoord = newLeftCoord = bullet.leftCoord + bullet.orientationDeg / 90 * playerBulletsSpeed;
+                newLeftCoord = bullet.leftCoord + bullet.orientationDeg / 90 * playerBulletsSpeed;
                 newBottomCoord = bullet.bottomCoord + playerBulletsSpeed;
             }
 
@@ -351,12 +354,14 @@
 
         moveEnemyBullet = function (bullet) {
             var bulletSpeed = (bullet instanceof BossBullet) ? bossBulletsSpeed : fighterBulletsSpeed,
-                newLeftCoord = bullet.leftCoord - bullet.orientationDeg / 45 * bulletSpeed,
-                newBottomCoord = (bullet.orientationDeg > -90 && bullet.orientationDeg < 90) ? 
+                newLeftCoord = parseInt(bullet.leftCoord - bullet.orientationDeg / 45 * bulletSpeed),
+                newBottomCoord = parseInt((bullet.orientationDeg > -90 && bullet.orientationDeg < 90) ? 
                 (bullet.bottomCoord - (bulletSpeed * (1 - Math.abs(bullet.orientationDeg / 90))))
-                : (bullet.bottomCoord + (bulletSpeed * (1 - Math.abs(bullet.orientationDeg / 90))));
-            bullet.updateCoords(newLeftCoord, bullet.bottomCoord - bulletSpeed);
-            bullet.move();
+                : (bullet.bottomCoord + (bulletSpeed * (1 - Math.abs(bullet.orientationDeg / 90)))));
+            if (newLeftCoord != bullet.leftCoord || newBottomCoord != bullet.bottomCoord) {
+                bullet.updateCoords(newLeftCoord, newBottomCoord);
+                bullet.move();
+            }
         },
 
         iterateFriendlyPlanes = function () {
@@ -367,7 +372,7 @@
                 }
             }
         },
-
+        f
         iterateEnemyPlanes = function () {
             var i;
             for (i = 0; i < enemyPlanes.length; i++) {

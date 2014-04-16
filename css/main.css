@@ -120,6 +120,7 @@ section{
     background: -moz-linear-gradient(to right, rgba(86,181,255,0) 0%, rgba(86,181,255,1) 10%, white 20%, white 80%, rgba(86,181,255,1) 90%, rgba(86,181,255,0) 100%);
     background: -o-linear-gradient(to right, rgba(86,181,255,0) 0%, rgba(86,181,255,1) 10%, white 20%, white 80%, rgba(86,181,255,1) 90%, rgba(86,181,255,0) 100%);
     background: linear-gradient(to right, rgba(86,181,255,0) 0%, rgba(86,181,255,1) 10%, white 20%, white 80%, rgba(86,181,255,1) 90%, rgba(86,181,255,0) 100%);
+    
 }
 
 .radioactiveDiv {
@@ -130,6 +131,7 @@ section{
     height: 0px;
     border-radius:100%;
     background: radial-gradient(#22e700, #f0ff00)
+    
 }
 
 .enemyBulletDiv {

@@ -60,4 +60,10 @@ var Test = {
 		},
 	}
 
-window.addEventListener("load", Visual.drawIntroScreen, false);  
+window.addEventListener("load", function () {
+    Visual.drawIntroScreen();
+    if (!requestAnimationFrame) {
+        window.requestAnimationFrame = window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame
+        || window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+    }
+});
