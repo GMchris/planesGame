@@ -178,7 +178,6 @@
     },
 
     phase75Percent: function () {
-        this.shoot = this.shootSecondPhase;
         this.skills[0].lock();
     },
 
@@ -192,5 +191,3 @@
         this.skills[1].unlock();
     }
 });
-
-//TODO: remove boss from enemyPlanes array during quarter phase, add him after quarter phase is done

@@ -788,6 +788,7 @@
         handleMissionWin = function () {
             var starsWonRemainingHealth = trackRemainingHealth(),
                 starsWonAccuracy = trackAccuracy(),
+                starsWonUsedSkills = trackUsedSkills(),
                 starsWonForMission;
             switch (secondaryObjectiveType) {
                 case "remainingHealth":
@@ -795,6 +796,9 @@
                     break;
                 case "accuracy":
                     starsWonForMission = starsWonAccuracy;
+                    break;
+                case 'usedSkills':
+                    starsWonForMission = starsWonUsedSkills;
                     break;
                 default:
                     break;
@@ -950,7 +954,11 @@
                     return stars;
                 }
             }
-            trackAccuracy(isHit);
+            if (isHit) {
+                return trackAccuracy(isHit);
+            } else {
+                return trackAccuracy();
+            }
         },
 
         trackRemainingHealth = function (currentHealth) {
@@ -984,10 +992,47 @@
             }
 
             if (currentHealth) {
-                trackRemainingHealth(currentHealth);
+                return trackRemainingHealth(currentHealth);
             } else {
-                trackRemainingHealth();
+                return trackRemainingHealth();
             }
+        },
+
+        trackUsedSkills = function (skillName) {
+            var skillUseCount = 0, stars = 0;
+
+            trackUsedSkills = function (skillName) {
+                if (arguments.length > 0) {
+                    skillUseCount++;
+                    if (secondaryObjectiveType == "usedSkills") {
+                        Visual.crossOutSecondaries(skillUseCount);
+                    }
+
+                    return skillUseCount;
+                } else { //if called without an argument, the function will return the amount of stars won and will reset the used variables
+                    if (skillUseCount < 5) {
+                        stars = 3; //currently at 3 stars
+                    } else if (skillUseCount < 7) {
+                        stars = 2; //currently at 2 stars
+                    } else if (skillUseCount < 9) {
+                        stars = 1; //currently at 1 star
+                    } else {
+                        stars = 0;
+                    }
+                    skillUseCount = 0;
+                    return stars;
+                }
+            }
+
+            if (skillName) {
+                return trackUsedSkills(skillName);
+            } else {
+                return trackUsedSkills();
+            }
+        },
+
+        trackUsedSkillsExposed = function (skillName) {
+            trackUsedSkills(skillName);
         },
 
         distanceBetweenTwoPoints = function (x1, y1, x2, y2) {
@@ -1018,7 +1063,7 @@
                     bottom: bottom + 40 - radioactiveRadius/2, 
                     left: left + 50 - radioactiveRadius/2, 
                     width: radioactiveRadius + "px", 
-                    height: radioactiveRadius +"px", 
+                    height: radioactiveRadius + "px", 
                     opacity: 0
                 },
                 800,
@@ -1529,6 +1574,7 @@
 
         handleBoss75Phase = function () {
             var i;
+            boss.shoot = boss.shootSecondPhase;
             for (i = 0; i < 8; i++) {
                 spawnFighter();
             }
@@ -1609,6 +1655,7 @@
         spawnStormCloud: spawnStormCloud,
         handleBossIteration: handleBossIteration,
         isTimeStopped: isTimeStopped,
+        trackUsedSkillsExposed: trackUsedSkillsExposed,
 
         getTime: getTime,
         getSeconds: getSeconds,

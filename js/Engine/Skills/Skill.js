@@ -20,6 +20,7 @@
     activate: function () {
         if(this.plane instanceof PlayerPlane){
             Visual.cooldownIcon(this.icon);
+            interactionManager.trackUsedSkillsExposed(this.name);
         }
         this.isAvailable = false;
         this.isActive = true;

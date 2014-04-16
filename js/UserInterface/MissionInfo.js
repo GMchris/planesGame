@@ -10,9 +10,9 @@ function Mission(primary,secondary){
 var MissionManager = {
 	//Contains primary and secondary mission types
     //
-    primary : ["survival", "domination", "gauntlet"],
+    primary : ['survival', 'domination', 'gauntlet'],
     //primary: ["boss"],
-	secondary: ["remainingHealth", "accuracy"],
+	secondary: ['remainingHealth', 'accuracy', 'usedSkills'],
 	currentAreaIndex: -1,
     currentMissionIndex: -1,
 	//Generates an array of mission and returns it
@@ -79,9 +79,9 @@ var MissionManager = {
 			case "remainingHealth":
 				secondaryDescription = "<ul class='secDesc'><li>Remain above 25% health.</li><li>Remain above 50% health.</li><li>Remain above 75% health.</li></ul>";
 				break;
-			//case "enemiesKilled":
-			//    secondaryDescription = "<ul class='secDesc'><li>Kill at least 45 enemies.</li><li>Kill at least 50 enemies.</li><li>Kill at least 60 enemies.</li></ul>";
-			//	break;
+			case "usedSkills":
+			    secondaryDescription = "<ul class='secDesc'><li>Use your skills less than 9 times.</li><li>Use your skills less than 7 times.</li><li>Use your skills less than 5 times.</li></ul>";
+				break;
 			case "accuracy":
 			    secondaryDescription = "<ul class='secDesc'><li>Keep your accuracy above 25%</li><li>Keep your accuracy above 35%</li><li>Keep your accuracy above 50%</li></ul>";
 			    break;
