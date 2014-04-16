@@ -1,8 +1,11 @@
 ﻿Mission = Class.extend({
-    init: function (enemySpawnFrequencyMs) {
+    init: function (enemySpawnFrequencyMs, areaIndex) {
         this.enemySpawnFrequencyMs = enemySpawnFrequencyMs;
+        this.areaIndex = areaIndex;
         this.startTime = interactionManager.getSeconds();
     },
+
+    areaIndex: null,
     enemySpawnFrequencyMs: null,
     mainLoopInterval: null,
     startTime: null,

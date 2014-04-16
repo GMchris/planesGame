@@ -56,6 +56,25 @@
             supplierMovementSpeed: 1,
             //bullet speed
             fighterBulletsSpeed: 7
+        },
+        //boss
+        {
+            //health
+            fighterMaxHealth: 3,
+            kamikazeMaxHealth: 8,
+            supplierMaxHealth: 5,
+            stormerMaxHealth: 2,
+            //damage
+            fighterDamage: 5,
+            supplierDamage: 0,
+            kamikazeDamage: 25,
+            stormerDamage: 3,
+            //movementSpeed
+            fighterMovementSpeed: 4,
+            kamikazeMovementSpeed: 1,
+            supplierMovementSpeed: 1,
+            //bullet speed
+            fighterBulletsSpeed: 7
         }
     ],
 

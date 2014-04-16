@@ -752,7 +752,7 @@
                     currentMission.startMission();
                     break;
                 case "boss":
-                    currentMission = new BossMission();
+                    currentMission = new BossMission(areaIndex);
                     currentMission.startMission();
                     break;
                 default:

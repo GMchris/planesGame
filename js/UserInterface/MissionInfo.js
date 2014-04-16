@@ -1,6 +1,6 @@
 'use strict'
 
-function Mission(primary,secondary){
+function MissionInfo(primary,secondary){
 	this.primary = primary;
 	this.secondary = secondary;
 	this.complete = false;
@@ -21,7 +21,7 @@ var MissionManager = {
 		for(var i=0;i<3;i++){
 			var primIndex = Math.floor(Math.random() * (this.primary.length));
 			var secIndex = Math.floor(Math.random() * (this.secondary.length));
-			tempArray.push(new Mission(this.primary[primIndex],this.secondary[secIndex]));
+			tempArray.push(new MissionInfo(this.primary[primIndex], this.secondary[secIndex]));
 		}
 		return tempArray;
 	},

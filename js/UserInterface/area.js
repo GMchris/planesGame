@@ -10,7 +10,7 @@ function Area(missions){
 }
 
 var AreaManager = {
-	areas : [new Area(MissionManager.generateMissions()),new Area(MissionManager.generateMissions()), new Area(MissionManager.generateMissions()),new Area([new Mission("boss","boss")])],
+	areas : [new Area(MissionManager.generateMissions()),new Area(MissionManager.generateMissions()), new Area(MissionManager.generateMissions()),new Area([new MissionInfo("boss","boss")])],
 	//Makes corrections to the activity of areas, and activates boss challenge, if neccesary
 	updateAreaStatus : function(stars){
 		var curMis = MissionManager.currentMissionIndex;

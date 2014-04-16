@@ -1,7 +1,7 @@
 ﻿BossMission = Mission.extend({
-    init: function () {
+    init: function (areaIndex) {
         var enemySpawnFrequencyMs = -1;
-        this._super(enemySpawnFrequencyMs);
+        this._super(enemySpawnFrequencyMs, areaIndex);
     },
 
     startMission: function () {
