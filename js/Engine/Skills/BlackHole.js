@@ -1,6 +1,6 @@
 ﻿BlackHole = Skill.extend({
     init: function (plane) {
-        this._super("Black Hole", plane, 1, 15000, "blackHoleIcon"); //plane using the skill, duration, cooldown
+        this._super("Black Hole", plane, 1, 40000, "blackHoleIcon"); //plane using the skill, duration, cooldown
     },
 
     activate: function () {

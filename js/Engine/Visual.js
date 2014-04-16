@@ -48,7 +48,7 @@ var Visual = {
     //Moves the background
     iterateBackground: function () {
         this.backgroundOffset++;
-        document.getElementById("gameScreen").style.backgroundPositionY = this.backgroundOffset + "px";
+        $('#gameScreen').css('backgroundPosition', 'right 0px top ' + this.backgroundOffset + 'px');
     },
 
     //Gives text for the primary mission Description
