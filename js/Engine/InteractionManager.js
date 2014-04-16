@@ -495,9 +495,9 @@
             var i, isHit;
             isHit = !playerPlane.isStealthed 
                  && bullet.leftCoord >= playerPlane.leftCoord
-                 && bullet.leftCoord <= playerPlane.leftCoord + 100
+                 && bullet.leftCoord <= playerPlane.leftCoord + playerPlane.width
                  && bullet.bottomCoord >= playerPlane.bottomCoord
-                 && bullet.bottomCoord <= playerPlane.bottomCoord + 80;
+                 && bullet.bottomCoord <= playerPlane.bottomCoord + playerPlane.height;
             return isHit;
         },
 
@@ -506,9 +506,9 @@
             for (i = 0; i < friendlyPlanes.length; i++) {
                 if (friendlyPlanes[i] instanceof SentryPlane) {
                     isHit = bullet.leftCoord >= friendlyPlanes[i].leftCoord
-                         && bullet.leftCoord <= friendlyPlanes[i].leftCoord + 100
+                         && bullet.leftCoord <= friendlyPlanes[i].leftCoord + playerPlane.width
                          && bullet.bottomCoord >= friendlyPlanes[i].bottomCoord
-                         && bullet.bottomCoord <= friendlyPlanes[i].bottomCoord + 75;
+                         && bullet.bottomCoord <= friendlyPlanes[i].bottomCoord + playerPlane.height;
                 }
 
                 if (isHit) {
@@ -566,19 +566,19 @@
             for (i = 0; i < enemyPlanes.length; i++) {
                 if (enemyPlanes[i] instanceof EnemyFighter) {
                     isHit = bullet.leftCoord >= enemyPlanes[i].leftCoord
-                         && bullet.leftCoord <= enemyPlanes[i].leftCoord + 90
+                         && bullet.leftCoord <= enemyPlanes[i].leftCoord + enemyPlanes[i].width
                          && bullet.bottomCoord >= enemyPlanes[i].bottomCoord
-                         && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + 70;
+                         && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + enemyPlanes[i].height;
                 } else if (enemyPlanes[i] instanceof EnemySupplier) {
                     isHit = bullet.leftCoord >= enemyPlanes[i].leftCoord
-                         && bullet.leftCoord <= enemyPlanes[i].leftCoord + 100
+                         && bullet.leftCoord <= enemyPlanes[i].leftCoord + enemyPlanes[i].width
                          && bullet.bottomCoord >= enemyPlanes[i].bottomCoord
-                         && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + 80;
+                         && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + enemyPlanes[i].height;
                 } else if (enemyPlanes[i] instanceof EnemyKamikaze || enemyPlanes[i] instanceof EnemyStormer) {
                     isHit = bullet.leftCoord >= enemyPlanes[i].leftCoord
-                         && bullet.leftCoord <= enemyPlanes[i].leftCoord + 100
+                         && bullet.leftCoord <= enemyPlanes[i].leftCoord + enemyPlanes[i].width
                          && bullet.bottomCoord >= enemyPlanes[i].bottomCoord
-                         && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + 75;
+                         && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + enemyPlanes[i].height;
                 } else if (enemyPlanes[i] instanceof BossPlane) {
                     isHit = !boss.isInvulnerable && (
                          //left wing
@@ -630,14 +630,14 @@
 
         detectCollisionKamikaze = function (kamikaze) {
             var isHit = ((kamikaze.bottomCoord > playerPlane.bottomCoord &&
-                kamikaze.bottomCoord < playerPlane.bottomCoord + 80) ||
+                kamikaze.bottomCoord < playerPlane.bottomCoord + playerPlane.height) ||
                 ((kamikaze.bottomCoord + 75) > playerPlane.bottomCoord &&
-                (kamikaze.bottomCoord + 75) < playerPlane.bottomCoord + 80))
+                (kamikaze.bottomCoord + 75) < playerPlane.bottomCoord + playerPlane.height))
             &&
                 ((kamikaze.leftCoord > playerPlane.leftCoord &&
-                kamikaze.leftCoord < playerPlane.leftCoord + 100) ||
-                (kamikaze.leftCoord + 100 > playerPlane.leftCoord &&
-                kamikaze.leftCoord + 100 < playerPlane.leftCoord + 100));
+                kamikaze.leftCoord < playerPlane.leftCoord + playerPlane.width) ||
+                (kamikaze.leftCoord + kamikaze.width > playerPlane.leftCoord &&
+                kamikaze.leftCoord + 100 < playerPlane.leftCoord + playerPlane.width));
 
             return isHit;
         },
@@ -1059,13 +1059,13 @@
                 $('<div></div>')
                 .addClass('radioactiveDiv')
                 .css({
-                    'bottom': bottom + 40 + 'px',
-                    'left': left + 50 +'px'
+                    'bottom': bottom + playerPlane.height/2 + 'px',
+                    'left': left + playerPlane.width/2 +'px'
                 })
                 .appendTo('#gameScreen')
                 .animate({
-                    bottom: bottom + 40 - radioactiveRadius/2, 
-                    left: left + 50 - radioactiveRadius/2, 
+                    bottom: bottom + playerPlane.height/2 - radioactiveRadius/2, 
+                    left: left + playerPlane.width/2 - radioactiveRadius/2, 
                     width: radioactiveRadius + "px", 
                     height: radioactiveRadius + "px", 
                     opacity: 0
@@ -1079,16 +1079,14 @@
 
         dealDamageRadioactive = function (left, bottom) {
             var i, isHit,
-            enemyPlaneHeight = 72,
-            enemyPlaneWidth = 90,
-            X = left + 50, //PlayerPlane Center X
-            Y = bottom + 40; //PlayerPlane Center Y
+            X = left + playerPlane.width/2, //PlayerPlane Center X
+            Y = bottom + playerPlane.height/2; //PlayerPlane Center Y
             //enemy planes
             for (i = 0; i < enemyPlanes.length; i++) {
                 isHit = ((distanceBetweenTwoPoints(enemyPlanes[i].leftCoord, enemyPlanes[i].bottomCoord, X, Y)) < (radioactiveRadius-100)) && 
-                    ((distanceBetweenTwoPoints(enemyPlanes[i].leftCoord + enemyPlaneWidth, enemyPlanes[i].bottomCoord, X, Y)) < (radioactiveRadius-100)) &&
-                    ((distanceBetweenTwoPoints(enemyPlanes[i].leftCoord + enemyPlaneWidth, enemyPlanes[i].bottomCoord + enemyPlaneHeight, X, Y)) < (radioactiveRadius-100)) &&
-                    ((distanceBetweenTwoPoints(enemyPlanes[i].leftCoord, enemyPlanes[i].bottomCoord + enemyPlaneHeight, X, Y)) < (radioactiveRadius-100));
+                    ((distanceBetweenTwoPoints(enemyPlanes[i].leftCoord + enemyPlanes[i].width, enemyPlanes[i].bottomCoord, X, Y)) < (radioactiveRadius-100)) &&
+                    ((distanceBetweenTwoPoints(enemyPlanes[i].leftCoord + enemyPlanes[i].width, enemyPlanes[i].bottomCoord + enemyPlanes[i].height, X, Y)) < (radioactiveRadius-100)) &&
+                    ((distanceBetweenTwoPoints(enemyPlanes[i].leftCoord, enemyPlanes[i].bottomCoord + enemyPlanes[i].height, X, Y)) < (radioactiveRadius-100));
 
                 if (isHit) {
                     if (enemyPlanes[i].currentHealth > radioactiveDamage) {
@@ -1111,15 +1109,13 @@
 
         dealDamageRadioactiveToBoss = function (left, bottom) {
             var isHit,
-            bossHeight = 240,
-            bossWidth = 300,
             X = left + 50, //PlayerPlane Center X
             Y = bottom + 40; //PlayerPlane Center Y
 
             isHit = ((distanceBetweenTwoPoints(boss.leftCoord, boss.bottomCoord, X, Y)) < (radioactiveRadius-100)) && 
-                    ((distanceBetweenTwoPoints(boss.leftCoord + bossWidth, boss.bottomCoord, X, Y)) < (radioactiveRadius-100)) &&
-                    ((distanceBetweenTwoPoints(boss.leftCoord + bossWidth, boss.bottomCoord + bossHeight, X, Y)) < (radioactiveRadius-100)) &&
-                    ((distanceBetweenTwoPoints(boss.leftCoord, boss.bottomCoord + bossHeight, X, Y)) < (radioactiveRadius-100));
+                    ((distanceBetweenTwoPoints(boss.leftCoord + boss.width, boss.bottomCoord, X, Y)) < (radioactiveRadius-100)) &&
+                    ((distanceBetweenTwoPoints(boss.leftCoord + boss.width, boss.bottomCoord + boss.height, X, Y)) < (radioactiveRadius-100)) &&
+                    ((distanceBetweenTwoPoints(boss.leftCoord, boss.bottomCoord + boss.height, X, Y)) < (radioactiveRadius-100));
 
             if (isHit) {
                 if (boss.currentHealth > radioactiveDamage) {
@@ -1161,9 +1157,9 @@
                 $('<div></div>')
                 .addClass('deathRayDiv')
                 .css({
-                    'height': (700 - bottom + 80) + 'px',
+                    'height': (700 - bottom + playerPlane.height) + 'px',
                     'left': left + 22 + 'px',
-                    'bottom': bottom + 80 + 'px'
+                    'bottom': bottom + playerPlane.height + 'px'
                 })
                 .appendTo('#gameScreen')
                 .animate({
