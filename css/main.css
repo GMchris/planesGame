@@ -178,6 +178,14 @@ section{
     background: linear-gradient(#e5ff51,#4e5142);
 }
 
+.healingBulletDiv{
+    position: absolute;
+    height:15px;
+    width:4px;
+    border-radius: 2px 2px 0px 0px;
+    background: linear-gradient(#41ec1a,#1a6808);
+}
+
 .blackHole{
     position: absolute;
     height: 400px;

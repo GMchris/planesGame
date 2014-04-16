@@ -83,6 +83,10 @@ var Loadout = {
 		        skillClass = "radioactiveIcon";
 		        break;
 
+		    case "healingshot":
+		        skillClass = "healingShotIcon";
+		        break;
+
 			default:
 				throw new Error("Unrecognized skill name");
 		}
@@ -186,6 +190,9 @@ var Loadout = {
 
 		    case "skillIcon radioactiveIcon":
 		        return "Radioactive<br/>Send radioactive wave to your enemies";
+
+		    case "skillIcon healingShotIcon":
+		        return "Healing Shot<br/>Your bullets will temporarily heal u when u hit a enemy";
 		}
 	},
 

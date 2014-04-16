@@ -21,6 +21,7 @@
         bossDeathRayDamage,
         radioactiveDamage,
         radioactiveRadius,
+        HealingBulletHealPoints,
         lastShotPlayerBulletTimestamp,
         lastFighterSpawnTimestamp,
         enemyPlanes,
@@ -87,6 +88,7 @@
             bossDeathRayDamage = 10;
             radioactiveDamage = playerPlane.damage * 3;
             radioactiveRadius = 400;
+            HealingBulletHealPoints = 1;
             enemySpawnFrequencyMs = null; //set when the mission starts
             fighterDirectionChangeFrequencyMs = 1000;
             fighterShootFrequencyMs = 1500;
@@ -169,6 +171,9 @@
                     break;
                 case "boss":
                     newBullet = new BossBullet(left, bottom, orientationDeg, owner);
+                    break;
+                case "healing":
+                    newBullet = new HealingBullet(left, bottom, orientationDeg, owner);
                     break;
                 default:
                     break;
@@ -291,7 +296,7 @@
                         handleCollisionPlayerBullet(bullets[i], hitEnemyPlaneIndex);
                         bullets[i].handleCollision(enemyPlanes[hitEnemyPlaneIndex]);
                     } else {
-                        movePlayerBullet(bullets[i]);
+                        movePlayerBullet(bullets[i]);  
                     }
                 }
                 else if ((type == 'all' || type == 'enemy') && bullets[i] instanceof EnemyBullet) {
@@ -684,6 +689,14 @@
         handleCollisionPlayerBullet = function (bullet, hitEnemyPlaneIndex) {
             var ownerPlane = bullet.owner,
                 damage = (bullet instanceof HomingBullet) ? ownerPlane.damage * 0.5 : ownerPlane.damage;
+
+            if(bullet instanceof HealingBullet){
+                if(playerPlane.maxHealth >= (playerPlane.currentHealth + HealingBulletHealPoints)){
+                    playerPlane.currentHealth += HealingBulletHealPoints;
+                }
+                trackRemainingHealth(playerPlane.currentHealth);
+            }
+
             if (enemyPlanes[hitEnemyPlaneIndex].currentHealth > damage) {
                 enemyPlanes[hitEnemyPlaneIndex].currentHealth -= damage;
                 enemyPlanes[hitEnemyPlaneIndex].updateHpBar();
@@ -902,6 +915,9 @@
                         break;
                     case "radioactive":
                         playerPlane.skills.push(new Radioactive(playerPlane));
+                        break;
+                    case "healingshot":
+                        playerPlane.skills.push(new HealingShot(playerPlane));
                         break;
                     default:
                         throw new Error("Unrecognized skill type");

@@ -7,7 +7,7 @@ var Game = {
 		AreaManager.areas[0].active = true;
 		MissionManager.generateMissions();
 		AreaManager.drawMap();
-		for(var i=0;i<9;i++){
+		for(var i=0;i<10;i++){
 			Game.addSkill();
 		}
 	},
@@ -42,7 +42,7 @@ var Game = {
 		this.unlockedSkills.push(this.allSkills.splice(index,1)[0]);
 		return this.unlockedSkills[this.unlockedSkills.length-1];
 	},
-	allSkills : ["spreadshot","homingshot","penetratingshot","sentry","stoptime","deathray", "blackhole", "stealth", "radioactive"],
+	allSkills : ["spreadshot","homingshot","penetratingshot","sentry","stoptime","deathray", "blackhole", "stealth", "radioactive", "healingshot"],
 	unlockedSkills :[],
 }
 
