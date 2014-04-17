@@ -1,6 +1,8 @@
 ﻿Bullet = GameObject.extend({
     init: function (left, bottom, orientationDeg, owner) {
         this._super();
+        this.height = 15;
+        this.width = 4;
         this.owner = owner;
         this.updateCoords(left, bottom);
         this.move();

@@ -1,7 +1,6 @@
 ﻿StopTime = Skill.extend({
     init: function (plane) {
         this._super("Stop Time", plane, 3000, 15000, "stopTimeIcon"); //plane using the skill, duration, cooldown
-        this.oldShoot = this.plane.shoot;
     },
 
     newMainLoop: function () {

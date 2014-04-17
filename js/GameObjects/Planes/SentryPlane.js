@@ -1,7 +1,6 @@
 ﻿SentryPlane = AIPlane.extend({
-    init: function (left, bottom, maxHealth, damage, targetPlane) {
+    init: function (left, bottom, maxHealth, damage) {
         this._super(left, bottom, maxHealth, damage);
-        this.targetPlane = targetPlane;
         this.div.className = "sentryPlaneDiv";
         this.orientationDeg = 0;
         this.image.src = 'images/planes/sentry.png';

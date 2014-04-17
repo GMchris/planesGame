@@ -21,7 +21,7 @@
         bossDeathRayDamage,
         radioactiveDamage,
         radioactiveRadius,
-        HealingBulletHealPoints,
+        healingBulletHealPoints,
         lastShotPlayerBulletTimestamp,
         lastFighterSpawnTimestamp,
         enemyPlanes,
@@ -35,6 +35,7 @@
         currentMission,
         secondaryObjectiveType,
         timeIsStopped,
+        rocketPathArray,
         Timer = {
             //Counts how many seconds have passed since the start of the game
             current: 0,
@@ -68,6 +69,7 @@
             timeIsStopped = false;
             bullets = [];
             hazards = [];
+            rocketPathArray = [];
             playerBulletsSpeed = 10;
             fighterBulletsSpeed = 7;
             bossBulletsSpeed = 12;
@@ -88,7 +90,7 @@
             bossDeathRayDamage = 10;
             radioactiveDamage = playerPlane.damage * 3;
             radioactiveRadius = 400;
-            HealingBulletHealPoints = 1;
+            healingBulletHealPoints = 1;
             enemySpawnFrequencyMs = null; //set when the mission starts
             fighterDirectionChangeFrequencyMs = 1000;
             fighterShootFrequencyMs = 1500;
@@ -143,13 +145,16 @@
         },
 
         spawnSentry = function (left, bottom) {
-            var sentryTargetIndex = parseInt(Math.random() * enemyPlanes.length),
-                sentryTarget = enemyPlanes[sentryTargetIndex],
-                sentry = new SentryPlane(left, bottom, sentryMaxHealth, sentryDamage, sentryTarget);
-
+            var sentry = new SentryPlane(left, bottom, sentryMaxHealth, sentryDamage);
             friendlyPlanes.push(sentry);
             sentry.addToScreen();
 
+        },
+
+        spawnRocket = function (left, bottom) {
+            var rocket = new GuidedRocket(left, bottom, 0, playerPlane);
+            bullets.push(rocket);
+            rocket.addToScreen();
         },
 
         spawnBullet = function (type, left, bottom, orientationDeg, owner) {
@@ -281,7 +286,8 @@
             for (i = 0; i < bullets.length; i++) {
                 toBeDestroyed = false;
                 //if out of the screen, flag the bullet for removal
-                if (bullets[i].bottomCoord < 0 || bullets[i].bottomCoord > 700 || bullets[i].leftCoord < 10 || bullets[i].leftCoord > 947) {
+                if (bullets[i].bottomCoord < 0 || bullets[i].bottomCoord > 700 || bullets[i].leftCoord < 10 || bullets[i].leftCoord > 947
+                    || (bullets[i] instanceof GuidedRocket && rocketPathArray.length == 0)) {
                     bullets[i].toBeSpliced = true;
                     bullets[i].die();
                     if (bullets[i] instanceof PlayerBullet) {
@@ -325,6 +331,8 @@
         movePlayerBullet = function (bullet) {
             if (bullet instanceof HomingBullet) {
                 moveHomingBullet(bullet);
+            } else if (bullet instanceof GuidedRocket) {
+                moveGuidedRocket(bullet);
             } else {
                 var newLeftCoord = bullet.leftCoord + bullet.orientationDeg / 45 * playerBulletsSpeed, //if the degree is (45) or (-45), the bullet
                     newBottomCoord = parseInt((bullet.orientationDeg > -90 && bullet.orientationDeg < 90) ?
@@ -374,10 +382,17 @@
             for (i = 0; i < friendlyPlanes.length; i++) {
                 if (friendlyPlanes[i] instanceof SentryPlane) {
                     shootSentry(friendlyPlanes[i]);
+                } else if (friendlyPlanes[i] instanceof ReinforcementPlane) {
+                    if (rocketPathArray.length) {
+                        moveReinforcementPlane(friendlyPlanes[i]);
+                    } else {
+                        friendlyPlanes[i].die();
+                        friendlyPlanes.splice(i, 1);
+                        i--;
+                    }
                 }
             }
         },
-        f
         iterateEnemyPlanes = function () {
             var i;
             for (i = 0; i < enemyPlanes.length; i++) {
@@ -572,56 +587,63 @@
         }
 
         detectCollisionPlayerBullet = function (bullet) {
-            var i, isHit;
+            var i, isHit, indexEnemiesHit;
             for (i = 0; i < enemyPlanes.length; i++) {
-                if (enemyPlanes[i] instanceof EnemyFighter) {
-                    isHit = bullet.leftCoord >= enemyPlanes[i].leftCoord
-                         && bullet.leftCoord <= enemyPlanes[i].leftCoord + enemyPlanes[i].width
-                         && bullet.bottomCoord >= enemyPlanes[i].bottomCoord
-                         && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + enemyPlanes[i].height;
-                } else if (enemyPlanes[i] instanceof EnemySupplier) {
-                    isHit = bullet.leftCoord >= enemyPlanes[i].leftCoord
-                         && bullet.leftCoord <= enemyPlanes[i].leftCoord + enemyPlanes[i].width
-                         && bullet.bottomCoord >= enemyPlanes[i].bottomCoord
-                         && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + enemyPlanes[i].height;
-                } else if (enemyPlanes[i] instanceof EnemyKamikaze || enemyPlanes[i] instanceof EnemyStormer) {
-                    isHit = bullet.leftCoord >= enemyPlanes[i].leftCoord
-                         && bullet.leftCoord <= enemyPlanes[i].leftCoord + enemyPlanes[i].width
-                         && bullet.bottomCoord >= enemyPlanes[i].bottomCoord
-                         && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + enemyPlanes[i].height;
-                } else if (enemyPlanes[i] instanceof BossPlane) {
+                if (enemyPlanes[i] instanceof BossPlane) {
                     isHit = !boss.isInvulnerable && (
-                         //left wing
-                         (bullet.leftCoord >= boss.leftCoord
-                             && bullet.leftCoord <= boss.leftCoord + 75
-                             && bullet.bottomCoord >= boss.bottomCoord + 90
-                             && bullet.bottomCoord <= boss.bottomCoord + 240)
-                         //between left wing and cockpit
-                         ||
+                            //left wing
+                            (bullet.leftCoord >= boss.leftCoord
+                                && bullet.leftCoord <= boss.leftCoord + 75
+                                && bullet.bottomCoord >= boss.bottomCoord + 90
+                                && bullet.bottomCoord <= boss.bottomCoord + 240)
+                            //between left wing and cockpit
+                            ||
                             (bullet.leftCoord >= boss.leftCoord + 75
-                             && bullet.leftCoord <= boss.leftCoord + 110
-                             && bullet.bottomCoord >= boss.bottomCoord + 65
-                             && bullet.bottomCoord <= boss.bottomCoord + 240)
-                         //cockpit
-                         || (bullet.leftCoord >= boss.leftCoord + 110
-                             && bullet.leftCoord <= boss.leftCoord + 185
-                             && bullet.bottomCoord >= boss.bottomCoord + 30
-                             && bullet.bottomCoord <= boss.bottomCoord + 240)
-                         //between cockpit and right wing
-                         ||
+                                && bullet.leftCoord <= boss.leftCoord + 110
+                                && bullet.bottomCoord >= boss.bottomCoord + 65
+                                && bullet.bottomCoord <= boss.bottomCoord + 240)
+                            //cockpit
+                            || (bullet.leftCoord >= boss.leftCoord + 110
+                                && bullet.leftCoord <= boss.leftCoord + 185
+                                && bullet.bottomCoord >= boss.bottomCoord + 30
+                                && bullet.bottomCoord <= boss.bottomCoord + 240)
+                            //between cockpit and right wing
+                            ||
                             (bullet.leftCoord >= boss.leftCoord + 185
-                             && bullet.leftCoord <= boss.leftCoord + 220
-                             && bullet.bottomCoord >= boss.bottomCoord + 65
-                             && bullet.bottomCoord <= boss.bottomCoord + 240)
-                         //right wing
-                         || (bullet.leftCoord >= boss.leftCoord + 220
-                             && bullet.leftCoord <= boss.leftCoord + 300
-                             && bullet.bottomCoord >= boss.bottomCoord + 90
-                             && bullet.bottomCoord <= boss.bottomCoord + 240)
+                                && bullet.leftCoord <= boss.leftCoord + 220
+                                && bullet.bottomCoord >= boss.bottomCoord + 65
+                                && bullet.bottomCoord <= boss.bottomCoord + 240)
+                            //right wing
+                            || (bullet.leftCoord >= boss.leftCoord + 220
+                                && bullet.leftCoord <= boss.leftCoord + 300
+                                && bullet.bottomCoord >= boss.bottomCoord + 90
+                                && bullet.bottomCoord <= boss.bottomCoord + 240)
                     );
+                } else {
+                    isHit = (bullet.leftCoord >= enemyPlanes[i].leftCoord
+                         && bullet.leftCoord <= enemyPlanes[i].leftCoord + enemyPlanes[i].width
+                         && bullet.bottomCoord >= enemyPlanes[i].bottomCoord
+                         && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + enemyPlanes[i].height)
+                    || (bullet.leftCoord + bullet.width >= enemyPlanes[i].leftCoord
+                         && bullet.leftCoord + bullet.width <= enemyPlanes[i].leftCoord + enemyPlanes[i].width
+                         && bullet.bottomCoord >= enemyPlanes[i].bottomCoord
+                         && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + enemyPlanes[i].height)
+                    || (bullet.leftCoord >= enemyPlanes[i].leftCoord
+                         && bullet.leftCoord <= enemyPlanes[i].leftCoord + enemyPlanes[i].width
+                         && bullet.bottomCoord + bullet.height >= enemyPlanes[i].bottomCoord
+                         && bullet.bottomCoord + bullet.height <= enemyPlanes[i].bottomCoord + enemyPlanes[i].height)
+                    || (bullet.leftCoord + bullet.width >= enemyPlanes[i].leftCoord
+                         && bullet.leftCoord + bullet.width <= enemyPlanes[i].leftCoord + enemyPlanes[i].width
+                         && bullet.bottomCoord + bullet.height >= enemyPlanes[i].bottomCoord
+                         && bullet.bottomCoord + bullet.height <= enemyPlanes[i].bottomCoord + enemyPlanes[i].height);
                 }
                 if (isHit) { //return the index of the hit plane in the enemyPlanes array
                     return i;
+                } else if (bullet instanceof PiercingBullet) {
+                    indexEnemiesHit = bullet.enemiesHit.indexOf(enemyPlanes[i]);
+                    if (bullet.enemiesHit.indexOf(enemyPlanes[i]) != -1) {
+                        bullet.enemiesHit.splice(indexEnemiesHit, 1);
+                    }
                 }
             }
             //bullet didn't hit anything, return -1
@@ -672,7 +694,7 @@
                 }
             }
         },
-
+healingBulletHealPoints
         handleCollisionStormCloudPlayer = function (stormCloud) {
             var nowMs = Date.now();
             if (nowMs - stormCloud.lastDamageTickTimestamp > stormCloudDamageFrequencyMs) {
@@ -689,12 +711,17 @@
         handleCollisionPlayerBullet = function (bullet, hitEnemyPlaneIndex) {
             var ownerPlane = bullet.owner,
                 damage = (bullet instanceof HomingBullet) ? ownerPlane.damage * 0.5 : ownerPlane.damage;
+            if (bullet instanceof GuidedRocket) {
+                damage = 5;
+            }
 
             if(bullet instanceof HealingBullet){
-                if(playerPlane.maxHealth >= (playerPlane.currentHealth + HealingBulletHealPoints)){
-                    playerPlane.currentHealth += HealingBulletHealPoints;
+                if(playerPlane.maxHealth >= (playerPlane.currentHealth + healingBulletHealPoints)){
+                    playerPlane.currentHealth += healingBulletHealPoints;
+                } else {
+                    playerPlane.currentHealth = playerPlane.maxHealth;
                 }
-                trackRemainingHealth(playerPlane.currentHealth);
+                playerPlane.updateHpBar();
             }
 
             if (enemyPlanes[hitEnemyPlaneIndex].currentHealth > damage) {
@@ -724,7 +751,7 @@
                 boss.die();
             }
             trackAccuracy(true);
-        }
+        },
 
         handleCollisionEnemy = function (hitter) {
             if (playerPlane.currentHealth > hitter.damage) {
@@ -732,6 +759,7 @@
             } else {
                 playerPlane.currentHealth = 0;
             }
+            playerPlane.updateHpBar();
             trackRemainingHealth(playerPlane.currentHealth);
         },
 
@@ -739,13 +767,12 @@
             var friendly = friendlyPlanes[friendlyIndex];
             if (friendly.currentHealth > hitter.damage) {
                 friendly.currentHealth -= hitter.damage;
-                friendly.updateHpBar();
             } else {
                 friendly.currentHealth = 0;
-                friendly.updateHpBar();
                 friendly.die();
                 friendlyPlanes.splice(friendlyIndex, 1);
             }
+            friendly.updateHpBar();
         },
 
         launchMission = function (missionIndex, areaIndex) {
@@ -919,6 +946,9 @@
                     case "healingshot":
                         playerPlane.skills.push(new HealingShot(playerPlane));
                         break;
+                    case 'guidedrocket':
+                        playerPlane.skills.push(new SummonGuidedRocket(playerPlane));
+                        break;
                     default:
                         throw new Error("Unrecognized skill type");
                 }
@@ -992,7 +1022,6 @@
             trackRemainingHealth = function (currentHealth) {
                 if (arguments.length > 0) {
                     currentHealthPercentage = parseInt(currentHealth / playerPlane.maxHealth * 100);
-                    $("#hpBar").css("width", currentHealthPercentage * 2 + "px");
                     if (currentHealthPercentage < minimumHealthPercentageReached) {
                         minimumHealthPercentageReached = currentHealthPercentage;
                     }
@@ -1387,9 +1416,7 @@
                 return a * x + b;
             };
             function reverseVectorFunction(y, a, b) { //input y, get x
-                if (a == 0) {
-                    return;
-                }
+                //a is never 0, as the skew degree is never 0, division is safe
                 return (y - b) / a;
             };
 
@@ -1420,6 +1447,7 @@
                 } else {
                     playerPlane.currentHealth = 0;
                 }
+                playerPlane.updateHpBar();
                 trackRemainingHealth(playerPlane.currentHealth);
             }
         },
@@ -1488,6 +1516,64 @@
             }, animationLengthMs);
         },
 
+        handleGuidedRocket = function () {
+            var rocketPath = new Array();
+            $("#gameScreen").css({
+                "cursor": "pointer"
+            });
+            $(document).unbind('mouseup mousedown', handleMouseClick);
+            $(document).unbind('mousemove', movePlayerPlane);
+            $(document).on('mousedown', initiateRocketPathDrawing);
+            $(document).on('mouseup', finishRocketPathDrawing);
+        },
+
+        initiateRocketPathDrawing = function () {
+            $(document).on('mousemove', drawRocketPath);
+        },
+
+        finishRocketPathDrawing = function () {
+            console.log(rocketPathArray.length);
+            rocketPathArray.splice(99, rocketPathArray.length - 99); //remove all but the first 100 entries
+            $(document).off('mousemove', drawRocketPath);
+            $(document).off('mousedown', initiateRocketPathDrawing);
+            $(document).off('mouseup', finishRocketPathDrawing);
+            window.setTimeout(function () {
+                $("#gameScreen").css({
+                    "cursor": "none"
+                });
+                $(document).on('mousemove', movePlayerPlane);
+                $(document).bind('mouseup mousedown', handleMouseClick);
+                if (rocketPathArray.length > 0) {
+                    spawnRocket(rocketPathArray[0].left, rocketPathArray[0].bottom);
+                }
+            }, 300);
+        },
+
+        drawRocketPath = function (e) {
+            var converted = convertEventCoordinates(e.clientX, e.clientY),
+                lastCoordsInPath = rocketPathArray[rocketPathArray.length - 1];
+            if (!lastCoordsInPath || distanceBetweenTwoPoints(converted.left, converted.bottom, lastCoordsInPath.left, lastCoordsInPath.bottom) > 20) {
+                rocketPathArray.push(converted);
+                if (rocketPathArray.length >= 1000) {
+                    finishRocketPathDrawing();
+                }
+            }
+        },
+
+        moveGuidedRocket = function (rocket) {
+            var newLeft, newBottom, coords;
+            if (rocketPathArray.length > 0) {
+                rocket.chaseTarget(rocketPathArray[0].left, rocketPathArray[0].bottom);
+                coords = rocketPathArray.shift();
+                newLeft = rocket.leftCoord + rocket.orientationDeg / 90 * rocket.movementSpeed;
+                newBottom = (rocket.bottomCoord > coords.bottom) ?
+                    (rocket.bottomCoord - (rocket.movementSpeed * (1 - Math.abs(rocket.orientationDeg / 90))))
+                    : (rocket.bottomCoord + (rocket.movementSpeed * (1 - Math.abs(rocket.orientationDeg / 90))));
+                rocket.updateCoords(coords.left, coords.bottom);
+                rocket.move();
+            }
+        },
+
         convertEventCoordinates = function (clientX, clientY) {
             var converted = { left: 0, bottom: 0 };
             var nonGameScreenWidth = window.innerWidth - 960;
@@ -1508,6 +1594,9 @@
             } else {
                 converted.bottom = 0;
             }
+
+            converted.left = parseInt(converted.left);
+            converted.bottom = parseInt(converted.bottom);
 
             return converted;
         },
@@ -1677,6 +1766,7 @@
         handleBossIteration: handleBossIteration,
         isTimeStopped: isTimeStopped,
         trackUsedSkillsExposed: trackUsedSkillsExposed,
+        handleGuidedRocket: handleGuidedRocket,
 
         getTime: getTime,
         getSeconds: getSeconds,

@@ -87,6 +87,10 @@ var Loadout = {
 		        skillClass = "healingShotIcon";
 		        break;
 
+		    case "guidedrocket":
+		        skillClass = "guidedRocketIcon";
+		        break;
+
 			default:
 				throw new Error("Unrecognized skill name");
 		}
@@ -186,13 +190,16 @@ var Loadout = {
 			    return "Sentry<br/>Place an immobile sentry that shoots your enemies down.";
 
 		    case "skillIcon stealthIcon":
-		        return "Stealth<br/>Vanish from your enemies' sight, causing all bullets to miss you for 2 seconds";
+		        return "Stealth<br/>Vanish from your enemies' sight, causing all bullets to miss you for 2 seconds.";
 
 		    case "skillIcon radioactiveIcon":
-		        return "Radioactive<br/>Send radioactive wave to your enemies";
+		        return "Radioactive<br/>Release a decimating radioactive wave to your enemies.";
 
 		    case "skillIcon healingShotIcon":
-		        return "Healing Shot<br/>Your bullets will temporarily heal u when u hit a enemy";
+		        return "Healing Shot<br/>Your bullets will heal you a small amount for each enemy you hit.";
+
+		    case "skillIcon guidedRocketIcon":
+		        return "Guided Rocket<br/>Draw a path and the rocket will follow it, destroying all before it.";
 		}
 	},
 

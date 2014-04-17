@@ -23,5 +23,10 @@
                 interactionManager.spawnBullet("player", this.leftCoord + this.width/2, this.bottomCoord + this.height, 0, this);
             }
         }
+    },
+
+    updateHpBar: function () {
+        var currentHealthPercentage = parseInt(this.currentHealth / this.maxHealth * 100);
+        $("#hpBar").css("width", currentHealthPercentage * 2 + "px");
     }
 });

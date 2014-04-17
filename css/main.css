@@ -76,6 +76,12 @@ section{
     bottom: 0;
 }
 
+.reinforcementPlaneDiv {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
 .enemyPlane {
     position: absolute;
     left: 0;

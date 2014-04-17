@@ -103,8 +103,13 @@
 .radioactiveIcon {
     background-image: url(../images/ui/radioactiveIcon.png);
 }
+
 .healingShotIcon {
     background-image: url(../images/ui/healingShotIcon.png);
+}
+
+.guidedRocketIcon {
+    background-image: url(../images/ui/guidedRocketIcon.png);
 }
 
 #hpBar{
