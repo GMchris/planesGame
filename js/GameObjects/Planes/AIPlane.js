@@ -39,6 +39,8 @@
             step: function (now, fx) {
                 if (fx.prop == 'opacity') {
                     $(this).css('-webkit-transform', 'scale(' + now + ', ' + now + ')');
+					$(this).css('-ms-transform', 'scale(' + now + ', ' + now + ')');
+					$(this).css('transform', 'scale(' + now + ', ' + now + ')');
                 }
             },
 
@@ -54,6 +56,7 @@
         $(this.hpBarEmpty).remove();
         $(this.hpBar).remove();
         this.div.style['-webkit-animation'] = 'enemyDeathAnimation 1.5s';
+		this.div.style['animation'] = 'enemyDeathAnimation 1.5s';
         window.setTimeout(function () {
             $(self.div).remove();
         }, 1500);

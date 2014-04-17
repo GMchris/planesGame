@@ -13,6 +13,5 @@
 	
     deactivate: function () {
         this._super();
-		//this.playerShieldDiv.remove();
     },
 });

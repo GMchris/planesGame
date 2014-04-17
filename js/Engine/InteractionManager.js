@@ -1322,7 +1322,9 @@
                     'left': rayLeft + 'px',
                     'top': rayTop + 'px',
                     'height': rayHeight + 'px',
-                    '-webkit-transform': 'skewX(' + -orientationDeg + 'deg)'
+                    '-webkit-transform': 'skewX(' + -orientationDeg + 'deg)',
+					'-ms-transform': 'skewX(' + -orientationDeg + 'deg)',
+					'transform': 'skewX(' + -orientationDeg + 'deg)'
                 })
                 .appendTo('#gameScreen');
             return deathRay;

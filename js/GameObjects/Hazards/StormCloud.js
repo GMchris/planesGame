@@ -17,7 +17,9 @@
                     .css({
                         'left': casterLeft,
                         'bottom': casterBottom,
-                        '-webkit-transform': 'rotate(' + angle + 'deg)'
+                        '-webkit-transform': 'rotate(' + angle + 'deg)',
+						'-ms-transform': 'rotate(' + angle + 'deg)',
+						'transform': 'rotate(' + angle + 'deg)'
                     })
                     .appendTo('#gameScreen')
                     .animate({

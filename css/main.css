@@ -20,6 +20,8 @@ body{
     background: -o-linear-gradient( #23363c, #0e1b20, #23363c);
     background: linear-gradient( #23363c, #0e1b20, #23363c);
     -webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
 }
 
 @font-face{
@@ -59,6 +61,7 @@ section{
     background: black;
     opacity: 0;
     -webkit-animation: effectsScreenAnimation 1.5s;
+	animation: effectsScreenAnimation 1.5s;
 }
 
 /*Planes*/
@@ -207,6 +210,7 @@ section{
     width:400px;
     border-radius: 200px;
     -webkit-animation : blackHoleAnimation 0.5s ease-out;
+	animation: blackHoleAnimation 0.5s ease-out;
 }
 
 .stormCloudDiv {
@@ -215,7 +219,8 @@ section{
     width: 80px;
     z-index: 1;
     background-image: url(../images/planes/stormCloudFrames.png);
-    -webkit-animation: stormCloudAnimation 0.3s infinite
+    -webkit-animation: stormCloudAnimation 0.3s infinite;
+	animation: stormCloudAnimation 0.3s infinite;
 }
 
 .stormCloudCast {
@@ -276,12 +281,32 @@ section{
 	to {opacity: 0.05; -webkit-transform: scale(0.01, 0.01) rotateY(240deg)}
 }
 
+@keyframes enemyDeathAnimation {
+	from  {opacity: 1; transform: scale(1, 1) rotateY(0deg)}
+	to {opacity: 0.05; transform: scale(0.01, 0.01) rotateY(240deg)}
+}
+
 @-webkit-keyframes effectsScreenAnimation {
+	from  {opacity: 0; }
+	to {opacity: 1; }
+}
+@keyframes effectsScreenAnimation {
 	from  {opacity: 0; }
 	to {opacity: 1; }
 }
 
 @-webkit-keyframes stormCloudAnimation{
+                0%{background-position: 0px 0px}
+                24.9%{background-position: 0px 0px}
+                25%{background-position: 80px 0px}
+                49.9%{background-position: 80px 0px}
+                50%{background-position: 160px 0px}
+                74.9%{background-position: 160px 0px}
+                75%{background-position: 240px 0px}
+                99.9%{background-position: 240px 0px}
+                100%{background-position: 0px 0px}
+            }
+@keyframes stormCloudAnimation{
                 0%{background-position: 0px 0px}
                 24.9%{background-position: 0px 0px}
                 25%{background-position: 80px 0px}
@@ -302,6 +327,18 @@ section{
             100%{
                 background: #342740;
                 -webkit-transform: scale(0);
+                opacity: 0.8;
+            }
+        }
+@keyframes blackHoleAnimation{
+            0%{
+                background: #795a98;
+                transform: scale(1);
+                opacity: 0.2;
+            }
+            100%{
+                background: #342740;
+                transform: scale(0);
                 opacity: 0.8;
             }
         }

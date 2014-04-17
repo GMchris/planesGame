@@ -18,5 +18,7 @@
 
     rotate: function () {
         $(this.div).css('webkit-transform', 'rotate(' + this.orientationDeg + 'deg)');
+		$(this.div).css('moz-transform', 'rotate(' + this.orientationDeg + 'deg)');
+		$(this.div).css('transform', 'rotate(' + this.orientationDeg + 'deg)');
     }
 });

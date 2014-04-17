@@ -21,8 +21,12 @@
     rotate: function () {
         if (this.bottomCoord > this.targetPlane.bottomCoord + 35) {
             this.div.style['-webkit-transform'] = 'rotate(' + (180 - this.orientationDeg) + 'deg)';
+			this.div.style['-ms-transform'] = 'rotate(' + (180 - this.orientationDeg) + 'deg)';
+			this.div.style['transform'] = 'rotate(' + (180 - this.orientationDeg) + 'deg)';
         } else {
             this.div.style['-webkit-transform'] = 'rotate(' + (this.orientationDeg) + 'deg)';
+			this.div.style['-ms-transform'] = 'rotate(' + (this.orientationDeg) + 'deg)';
+			this.div.style['transform'] = 'rotate(' + (this.orientationDeg) + 'deg)';
         }
     },
 
@@ -30,5 +34,7 @@
         this.targetPlane = undefined;
         this.orientationDeg = 0;
         this.div.style['-webkit-transform'] = 'rotate(0deg)';
+		this.div.style['-ms-transform'] = 'rotate(0deg)';
+		this.div.style['transform'] = 'rotate(0deg)';
     }
 });

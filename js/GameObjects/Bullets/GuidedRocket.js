@@ -31,8 +31,12 @@
     rotate: function (targetBottom) {
         if (this.bottomCoord > targetBottom) {
             this.div.style['-webkit-transform'] = 'rotate(' + (180 - this.orientationDeg) + 'deg)';
+			this.div.style['-ms-transform'] = 'rotate(' + (180 - this.orientationDeg) + 'deg)';
+			this.div.style['transform'] = 'rotate(' + (180 - this.orientationDeg) + 'deg)';
         } else {
             this.div.style['-webkit-transform'] = 'rotate(' + (this.orientationDeg) + 'deg)';
+			this.div.style['-ms-transform'] = 'rotate(' + (this.orientationDeg) + 'deg)';
+			this.div.style['transform'] = 'rotate(' + (this.orientationDeg) + 'deg)';
         }
     },
 
@@ -41,6 +45,7 @@
         $(this.hpBarEmpty).remove();
         $(this.hpBar).remove();
         this.div.style['-webkit-animation'] = 'enemyDeathAnimation 1.5s';
+		this.div.style['animation'] = 'enemyDeathAnimation 1.5s';
         window.setTimeout(function () {
             $(self.div).remove();
         }, 1500);
