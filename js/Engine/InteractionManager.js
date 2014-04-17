@@ -584,41 +584,50 @@
                         stormCloud.leftCoord + 80 < playerPlane.leftCoord + 100);
 
             return isHit;
-        }
+        },
+
+        isPointInsideBoss = function (left, bottom) {
+            var isHit = !boss.isInvulnerable && (
+                //left wing
+                (left >= boss.leftCoord
+                    && left <= boss.leftCoord + 75
+                    && bottom >= boss.bottomCoord + 90
+                    && bottom <= boss.bottomCoord + 240)
+                //between left wing and cockpit
+                ||
+                (left >= boss.leftCoord + 75
+                    && left <= boss.leftCoord + 110
+                    && bottom >= boss.bottomCoord + 65
+                    && bottom <= boss.bottomCoord + 240)
+                //cockpit
+                || (left >= boss.leftCoord + 110
+                    && left <= boss.leftCoord + 185
+                    && bottom >= boss.bottomCoord + 30
+                    && bottom <= boss.bottomCoord + 240)
+                //between cockpit and right wing
+                ||
+                (left >= boss.leftCoord + 185
+                    && left <= boss.leftCoord + 220
+                    && bottom >= boss.bottomCoord + 65
+                    && bottom <= boss.bottomCoord + 240)
+                //right wing
+                || (left >= boss.leftCoord + 220
+                    && left <= boss.leftCoord + 300
+                    && bottom >= boss.bottomCoord + 90
+                    && bottom <= boss.bottomCoord + 240)
+            );
+
+            return isHit;
+        },
 
         detectCollisionPlayerBullet = function (bullet) {
             var i, isHit, indexEnemiesHit;
             for (i = 0; i < enemyPlanes.length; i++) {
                 if (enemyPlanes[i] instanceof BossPlane) {
-                    isHit = !boss.isInvulnerable && (
-                            //left wing
-                            (bullet.leftCoord >= boss.leftCoord
-                                && bullet.leftCoord <= boss.leftCoord + 75
-                                && bullet.bottomCoord >= boss.bottomCoord + 90
-                                && bullet.bottomCoord <= boss.bottomCoord + 240)
-                            //between left wing and cockpit
-                            ||
-                            (bullet.leftCoord >= boss.leftCoord + 75
-                                && bullet.leftCoord <= boss.leftCoord + 110
-                                && bullet.bottomCoord >= boss.bottomCoord + 65
-                                && bullet.bottomCoord <= boss.bottomCoord + 240)
-                            //cockpit
-                            || (bullet.leftCoord >= boss.leftCoord + 110
-                                && bullet.leftCoord <= boss.leftCoord + 185
-                                && bullet.bottomCoord >= boss.bottomCoord + 30
-                                && bullet.bottomCoord <= boss.bottomCoord + 240)
-                            //between cockpit and right wing
-                            ||
-                            (bullet.leftCoord >= boss.leftCoord + 185
-                                && bullet.leftCoord <= boss.leftCoord + 220
-                                && bullet.bottomCoord >= boss.bottomCoord + 65
-                                && bullet.bottomCoord <= boss.bottomCoord + 240)
-                            //right wing
-                            || (bullet.leftCoord >= boss.leftCoord + 220
-                                && bullet.leftCoord <= boss.leftCoord + 300
-                                && bullet.bottomCoord >= boss.bottomCoord + 90
-                                && bullet.bottomCoord <= boss.bottomCoord + 240)
-                    );
+                    isHit = isPointInsideBoss(bullet.leftCoord, bullet.bottomCoord)
+                         || isPointInsideBoss(bullet.leftCoord + bullet.width, bullet.bottomCoord)
+                         || isPointInsideBoss(bullet.leftCoord, bullet.bottomCoord + bullet.height)
+                         || isPointInsideBoss(bullet.leftCoord + bullet.width, bullet.bottomCoord + bullet.height);
                 } else {
                     isHit = (bullet.leftCoord >= enemyPlanes[i].leftCoord
                          && bullet.leftCoord <= enemyPlanes[i].leftCoord + enemyPlanes[i].width
@@ -694,7 +703,7 @@
                 }
             }
         },
-healingBulletHealPoints
+
         handleCollisionStormCloudPlayer = function (stormCloud) {
             var nowMs = Date.now();
             if (nowMs - stormCloud.lastDamageTickTimestamp > stormCloudDamageFrequencyMs) {
@@ -954,7 +963,6 @@ healingBulletHealPoints
                 }
             }
         },
-
 
         getEnemiesCount = function () {
             return enemyPlanes.length;
