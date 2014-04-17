@@ -143,7 +143,7 @@ var Visual = {
         .appendTo('.ui');
 
         //Draw timer
-        $('<div id="timer">--:--</div>')
+        $('<div id="timer">' + interactionManager.getTime() + '</div>')
         .addClass("inGame")
         .appendTo('.ui');
 
