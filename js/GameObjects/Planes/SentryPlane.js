@@ -13,7 +13,7 @@
     },
 
     shoot: function () {
-        interactionManager.spawnBullet(this.bulletType, this.leftCoord + this.width/2 - 1, this.bottomCoord + this.height + 5, this.orientationDeg, this);
+        interactionManager.spawnBullet(this.bulletType, this.leftCoord + (this.width / 2) + Math.ceil(-this.orientationDeg * 5 / 3), this.bottomCoord + this.height + Math.abs(-this.orientationDeg * 4 / 3), this.orientationDeg, this);
     },
 
     rotate: function () {

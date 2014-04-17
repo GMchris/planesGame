@@ -102,7 +102,7 @@
 
     shoot: function () {
         if (!this.isCasting && !this.isInQuarterPhase) {
-            interactionManager.spawnBullet("boss", this.leftCoord + 150 + Math.ceil(this.orientationDeg * 5 / 3), this.bottomCoord + Math.abs(this.orientationDeg * 4 / 3) , -this.orientationDeg, this);
+            interactionManager.spawnBullet("boss", this.leftCoord + (this.width / 2) + Math.ceil(this.orientationDeg * 5 / 3), this.bottomCoord + Math.abs(this.orientationDeg * 4 / 3) , -this.orientationDeg, this);
         }
     },
 

@@ -1603,6 +1603,7 @@
         },
 
         convertEventCoordinates = function (clientX, clientY) {
+            console.log(clientY);
             var converted = { left: 0, bottom: 0 };
             var nonGameScreenWidth = window.innerWidth - 960;
             //newLeft
@@ -1617,10 +1618,12 @@
                 converted.left = 0 + 50;
             }
             //newBottom
-            if (clientY <= 700) {
+            if (clientY <= 570) {
                 converted.bottom = 700 - clientY - 50;
+                $('#gameScreen').css('cursor', 'none');
             } else {
-                converted.bottom = 0;
+                $('#gameScreen').css('cursor', 'default');
+                converted.bottom = 80;
             }
 
             converted.left = parseInt(converted.left);
@@ -1644,14 +1647,15 @@
                 converted.left = 0 + 50;
             }
             //newBottom
-            if (clientY >= 350 && clientY <= 700) {
+            if (clientY >= 350 && clientY <= 570) {
                 converted.bottom = 700 - clientY - 50;
                 $('#gameScreen').css('cursor', 'none');
-            } else if (clientY > 700) {
-                converted.bottom = 0;
+            } else if (clientY > 570) {
+                converted.bottom = 80;
+                $('#gameScreen').css('cursor', 'default');
             } else {
                 converted.bottom = 300;
-                $('#gameScreen').css('cursor', 'initial');
+                $('#gameScreen').css('cursor', 'default');
             }
 
             return converted;
