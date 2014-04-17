@@ -139,6 +139,15 @@ var Visual = {
         .addClass("mainMissionName")
         .appendTo(".ui");
 
+        $('<div id="fps"></div>')
+        .appendTo('.ui');
+
+        //Draw timer
+        $('<div id="timer">--:--</div>')
+        .addClass("inGame")
+        .appendTo('.ui');
+
+        //Draws the HP bar
         $("<div/>", {
             id: "hpBar"
         })

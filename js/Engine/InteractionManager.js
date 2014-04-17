@@ -56,7 +56,6 @@
             }
         },
         startTimer = function () {
-            $('<div id="timer"></div>').appendTo('#gameSection');
             window.setInterval(function () {
                 Timer.increaseTimer();
                 Timer.updateTimerDiv();

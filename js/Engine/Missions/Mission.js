@@ -15,7 +15,6 @@
         Game.clearScreen();
         Visual.adjustCSSofGameScreen(true);
         Visual.drawUI(self);
-        $('<div id="fps"></div>').appendTo('#gameScreen');
         interactionManager.spawnPlayer();
         $(document).on('mousemove', interactionManager.movePlayerPlane);
         $(document).on('mousedown', interactionManager.handleMouseClick);

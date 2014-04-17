@@ -301,6 +301,27 @@
 	border:4px inset #46873f;
 }
 
+#timer {
+	text-shadow:0px 0px 8px black,0px 0px 8px black;
+    position: absolute;
+    font-size: 2.3em;
+}
+
+#timer.inMap{
+	padding:5px 5px 20px 5px;
+	background-color:#43494b;
+	left:400px;
+	bottom:0px;
+	border:4px outset #505658;
+	border-radius: 10px 10px 0px 0px;
+	width:100px;
+}
+
+#timer.inGame{
+	top:10px;
+	left:10px;
+}
+
 /*Loadout*/
 
 .loadoutButton{
@@ -498,5 +519,9 @@ tr:nth-child(odd)>.scoreCell{
 @media screen and (max-height: 700px){
 	.loadoutButton{
 		bottom:40px;
+	}
+
+	#timer.inMap{
+	padding-bottom:40px;
 	}
 }
