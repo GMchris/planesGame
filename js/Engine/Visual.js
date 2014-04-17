@@ -12,11 +12,6 @@ var Visual = {
         .on("click", function () {
             Game.init();
         });
-
-        $("<div>Instructions</div>")
-        .addClass("introButton")
-        .appendTo("#introScreen");
-
         $("<div>Leaderboard</div>")
        .addClass("introButton")
        .appendTo("#introScreen")
@@ -120,6 +115,7 @@ var Visual = {
         .addClass("missionList")
         .appendTo("#gameScreen");
 
+        if(!(mission instanceof BossMission)){
         for (var i = 0; i < 3; i++) {
             $("<li/>")
             .attr("id", "listItem" + i)
@@ -128,7 +124,7 @@ var Visual = {
         }
 
         this.setSecondaryDescriptions();
-
+        }
 
         $("<div/>")
         .addClass("ui")
@@ -203,7 +199,7 @@ var Visual = {
         for (var i = 0; i < 15; i++) {
             if (topArray[i]) {
                 var tableRow = $("<tr/>");
-
+                $("<td/>").addClass("positionCell").text(i+1).appendTo(tableRow);
                 $("<td/>").addClass("nicknameCell").text(topArray[i].nickname).appendTo(tableRow);
                 $("<td/>").addClass("scoreCell").text(topArray[i].score).appendTo(tableRow);
                 tableRow.appendTo(".leaderboard")
