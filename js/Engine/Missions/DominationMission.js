@@ -33,5 +33,8 @@
         //A domination mission is 'lost/failed' if the player dies
         var loss = (interactionManager.getPlayerHealth()) == 0;
         return loss;
+    },
+    updatePrimaryStatus: function(){
+        $(".mainMissionName").html("Keep the enemy count below 7 another <b>"+(30-(interactionManager.getSeconds() - this.currentDominationStartTime))+"</b> seconds.");
     }
 });

@@ -35,5 +35,9 @@
         //A gauntlet mission is 'lost/failed' if the player dies
         var loss = (interactionManager.getPlayerHealth()) == 0;
         return loss;
+    },
+
+    updatePrimaryStatus: function(){
+        $(".mainMissionName").html("Kill another <b>" +(70 - this.enemiesKilled)+"</b> enemies");
     }
 });

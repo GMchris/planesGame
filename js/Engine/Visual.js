@@ -51,24 +51,6 @@ var Visual = {
         $('#gameScreen').css('backgroundPosition', 'right 0px top ' + this.backgroundOffset + 'px');
     },
 
-    //Gives text for the primary mission Description
-    returnPrimaryDescription: function (mission) {
-        if (mission instanceof SurvivalMission) {
-            return "Survive in the battlefield for 45 seconds"
-        }
-        else if (mission instanceof DominationMission) {
-            return "Don't let more than 7 enemies spawn for 30 seconds"
-        }
-        else if (mission instanceof GauntletMission) {
-            return "Kill 75 enemies. Press E to summon additional ones."
-        } else if (mission instanceof BossMission) {
-            return 'Defeat the boss.';
-        }
-        else {
-            throw new Error("No such mission");
-        }
-    },
-
 
     crossOutSecondaries: function (stat) {
         var conditions;
@@ -152,6 +134,11 @@ var Visual = {
         .addClass("ui")
         .appendTo("#gameScreen");
 
+         //Places the primary mission
+        $("<div/>")
+        .addClass("mainMissionName")
+        .appendTo(".ui");
+
         $("<div/>", {
             id: "hpBar"
         })
@@ -169,11 +156,6 @@ var Visual = {
                 $("#skill" + i).addClass(skillArray[i].icon);
             }
         }
-        //Places the primary mission
-        $("<span/>")
-      .addClass("mainMissionName")
-      .appendTo(".ui")
-      .text(this.returnPrimaryDescription(mission));
 
     },
 

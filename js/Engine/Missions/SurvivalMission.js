@@ -14,5 +14,11 @@
         //A survival mission is 'lost/failed' if the player dies
         var loss = (interactionManager.getPlayerHealth()) == 0;
         return loss;
+    },
+
+    updatePrimaryStatus: function(past){
+        var remainingTime = 45-(interactionManager.getSeconds() - this.startTime);
+        $(".mainMissionName").html("Survive another <b>"+remainingTime+"</b> seconds.");
+
     }
 });

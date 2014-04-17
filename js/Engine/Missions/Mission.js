@@ -47,6 +47,7 @@
         interactionManager.shootPlayerPlane();
         interactionManager.spawnEnemy();
         Visual.iterateBackground();
+        this.updatePrimaryStatus();
 
         if (self.checkWinConditions()) {
             interactionManager.handleMissionWin();
@@ -63,5 +64,6 @@
         window.clearInterval(this.mainLoopInterval);
     },
     checkWinConditions: function () { },
-    checkLossConditions: function () { }
+    checkLossConditions: function () { },
+    updatePrimaryStatus: function() { }
 });
