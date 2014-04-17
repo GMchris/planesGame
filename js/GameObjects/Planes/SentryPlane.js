@@ -2,7 +2,7 @@
     init: function (left, bottom, maxHealth, damage) {
         this._super(left, bottom, maxHealth, damage);
         this.div.className = "sentryPlaneDiv";
-        this.orientationDeg = 15;
+        this.orientationDeg = 0;
         this.image.src = 'images/planes/sentry.png';
 		this.width = 100;
 		this.height = 75;
@@ -13,7 +13,7 @@
     },
 
     shoot: function () {
-        interactionManager.spawnBullet(this.bulletType, this.leftCoord + (this.width / 2) + Math.ceil(-this.orientationDeg * 5 / 3), this.bottomCoord + this.height + Math.abs(-this.orientationDeg * 4 / 3), this.orientationDeg, this);
+        interactionManager.spawnBullet(this.bulletType, this.leftCoord + (this.orientationDeg / 90 + 1) * this.width / 2, this.bottomCoord + (this.height - Math.abs((this.orientationDeg / 90) * this.height / 2)), this.orientationDeg, this);
     },
 
     rotate: function () {

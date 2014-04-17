@@ -280,6 +280,19 @@
             playerPlane.move();
         },
 
+        rotateSentries = function (direction) {
+            var i,
+                dir = (direction == 'right') ? 3 : -3;
+            for (i = 0; i < friendlyPlanes.length; i++) {
+                if (friendlyPlanes[i] instanceof SentryPlane) {
+                    if (friendlyPlanes[i].orientationDeg + dir >= -90 && friendlyPlanes[i].orientationDeg + dir <= 90) {
+                        friendlyPlanes[i].orientationDeg += dir;
+                        friendlyPlanes[i].rotate();
+                    }
+                }
+            }
+        },
+
         iterateBullets = function (type) { //types: 'all', 'player', 'enemy'
             var i, toBeDestroyed = false, hitEnemyPlaneIndex, hitFriendlyPlaneIndex;
             for (i = 0; i < bullets.length; i++) {
@@ -1801,6 +1814,7 @@
         isTimeStopped: isTimeStopped,
         trackUsedSkillsExposed: trackUsedSkillsExposed,
         handleGuidedRocket: handleGuidedRocket,
+        rotateSentries: rotateSentries,
 
         getTime: getTime,
         getSeconds: getSeconds,
