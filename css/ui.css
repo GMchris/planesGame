@@ -119,6 +119,9 @@ b{
 .guidedRocketIcon {
     background-image: url(../images/ui/guidedRocketIcon.png);
 }
+.shieldIcon {
+    background-image: url(../images/ui/shieldIcon.png);
+}
 
 #hpBar{
 	display: inline-block;

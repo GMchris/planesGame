@@ -91,6 +91,10 @@ var Loadout = {
 		        skillClass = "guidedRocketIcon";
 		        break;
 
+			case "shield":
+		        skillClass = "shieldIcon";
+		        break;
+
 			default:
 				throw new Error("Unrecognized skill name");
 		}
@@ -200,6 +204,9 @@ var Loadout = {
 
 		    case "skillIcon guidedRocketIcon":
 		        return "Guided Rocket<br/>Draw a path and the rocket will follow it, destroying all before it.";
+				
+			case "skillIcon shieldIcon":
+		        return "Shield<br/>Shields you";
 		}
 	},
 

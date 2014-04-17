@@ -619,6 +619,11 @@
 
             return isHit;
         },
+		isPointInsideObject = function (x,y, obj){
+			isIn = ((x >= obj.left && x <= (obj.left + obj.width)) &&
+				(y >= obj.top && y <= (obj.top + obj.height)))
+			return isIn;
+		},
 
         detectCollisionPlayerBullet = function (bullet) {
             var i, isHit, indexEnemiesHit;
@@ -708,12 +713,12 @@
             var nowMs = Date.now();
             if (nowMs - stormCloud.lastDamageTickTimestamp > stormCloudDamageFrequencyMs) {
                 stormCloud.lastDamageTickTimestamp = nowMs;
-                if (playerPlane.currentHealth > stormerDamage) {
-                    playerPlane.currentHealth -= stormerDamage;
-                } else {
-                    playerPlane.currentHealth = 0;
-                }
-                trackRemainingHealth(playerPlane.currentHealth);
+				if (playerPlane.currentHealth > stormerDamage) {
+                   playerPlane.currentHealth -= stormerDamage;
+				} else {
+					playerPlane.currentHealth = 0;
+				}
+				trackRemainingHealth(playerPlane.currentHealth);
             }
         },
 
@@ -763,13 +768,18 @@
         },
 
         handleCollisionEnemy = function (hitter) {
-            if (playerPlane.currentHealth > hitter.damage) {
-                playerPlane.currentHealth -= hitter.damage;
-            } else {
-                playerPlane.currentHealth = 0;
-            }
-            playerPlane.updateHpBar();
-            trackRemainingHealth(playerPlane.currentHealth);
+			if(playerPlane.absorbationShieldStrenght == 0){
+				if (playerPlane.currentHealth > hitter.damage) {
+						playerPlane.currentHealth -= hitter.damage;
+					} else {
+						playerPlane.currentHealth = 0;
+					}
+				playerPlane.updateHpBar();
+				trackRemainingHealth(playerPlane.currentHealth);
+			}else{
+				playerPlane.absorbationShieldStrenght--;
+
+			}
         },
 
         handleCollisionEnemyWithFriendlyPlane = function (hitter, friendlyIndex) {
@@ -957,6 +967,9 @@
                         break;
                     case 'guidedrocket':
                         playerPlane.skills.push(new SummonGuidedRocket(playerPlane));
+                        break;
+					case 'shield':
+                        playerPlane.skills.push(new Shield(playerPlane));
                         break;
                     default:
                         throw new Error("Unrecognized skill type");
@@ -1450,13 +1463,18 @@
             isHit = isHitByLeft || isHitByRight;
 
             if (isHit) {
-                if (playerPlane.currentHealth > bossDeathRayDamage) {
-                    playerPlane.currentHealth -= bossDeathRayDamage;
-                } else {
-                    playerPlane.currentHealth = 0;
-                }
-                playerPlane.updateHpBar();
-                trackRemainingHealth(playerPlane.currentHealth);
+				if(playerPlane.absorbationShieldStrenght == 0){
+				    if (playerPlane.currentHealth > bossDeathRayDamage) {
+						playerPlane.currentHealth -= bossDeathRayDamage;
+					} else {
+						playerPlane.currentHealth = 0;
+					}
+					playerPlane.updateHpBar();
+					trackRemainingHealth(playerPlane.currentHealth);
+				} else {
+					playerPlane.absorbationShieldStrenght--;
+				}
+
             }
         },
 
