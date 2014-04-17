@@ -1,4 +1,4 @@
-﻿var interactionManager = (function () {
+﻿ var interactionManager = (function () {
     var playerPlane = new PlayerPlane(),
         boss,
         bullets,
@@ -778,7 +778,9 @@
 				trackRemainingHealth(playerPlane.currentHealth);
 			}else{
 				playerPlane.absorbationShieldStrenght--;
-
+				if(playerPlane.absorbationShieldStrenght == 0){
+					$('#playerShield').remove();
+				}
 			}
         },
 
@@ -1472,7 +1474,8 @@
 					playerPlane.updateHpBar();
 					trackRemainingHealth(playerPlane.currentHealth);
 				} else {
-					playerPlane.absorbationShieldStrenght--;
+					playerPlane.absorbationShieldStrenght = 0;
+					$('#playerShield').remove();
 				}
 
             }

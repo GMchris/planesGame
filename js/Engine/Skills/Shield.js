@@ -5,10 +5,14 @@
 
     activate: function () {
         this._super();
-		 this.plane.absorbationShieldStrenght = 5;
+		this.plane.absorbationShieldStrenght = 5;
+		this.playerShieldDiv.appendTo('#playerPlaneDiv');
     },
-
+	
+	playerShieldDiv: $('<div id="playerShield"></div>').addClass('playerShieldDiv'),
+	
     deactivate: function () {
         this._super();
+		//this.playerShieldDiv.remove();
     },
 });
