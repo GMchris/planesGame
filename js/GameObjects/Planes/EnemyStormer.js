@@ -4,7 +4,8 @@
         this.image.src = 'images/planes/stormer.png';
 		this.width = 100;
 		this.height = 80;
-        this.lastStormTimestamp = Date.now();
+		this.lastStormTimestamp = Date.now();
+		this.healingOrbSpawnChance = 30;
     },
     lastStormTimestamp: null,
 

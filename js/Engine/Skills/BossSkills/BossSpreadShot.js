@@ -22,7 +22,7 @@
         var amountOfBullets = 15;
         if (!this.isInQuarterPhase) {
             for (i = 0; i < amountOfBullets; i++) {
-                interactionManager.spawnBullet(this.bulletType, this.leftCoord + 145, this.bottomCoord, -this.orientationDeg - 40 + (i * (80 / (amountOfBullets - 1))), this);
+                interactionManager.spawnBullet(this.bulletType, this.leftCoord + 145, this.bottomCoord, -this.orientationDeg - 35 + (i * (70 / (amountOfBullets - 1))), this);
             }
         }
     }

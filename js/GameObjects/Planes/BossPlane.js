@@ -127,7 +127,7 @@
                 }
             }
             this.secondPhaseStats.shootCount++;
-            if (this.secondPhaseStats.shootCount % 3 == 0 && this.secondPhaseStats.arcDegree < 60) { //every third shot , the amount of bullets increases
+            if (this.secondPhaseStats.shootCount % 3 == 0 && this.secondPhaseStats.arcDegree < 40) { //every third shot , the amount of bullets increases
                 this.secondPhaseStats.bulletsPerShot += 2;
                 this.secondPhaseStats.arcDegree += 4;
             }

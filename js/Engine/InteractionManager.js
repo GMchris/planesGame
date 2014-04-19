@@ -263,7 +263,7 @@
         },
 
         spawnHealingOrb = function (left, bottom) {
-            if (pickups.length < 3) { //no more than 3 pickups can be on the screen at once
+            if (!(currentMission instanceof BossMission) && pickups.length < 3) { //no more than 3 pickups can be on the screen at once
                 var healingOrb = new HealingOrb(left, bottom);
                 pickups.push(healingOrb);
                 healingOrb.addToScreen();
@@ -881,6 +881,7 @@
         },
 
         abortMission = function () {
+            var i;
             if (boss) {
                 delete boss.skills; //prevents spamming of boss' skills after the mission is over
                 //removes the reference to all the boss' skills -> the skills themselves get picked up by the garbage collector
@@ -888,6 +889,9 @@
                 //if the reference to the skills is not deleted, after the mission ends the boss object and all the bossSkill objects
                 //continue to exist as they're coupled (reference eachother) and all the skills continue to get used on cooldown
                 //(storm clouds continue to appear every 20 seconds, even on the area screen)
+            }
+            for (i = 0; i < playerPlane.skills.length; i++) {
+                playerPlane.skills[i].makeAvailable();
             }
             setInitialValues();
         },
@@ -1658,9 +1662,13 @@
             //newBottom
             if (clientY <= 570) {
                 converted.bottom = 700 - clientY - 50;
-                $('#gameScreen').css('cursor', 'none');
+                if ($('#gameScreen').css('cursor') == 'default') {
+                    $('#gameScreen').css('cursor', 'none');
+                }
             } else {
-                $('#gameScreen').css('cursor', 'default');
+                if ($('#gameScreen').css('cursor') == 'none') {
+                    $('#gameScreen').css('cursor', 'default');
+                }
                 converted.bottom = 80;
             }
 
