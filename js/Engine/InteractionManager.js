@@ -199,7 +199,7 @@
 
         spawnRandomEnemy = function () {
             var areaIndex = currentMission.areaIndex;
-            if (enemyPlanes.length <= 15) {
+            if (enemyPlanes.length <= 10) {
                 var rand = parseInt(Math.random() * 100) + 1; //[1, 100]
                 if (rand >= 95 && areaIndex >= 2) {
                     spawnStormer();
@@ -389,8 +389,8 @@
 
         moveEnemyBullet = function (bullet) {
             var bulletSpeed = (bullet instanceof BossBullet) ? bossBulletsSpeed : fighterBulletsSpeed,
-                newLeftCoord = parseInt(bullet.leftCoord - bullet.orientationDeg / 45 * bulletSpeed),
-                newBottomCoord = parseInt((bullet.orientationDeg > -90 && bullet.orientationDeg < 90) ? 
+                newLeftCoord = bullet.leftCoord - (bullet.orientationDeg / 45 * bulletSpeed),
+                newBottomCoord = Math.floor((bullet.orientationDeg > -90 && bullet.orientationDeg < 90) ? 
                 (bullet.bottomCoord - (bulletSpeed * (1 - Math.abs(bullet.orientationDeg / 90))))
                 : (bullet.bottomCoord + (bulletSpeed * (1 - Math.abs(bullet.orientationDeg / 90)))));
             if (newLeftCoord != bullet.leftCoord || newBottomCoord != bullet.bottomCoord) {
@@ -661,7 +661,8 @@
 			return isIn;
 		},
 
-        detectCollisionPlayerBullet = function (bullet) {
+
+        Bullet = function (bullet) {
             var i, isHit, indexEnemiesHit;
             for (i = 0; i < enemyPlanes.length; i++) {
                 if (enemyPlanes[i] instanceof BossPlane) {
@@ -670,22 +671,10 @@
                          || isPointInsideBoss(bullet.leftCoord, bullet.bottomCoord + bullet.height)
                          || isPointInsideBoss(bullet.leftCoord + bullet.width, bullet.bottomCoord + bullet.height);
                 } else {
-                    isHit = (bullet.leftCoord >= enemyPlanes[i].leftCoord
-                         && bullet.leftCoord <= enemyPlanes[i].leftCoord + enemyPlanes[i].width
-                         && bullet.bottomCoord >= enemyPlanes[i].bottomCoord
-                         && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + enemyPlanes[i].height)
-                    || (bullet.leftCoord + bullet.width >= enemyPlanes[i].leftCoord
-                         && bullet.leftCoord + bullet.width <= enemyPlanes[i].leftCoord + enemyPlanes[i].width
-                         && bullet.bottomCoord >= enemyPlanes[i].bottomCoord
-                         && bullet.bottomCoord <= enemyPlanes[i].bottomCoord + enemyPlanes[i].height)
-                    || (bullet.leftCoord >= enemyPlanes[i].leftCoord
-                         && bullet.leftCoord <= enemyPlanes[i].leftCoord + enemyPlanes[i].width
-                         && bullet.bottomCoord + bullet.height >= enemyPlanes[i].bottomCoord
-                         && bullet.bottomCoord + bullet.height <= enemyPlanes[i].bottomCoord + enemyPlanes[i].height)
-                    || (bullet.leftCoord + bullet.width >= enemyPlanes[i].leftCoord
-                         && bullet.leftCoord + bullet.width <= enemyPlanes[i].leftCoord + enemyPlanes[i].width
-                         && bullet.bottomCoord + bullet.height >= enemyPlanes[i].bottomCoord
-                         && bullet.bottomCoord + bullet.height <= enemyPlanes[i].bottomCoord + enemyPlanes[i].height);
+                    isHit = isPointInsideObject(bullet.leftCoord, bullet.bottomCoord, enemyPlanes[i])
+                    || isPointInsideObject(bullet.leftCoord + bullet.width, bullet.bottomCoord, enemyPlanes[i])
+                    || isPointInsideObject(bullet.leftCoord, bullet.bottomCoord + bullet.height, enemyPlanes[i])
+                    || isPointInsideObject(bullet.leftCoord + bullet.width, bullet.bottomCoord + bullet.height, enemyPlanes[i]);
                 }
                 if (isHit) { //return the index of the hit plane in the enemyPlanes array
                     return i;
