@@ -11,14 +11,12 @@
 
     mainLoop: function () {
         var self = this;
-        $('#fps').text(fps.getFPS());
         interactionManager.iterateBullets('all');
         interactionManager.iterateFriendlyPlanes();
         interactionManager.iterateEnemyPlanes();
         interactionManager.iterateHazards();
         interactionManager.shootPlayerPlane();
         interactionManager.handleBossIteration();
-        Visual.iterateBackground();
 
         if (self.checkWinConditions()) {
             interactionManager.handleMissionWin();
