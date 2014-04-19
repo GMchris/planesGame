@@ -5,7 +5,7 @@
 
     activate: function () {
         this._super();
-		this.plane.absorbationShieldStrenght = 5;
+		this.plane.absorptionShieldStrength = 5;
 		this.playerShieldDiv.appendTo('#playerPlaneDiv');
     },
 	

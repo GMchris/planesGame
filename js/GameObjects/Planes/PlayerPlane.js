@@ -9,9 +9,12 @@
         this.isShooting = false;
         this.isStealthed = false;
         this.skills = [];
+        this.absorptionShieldStrength = 0;
 
         this.bulletType = "player";
     },
+
+    absorptionShieldStrength: null,
     isShooting: null,
     isStealthed: null,
     skills: null,

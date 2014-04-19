@@ -7,6 +7,7 @@ EnemySupplier = EnemyPlane.extend({
 		this.height = 80;
         this.changeDirection();
         this.lastSupplyTimestamp = -1;
+        this.healingOrbSpawnChance = 30;
     },
     lastSupplyTimestamp: null,
 

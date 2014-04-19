@@ -3,6 +3,7 @@
         boss,
         bullets,
         hazards,
+        pickups,
         playerBulletsSpeed,
         fighterBulletsSpeed,
         bossBulletsSpeed,
@@ -63,11 +64,13 @@
             startTimer = function () { };
         },
         setInitialValues = function () {
+            playerPlane.absorptionShieldStrength = 0;
             boss = null;
             playerPlane.isShooting = false;
             timeIsStopped = false;
             bullets = [];
             hazards = [];
+            pickups = [];
             rocketPathArray = [];
             playerBulletsSpeed = 10;
             fighterBulletsSpeed = 7;
@@ -187,7 +190,6 @@
         },
 
         spawnEnemy = function () {
-            //80% chance to spawn fighter, 10% chance to spawn supplier, 10% chance to spawn kamikaze
             var nowMs = Date.now();
             if (nowMs - lastEnemySpawnTimestamp > enemySpawnFrequencyMs) {
                 lastEnemySpawnTimestamp = nowMs;
@@ -197,7 +199,7 @@
 
         spawnRandomEnemy = function () {
             var areaIndex = currentMission.areaIndex;
-            if (enemyPlanes.length <= 20) {
+            if (enemyPlanes.length <= 15) {
                 var rand = parseInt(Math.random() * 100) + 1; //[1, 100]
                 if (rand >= 95 && areaIndex >= 2) {
                     spawnStormer();
@@ -258,6 +260,14 @@
                 newStormCloud.addToScreen();
             }, 300);
             hazards.push(newStormCloud);
+        },
+
+        spawnHealingOrb = function (left, bottom) {
+            if (pickups.length < 3) { //no more than 3 pickups can be on the screen at once
+                var healingOrb = new HealingOrb(left, bottom);
+                pickups.push(healingOrb);
+                healingOrb.addToScreen();
+            }
         },
 
         gauntletSpawnEnemies = function () {
@@ -440,6 +450,20 @@
             }
         },
 
+        iteratePickups = function () {
+            var i;
+            for (i = 0; i < pickups.length; i++) {
+                if (pickups[i] instanceof HealingOrb) {
+                    if (isPointInsideObject(pickups[i].leftCoord + pickups[i].width / 2, pickups[i].bottomCoord + pickups[i].height / 2, playerPlane)) {
+                        pickups[i].heal(playerPlane);
+                        pickups[i].die();
+                        pickups.splice(i, 1);
+                        i--;
+                    }
+                }
+            }
+        },
+
         moveEnemyPlane = function (enemyPlane) {
             var nowMs = Date.now();
             enemyPlane.moveAtDirection();
@@ -599,7 +623,7 @@
         },
 
         isPointInsideBoss = function (left, bottom) {
-            var isHit = !boss.isInvulnerable && (
+            var isIn = !boss.isInvulnerable && (
                 //left wing
                 (left >= boss.leftCoord
                     && left <= boss.leftCoord + 75
@@ -629,11 +653,11 @@
                     && bottom <= boss.bottomCoord + 240)
             );
 
-            return isHit;
+            return isIn;
         },
 		isPointInsideObject = function (x,y, obj){
-			isIn = ((x >= obj.left && x <= (obj.left + obj.width)) &&
-				(y >= obj.top && y <= (obj.top + obj.height)))
+			isIn = ((x >= obj.leftCoord && x <= (obj.leftCoord + obj.width)) &&
+				(y >= obj.bottomCoord && y <= (obj.bottomCoord + obj.height)))
 			return isIn;
 		},
 
@@ -730,6 +754,7 @@
 				} else {
 					playerPlane.currentHealth = 0;
 				}
+				playerPlane.updateHpBar();
 				trackRemainingHealth(playerPlane.currentHealth);
             }
         },
@@ -780,7 +805,7 @@
         },
 
         handleCollisionEnemy = function (hitter) {
-			if(playerPlane.absorbationShieldStrenght == 0){
+            if (playerPlane.absorptionShieldStrength == 0) {
 				if (playerPlane.currentHealth > hitter.damage) {
 						playerPlane.currentHealth -= hitter.damage;
 					} else {
@@ -789,8 +814,8 @@
 				playerPlane.updateHpBar();
 				trackRemainingHealth(playerPlane.currentHealth);
 			}else{
-				playerPlane.absorbationShieldStrenght--;
-				if(playerPlane.absorbationShieldStrenght == 0){
+                playerPlane.absorptionShieldStrength--;
+                if (playerPlane.absorptionShieldStrength == 0) {
 					$('#playerShield').remove();
 				}
 			}
@@ -1479,7 +1504,7 @@
             isHit = isHitByLeft || isHitByRight;
 
             if (isHit) {
-				if(playerPlane.absorbationShieldStrenght == 0){
+                if (playerPlane.absorptionShieldStrength == 0) {
 				    if (playerPlane.currentHealth > bossDeathRayDamage) {
 						playerPlane.currentHealth -= bossDeathRayDamage;
 					} else {
@@ -1488,7 +1513,7 @@
 					playerPlane.updateHpBar();
 					trackRemainingHealth(playerPlane.currentHealth);
 				} else {
-					playerPlane.absorbationShieldStrenght = 0;
+                    playerPlane.absorptionShieldStrength = 0;
 					$('#playerShield').remove();
 				}
 
@@ -1575,7 +1600,6 @@
         },
 
         finishRocketPathDrawing = function () {
-            console.log(rocketPathArray.length);
             rocketPathArray.splice(99, rocketPathArray.length - 99); //remove all but the first 100 entries
             $(document).off('mousemove', drawRocketPath);
             $(document).off('mousedown', initiateRocketPathDrawing);
@@ -1618,7 +1642,6 @@
         },
 
         convertEventCoordinates = function (clientX, clientY) {
-            console.log(clientY);
             var converted = { left: 0, bottom: 0 };
             var nonGameScreenWidth = window.innerWidth - 960;
             //newLeft
@@ -1789,12 +1812,14 @@
         spawnSentry: spawnSentry,
         spawnBullet: spawnBullet,
         spawnEnemy: spawnEnemy,
+        spawnHealingOrb: spawnHealingOrb,
         gauntletSpawnEnemies: gauntletSpawnEnemies, 
         movePlayerPlane: movePlayerPlane,
         iterateBullets: iterateBullets,
         iterateFriendlyPlanes: iterateFriendlyPlanes,
         iterateEnemyPlanes: iterateEnemyPlanes,
         iterateHazards: iterateHazards,
+        iteratePickups: iteratePickups,
         increaseSpawnTime: increaseSpawnTime,
         shootPlayerPlane: shootPlayerPlane,
         handleMouseClick: handleMouseClick,

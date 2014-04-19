@@ -26,12 +26,9 @@
             e.preventDefault();
         });
         $(document).on('keypress', function (e) {
-            console.log(e.keyCode);
-            if (e.keyCode == 112) {//p
-                interactionManager.togglePause();
-            } else if (e.keyCode == 113) { //q
+            if (e.keyCode == 97) { //a
                 interactionManager.rotateSentries('left');
-            } else if (e.keyCode == 101) { //e
+            } else if (e.keyCode == 100) { //d
                 interactionManager.rotateSentries('right');
             } else if (e.keyCode >= 49 && e.keyCode <= 52) { //1-4 key was pressed
                 interactionManager.handleSkillUsage(e.keyCode - 49);
@@ -48,6 +45,7 @@
         interactionManager.iterateFriendlyPlanes();
         interactionManager.iterateEnemyPlanes();
         interactionManager.iterateHazards();
+        interactionManager.iteratePickups();
         interactionManager.shootPlayerPlane();
         interactionManager.spawnEnemy();
         Visual.iterateBackground();
