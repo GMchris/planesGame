@@ -662,7 +662,7 @@
 		},
 
 
-        Bullet = function (bullet) {
+        detectCollisionPlayerBullet = function (bullet) {
             var i, isHit, indexEnemiesHit;
             for (i = 0; i < enemyPlanes.length; i++) {
                 if (enemyPlanes[i] instanceof BossPlane) {
