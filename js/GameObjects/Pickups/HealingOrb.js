@@ -2,8 +2,8 @@
     init: function (left, bottom) {
         this._super(left, bottom);
         $(this.div).addClass('healingOrbDiv');
-        this.width = 20;
-        this.height = 20;
+        this.width = 40;
+        this.height = 40;
         this.healingAmount = 5;
     },
 
