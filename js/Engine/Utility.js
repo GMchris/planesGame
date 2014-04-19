@@ -59,25 +59,9 @@ function degreeToRadian(deg) {
     return deg * Math.PI / 180;
 }
 
-function loop () {
+function drawObjects() {
+    webkitRequestAnimationFrame(drawObjects);
     $('#fps').text(fps.getFPS());
-    interactionManager.iterateBullets('all');
-    interactionManager.iterateFriendlyPlanes();
-    interactionManager.iterateEnemyPlanes();
-    interactionManager.iterateHazards();
-    interactionManager.shootPlayerPlane();
-    interactionManager.spawnEnemy();
     Visual.iterateBackground();
-
-    //if (self.checkWinConditions()) {
-    //    interactionManager.handleMissionWin();
-    //    self.endMission();
-    //}
-
-    //if (self.checkLossConditions()) {
-    //    interactionManager.handleMissionLoss();
-    //    self.endMission();
-    //}
-
-    window.requestAnimationFrame(loop);
-}
+    interactionManager.redrawGameObjects();
+};

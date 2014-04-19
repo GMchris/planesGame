@@ -8,6 +8,7 @@
     areaIndex: null,
     enemySpawnFrequencyMs: null,
     mainLoopInterval: null,
+    mainDrawLoopInterval: null,
     startTime: null,
     startMission: function () {
         var self = this;
@@ -37,10 +38,12 @@
         this.mainLoopInterval = window.setInterval(function () {
             self.mainLoop.call(self);
         }, 1000 / 60);
+
+        Visual.drawGameObjects();
     },
     mainLoop: function () {
         var self = this;
-        $('#fps').text(fps.getFPS());
+        
         interactionManager.iterateBullets('all');
         interactionManager.iterateFriendlyPlanes();
         interactionManager.iterateEnemyPlanes();
@@ -48,7 +51,6 @@
         interactionManager.iteratePickups();
         interactionManager.shootPlayerPlane();
         interactionManager.spawnEnemy();
-        Visual.iterateBackground();
         this.updatePrimaryStatus();
 
         if (self.checkWinConditions()) {
@@ -61,9 +63,13 @@
             self.endMission();
         }
     },
+
+    
+
     endMission: function () {
         $(document).off(); //removes all event listeners
         window.clearInterval(this.mainLoopInterval);
+        window.clearInterval(this.mainDrawLoopInterval);
     },
     checkWinConditions: function () { },
     checkLossConditions: function () { },

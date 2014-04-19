@@ -222,7 +222,12 @@ var Visual = {
 
         $("<div>Replay</div>").addClass("replayButton").appendTo(".leaderboardWindow").on("click", function () { location.reload() });
 
+    },
+
+    drawGameObjects: function () {
+        webkitRequestAnimationFrame(Visual.drawGameObjects);
+        $('#fps').text(fps.getFPS());
+        Visual.iterateBackground();
+        interactionManager.redrawGameObjects();
     }
-
-
 };
