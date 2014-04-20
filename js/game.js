@@ -8,7 +8,7 @@ var Game = {
 		MissionManager.generateMissions();
 		AreaManager.drawMap();
 		Visual.drawGameObjects();
-		for(var i=0;i<12;i++){
+		for(var i=0;i<13;i++){
 			Game.addSkill();
 		}
 	},
@@ -43,7 +43,7 @@ var Game = {
 		this.unlockedSkills.push(this.allSkills.splice(index,1)[0]);
 		return this.unlockedSkills[this.unlockedSkills.length-1];
 	},
-	allSkills : ["spreadshot","homingshot","penetratingshot","sentry","stoptime","deathray", "blackhole", "stealth", "radioactive", "healingshot", 'guidedrocket', 'shield'],
+	allSkills : ["spreadshot","homingshot","penetratingshot","sentry","stoptime","deathray", "blackhole", "stealth", "radioactive", "healingshot", 'guidedrocket', 'shield', 'absorbbullets'],
 	unlockedSkills :[],
 }
 
