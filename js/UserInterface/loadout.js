@@ -95,10 +95,6 @@ var Loadout = {
 		        skillClass = "shieldIcon";
 		        break;
 
-		    case "absorbbullets":
-		        skillClass = "absorbBulletsIcon";
-		        break;
-
 			default:
 				throw new Error("Unrecognized skill name");
 		}
@@ -211,9 +207,6 @@ var Loadout = {
 				
 			case "skillIcon shieldIcon":
 		        return "Shield<br/>Shields you";
-
-		    case "skillIcon absorbBulletsIcon":
-		        return "Absorb Bullets<br/>Enemy bullets will temporarily heals you";
 		}
 	},
 

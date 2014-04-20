@@ -810,24 +810,6 @@
 				}
 			}
         },
-        handleAbsorbCollisionEnemyBullets = function(hitter){
-            if((playerPlane.currentHealth + 1) >= playerPlane.maxHealth){
-                playerPlane.currentHealth = playerPlane.maxHealth;
-               } else {
-                   playerPlane.currentHealth++;
-               }
-               playerPlane.updateHpBar();
-        }
-
-        handleAbsorbBullets = function (duration){
-            $(playerPlane.div).css('background-image', 'url(images/planes/playerAbsorbingBullets.png)');
-            var tempHandleCollisionEnemy =  handleCollisionEnemy;
-            handleCollisionEnemy = handleAbsorbCollisionEnemyBullets;
-            window.setTimeout(function () {
-                handleCollisionEnemy = tempHandleCollisionEnemy;
-                 $(playerPlane.div).css('background-image', 'url(images/planes/player.png)');
-            }, duration);
-        },
 
         //handleCollisionEnemyPesho = function (hitter) {
         //    if (playerPlane.currentHealth < playerPlane.maxHealth) {
@@ -1036,9 +1018,6 @@
                         break;
 					case 'shield':
                         playerPlane.skills.push(new Shield(playerPlane));
-                        break;
-                    case 'absorbbullets':
-                        playerPlane.skills.push(new AbsorbBullets(playerPlane));
                         break;
                     default:
                         throw new Error("Unrecognized skill type");
@@ -1910,7 +1889,6 @@
         stopTimeOff: stopTimeOff,
         handleDeathRay: handleDeathRay,
         handleRadioactive: handleRadioactive,
-        handleAbsorbBullets: handleAbsorbBullets,
         createAndSkewBossDeathRay: createAndSkewBossDeathRay,
         handleBossDeathRay: handleBossDeathRay,
         handleBlackHole: handleBlackHole,

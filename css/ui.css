@@ -123,9 +123,6 @@ b{
 .shieldIcon {
     background-image: url(../images/ui/shieldIcon.png);
 }
-.absorbBulletsIcon {
-    background-image: url(../images/ui/absorbBulletsIcon.png);
-}
 
 #hpBar{
 	display: inline-block;
