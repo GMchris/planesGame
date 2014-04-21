@@ -1,7 +1,7 @@
 ﻿//an enemy plane with the added functionality to face the player
 EnemyChasePlane = EnemyPlane.extend({
-    init: function (left, bottom, maxHealth, damage, movementSpeed) {
-        this._super(left, bottom, maxHealth, damage, movementSpeed);
+    init: function (left, bottom, maxHealth, damage, movementSpeed, width, height) {
+        this._super(left, bottom, maxHealth, damage, movementSpeed, width, height);
         this.orientationDeg = 0;
     },
 

@@ -1,12 +1,17 @@
 ﻿EnemyPlane = AIPlane.extend({
-    init: function (left, bottom, maxHealth, damage, movementSpeed) {
-        this._super(left, bottom, maxHealth, damage);
+    init: function (left, bottom, maxHealth, damage, movementSpeed, width, height) {
+        this._super(left, bottom, maxHealth, damage, width, height);
         this.movementSpeed = movementSpeed;
         this.updateCoords(left, bottom);
         this.move();
-        this.div.className = "enemyPlane";
+        this.div.className = 'enemyPlane';
         this.hpBar.className = "hpBarEnemy";
-        this.hpBarEmpty.className = 'hpBarEnemyEmpty';
+        $(this.hpBar)
+            .addClass('hpBarEnemy')
+            .css('top', this.height);
+        $(this.hpBarEmpty)
+            .addClass('hpBarEnemyEmpty')
+            .css('top', this.height);
         this.lastDirectionChangeTimestamp = -1;
         $(this.hpBar).appendTo(this.div);
     },

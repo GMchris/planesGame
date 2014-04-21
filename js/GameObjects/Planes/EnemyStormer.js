@@ -1,9 +1,7 @@
 ﻿EnemyStormer = EnemyPlane.extend({
     init: function (left, bottom, maxHealth, damage) {
-        this._super(left, bottom, maxHealth, damage, 0); //stormer doesn't move
-        this.image.src = 'images/planes/stormer.png';
-		this.width = 100;
-		this.height = 80;
+        this._super(left, bottom, maxHealth, damage, 0, 100, 80); //stormer doesn't move
+        $(this.div).css('background-image', 'url(images/planes/stormer.png)');
 		this.lastStormTimestamp = Date.now();
 		this.healingOrbSpawnChance = 30;
     },

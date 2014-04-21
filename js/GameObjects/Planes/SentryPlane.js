@@ -1,11 +1,9 @@
 ﻿SentryPlane = AIPlane.extend({
     init: function (left, bottom, maxHealth, damage) {
-        this._super(left, bottom, maxHealth, damage);
+        this._super(left, bottom, maxHealth, damage, 100, 75); //100-width, 75-height
         this.div.className = "sentryPlaneDiv";
         this.orientationDeg = 0;
-        this.image.src = 'images/planes/sentry.png';
-		this.width = 100;
-		this.height = 75;
+        $(this.div).css('background-image', 'url(images/planes/sentry.png)');
         this.hpBar.className = "hpBarFriendly";
         this.bulletType = "player";
         this.lastShootTimestamp = -1;

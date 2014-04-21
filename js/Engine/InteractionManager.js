@@ -199,7 +199,7 @@
 
         spawnRandomEnemy = function () {
             var areaIndex = currentMission.areaIndex;
-            if (enemyPlanes.length <= 10) {
+            if (enemyPlanes.length <= 15) {
                 var rand = parseInt(Math.random() * 100) + 1; //[1, 100]
                 if (rand >= 95 && areaIndex >= 2) {
                     spawnStormer();
@@ -257,7 +257,9 @@
             var newStormCloud = new StormCloud(left, bottom);
             newStormCloud.animateCast(casterLeft, casterBottom, casterWidth);
             window.setTimeout(function () {
-                newStormCloud.addToScreen();
+                if (currentMission) {
+                    newStormCloud.addToScreen();
+                }
             }, 300);
             hazards.push(newStormCloud);
         },
@@ -536,7 +538,8 @@
             if (nowMs - supplier.lastSupplyTimestamp > supplierSupplyFrequencyMs) {
                 for (i = 0; i < enemyPlanes.length; i++) {
                     if (enemyPlanes[i] instanceof EnemyFighter
-                        && distanceBetweenTwoPoints(supplier.leftCoord, supplier.bottomCoord, enemyPlanes[i].leftCoord, enemyPlanes[i].bottomCoord) < 250) {
+                        && distanceBetweenTwoPoints(supplier.leftCoord, supplier.bottomCoord, enemyPlanes[i].leftCoord, enemyPlanes[i].bottomCoord) < 250
+                        && supplier.suppliedFighters.indexOf(enemyPlanes[i]) == -1) {
                         supplier.supply(enemyPlanes[i]);
                     }
                 }

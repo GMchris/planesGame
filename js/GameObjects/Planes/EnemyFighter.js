@@ -1,10 +1,9 @@
 ﻿//The generic enemy plane
 EnemyFighter = EnemyPlane.extend({
     init: function (left, bottom, maxHealth, damage, movementSpeed) {
-        this._super(left, bottom, maxHealth, damage, movementSpeed);
-        this.image.src = 'images/planes/fighter.png';
-		this.width = 90;
-		this.height = 72;
+        this._super(left, bottom, maxHealth, damage, movementSpeed, 90, 72);
+        this.div.className = 'enemyFighterDiv';
+        $(this.div).css('background-image', 'url(images/planes/fighter.png)');
         this.bulletType = "fighter";
         this.changeDirection();
         this.lastShootTimestamp = -1;

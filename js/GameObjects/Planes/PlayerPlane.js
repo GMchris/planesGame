@@ -1,11 +1,8 @@
 ﻿PlayerPlane = Plane.extend({
     init: function () {
-        this._super(100, 1); //maxHealth, damage
+        this._super(10000, 1, 100, 80); //maxHealth, damage, width, height
         this.div.id = "playerPlaneDiv";
-        this.image.id = "playerPlaneImage";
-        this.image.src = 'images/planes/player.png';
-		this.width = 100;
-		this.height = 80;
+        $(this.div).css('background-image', 'url(images/planes/player.png)');
         this.isShooting = false;
         this.isStealthed = false;
         this.skills = [];

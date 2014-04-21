@@ -1,9 +1,7 @@
 ﻿HealingOrb = Pickup.extend({
     init: function (left, bottom) {
-        this._super(left, bottom);
+        this._super(left, bottom, 40, 40);
         $(this.div).addClass('healingOrbDiv');
-        this.width = 40;
-        this.height = 40;
         this.healingAmount = 5;
     },
 

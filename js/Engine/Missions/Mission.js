@@ -38,8 +38,6 @@
         this.mainLoopInterval = window.setInterval(function () {
             self.mainLoop.call(self);
         }, 1000 / 60);
-
-        Visual.drawGameObjects();
     },
     mainLoop: function () {
         var self = this;
@@ -69,7 +67,6 @@
     endMission: function () {
         $(document).off(); //removes all event listeners
         window.clearInterval(this.mainLoopInterval);
-        window.clearInterval(this.mainDrawLoopInterval);
     },
     checkWinConditions: function () { },
     checkLossConditions: function () { },

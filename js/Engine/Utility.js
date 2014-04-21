@@ -57,11 +57,4 @@ function spreadShotEnemyShoot() {
 
 function degreeToRadian(deg) {
     return deg * Math.PI / 180;
-}
-
-function drawObjects() {
-    webkitRequestAnimationFrame(drawObjects);
-    $('#fps').text(fps.getFPS());
-    Visual.iterateBackground();
-    interactionManager.redrawGameObjects();
 };

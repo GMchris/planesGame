@@ -7,6 +7,7 @@ var Game = {
 		AreaManager.areas[0].active = true;
 		MissionManager.generateMissions();
 		AreaManager.drawMap();
+		Visual.drawGameObjects();
 		for(var i=0;i<12;i++){
 			Game.addSkill();
 		}

@@ -1,6 +1,6 @@
 ﻿Hazard = GameObject.extend({
-    init: function (left, bottom) {
-        this._super();
+    init: function (left, bottom, width, height) {
+        this._super(width, height);
         this.updateCoords(left, bottom);
         this.move();
     }

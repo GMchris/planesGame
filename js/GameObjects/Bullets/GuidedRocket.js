@@ -1,12 +1,8 @@
 ﻿GuidedRocket = PiercingBullet.extend({
     init: function (left, bottom, orientationDeg, owner) {
-        this._super(left, bottom, orientationDeg, owner);
-        this.div.className = "reinforcementPlaneDiv";
-        this.image = document.createElement('img');
-        this.image.src = 'images/guidedRocket.png';
-        $(this.image).appendTo(this.div);
-        this.width = 61;
-        this.height = 100;
+        this._super(left, bottom, orientationDeg, owner, 61, 100);
+        this.div.className = "guidedRocketDiv";
+        $(this.div).css('background-image', 'url(images/guidedRocket.png)');
     },
 
     chaseTarget: function (targetLeft, targetBottom) {

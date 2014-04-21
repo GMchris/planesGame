@@ -227,7 +227,9 @@ var Visual = {
     drawGameObjects: function () {
         webkitRequestAnimationFrame(Visual.drawGameObjects);
         $('#fps').text(fps.getFPS());
-        Visual.iterateBackground();
-        interactionManager.redrawGameObjects();
+        if (interactionManager.getCurrentMission()) {
+            Visual.iterateBackground();
+            interactionManager.redrawGameObjects();
+        }
     }
 };

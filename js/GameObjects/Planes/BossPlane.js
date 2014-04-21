@@ -1,14 +1,14 @@
 ﻿BossPlane = EnemyChasePlane.extend({
     init: function (left, bottom) {
-        this._super(left, bottom, 700, 7, 3);
+        this._super(left, bottom, 700, 7, 3, 300, 240);
         var self = this;
         this.castBar = document.createElement('div');
         $(this.castBar)
             .toggleClass('castBarBoss')
+            .css('top', this.height)
             .appendTo(this.div);
-        this.image.src = 'images/planes/boss.png';
-		this.width = 300;
-		this.height = 240;
+        this.div.className = 'bossPlaneDiv';
+        $(this.div).css('background-image', 'url(images/planes/boss.png)');
         this.lastShootTimestamp = -1;
         this.shootFrequency = 500;
         this.isCasting = false;

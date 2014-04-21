@@ -1,6 +1,6 @@
 ﻿AIPlane = Plane.extend({
-    init: function (left, bottom, maxHealth, damage) {
-        this._super(maxHealth, damage);
+    init: function (left, bottom, maxHealth, damage, width, height) {
+        this._super(maxHealth, damage, width, height);
         this.hpBar = document.createElement('div');
         this.hpBarEmpty = document.createElement('div');
         $(this.hpBar).appendTo(this.div);
