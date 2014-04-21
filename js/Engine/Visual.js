@@ -138,6 +138,9 @@ var Visual = {
         $('<div id="fps"></div>')
         .appendTo('.ui');
 
+        $('<div id="ips"></div>')
+        .appendTo('.ui');
+
         //Draw timer
         $('<div id="timer">' + interactionManager.getTime() + '</div>')
         .addClass("inGame")

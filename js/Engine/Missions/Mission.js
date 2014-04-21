@@ -41,7 +41,7 @@
     },
     mainLoop: function () {
         var self = this;
-        
+        $('#ips').text(ips.getIPS());
         interactionManager.iterateBullets('all');
         interactionManager.iterateFriendlyPlanes();
         interactionManager.iterateEnemyPlanes();
