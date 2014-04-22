@@ -2,7 +2,7 @@
     init: function (left, bottom, orientationDeg, owner) {
         this._super(left, bottom, orientationDeg, owner, 61, 100);
         this.div.className = "guidedRocketDiv";
-        $(this.div).css('background-image', 'url(images/guidedRocket.png)');
+        $(this.div).css('background-image', 'url(images/skills/guidedRocket.png)');
     },
 
     chaseTarget: function (targetLeft, targetBottom) {
