@@ -28,6 +28,22 @@ var Visual = {
         $("<div/>")
         .addClass("endGameArt")
         .appendTo(".victoryScreen");
+
+        $("<div/>")
+        .addClass("scoreSubmissionBox")
+        .appendTo(".endGameArt");
+
+        $("<input/>")
+        .addClass("nameInput")
+        .appendTo(".scoreSubmissionBox")
+
+        $("<div/>")
+        .addClass("submitButton")
+        .appendTo(".scoreSubmissionBox")
+        .on("click",function(){
+            Utility.submitScore(interactionManager.getVictoryTime());
+            $(this).remove();
+        })
     },
 
     backgroundOffset: 0,
