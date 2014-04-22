@@ -19,6 +19,17 @@ var Visual = {
            Test.generateScores();
        });
     },
+
+    drawVictoryScreen:function(){
+        $("<div/>")
+        .addClass("victoryScreen gameWindow")
+        .appendTo("#gameScreen");
+
+        $("<div/>")
+        .addClass("endGameArt")
+        .appendTo(".victoryScreen");
+    },
+
     backgroundOffset: 0,
 
     //Makes the cursor invisible while game is active

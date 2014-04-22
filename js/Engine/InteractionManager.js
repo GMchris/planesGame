@@ -40,6 +40,7 @@
         Timer = {
             //Counts how many seconds have passed since the start of the game
             current: 0,
+            finalTime : null,
             increaseTimer: function () {
                 this.current++;
             },
@@ -950,8 +951,14 @@
                 AreaManager.updateAreaStatus(starsWonForMission);
                 AreaManager.drawMap();
                 //Draw the win screen
-                Game.playerStars += starsWonForMission;
-                MissionManager.winScreen(starsWonForMission);
+                if(MissionManager.currentAreaIndex==4){
+
+                    Visual.drawVictoryScreen();
+                }
+                else{
+                    Game.playerStars += starsWonForMission;
+                    MissionManager.winScreen(starsWonForMission);
+                }
             }, 1500);
         },
 
@@ -977,6 +984,11 @@
         getSeconds = function () {
             return Timer.current;
         },
+
+        getVictoryTime = function(){
+            Timer.finalTime = Timer.current;
+            return Timer.finalTime;
+        }
 
         getPlayerHealth = function () {
             return playerPlane.currentHealth;
@@ -1925,6 +1937,7 @@
 
         getTime: getTime,
         getSeconds: getSeconds,
+        getVictoryTime: getVictoryTime,
         getPlayerHealth: getPlayerHealth,
         getBossHealth: getBossHealth,
         getPlayerLeftCoord: getPlayerLeftCoord,

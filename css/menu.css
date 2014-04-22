@@ -213,6 +213,23 @@
 	height: 380px;
 }
 
+.victoryScreen{
+	position:absolute;
+	left:15px;
+	height:660px;
+	width:920px;
+}
+
+.endGameArt{
+	position:absolute;
+	top:20px;
+	left:60px;
+	height:600px;
+	width:800px;
+	background:url(../images/map/endScreen.png) no-repeat;
+	background-size: contain;
+}
+
 #closePrompt{
 	right:15px;
 	top:10px;
