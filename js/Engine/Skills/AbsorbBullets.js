@@ -1,6 +1,6 @@
 AbsorbBullets = Skill.extend({
     init: function (plane) {
-        this._super("AbsorbBullets", plane, 3000, 12000, "absorbBulletsIcon"); //plane using the skill, duration, cooldown
+        this._super("Absorb Bullets", plane, 3000, 13000, "absorbBulletsIcon"); //plane using the skill, duration, cooldown
     },
 
     activate: function () {

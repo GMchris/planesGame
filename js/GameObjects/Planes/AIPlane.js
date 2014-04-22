@@ -11,10 +11,6 @@
 
     hpBar: null,
 
-    updateHpBar: function () {
-        this.hpBar.style.width = parseInt(this.currentHealth / this.maxHealth * 100) + '%';
-    },
-
     animateSpawn: function () {
         var rand = parseInt(Math.random() * 2),
             currentLeftCoord = this.leftCoord;

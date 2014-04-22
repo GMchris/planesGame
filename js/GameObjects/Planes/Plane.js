@@ -18,6 +18,30 @@
         this._super(left, bottom);
     },
 
+    updateHpBar: function () {
+        var newHp = parseInt(this.currentHealth / this.maxHealth * 100) + '%';
+        $(this.hpBar).css('width', newHp);
+        //this.hpBar.style.width = parseInt(this.currentHealth / this.maxHealth * 100) + '%';
+    },
+
+    takeDamage: function (damage){
+        if(this.currentHealth > damage){
+            this.currentHealth -= damage;
+        } else {
+            this.currentHealth = 0;
+        }
+        this.updateHpBar();
+    },
+
+    receiveHeal: function(healingPoints){
+        if((this.currentHealth + healingPoints) >= this.maxHealth){
+            this.currentHealth = this.maxHealth;
+        } else {
+            this.currentHealth += healingPoints;
+        }
+        this.updateHpBar();
+    },
+
     tryShoot: function () {
         var nowMs = Date.now(),
             canShoot = false;

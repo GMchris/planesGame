@@ -664,12 +664,8 @@
             var nowMs = Date.now();
             if (nowMs - stormCloud.lastDamageTickTimestamp > stormCloudDamageFrequencyMs) {
                 stormCloud.lastDamageTickTimestamp = nowMs;
-                if (friendlyPlanes[hitPlaneIndex].currentHealth > stormerDamage) {
-                    friendlyPlanes[hitPlaneIndex].currentHealth -= stormerDamage;
-                    friendlyPlanes[hitPlaneIndex].updateHpBar();
-                } else {
-                    friendlyPlanes[hitPlaneIndex].currentHealth = 0;
-                    friendlyPlanes[hitPlaneIndex].updateHpBar();
+                friendlyPlanes[hitPlaneIndex].takeDamage(stormerDamage);
+                if(friendlyPlanes[hitPlaneIndex].currentHealth == 0){
                     friendlyPlanes[hitPlaneIndex].die();
                 }
             }
@@ -679,12 +675,7 @@
             var nowMs = Date.now();
             if (nowMs - stormCloud.lastDamageTickTimestamp > stormCloudDamageFrequencyMs) {
                 stormCloud.lastDamageTickTimestamp = nowMs;
-				if (playerPlane.currentHealth > stormerDamage) {
-                   playerPlane.currentHealth -= stormerDamage;
-				} else {
-					playerPlane.currentHealth = 0;
-				}
-				playerPlane.updateHpBar();
+                playerPlane.takeDamage(stormerDamage);
 				trackRemainingHealth(playerPlane.currentHealth);
             }
         },
@@ -697,20 +688,10 @@
             }
 
             if(bullet instanceof HealingBullet){
-                if(playerPlane.maxHealth >= (playerPlane.currentHealth + healingBulletHealPoints)){
-                    playerPlane.currentHealth += healingBulletHealPoints;
-                } else {
-                    playerPlane.currentHealth = playerPlane.maxHealth;
-                }
-                playerPlane.updateHpBar();
+                playerPlane.receiveHeal(healingBulletHealPoints);
             }
-
-            if (enemyPlanes[hitEnemyPlaneIndex].currentHealth > damage) {
-                enemyPlanes[hitEnemyPlaneIndex].currentHealth -= damage;
-                enemyPlanes[hitEnemyPlaneIndex].updateHpBar();
-            } else {
-                enemyPlanes[hitEnemyPlaneIndex].currentHealth = 0;
-                enemyPlanes[hitEnemyPlaneIndex].updateHpBar();
+            enemyPlanes[hitEnemyPlaneIndex].takeDamage(damage);
+            if(enemyPlanes[hitEnemyPlaneIndex].currentHealth == 0){
                 enemyPlanes[hitEnemyPlaneIndex].die();
                 enemyPlanes.splice(hitEnemyPlaneIndex, 1);
                 if (currentMission instanceof GauntletMission) {
@@ -723,12 +704,8 @@
         handleCollisionPlayerBulletWithBoss = function (bullet) {
             var ownerPlane = bullet.owner,
                 damage = (bullet instanceof HomingBullet) ? ownerPlane.damage * 0.5 : ownerPlane.damage;
-            if (boss.currentHealth > damage) {
-                boss.currentHealth -= damage;
-                boss.updateHpBar();
-            } else {
-                boss.currentHealth = 0;
-                boss.updateHpBar();
+            boss.takeDamage(damage);
+            if(boss.currentHealth == 0){
                 boss.die();
             }
             trackAccuracy(true);
@@ -736,12 +713,7 @@
 
         handleCollisionEnemy = function (hitter) {
             if (playerPlane.absorptionShieldStrength == 0) {
-				if (playerPlane.currentHealth > hitter.damage) {
-						playerPlane.currentHealth -= hitter.damage;
-					} else {
-						playerPlane.currentHealth = 0;
-					}
-				playerPlane.updateHpBar();
+                playerPlane.takeDamage(hitter.damage);
 				trackRemainingHealth(playerPlane.currentHealth);
 			} else {
                 playerPlane.absorptionShieldStrength--;
@@ -751,12 +723,7 @@
 			}
         },
         handleAbsorbCollisionEnemyBullets = function(hitter){
-            if((playerPlane.currentHealth + 1) >= playerPlane.maxHealth){
-                playerPlane.currentHealth = playerPlane.maxHealth;
-               } else {
-                   playerPlane.currentHealth++;
-               }
-               playerPlane.updateHpBar();
+            playerPlane.receiveHeal(1);
         },
 
         handleAbsorbBullets = function (duration){
@@ -771,14 +738,11 @@
 
         handleCollisionEnemyWithFriendlyPlane = function (hitter, friendlyIndex) {
             var friendly = friendlyPlanes[friendlyIndex];
-            if (friendly.currentHealth > hitter.damage) {
-                friendly.currentHealth -= hitter.damage;
-            } else {
-                friendly.currentHealth = 0;
+            friendly.takeDamage(hitter.damage);
+            if(friendly.currentHealth == 0){
                 friendly.die();
                 friendlyPlanes.splice(friendlyIndex, 1);
             }
-            friendly.updateHpBar();
         },
 
         launchMission = function (missionIndex, areaIndex) {
@@ -1163,18 +1127,14 @@
                     ((distanceBetweenTwoPoints(enemyPlanes[i].leftCoord, enemyPlanes[i].bottomCoord + enemyPlanes[i].height, X, Y)) < (radioactiveRadius-100));
 
                 if (isHit) {
-                    if (enemyPlanes[i].currentHealth > radioactiveDamage) {
-                        enemyPlanes[i].currentHealth -= radioactiveDamage;
-                        enemyPlanes[i].updateHpBar();
-                    } else {
-                        enemyPlanes[i].currentHealth = 0;
-                        enemyPlanes[i].updateHpBar();
+                    enemyPlanes[i].takeDamage(radioactiveDamage);
+                    if(enemyPlanes[i].currentHeatlh == 0){
                         enemyPlanes[i].die();
                         enemyPlanes.splice(i, 1);
                         i--;
                         if (currentMission instanceof GauntletMission) {
                             currentMission.incrementEnemiesKilled();
-                        }
+                        } 
                     }
                 }
             }
@@ -1192,12 +1152,8 @@
                     ((distanceBetweenTwoPoints(boss.leftCoord, boss.bottomCoord + boss.height, X, Y)) < (radioactiveRadius-100));
 
             if (isHit) {
-                if (boss.currentHealth > radioactiveDamage) {
-                    boss.currentHealth -= radioactiveDamage;
-                    boss.updateHpBar();
-                } else {
-                    boss.currentHealth = 0;
-                    boss.updateHpBar();
+                boss.takeDamage(radioactiveDamage);
+                if(boss.currentHealth == 0){
                     boss.die();
                 }
             }
@@ -1256,18 +1212,14 @@
                      ((enemyPlanes[i].leftCoord < (left + 22)) && (enemyPlanes[i].leftCoord + 100) > (left + 78))); //enemy is hit in the middle
 
                 if (isHit) {
-                    if (enemyPlanes[i].currentHealth > deathRayDamage) {
-                        enemyPlanes[i].currentHealth -= deathRayDamage;
-                        enemyPlanes[i].updateHpBar();
-                    } else {
-                        enemyPlanes[i].currentHealth = 0;
-                        enemyPlanes[i].updateHpBar();
+                    enemyPlanes[i].takeDamage(deathRayDamage);
+                    if(enemyPlanes[i].currentHealth == 0){
                         enemyPlanes[i].die();
                         enemyPlanes.splice(i, 1);
                         i--;
                         if (currentMission instanceof GauntletMission) {
                             currentMission.incrementEnemiesKilled();
-                        }
+                        } 
                     }
                 }
             }
@@ -1280,12 +1232,8 @@
                     ((boss.leftCoord + 300) > (left + 22) && (boss.leftCoord + 300) < (left + 78)) ||    //boss' right side has been hit
                     ((boss.leftCoord < (left + 22)) && (boss.leftCoord + 300) > (left + 78))); //boss is hit in the middle
             if (isHit) {
-                if (boss.currentHealth > deathRayDamage) {
-                    boss.currentHealth -= deathRayDamage;
-                    boss.updateHpBar();
-                } else {
-                    boss.currentHealth = 0;
-                    boss.updateHpBar();
+                boss.takeDamage(deathRayDamage);
+                if(boss.currentHealth == 0){
                     boss.die();
                 }
             }
@@ -1469,12 +1417,7 @@
 
             if (isHit) {
                 if (playerPlane.absorptionShieldStrength == 0) {
-				    if (playerPlane.currentHealth > bossDeathRayDamage) {
-						playerPlane.currentHealth -= bossDeathRayDamage;
-					} else {
-						playerPlane.currentHealth = 0;
-					}
-					playerPlane.updateHpBar();
+                    playerPlane.takeDamage(bossDeathRayDamage);
 					trackRemainingHealth(playerPlane.currentHealth);
 				} else {
                     playerPlane.absorptionShieldStrength = 0;
