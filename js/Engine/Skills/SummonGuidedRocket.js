@@ -4,8 +4,10 @@
     },
 
     activate: function () {
-        this._super();
-        interactionManager.handleGuidedRocket();
+        if (!interactionManager.isPlayerShooting()) {
+            this._super();
+            interactionManager.handleGuidedRocket();
+        }
     },
 
     deactivate: function () {

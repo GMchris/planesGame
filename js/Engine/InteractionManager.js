@@ -508,15 +508,6 @@
             }
         },
 
-    //shootEnemyPlanes = function () {
-    //    var i;
-    //    for (i = 0; i < enemyPlanes.length; i++) {
-    //        if (enemyPlanes[i] instanceof EnemyFighter) {
-    //            shootFighter(enemyPlanes[i]);
-    //        }
-    //    }
-    //},
-
         shootFighter = function (fighter) {
             var nowMs = Date.now();
             if (nowMs - fighter.lastShootTimestamp > fighterShootFrequencyMs) {
@@ -805,13 +796,28 @@
 					}
 				playerPlane.updateHpBar();
 				trackRemainingHealth(playerPlane.currentHealth);
-			}else{
+			} else {
                 playerPlane.absorptionShieldStrength--;
                 if (playerPlane.absorptionShieldStrength == 0) {
 					$('#playerShield').remove();
 				}
 			}
         },
+
+        //handleCollisionEnemyPesho = function (hitter) {
+        //    if (playerPlane.currentHealth < playerPlane.maxHealth) {
+        //        playerPlane.currentHealth++;
+        //    } else {
+        //        playerPlane.currentHealth = playerPlane.maxHealth;
+        //    }
+        //    playerPlane.updateHpBar();
+        //},
+
+        //handlePesho = function (duration) {
+        //    var currentHandleCollisionEnemy = handleCollisionEnemy;
+        //    handleCollisionEnemy = handleCollisionEnemyPesho;
+            
+        //},
 
         handleCollisionEnemyWithFriendlyPlane = function (hitter, friendlyIndex) {
             var friendly = friendlyPlanes[friendlyIndex];
@@ -1542,22 +1548,6 @@
             }, 300);
         },
 
-        //moveBossBlackHole = function (left, bottom) {
-        //    var currentMoveEnemyPlaneFunction = moveEnemyPlane,
-        //        animationLengthMs = 400;
-        //    moveEnemyPlane = function () { };
-        //    $(boss.div)
-        //        .animate({
-        //            left: left,
-        //            bottom: bottom
-        //        }, animationLengthMs);
-        //    boss.leftCoord = left;
-        //    boss.bottomCoord = bottom;
-        //    window.setTimeout(function () {
-        //        moveEnemyPlane = currentMoveEnemyPlaneFunction;
-        //    }, animationLengthMs);
-        //},
-
         moveEnemiesBlackHole = function (left, bottom) {
             var i,
                 currentMoveEnemyPlaneFunction = moveEnemyPlane,
@@ -1607,13 +1597,15 @@
             $(document).off('mousedown', initiateRocketPathDrawing);
             $(document).off('mouseup', finishRocketPathDrawing);
             window.setTimeout(function () {
-                $("#gameScreen").css({
-                    "cursor": "none"
-                });
-                $(document).on('mousemove', movePlayerPlane);
-                $(document).bind('mouseup mousedown', handleMouseClick);
-                if (rocketPathArray.length > 0) {
-                    spawnRocket(rocketPathArray[0].left, rocketPathArray[0].bottom);
+                if (currentMission) {
+                    $("#gameScreen").css({
+                        "cursor": "none"
+                    });
+                    $(document).on('mousemove', movePlayerPlane);
+                    $(document).bind('mouseup mousedown', handleMouseClick);
+                    if (rocketPathArray.length > 0) {
+                        spawnRocket(rocketPathArray[0].left, rocketPathArray[0].bottom);
+                    }
                 }
             }, 300);
         },
@@ -1703,6 +1695,10 @@
             }
 
             return converted;
+        },
+
+        isPlayerShooting = function () {
+            return playerPlane.isShooting;
         },
 
         handleBossIteration = function () {
@@ -1858,6 +1854,7 @@
         handleGuidedRocket: handleGuidedRocket,
         rotateSentries: rotateSentries,
         redrawGameObjects: redrawGameObjects,
+        isPlayerShooting: isPlayerShooting,
 
         getTime: getTime,
         getSeconds: getSeconds,
