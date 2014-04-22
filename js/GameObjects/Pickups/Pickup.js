@@ -10,6 +10,7 @@
         $(this.div).animate({
             width: 0,
             height: 0,
+            opacity: 0,
             left: '+=' + this.width / 2,
             bottom: '+=' + this.height / 2,
         }, {

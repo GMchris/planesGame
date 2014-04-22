@@ -904,14 +904,12 @@
                 //Clear screen, update the area and mission statuses
                 Visual.adjustCSSofGameScreen(false);
                 Game.clearScreen();
-                AreaManager.updateAreaStatus(starsWonForMission);
-                AreaManager.drawMap();
                 //Draw the win screen
-                if(MissionManager.currentAreaIndex==4){
-
+                if(MissionManager.currentAreaIndex == 3){ //boss mission
                     Visual.drawVictoryScreen();
-                }
-                else{
+                } else {
+                    AreaManager.updateAreaStatus(starsWonForMission);
+                    AreaManager.drawMap();
                     Game.playerStars += starsWonForMission;
                     MissionManager.winScreen(starsWonForMission);
                 }
