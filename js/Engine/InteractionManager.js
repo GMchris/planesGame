@@ -392,12 +392,19 @@
         moveEnemyBullet = function (bullet) {
             var bulletSpeed = (bullet instanceof BossBullet) ? bossBulletsSpeed : fighterBulletsSpeed,
                 newLeftCoord = bullet.leftCoord - (bullet.orientationDeg / 45 * bulletSpeed),
-                newBottomCoord = Math.floor((bullet.orientationDeg > -90 && bullet.orientationDeg < 90) ? 
-                (bullet.bottomCoord - (bulletSpeed * (1 - Math.abs(bullet.orientationDeg / 90))))
-                : (bullet.bottomCoord + (bulletSpeed * (1 - Math.abs(bullet.orientationDeg / 90)))));
+                newBottomCoord;
             if (newLeftCoord != bullet.leftCoord || newBottomCoord != bullet.bottomCoord) {
-                bullet.updateCoords(newLeftCoord, newBottomCoord);
-                //bullet.move();
+                if (bullet instanceof BossBullet && boss.currentPhase >= 3) {
+                    bullet.updateCoords(newLeftCoord, bullet.bottomCoord - bulletSpeed);
+                }
+                else {
+                    newBottomCoord = Math.floor((bullet.orientationDeg > -90 && bullet.orientationDeg < 90) ? 
+                        (bullet.bottomCoord - (bulletSpeed * (1 - Math.abs(bullet.orientationDeg / 90))))
+                      : (bullet.bottomCoord + (bulletSpeed * (1 - Math.abs(bullet.orientationDeg / 90)))));
+
+
+                    bullet.updateCoords(newLeftCoord, newBottomCoord);
+                }
             }
         },
 
@@ -1702,50 +1709,88 @@
         },
 
         handleBossIteration = function () {
-            var bossIndex;
+            var bossIndex, handleFunction;
             moveEnemyPlane(boss);
             shootBoss();
             boss.updateHealthPercentage();
-            if (!boss.reached75Percent && boss.healthPercentage <= 75) { //boss reached 75% hp, enter reinforcements phase
-                boss.reached75Percent = true;
+            if (boss.healthPercentage <= 75 && boss.currentPhase == 1 ||
+                boss.healthPercentage <= 50 && boss.currentPhase == 2 ||
+                boss.healthPercentage <= 25 && boss.currentPhase == 3) {
+                var bossIndex;
                 boss.enterQuarterPhase();
-                boss.phase75Percent();
                 bossIndex = enemyPlanes.indexOf(boss);
                 enemyPlanes.splice(bossIndex, 1);
+                switch (boss.currentPhase) {
+                    case 2:
+                        boss.phase75Percent();
+                        handleFunction = handleBoss75Phase;
+                        break;
+                    case 3:
+                        boss.phase50Percent();
+                        handleFunction = handleBoss50Phase;
+                        break;
+                    case 4:
+                        boss.phase25Percent();
+                        handleFunction = handleBoss25Phase;
+                        break;
+                    default:
+                        throw new Error('Unrecognized boss phase');
+                }
+
                 window.setTimeout(function () {
-                    if (currentMission) {
-                        handleBoss75Phase();
+                    handleFunction();
+                    if (boss.currentPhase == 2 || boss.currentPhase == 4) {
                         boss.skills.splice(0, 1);
                     }
                 }, 3000);
-            }
-            if (!boss.reached50Percent && boss.healthPercentage <= 50) {
-                var bossIndex;
-                boss.reached50Percent = true;
-                boss.enterQuarterPhase();
-                boss.phase50Percent();
-                bossIndex = enemyPlanes.indexOf(boss);
-                enemyPlanes.splice(bossIndex, 1);
+
                 window.setTimeout(function () {
-                    if (currentMission) {
-                        handleBoss50Phase();
+                    if (boss) {
+                        boss.finishedSpawningReinforcements = true;
                     }
-                }, 3000);
+                }, 5000);
             }
-            if (!boss.reached25Percent && boss.healthPercentage <= 25) {
-                var bossIndex;
-                boss.reached25Percent = true;
-                boss.enterQuarterPhase();
-                boss.phase25Percent();
-                bossIndex = enemyPlanes.indexOf(boss);
-                enemyPlanes.splice(bossIndex, 1);
-                window.setTimeout(function () {
-                    if (currentMission) {
-                        handleBoss25Phase();
-                        boss.skills.splice(0, 1);
-                    }
-                }, 3000);
-            }
+            //old code, keep in case of bugs
+            //if (!boss.reached75Percent && boss.healthPercentage <= 75) { //boss reached 75% hp, enter reinforcements phase
+            //    boss.reached75Percent = true;
+            //    boss.enterQuarterPhase();
+            //    boss.phase75Percent();
+            //    bossIndex = enemyPlanes.indexOf(boss);
+            //    enemyPlanes.splice(bossIndex, 1);
+            //    window.setTimeout(function () {
+            //        if (currentMission) {
+            //            handleBoss75Phase();
+            //            boss.skills.splice(0, 1);
+            //        }
+            //    }, 3000);
+            //}
+            //if (!boss.reached50Percent && boss.healthPercentage <= 50) {
+            //    var bossIndex;
+            //    boss.reached50Percent = true;
+            //    boss.enterQuarterPhase();
+            //    boss.phase50Percent();
+            //    bossIndex = enemyPlanes.indexOf(boss);
+            //    enemyPlanes.splice(bossIndex, 1);
+            //    window.setTimeout(function () {
+            //        if (currentMission) {
+            //            handleBoss50Phase();
+            //        }
+            //    }, 3000);
+            //}
+            //if (!boss.reached25Percent && boss.healthPercentage <= 25) {
+            //    var bossIndex;
+            //    boss.reached25Percent = true;
+            //    boss.enterQuarterPhase();
+            //    boss.phase25Percent();
+            //    bossIndex = enemyPlanes.indexOf(boss);
+            //    enemyPlanes.splice(bossIndex, 1);
+            //    window.setTimeout(function () {
+            //        if (currentMission) {
+            //            handleBoss25Phase();
+            //            boss.skills.splice(0, 1);
+            //        }
+            //    }, 3000);
+            //}
             if (boss.finishedSpawningReinforcements && enemyPlanes.length <= 3) { //all but 3 of the adds have been killed, resume boss fight
                 boss.leaveQuarterPhase();
                 window.setTimeout(function () {
@@ -1761,11 +1806,11 @@
                 spawnFighter();
             }
             spawnSupplier();
-            window.setTimeout(function () {
-                if (boss) {
-                    boss.finishedSpawningReinforcements = true;
-                }
-            }, 1500);
+            //window.setTimeout(function () {
+            //    if (boss) {
+            //        boss.finishedSpawningReinforcements = true;
+            //    }
+            //}, 1500);
         },
 
         handleBoss50Phase = function () {
@@ -1774,11 +1819,11 @@
             for (i = 0; i < 10; i++) {
                 spawnKamikaze();
             }
-            window.setTimeout(function () {
-                if (boss) {
-                    boss.finishedSpawningReinforcements = true;
-                }
-            }, 1500);
+            //window.setTimeout(function () {
+            //    if (boss) {
+            //        boss.finishedSpawningReinforcements = true;
+            //    }
+            //}, 1500);
         },
 
         handleBoss25Phase = function () {
@@ -1788,11 +1833,11 @@
                 spawnKamikaze();
                 spawnFighter();
             }
-            window.setTimeout(function () {
-                if (boss) {
-                    boss.finishedSpawningReinforcements = true;
-                }
-            }, 1500);
+            //window.setTimeout(function () {
+            //    if (boss) {
+            //        boss.finishedSpawningReinforcements = true;
+            //    }
+            //}, 1500);
         },
 
         isTimeStopped = function () {
