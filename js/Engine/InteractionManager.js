@@ -413,7 +413,7 @@
             var i;
             for (i = 0; i < friendlyPlanes.length; i++) {
                 if (friendlyPlanes[i] instanceof SentryPlane) {
-                    shootSentry(friendlyPlanes[i]);
+                    friendlyPlanes[i].shoot();
                 } else if (friendlyPlanes[i] instanceof ReinforcementPlane) {
                     if (rocketPathArray.length) {
                         moveReinforcementPlane(friendlyPlanes[i]);
@@ -430,7 +430,7 @@
             for (i = 0; i < enemyPlanes.length; i++) {
                 if (enemyPlanes[i] instanceof EnemyFighter) {
                     moveEnemyPlane(enemyPlanes[i]);
-                    shootFighter(enemyPlanes[i]);
+                    enemyPlanes[i].shoot();
                 } else if (enemyPlanes[i] instanceof EnemySupplier) {
                     moveEnemyPlane(enemyPlanes[i]);
                     supplySupplier(enemyPlanes[i]);
@@ -501,37 +501,8 @@
         },
 
         shootPlayerPlane = function () {
-            var nowMs = Date.now();
-            if (nowMs - lastShotPlayerBulletTimestamp > 120) {
-                lastShotPlayerBulletTimestamp = nowMs;
-                playerPlane.shoot();
-            }
+            playerPlane.shoot();
         },
-
-        shootSentry = function (sentry) {
-            var nowMs = Date.now();
-            if (nowMs - sentry.lastShootTimestamp > sentryShootFrequencyMs) {
-                sentry.lastShootTimestamp = nowMs;
-                sentry.shoot();
-            }
-        },
-
-        shootFighter = function (fighter) {
-            var nowMs = Date.now();
-            if (nowMs - fighter.lastShootTimestamp > fighterShootFrequencyMs) {
-                fighter.lastShootTimestamp = nowMs;
-                fighter.shoot();
-            }
-        },
-
-        shootBoss = function () {
-            var nowMs = Date.now();
-            if (nowMs - boss.lastShootTimestamp > boss.shootFrequency) {
-                boss.lastShootTimestamp = nowMs;
-                boss.shoot();
-            }
-        },
-
         supplySupplier = function (supplier) {
             var nowMs = Date.now(), i;
             if (nowMs - supplier.lastSupplyTimestamp > supplierSupplyFrequencyMs) {
@@ -829,21 +800,6 @@
                  $(playerPlane.div).css('background-image', 'url(images/planes/player.png)');
             }, duration);
         },
-
-        //handleCollisionEnemyPesho = function (hitter) {
-        //    if (playerPlane.currentHealth < playerPlane.maxHealth) {
-        //        playerPlane.currentHealth++;
-        //    } else {
-        //        playerPlane.currentHealth = playerPlane.maxHealth;
-        //    }
-        //    playerPlane.updateHpBar();
-        //},
-
-        //handlePesho = function (duration) {
-        //    var currentHandleCollisionEnemy = handleCollisionEnemy;
-        //    handleCollisionEnemy = handleCollisionEnemyPesho;
-            
-        //},
 
         handleCollisionEnemyWithFriendlyPlane = function (hitter, friendlyIndex) {
             var friendly = friendlyPlanes[friendlyIndex];
@@ -1744,7 +1700,7 @@
         handleBossIteration = function () {
             var bossIndex, handleFunction;
             moveEnemyPlane(boss);
-            shootBoss();
+            boss.shoot();
             boss.updateHealthPercentage();
             if (boss.healthPercentage <= 75 && boss.currentPhase == 1 ||
                 boss.healthPercentage <= 50 && boss.currentPhase == 2 ||

@@ -20,7 +20,7 @@
 
     newShoot: function () {
         var amountOfBullets = 15;
-        if (!this.isInQuarterPhase) {
+        if (!this.isInQuarterPhase && this.tryShoot()) {
             for (i = 0; i < amountOfBullets; i++) {
                 interactionManager.spawnBullet(this.bulletType, this.leftCoord + 145, this.bottomCoord, -this.orientationDeg - 35 + (i * (70 / (amountOfBullets - 1))), this);
             }

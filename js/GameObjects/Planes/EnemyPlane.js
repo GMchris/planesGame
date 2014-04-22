@@ -1,6 +1,6 @@
 ﻿EnemyPlane = AIPlane.extend({
-    init: function (left, bottom, maxHealth, damage, movementSpeed, width, height) {
-        this._super(left, bottom, maxHealth, damage, width, height);
+    init: function (left, bottom, maxHealth, damage, movementSpeed, shootFrequency, width, height) {
+        this._super(left, bottom, maxHealth, damage, shootFrequency, width, height);
         this.movementSpeed = movementSpeed;
         this.updateCoords(left, bottom);
         this.move();
@@ -19,6 +19,8 @@
     movingUp: null,
     lastDirectionChangeTimestamp: null,
     healingOrbSpawnChance: null, //percent
+
+    
 
     changeDirection: function () {
         //Generates a random number [0,3] and changes direction accordingly

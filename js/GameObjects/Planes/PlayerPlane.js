@@ -1,6 +1,11 @@
 ﻿PlayerPlane = Plane.extend({
     init: function () {
-        this._super(10000, 1, 100, 80); //maxHealth, damage, width, height
+        var maxHealth = 100,
+            damage = 1,
+            shootFrequency = 120,
+            width = 100,
+            height = 80;
+        this._super(maxHealth, damage, shootFrequency, width, height); //maxHealth, damage, shoot frequency, width, height
         this.div.id = "playerPlaneDiv";
         $(this.div).css('background-image', 'url(images/planes/player.png)');
         this.isShooting = false;
@@ -16,7 +21,7 @@
     isStealthed: null,
     skills: null,
     shoot: function () {
-        if (this.isShooting) {
+        if (this.isShooting && this.tryShoot()) {
             if (interactionManager.getEnemiesCount() > 0 || interactionManager.getCurrentMission() instanceof BossMission)  {
                 interactionManager.spawnBullet(this.bulletType, this.leftCoord + this.width/2, this.bottomCoord + this.height, 0, this);
             } else {

@@ -1,7 +1,10 @@
 ﻿//supplier doesn't shoot, instead buffing the fighters with spread shot
 EnemySupplier = EnemyPlane.extend({
     init: function (left, bottom, maxHealth, damage, movementSpeed) {
-        this._super(left, bottom, maxHealth, damage, movementSpeed, 100, 80);
+        var shootFrequency = -1,
+            width = 100,
+            height = 80;
+        this._super(left, bottom, maxHealth, damage, movementSpeed, shootFrequency, width, height);
         $(this.div).css('background-image', 'url(images/planes/supplier.png)');
         this.changeDirection();
         this.lastSupplyTimestamp = -1;
