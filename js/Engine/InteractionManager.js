@@ -331,7 +331,7 @@
                     }
                 }
                 else if ((type == 'all' || type == 'enemy') && bullets[i] instanceof EnemyBullet) {
-                    if (detectCollisionEnemyBulletWithPlayer(bullets[i])) { //bullet hit the player
+                    if (!playerPlane.isStealthed && detectCollision(bullets[i], playerPlane)) { //bullet hit the player
                         bullets[i].handleCollision();
                         handleCollisionEnemy(bullets[i].owner);
                     } else {
@@ -436,7 +436,7 @@
                     supplySupplier(enemyPlanes[i]);
                 } else if (enemyPlanes[i] instanceof EnemyKamikaze) {
                     moveKamikaze(enemyPlanes[i]);
-                    if (detectCollisionKamikaze(enemyPlanes[i])) {
+                    if (detectCollision(playerPlane, enemyPlanes[i])) {
                         handleCollisionKamikaze(enemyPlanes[i]);
                         enemyPlanes.splice(i, 1);
                         i++;
@@ -503,6 +503,7 @@
         shootPlayerPlane = function () {
             playerPlane.shoot();
         },
+
         supplySupplier = function (supplier) {
             var nowMs = Date.now(), i;
             if (nowMs - supplier.lastSupplyTimestamp > supplierSupplyFrequencyMs) {
@@ -524,27 +525,12 @@
             }
         },
 
-        detectCollisionEnemyBulletWithPlayer = function (bullet) {
-            //returns true if the bullet has hit the player, or false otherwise
-            var i, isHit;
-            isHit = !playerPlane.isStealthed 
-                 && bullet.leftCoord >= playerPlane.leftCoord
-                 && bullet.leftCoord <= playerPlane.leftCoord + playerPlane.width
-                 && bullet.bottomCoord >= playerPlane.bottomCoord
-                 && bullet.bottomCoord <= playerPlane.bottomCoord + playerPlane.height;
-            return isHit;
-        },
-
         detectCollisionEnemyBulletWithFriendlyPlane = function (bullet) {
             var i, isHit;
             for (i = 0; i < friendlyPlanes.length; i++) {
                 if (friendlyPlanes[i] instanceof SentryPlane) {
-                    isHit = bullet.leftCoord >= friendlyPlanes[i].leftCoord
-                         && bullet.leftCoord <= friendlyPlanes[i].leftCoord + playerPlane.width
-                         && bullet.bottomCoord >= friendlyPlanes[i].bottomCoord
-                         && bullet.bottomCoord <= friendlyPlanes[i].bottomCoord + playerPlane.height;
+                    isHit = detectCollision(bullet, friendlyPlanes[i]);
                 }
-
                 if (isHit) {
                     return i;
                 }
@@ -634,21 +620,27 @@
 			return isIn;
 		},
 
+        detectCollision = function (obj1, obj2) {
+            var collision;
+            if (obj2 instanceof BossPlane) {
+                collision = isPointInsideBoss(obj1.leftCoord, obj1.bottomCoord)
+                            || isPointInsideBoss(obj1.leftCoord + obj1.width, obj1.bottomCoord)
+                            || isPointInsideBoss(obj1.leftCoord, obj1.bottomCoord + obj1.height)
+                            || isPointInsideBoss(obj1.leftCoord + obj1.width, obj1.bottomCoord + obj1.height);
+            } else {
+                collision = isPointInsideObject(obj1.leftCoord, obj1.bottomCoord, obj2)
+                            || isPointInsideObject(obj1.leftCoord + obj1.width, obj1.bottomCoord, obj2)
+                            || isPointInsideObject(obj1.leftCoord, obj1.bottomCoord + obj1.height, obj2)
+                            || isPointInsideObject(obj1.leftCoord + obj1.width, obj1.bottomCoord + obj1.height, obj2);
+            }
+
+            return collision;
+        },
 
         detectCollisionPlayerBullet = function (bullet) {
             var i, isHit, indexEnemiesHit;
             for (i = 0; i < enemyPlanes.length; i++) {
-                if (enemyPlanes[i] instanceof BossPlane) {
-                    isHit = isPointInsideBoss(bullet.leftCoord, bullet.bottomCoord)
-                         || isPointInsideBoss(bullet.leftCoord + bullet.width, bullet.bottomCoord)
-                         || isPointInsideBoss(bullet.leftCoord, bullet.bottomCoord + bullet.height)
-                         || isPointInsideBoss(bullet.leftCoord + bullet.width, bullet.bottomCoord + bullet.height);
-                } else {
-                    isHit = isPointInsideObject(bullet.leftCoord, bullet.bottomCoord, enemyPlanes[i])
-                    || isPointInsideObject(bullet.leftCoord + bullet.width, bullet.bottomCoord, enemyPlanes[i])
-                    || isPointInsideObject(bullet.leftCoord, bullet.bottomCoord + bullet.height, enemyPlanes[i])
-                    || isPointInsideObject(bullet.leftCoord + bullet.width, bullet.bottomCoord + bullet.height, enemyPlanes[i]);
-                }
+                isHit = detectCollision(bullet, enemyPlanes[i]);
                 if (isHit) { //return the index of the hit plane in the enemyPlanes array
                     return i;
                 } else if (bullet instanceof PiercingBullet) {
@@ -660,30 +652,6 @@
             }
             //bullet didn't hit anything, return -1
             return -1;
-        },
-
-        //detectCollisionPlayerBulletWithBoss = function (bullet) {
-        //    var isHit = !boss.isInvulnerable
-        //                 && bullet.leftCoord >= boss.leftCoord
-        //                 && bullet.leftCoord <= boss.leftCoord + 300
-        //                 && bullet.bottomCoord >= boss.bottomCoord
-        //                 && bullet.bottomCoord <= boss.bottomCoord + 240;
-
-        //    return isHit;
-        //}
-
-        detectCollisionKamikaze = function (kamikaze) {
-            var isHit = ((kamikaze.bottomCoord > playerPlane.bottomCoord &&
-                kamikaze.bottomCoord < playerPlane.bottomCoord + playerPlane.height) ||
-                ((kamikaze.bottomCoord + 75) > playerPlane.bottomCoord &&
-                (kamikaze.bottomCoord + 75) < playerPlane.bottomCoord + playerPlane.height))
-            &&
-                ((kamikaze.leftCoord > playerPlane.leftCoord &&
-                kamikaze.leftCoord < playerPlane.leftCoord + playerPlane.width) ||
-                (kamikaze.leftCoord + kamikaze.width > playerPlane.leftCoord &&
-                kamikaze.leftCoord + 100 < playerPlane.leftCoord + playerPlane.width));
-
-            return isHit;
         },
 
         handleCollisionKamikaze = function (kamikaze) {
@@ -789,7 +757,7 @@
                    playerPlane.currentHealth++;
                }
                playerPlane.updateHpBar();
-        }
+        },
 
         handleAbsorbBullets = function (duration){
             $(playerPlane.div).css('background-image', 'url(images/planes/playerAbsorbingBullets.png)');
@@ -942,7 +910,7 @@
         getVictoryTime = function(){
             Timer.finalTime = Timer.current;
             return Timer.finalTime;
-        }
+        },
 
         getPlayerHealth = function () {
             return playerPlane.currentHealth;
@@ -1737,47 +1705,6 @@
                     }
                 }, 5000);
             }
-            //old code, keep in case of bugs
-            //if (!boss.reached75Percent && boss.healthPercentage <= 75) { //boss reached 75% hp, enter reinforcements phase
-            //    boss.reached75Percent = true;
-            //    boss.enterQuarterPhase();
-            //    boss.phase75Percent();
-            //    bossIndex = enemyPlanes.indexOf(boss);
-            //    enemyPlanes.splice(bossIndex, 1);
-            //    window.setTimeout(function () {
-            //        if (currentMission) {
-            //            handleBoss75Phase();
-            //            boss.skills.splice(0, 1);
-            //        }
-            //    }, 3000);
-            //}
-            //if (!boss.reached50Percent && boss.healthPercentage <= 50) {
-            //    var bossIndex;
-            //    boss.reached50Percent = true;
-            //    boss.enterQuarterPhase();
-            //    boss.phase50Percent();
-            //    bossIndex = enemyPlanes.indexOf(boss);
-            //    enemyPlanes.splice(bossIndex, 1);
-            //    window.setTimeout(function () {
-            //        if (currentMission) {
-            //            handleBoss50Phase();
-            //        }
-            //    }, 3000);
-            //}
-            //if (!boss.reached25Percent && boss.healthPercentage <= 25) {
-            //    var bossIndex;
-            //    boss.reached25Percent = true;
-            //    boss.enterQuarterPhase();
-            //    boss.phase25Percent();
-            //    bossIndex = enemyPlanes.indexOf(boss);
-            //    enemyPlanes.splice(bossIndex, 1);
-            //    window.setTimeout(function () {
-            //        if (currentMission) {
-            //            handleBoss25Phase();
-            //            boss.skills.splice(0, 1);
-            //        }
-            //    }, 3000);
-            //}
             if (boss.finishedSpawningReinforcements && enemyPlanes.length <= 3) { //all but 3 of the adds have been killed, resume boss fight
                 boss.leaveQuarterPhase();
                 window.setTimeout(function () {
@@ -1793,11 +1720,6 @@
                 spawnFighter();
             }
             spawnSupplier();
-            //window.setTimeout(function () {
-            //    if (boss) {
-            //        boss.finishedSpawningReinforcements = true;
-            //    }
-            //}, 1500);
         },
 
         handleBoss50Phase = function () {
@@ -1806,11 +1728,6 @@
             for (i = 0; i < 10; i++) {
                 spawnKamikaze();
             }
-            //window.setTimeout(function () {
-            //    if (boss) {
-            //        boss.finishedSpawningReinforcements = true;
-            //    }
-            //}, 1500);
         },
 
         handleBoss25Phase = function () {
@@ -1820,11 +1737,6 @@
                 spawnKamikaze();
                 spawnFighter();
             }
-            //window.setTimeout(function () {
-            //    if (boss) {
-            //        boss.finishedSpawningReinforcements = true;
-            //    }
-            //}, 1500);
         },
 
         isTimeStopped = function () {
