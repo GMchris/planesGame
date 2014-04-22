@@ -314,6 +314,7 @@
 	bottom:0px;
 	border:4px outset #505658;
 	border-radius: 10px 10px 0px 0px;
+	border-bottom: none;
 	width:100px;
 }
 
