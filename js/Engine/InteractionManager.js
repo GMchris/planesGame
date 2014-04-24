@@ -1131,7 +1131,7 @@
 
                 if (isHit) {
                     enemyPlanes[i].takeDamage(radioactiveDamage);
-                    if(enemyPlanes[i].currentHeatlh == 0){
+                    if(enemyPlanes[i].currentHealth == 0){
                         enemyPlanes[i].die();
                         enemyPlanes.splice(i, 1);
                         i--;
