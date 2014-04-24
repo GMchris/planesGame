@@ -849,6 +849,8 @@
 
         setVictoryTime = function(){
             Timer.finalTime = Timer.current;
+            Timer.finalTime = 3600 - Timer.finalTime;
+            console.log(Timer.finalTime)
         },
 
         getVictoryTime = function(){
