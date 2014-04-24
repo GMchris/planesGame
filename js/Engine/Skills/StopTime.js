@@ -4,10 +4,10 @@
     },
 
     newMainLoop: function () {
-        var self = this;
         $("#fps").text(fps.getFPS());
         interactionManager.iterateBullets('player');
         interactionManager.iterateFriendlyPlanes();
+        interactionManager.iteratePickups();
         interactionManager.shootPlayerPlane();
     },
 

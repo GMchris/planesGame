@@ -198,8 +198,56 @@ var MissionManager = {
 
 				case "sentry":
 					skillClass = "sentryIcon";
-					skillDescription = "Place a sentry which attacks enemies";
+					skillDescription = "Place a sentry which attacks enemies. Rotate it with A and D";
 					break;
+
+			    case 'stoptime':
+			        skillClass = 'stopTimeIcon';
+			        skillDescription = "Freeze enemies in place, while retaining your ability to move";
+			        break;
+
+			    case 'deathray':
+			        skillClass = 'deathRayIcon';
+			        skillDescription = 'Annihilate all enemies in a line in front of you';
+			        break;
+
+			    case 'guidedrocket':
+			        skillClass = 'guidedRocketIcon';
+			        skillDescription = 'Draw a path and the rocket will follow it, destroying all enemies';
+			        break;
+
+			    case 'stealth':
+			        skillClass = 'stealthIcon';
+			        skillDescription = "Vanish, causing all bullets to miss you for 2 seconds";
+			        break;
+
+			    case 'healingshot':
+			        skillClass = 'healingShotIcon';
+			        skillDescription = 'Your bullets will heal you a small amount for each enemy you hit';
+			        break;
+
+			    case 'absorbbullets':
+			        skillClass = 'absorbBulletsIcon';
+			        skillDescription = 'Enemy bullets will temporarily heal (instead of harm) you';
+			        break;
+
+			    case 'radioactive':
+			        skillClass = 'radioactiveIcon';
+			        skillDescription = 'Release a decimating radioactive wave to your enemies';
+			        break;
+
+			    case 'shield':
+			        skillClass = 'shieldIcon';
+			        skillDescription = 'Shields you from harm, preventing all damage from the next 5 bullets';
+			        break;
+
+			    case 'blackhole':
+			        skillClass = 'blackHoleIcon';
+			        skillDescription = 'After use, click somewhere on the battlefield to suck all enemies there';
+			        break;
+
+			    default:
+			        throw new Error('Unrecognized skill unlock');
 			}
 			$("<div/>")
 			.addClass("skillIcon "+skillClass)

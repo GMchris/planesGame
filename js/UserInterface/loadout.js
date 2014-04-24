@@ -186,7 +186,7 @@ var Loadout = {
 			    return "Stop Time<br/>Freeze enemies in place for a few seconds, while retaining your ability to move.";
 
 			case "skillIcon blackHoleIcon":
-			    return "Black Hole<br/>After use, click someone on the battlefield to suck all enemies there.";
+			    return "Black Hole<br/>After use, click somewhere on the battlefield to suck all enemies there.";
 
 			case "skillIcon homingShotIcon":
 			    return "Homing Shot<br/>Projectiles you fire, seek out enemy planes.";
@@ -195,7 +195,7 @@ var Loadout = {
 			    return "Death Ray<br/>Annihilate all enemies in a line in front of you.";
 
 			case "skillIcon sentryIcon":
-			    return "Sentry<br/>Place an immobile sentry that shoots your enemies down.";
+			    return "Sentry<br/>Place an immobile sentry that shoots your enemies down. Rotate it using A and D.";
 
 		    case "skillIcon stealthIcon":
 		        return "Stealth<br/>Vanish from your enemies' sight, causing all bullets to miss you for 2 seconds.";
@@ -210,10 +210,10 @@ var Loadout = {
 		        return "Guided Rocket<br/>Draw a path and the rocket will follow it, destroying all before it.";
 				
 			case "skillIcon shieldIcon":
-		        return "Shield<br/>Shields you";
+		        return "Shield<br/>Shields you from harm, preventing all damage from the next 5 bullets.";
 
 		    case "skillIcon absorbBulletsIcon":
-		        return "Absorb Bullets<br/>Enemy bullets will temporarily heals you";
+		        return "Absorb Bullets<br/>Enemy bullets will temporarily heal (instead of harm) you.";
 		}
 	},
 

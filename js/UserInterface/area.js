@@ -4,7 +4,7 @@ function Area(missions){
 	//Array of all missions in the area
 	this.missions = missions;
 	//Determines if this area is unlocked
-	this.active = true;
+	this.active = false;
 	//Ammount of points won from missions
 	this.pointsInArea = 0;
 }

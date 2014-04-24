@@ -255,7 +255,7 @@ var Visual = {
     },
 
     drawGameObjects: function () {
-        webkitRequestAnimationFrame(Visual.drawGameObjects);
+        requestAnimationFrame(Visual.drawGameObjects);
         $('#fps').text(fps.getFPS());
         if (interactionManager.getCurrentMission()) {
             Visual.iterateBackground();

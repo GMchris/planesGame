@@ -108,8 +108,7 @@
             currentMission = null;
         },
 
-        setScalingValues = function () {
-            var areaIndex = currentMission.areaIndex;
+        setScalingValues = function (areaIndex) {
             //health
             fighterMaxHealth = Scaling.getValue(areaIndex, 'fighterMaxHealth');
             kamikazeMaxHealth = Scaling.getValue(areaIndex, 'kamikazeMaxHealth');
@@ -747,6 +746,7 @@
 
         launchMission = function (missionIndex, areaIndex) {
             setInitialValues();
+            setScalingValues(areaIndex);
             missionType = AreaManager.areas[areaIndex].missions[missionIndex].primary;
             secondaryObjectiveType = AreaManager.areas[areaIndex].missions[missionIndex].secondary;
             //Set the current mission position
@@ -773,7 +773,6 @@
                 default:
                     throw new Error("Unrecognized mission type: " + missionType);
             }
-            setScalingValues();
             enemySpawnFrequencyMs = currentMission.enemySpawnFrequencyMs;
         },
 
