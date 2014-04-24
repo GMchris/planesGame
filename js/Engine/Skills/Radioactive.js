@@ -1,6 +1,6 @@
 Radioactive = Skill.extend({
-    init: function (plane) {
-        this._super("Radioactive", plane, 1, 5000, "radioactiveIcon"); //plane using the skill, duration, cooldown
+    init: function (plane, index) {
+        this._super("Radioactive", plane, 1, 5000, "radioactiveIcon", index); //plane using the skill, duration, cooldown
     },
 
     activate: function () {

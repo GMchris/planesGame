@@ -1,6 +1,6 @@
 HealingShot = Skill.extend({
-    init: function (plane) {
-        this._super("Healing Shot", plane, 5000, 17000, "healingShotIcon"); //plane using the skill, duration, cooldown
+    init: function (plane, index) {
+        this._super("Healing Shot", plane, 5000, 17000, "healingShotIcon", index); //plane using the skill, duration, cooldown
     },
 
     activate: function () {

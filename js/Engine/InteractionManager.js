@@ -899,43 +899,43 @@
             for (var i = 0; i < skillArray.length; i++) {
                 switch (skillArray[i]) {
                     case "spreadshot":
-                        playerPlane.skills.push(new SpreadShot(playerPlane));
+                        playerPlane.skills.push(new SpreadShot(playerPlane, i));
                         break;
                     case "homingshot":
-                        playerPlane.skills.push(new HomingShot(playerPlane));
+                        playerPlane.skills.push(new HomingShot(playerPlane, i));
                         break;
                     case "penetratingshot":
-                        playerPlane.skills.push(new PiercingShot(playerPlane));
+                        playerPlane.skills.push(new PiercingShot(playerPlane, i));
                         break;
                     case "sentry":
-                        playerPlane.skills.push(new Sentry(playerPlane));
+                        playerPlane.skills.push(new Sentry(playerPlane, i));
                         break;
                     case "stoptime":
-                        playerPlane.skills.push(new StopTime(playerPlane));
+                        playerPlane.skills.push(new StopTime(playerPlane, i));
                         break;
                     case "deathray":
-                        playerPlane.skills.push(new DeathRay(playerPlane));
+                        playerPlane.skills.push(new DeathRay(playerPlane, i));
                         break;
                     case "blackhole":
-                        playerPlane.skills.push(new BlackHole(playerPlane));
+                        playerPlane.skills.push(new BlackHole(playerPlane, i));
                         break;
                     case "stealth":
-                        playerPlane.skills.push(new Stealth(playerPlane));
+                        playerPlane.skills.push(new Stealth(playerPlane, i));
                         break;
                     case "radioactive":
-                        playerPlane.skills.push(new Radioactive(playerPlane));
+                        playerPlane.skills.push(new Radioactive(playerPlane, i));
                         break;
                     case "healingshot":
-                        playerPlane.skills.push(new HealingShot(playerPlane));
+                        playerPlane.skills.push(new HealingShot(playerPlane, i));
                         break;
                     case 'guidedrocket':
-                        playerPlane.skills.push(new SummonGuidedRocket(playerPlane));
+                        playerPlane.skills.push(new SummonGuidedRocket(playerPlane, i));
                         break;
 					case 'shield':
-                        playerPlane.skills.push(new Shield(playerPlane));
+                        playerPlane.skills.push(new Shield(playerPlane, i));
                         break;
                     case 'absorbbullets':
-                        playerPlane.skills.push(new AbsorbBullets(playerPlane));
+                        playerPlane.skills.push(new AbsorbBullets(playerPlane, i));
                         break;
                     default:
                         throw new Error("Unrecognized skill type");

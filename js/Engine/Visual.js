@@ -211,6 +211,50 @@ var Visual = {
         $("." + icon).css("background-image", "url(images/UI/" + icon + ".png)");
     },
 
+    animateDuration: function (icon, durationMs) {
+        $('<div></div>')
+            .css({
+                'position': 'absolute',
+                'bottom': 0,
+                'left': 0,
+                'width': 50,
+                'height': 50,
+                'background-color': 'green',
+                'opacity': 0.5
+            })
+            .appendTo($('.' + icon))
+            .animate({
+                'height': 0
+            }, {
+                duration: durationMs,
+                complete: function () {
+                    $(this).remove();
+                }
+            });
+    },
+
+    animateCooldown: function (icon, cooldownMs) {
+        $('<div></div>')
+            .css({
+                'position': 'absolute',
+                'bottom': 0,
+                'left': 0,
+                'width': 50,
+                'height': 0,
+                'background-color': 'red',
+                'opacity': 0.5
+            })
+            .appendTo($('.' + icon))
+            .animate({
+                'height': 50
+            }, {
+                duration: cooldownMs,
+                complete: function () {
+                    $(this).remove();
+                }
+            });
+    },
+
     //Creates the black hole animation
     drawBlackHole: function (left, bottom) {
         $("<div/>")

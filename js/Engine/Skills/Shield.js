@@ -1,6 +1,6 @@
 ﻿Shield = Skill.extend({
-    init: function (plane) {
-        this._super("Shield", plane, 1, 10000, "shieldIcon"); //plane using the skill, duration, cooldown
+    init: function (plane, index) {
+        this._super("Shield", plane, 1, 10000, "shieldIcon", index); //plane using the skill, duration, cooldown
         this.playerShieldDiv = $('<div id="playerShield"></div>').addClass('playerShieldDiv');
     },
 

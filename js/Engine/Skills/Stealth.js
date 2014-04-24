@@ -1,6 +1,6 @@
 ﻿Stealth = Skill.extend({
-    init: function (plane) {
-        this._super("Stealth", plane, 2000, 20000, "stealthIcon"); //plane using the skill, duration, cooldown
+    init: function (plane, index) {
+        this._super("Stealth", plane, 2000, 20000, "stealthIcon", index); //plane using the skill, duration, cooldown
     },
 
     activate: function () {
