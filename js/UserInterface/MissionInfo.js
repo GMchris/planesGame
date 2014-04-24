@@ -173,7 +173,7 @@ var MissionManager = {
         })
 		.appendTo("#GamePrompt");
         //Handles levelling up
-        if (starsToLevelUp[currentPlayerLevel - 1] && currentPlayerStars >= starsToLevelUp[currentPlayerLevel - 1]) {
+        if (!Game.allUnlocked && starsToLevelUp[currentPlayerLevel - 1] && currentPlayerStars >= starsToLevelUp[currentPlayerLevel - 1]) {
             $("#ContentBox").text("You earned enough stars to level up! Your plane has been upgraded and you unlocked the following skills:");
 
             $("<div/>")

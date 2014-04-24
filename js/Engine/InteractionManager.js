@@ -816,7 +816,9 @@
                     AreaManager.drawMap();
                     playerPlane.stars += starsWonForMission;
                     MissionManager.winScreen(starsWonForMission);
-                    Visual.updateStarsTracker();
+                    if (!Game.allUnlocked) {
+                        Visual.updateStarsTracker();
+                    }
                 }
             }, 1500);
         },

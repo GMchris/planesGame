@@ -11,7 +11,9 @@ var Game = {
 		MissionManager.generateMissions();
 		AreaManager.drawMap();
 		Visual.drawGameObjects();
-		Visual.updateStarsTracker();
+		if (!this.allUnlocked) {
+		    Visual.updateStarsTracker();
+		}
 		//for(var i=0;i<13;i++){
 		//	Game.addSkill();
 		//}
@@ -55,7 +57,10 @@ var Game = {
 	    AreaManager.areas[1].active = true;
 	    AreaManager.areas[2].active = true;
 	    AreaManager.areas[3].active = true;
-	}
+	    this.allUnlocked = true;
+	},
+
+    allUnlocked: false
 	
 }
 
