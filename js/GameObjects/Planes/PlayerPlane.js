@@ -1,7 +1,7 @@
 ﻿PlayerPlane = Plane.extend({
     init: function () {
         var maxHealth = 100,
-            damage = 1,
+            damage = 2000,
             shootFrequency = 120,
             width = 100,
             height = 80;

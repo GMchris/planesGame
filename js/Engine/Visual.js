@@ -55,7 +55,7 @@ var Visual = {
                 Game.errorMessage("Enter a name under fifteen characters");
                 return;
             }
-            Leaderboard.submitScore($(".nameInput").val(),interactionManager.getVictoryTime());
+            Leaderboard.submitScore($(".nameInput").val(), interactionManager.getVictoryTime());
             $(".victoryScreen").remove();
         });
     },
