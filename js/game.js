@@ -1,5 +1,7 @@
 'use strict'
 var Game = {
+    allSkills : ["spreadshot","homingshot","penetratingshot","sentry","stoptime","deathray", "blackhole", "stealth", "radioactive", "healingshot", 'guidedrocket', 'shield', 'absorbbullets'],
+    unlockedSkills :[],
 	//Initialization
     init: function () {
         interactionManager.startTimer();
@@ -43,8 +45,17 @@ var Game = {
 		this.unlockedSkills.push(this.allSkills.splice(index,1)[0]);
 		return this.unlockedSkills[this.unlockedSkills.length-1];
 	},
-	allSkills : ["spreadshot","homingshot","penetratingshot","sentry","stoptime","deathray", "blackhole", "stealth", "radioactive", "healingshot", 'guidedrocket', 'shield', 'absorbbullets'],
-	unlockedSkills :[],
+
+	unlockEverything: function () {
+	    var i;
+	    for (i = 0; i < 12; i++) {
+	        Game.addSkill();
+	    }
+	    AreaManager.areas[1].active = true;
+	    AreaManager.areas[2].active = true;
+	    AreaManager.areas[3].active = true;
+	}
+	
 }
 
 var Test = {

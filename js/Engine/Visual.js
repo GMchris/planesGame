@@ -12,12 +12,20 @@ var Visual = {
         .on("click", function () {
             Game.init();
         });
+        
         $("<div>Leaderboard</div>")
        .addClass("introButton")
        .appendTo("#introScreen")
        .on("click", function () {
            Test.generateScores();
        });
+
+        $("<div>Unlock Everything</div>")
+        .addClass("introButton")
+        .appendTo("#introScreen")
+        .on("click", function () {
+            Game.unlockEverything();
+        });
     },
 
     drawVictoryScreen:function(){
