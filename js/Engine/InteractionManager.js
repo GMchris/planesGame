@@ -28,8 +28,6 @@
         enemyPlanes,
         friendlyPlanes,
         enemySpawnFrequencyMs,
-        fighterShootFrequencyMs,
-        sentryShootFrequencyMs,
         stormerStormFrequencyMs,
         stormCloudDamageFrequencyMs,
         fighterDirectionChangeFrequencyMs,
@@ -96,8 +94,6 @@
             healingBulletHealPoints = 1;
             enemySpawnFrequencyMs = null; //set when the mission starts
             fighterDirectionChangeFrequencyMs = 1000;
-            fighterShootFrequencyMs = 1500;
-            sentryShootFrequencyMs = 150;
             supplierSupplyFrequencyMs = 1500;
             stormerStormFrequencyMs = 2000;
             stormCloudDamageFrequencyMs = 500;

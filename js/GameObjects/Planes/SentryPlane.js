@@ -3,7 +3,7 @@
         var shootFrequency = 150, //ms
             width = 100,
             height = 75;
-        this._super(left, bottom, maxHealth, damage, sentryShootFrequency, width, height);
+        this._super(left, bottom, maxHealth, damage, shootFrequency, width, height);
         this.div.className = "sentryPlaneDiv";
         this.orientationDeg = 0;
         $(this.div).css('background-image', 'url(images/planes/sentry.png)');

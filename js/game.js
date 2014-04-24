@@ -47,7 +47,7 @@ var Game = {
 
 	unlockEverything: function () {
 	    var i;
-	    for (i = 0; i < 12; i++) {
+	    for (i = 0; i < 13; i++) {
 	        Game.addSkill();
 	    }
 	    AreaManager.areas[1].active = true;
