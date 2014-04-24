@@ -1548,12 +1548,12 @@
             //newBottom
             if (clientY <= 570) {
                 converted.bottom = 700 - clientY - 50;
-                if ($('#gameScreen').css('cursor') == 'default') {
+                if ($('#gameScreen').css('cursor') != 'none') {
                     $('#gameScreen').css('cursor', 'none');
                 }
             } else {
                 if ($('#gameScreen').css('cursor') == 'none') {
-                    $('#gameScreen').css('cursor', 'default');
+                    $('#gameScreen').css('cursor', 'url(images/ui/pointerCursor.png), auto');
                 }
                 converted.bottom = 80;
             }
@@ -1584,10 +1584,10 @@
                 $('#gameScreen').css('cursor', 'none');
             } else if (clientY > 570) {
                 converted.bottom = 80;
-                $('#gameScreen').css('cursor', 'default');
+                $('#gameScreen').css('cursor', 'url(images/ui/pointerCursor.png), auto');
             } else {
                 converted.bottom = 300;
-                $('#gameScreen').css('cursor', 'default');
+                $('#gameScreen').css('cursor', 'url(images/ui/pointerCursor.png), auto');
             }
 
             return converted;
