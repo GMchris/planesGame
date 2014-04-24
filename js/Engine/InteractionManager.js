@@ -72,6 +72,7 @@
             pickups = [];
             rocketPathArray = [];
             playerBulletsSpeed = 10;
+            bossBulletsSpeed = 12;
             sentryMaxHealth = parseInt(playerPlane.maxHealth / 4);
             sentryDamage = playerPlane.damage / 3;
             deathRayDamage = playerPlane.damage * 10;
