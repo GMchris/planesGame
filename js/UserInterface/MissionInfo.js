@@ -255,11 +255,15 @@ var MissionManager = {
                 }
                 $("<div/>")
                 .addClass("skillIcon " + skillClass)
-                .appendTo(".promptText:odd");
+                .appendTo(".promptText:odd")
+                .on("mouseenter",function(){
+            $("<div/>").addClass("descriptionBox gameWindow").html(Loadout.generateDescription($(this))).appendTo("#gameScreen")
+        }).on("mouseleave",function(){
+           $(".descriptionBox").remove();
+        });
             }
         }
         else {
-            //$("#ContentBox").text("You finished the mission and earned "+stars+" stars.Earn another "+ (Game.starsToLevelUp[Game.currentLevel-1]-Game.playerStars)+" to level up");
             $("#ContentBox").text("You finished the mission and earned " + stars + " stars.");
         }
     }

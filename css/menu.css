@@ -245,6 +245,12 @@
 	width: 300px
 }
 
+.promptText>.skillIcon{
+	border-radius: 3px;
+	border:1px solid black;
+	margin-left:5px;
+}
+
 #ContentBox{
 	font-size: 1.2em;
 	font-family: sans-serif;
