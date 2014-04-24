@@ -1420,7 +1420,7 @@
 
         handleBlackHole = function () {
             $("#gameScreen").css({
-                "cursor": "pointer"
+                "cursor": "url(images/ui/pointerCursor.png), auto"
             });
             $(document).unbind('mouseup mousedown', handleMouseClick);
             $(document).unbind('mousemove', movePlayerPlane);
@@ -1475,7 +1475,7 @@
         handleGuidedRocket = function () {
             var rocketPath = new Array();
             $("#gameScreen").css({
-                "cursor": "pointer"
+                "cursor": "url(images/ui/pointerCursor.png), auto"
             });
             $(document).unbind('mouseup mousedown', handleMouseClick);
             $(document).unbind('mousemove', movePlayerPlane);

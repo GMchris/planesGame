@@ -1,7 +1,8 @@
 'use strict'
 var Game = {
     allSkills : ["spreadshot","homingshot","penetratingshot","sentry","stoptime","deathray", "blackhole", "stealth", "radioactive", "healingshot", 'guidedrocket', 'shield', 'absorbbullets'],
-    unlockedSkills :[],
+    unlockedSkills: [],
+    highScoreArr: [],
 	//Initialization
     init: function () {
         interactionManager.startTimer();
@@ -70,11 +71,9 @@ var Test = {
 			this.score = score;
 		},
 		testScores: [],
-		generateScores: function(){
-			for(var i=0;i<15;i++){
-				this.testScores.push(new this.Score("wow"+i,i*100));
-			}
-			Visual.drawLeaderBoard(this.testScores,false)
+		generateScores: function () {
+		    getHighScore();
+		    
 		},
 	}
 

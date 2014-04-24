@@ -288,7 +288,7 @@ var Visual = {
             if (topArray[i]) {
                 var tableRow = $("<tr/>");
                 $("<td/>").addClass("positionCell").text(i+1).appendTo(tableRow);
-                $("<td/>").addClass("nicknameCell").text(topArray[i].nickname).appendTo(tableRow);
+                $("<td/>").addClass("nicknameCell").text(topArray[i].player).appendTo(tableRow);
                 $("<td/>").addClass("scoreCell").text(topArray[i].score).appendTo(tableRow);
                 tableRow.appendTo(".leaderboard")
             }

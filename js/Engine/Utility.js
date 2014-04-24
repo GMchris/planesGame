@@ -83,3 +83,27 @@ var Leaderboard = {
         console.log(name+" "+result);      
     }
 }
+
+function getHighScore() {
+    $.ajax({
+        url: "http://bashibozuk.eu/games-score/?route=high-score/get-high-score&gameId=c4ca4238a0b923820dcc509a6f75849b&limit=15",
+
+        // the name of the callback parameter, as specified by the YQL service
+        jsonp: "callback",
+
+        // tell jQuery we're expecting JSONP
+        dataType: "jsonp",
+
+        // tell YQL what we want and that we want JSON
+        data: {
+            q: "select title,abstract,url from search.news where query=\"cat\"",
+            format: "json"
+        },
+
+        // work with the response
+        success: function (response) {
+            Visual.drawLeaderBoard(response.data, false);
+        }
+    });
+}
+
