@@ -837,6 +837,7 @@
                 Game.clearScreen();
                 //Draw the win screen
                 if(MissionManager.currentAreaIndex == 3){ //boss mission
+                    setVictoryTime();
                     Visual.drawVictoryScreen();
                 } else {
                     AreaManager.updateAreaStatus(starsWonForMission);
@@ -870,8 +871,11 @@
             return Timer.current;
         },
 
-        getVictoryTime = function(){
+        setVictoryTime = function(){
             Timer.finalTime = Timer.current;
+        },
+
+        getVictoryTime = function(){
             return Timer.finalTime;
         },
 

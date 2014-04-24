@@ -45,13 +45,13 @@ var Visual = {
         .addClass("nameInput")
         .appendTo(".scoreSubmissionBox")
 
-        $("<div/>")
+        $("<div>Submit</div>")
         .addClass("submitButton")
         .appendTo(".scoreSubmissionBox")
         .on("click",function(){
-            Utility.submitScore(interactionManager.getVictoryTime());
-            $(this).remove();
-        })
+            Leaderboard.submitScore($(".nameInput").val(),interactionManager.getVictoryTime());
+            $(".victoryScreen").remove();
+        });
     },
 
     backgroundOffset: 0,

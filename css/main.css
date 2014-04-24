@@ -30,11 +30,6 @@ body{
 }
 
 section{
-    background: -webkit-gradient(linear, 0 0, 0 100%, from(#43494b), to(#2e3335));
-    background: -webkit-linear-gradient(#43494b, #2e3335);
-    background: -moz-linear-gradient(#43494b, #2e3335);
-    background: -o-linear-gradient(#43494b, #2e3335);
-    background: linear-gradient(#43494b, #2e3335);
     width: 960px;
     height: 100%;
     margin-left: auto;
@@ -105,6 +100,15 @@ section{
     height: 240px;
     left: 0;
     bottom: 0;
+}
+
+.explosionDiv{
+    position: absolute;
+    height: 50px;
+    width:50px;
+    background-image: url(../images/planes/explosionFrames.png);
+    -webkit-animation : explodeAnimation 0.4s;
+    animation : explodeAnimation 0.4
 }
 
 .guidedRocketDiv {
@@ -399,3 +403,29 @@ section{
     99.9%{background-position: 150px 0px}
     100%{background-position: 0px 0px}
  }
+
+@-webkit-keyframes explodeAnimation{
+                0%{background-position: 0px 0px}
+                19.9%{background-position: 0px 0px}
+                20%{background-position: 50px 0px}
+                39.9%{background-position: 50px 0px}
+                40%{background-position: 100px 0px}
+                59.9%{background-position: 100px 0px}
+                60%{background-position: 150px 0px}
+                79.9%{background-position: 150px 0px}
+                80%{background-position: 200px 0px}
+                100%{background-position: 200px 0px}
+            }
+
+            @keyframes explodeAnimation{
+                0%{background-position: 0px 0px}
+                19.9%{background-position: 0px 0px}
+                20%{background-position: 50px 0px}
+                39.9%{background-position: 50px 0px}
+                40%{background-position: 100px 0px}
+                59.9%{background-position: 100px 0px}
+                60%{background-position: 150px 0px}
+                79.9%{background-position: 150px 0px}
+                80%{background-position: 200px 0px}
+                100%{background-position: 200px 0px}
+            }

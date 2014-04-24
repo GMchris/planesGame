@@ -39,7 +39,6 @@ var Game = {
 	addSkill : function(){
 		var index = Math.floor(Math.random() * (this.allSkills.length));
 		if(this.allSkills[index]==undefined){
-			console.log("nada");
 			return;
 		}
 		this.unlockedSkills.push(this.allSkills.splice(index,1)[0]);

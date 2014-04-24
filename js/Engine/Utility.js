@@ -77,3 +77,9 @@ function spreadShotEnemyShoot() {
 function degreeToRadian(deg) {
     return deg * Math.PI / 180;
 };
+
+var Leaderboard = {
+    submitScore:function(name,result){
+        console.log(name+" "+result);      
+    }
+}
