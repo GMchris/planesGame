@@ -14,6 +14,7 @@ html,body{
 }
 
 body{
+    cursor:url(../images/ui/pointerCursor.png),auto;
     background: -webkit-gradient(linear, 0 0, 100% 0, from(#0e1b20), to(#23363c));
     background: -webkit-linear-gradient( #23363c, #0e1b20, #23363c);
     background: -moz-linear-gradient( #23363c, #0e1b20, #23363c);

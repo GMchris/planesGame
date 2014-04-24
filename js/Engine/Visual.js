@@ -49,6 +49,10 @@ var Visual = {
         .addClass("submitButton")
         .appendTo(".scoreSubmissionBox")
         .on("click",function(){
+            if($(".nameInput").val().length>15 ||$(".nameInput").val().length<1){ 
+                Game.errorMessage("Enter a name under fifteen characters");
+                return;
+            }
             Leaderboard.submitScore($(".nameInput").val(),interactionManager.getVictoryTime());
             $(".victoryScreen").remove();
         });

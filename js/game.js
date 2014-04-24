@@ -5,6 +5,7 @@ var Game = {
 	//Initialization
     init: function () {
         interactionManager.startTimer();
+        Game.addSkill();
 		this.clearScreen();
 		AreaManager.areas[0].active = true;
 		MissionManager.generateMissions();
@@ -67,7 +68,7 @@ var Test = {
 			for(var i=0;i<15;i++){
 				this.testScores.push(new this.Score("wow"+i,i*100));
 			}
-			Visual.drawLeaderBoard(this.testScores,100)
+			Visual.drawLeaderBoard(this.testScores,false)
 		},
 	}
 
