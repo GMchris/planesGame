@@ -10,7 +10,9 @@ EnemySupplier = EnemyPlane.extend({
         this.lastSupplyTimestamp = -1;
         this.healingOrbSpawnChance = 30;
         this.suppliedFighters = [];
+        this.supplyFrequencyMs = 1500;
     },
+    supplyFrequencyMs: null,
     lastSupplyTimestamp: null,
     suppliedFighters: null,
 

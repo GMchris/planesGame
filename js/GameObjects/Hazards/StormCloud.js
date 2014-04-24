@@ -2,8 +2,12 @@
     init: function (left, bottom) {
         this._super(left, bottom, 80, 80);
         this.div.className = 'stormCloudDiv';
+        this.damageFrequencyMs = 500;
         this.lastDamageTickTimestamp = -1;
     },
+
+    damageFrequencyMs: null,
+    lastDamageTickTimestamp: null,
 
     animateCast: function (casterLeft, casterBottom, casterWidth) {
         var self = this,

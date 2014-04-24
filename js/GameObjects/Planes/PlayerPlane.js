@@ -12,10 +12,14 @@
         this.isStealthed = false;
         this.skills = [];
         this.absorptionShieldStrength = 0;
+        this.level = 1;
+        this.stars = 0;
 
         this.bulletType = "player";
     },
 
+    stars: null,
+    level: null,
     absorptionShieldStrength: null,
     isShooting: null,
     isStealthed: null,

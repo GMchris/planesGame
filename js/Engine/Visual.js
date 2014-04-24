@@ -317,5 +317,23 @@ var Visual = {
             Visual.iterateBackground();
             interactionManager.redrawGameObjects();
         }
+    },
+
+    updateStarsTracker: function () {
+        var starsToLevelUp = interactionManager.getStarsToLevelUp(),
+            playerLevel = interactionManager.getPlayerLevel(),
+            starHtml = '<img src="images/map/starMini.png" />',
+            starsEarnedHtml = interactionManager.getPlayerStars() + starHtml + ' earned',
+            starsToNextLevelHtml = ((starsToLevelUp[playerLevel - 1]) ?
+                starsToLevelUp[playerLevel - 1] : '-')
+        + starHtml + ' needed for next skill unlock';
+        $('<div></div>')
+            .html(starsEarnedHtml + '<br/>' + starsToNextLevelHtml)
+            .css({
+                'position': 'absolute',
+                'top': 0,
+                'right': 0
+            })
+            .appendTo('#gameScreen')
     }
 };

@@ -11,6 +11,7 @@ var Game = {
 		MissionManager.generateMissions();
 		AreaManager.drawMap();
 		Visual.drawGameObjects();
+		Visual.updateStarsTracker();
 		//for(var i=0;i<13;i++){
 		//	Game.addSkill();
 		//}
@@ -32,9 +33,9 @@ var Game = {
 	},
 
 	//Star data
-	playerStars : 0,
-	starsToLevelUp : [1,2,3,3,3,3,3,3,3,3], //can unlock a total of 10 skills
-	currentLevel: 1,
+	//playerStars : 0,
+	//starsToLevelUp : [1, 3, 6, 9, 12, 15, 18, 19, 20, 21, 22, 23, 24, 25], 
+	//currentLevel: 1,
 
 	//Skills
 	addSkill : function(){
