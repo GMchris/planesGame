@@ -28,6 +28,7 @@ var Visual = {
         });
     },
 
+    //Draws the screen at the end of the game
     drawVictoryScreen:function(){
         $("<div/>")
         .addClass("victoryScreen gameWindow")
@@ -45,6 +46,7 @@ var Visual = {
         .addClass("nameInput")
         .appendTo(".scoreSubmissionBox")
 
+        //Used to submit the score. If the name entered doesnt exist or is over 15 characters, it won't post them.
         $("<div>Submit</div>")
         .addClass("submitButton")
         .appendTo(".scoreSubmissionBox")
@@ -73,7 +75,7 @@ var Visual = {
         }
         else {
             $("#gameScreen").css({
-                "cursor": "default",
+                "cursor": "inherit",
                 "background-image": "none"
             });
         }
@@ -323,17 +325,13 @@ var Visual = {
         var starsToLevelUp = interactionManager.getStarsToLevelUp(),
             playerLevel = interactionManager.getPlayerLevel(),
             starHtml = '<img src="images/map/starMini.png" />',
-            starsEarnedHtml = interactionManager.getPlayerStars() + starHtml + ' earned',
-            starsToNextLevelHtml = ((starsToLevelUp[playerLevel - 1]) ?
+            starsEarnedHtml =starHtml+ interactionManager.getPlayerStars() + ' earned',
+            starsToNextLevelHtml =  starHtml + ((starsToLevelUp[playerLevel - 1]) ?
                 starsToLevelUp[playerLevel - 1] : '-')
-        + starHtml + ' needed for next skill unlock';
+        + ' needed';
         $('<div></div>')
+        .addClass("starTracker")
             .html(starsEarnedHtml + '<br/>' + starsToNextLevelHtml)
-            .css({
-                'position': 'absolute',
-                'top': 0,
-                'right': 0
-            })
             .appendTo('#gameScreen')
     }
 };
