@@ -12,6 +12,7 @@ EnemySupplier = EnemyPlane.extend({
         this.suppliedFighters = [];
         this.supplyFrequencyMs = 1500;
     },
+    img: $('<img src="images/planes/supplier.png"/>')[0],
     supplyFrequencyMs: null,
     lastSupplyTimestamp: null,
     suppliedFighters: null,

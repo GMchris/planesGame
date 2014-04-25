@@ -14,8 +14,15 @@
         var self = this;
         //TODO: Draw mission interface - call a UI function
         Game.clearScreen();
+
         Visual.adjustCSSofGameScreen(true);
         Visual.drawUI(self);
+        ctx = $('<canvas width="960" height="700"></canvas>')
+                .appendTo('#gameScreen')
+        [0].getContext('2d');
+        ctx.translate(0, 700);
+        ctx.scale(1, -1);
+        
         interactionManager.spawnPlayer();
         $(document).on('mousemove', interactionManager.movePlayerPlane);
         $(document).on('mousedown', interactionManager.handleMouseClick);
@@ -27,12 +34,13 @@
             e.preventDefault();
         });
         $(document).on('keypress', function (e) {
-            if (e.keyCode == 97) { //a
+            console.log(e.keyCode);
+            if (e.charCode == 97) { //a
                 interactionManager.rotateSentries('left');
-            } else if (e.keyCode == 100) { //d
+            } else if (e.charCode == 100) { //d
                 interactionManager.rotateSentries('right');
-            } else if (e.keyCode >= 49 && e.keyCode <= 52) { //1-4 key was pressed
-                interactionManager.handleSkillUsage(e.keyCode - 49);
+            } else if (e.charCode >= 49 && e.charCode <= 52) { //1-4 key was pressed
+                interactionManager.handleSkillUsage(e.charCode - 49);
             }
         });
         this.mainLoopInterval = window.setInterval(function () {
@@ -41,6 +49,7 @@
     },
     mainLoop: function () {
         var self = this;
+
         $('#ips').text(ips.getIPS());
         interactionManager.iterateBullets('all');
         interactionManager.iterateFriendlyPlanes();

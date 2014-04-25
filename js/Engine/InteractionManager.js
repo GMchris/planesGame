@@ -1688,6 +1688,7 @@
             for (i = 0; i < bullets.length; i++) {
                 bullets[i].move();
             }
+
         },
 
         increasePlayerLevel = function () {

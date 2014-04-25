@@ -10,6 +10,8 @@
 		this.lastStormTimestamp = Date.now();
 		this.healingOrbSpawnChance = 30;
     },
+
+    img: $('<img src="images/planes/stormer.png"/>')[0],
     summonStormFrequencyMs: null,
     lastStormTimestamp: null,
 

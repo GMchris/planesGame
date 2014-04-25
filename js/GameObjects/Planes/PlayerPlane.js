@@ -1,7 +1,7 @@
 ﻿PlayerPlane = Plane.extend({
     init: function () {
         var maxHealth = 100,
-            damage = 2000,
+            damage = 1,
             shootFrequency = 120,
             width = 100,
             height = 80;
@@ -18,6 +18,7 @@
         this.bulletType = "player";
     },
 
+    img: $('<img src="images/planes/player.png"/>')[0],
     stars: null,
     level: null,
     absorptionShieldStrength: null,

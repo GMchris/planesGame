@@ -12,7 +12,7 @@
     bottomCoord: null,
     div: null,
     addToScreen: function () {
-        $(this.div).appendTo("#gameScreen");
+        //$(this.div).appendTo("#gameScreen");
     },
     updateCoords: function (left, bottom) {
         this.leftCoord = left;

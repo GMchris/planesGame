@@ -12,6 +12,7 @@
         this.lastShootTimestamp = -1;
         this.rotate();
     },
+    img: $('<img src="images/planes/sentry.png"/>')[0],
 
     shoot: function () {
         if (this.tryShoot()) {

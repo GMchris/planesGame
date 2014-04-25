@@ -1,4 +1,5 @@
 'use strict'
+var ctx;
 var Game = {
     allSkills : ["spreadshot","homingshot","penetratingshot","sentry","stoptime","deathray", "blackhole", "stealth", "radioactive", "healingshot", 'guidedrocket', 'shield', 'absorbbullets'],
     unlockedSkills: [],
@@ -75,12 +76,13 @@ var Test = {
 		    getHighScore();
 		    
 		},
-	}
-
+}
 window.addEventListener("load", function () {
     Visual.drawIntroScreen();
+    
     if (!requestAnimationFrame) {
         window.requestAnimationFrame = window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame
         || window.oRequestAnimationFrame || window.msRequestAnimationFrame;
     }
 });
+

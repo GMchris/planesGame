@@ -13,6 +13,8 @@ EnemyFighter = EnemyPlane.extend({
         this.healingOrbSpawnChance = 10;
     },
 
+    img: $('<img src="images/planes/fighter.png"/>')[0],
+
     shoot: function () {
         if (this.tryShoot()) {
             interactionManager.spawnBullet(this.bulletType, this.leftCoord + this.width / 2, this.bottomCoord, 0, this);
