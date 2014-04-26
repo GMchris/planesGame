@@ -24,6 +24,7 @@
     absorptionShieldStrength: null,
     isShooting: null,
     isStealthed: null,
+    originalMoveFunction: null,
     skills: null,
     shoot: function () {
         if (this.isShooting && this.tryShoot()) {
@@ -38,5 +39,25 @@
     updateHpBar: function () {
         var currentHealthPercentage = parseInt(this.currentHealth / this.maxHealth * 100);
         $("#hpBar").css("width", currentHealthPercentage * 2 + "px");
-    }
+    },
+
+    stealthMove: function () {
+        if (!this.isAnimated) {
+            ctx.save();
+            ctx.globalAlpha = 0.5;
+            ctx.drawImage(this.img, this.leftCoord, this.bottomCoord);
+            this.drawHpBar();
+            ctx.restore();
+        }
+    },
+
+    shieldMove: function () {
+        if (!this.isAnimated) {
+            ctx.save();
+            ctx.globalAlpha = 0.5;
+            ctx.drawImage(this.img, this.leftCoord, this.bottomCoord);
+            this.drawHpBar();
+            ctx.restore();
+        }
+    },
 });

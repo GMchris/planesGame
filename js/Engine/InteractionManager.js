@@ -686,7 +686,8 @@
 			} else {
                 playerPlane.absorptionShieldStrength--;
                 if (playerPlane.absorptionShieldStrength == 0) {
-					$('#playerShield').remove();
+					//$('#playerShield').remove();
+                    playerPlane.move = playerPlane.originalMoveFunction;
 				}
 			}
         },
@@ -695,12 +696,12 @@
         },
 
         handleAbsorbBullets = function (duration){
-            $(playerPlane.div).css('background-image', 'url(images/planes/playerAbsorbingBullets.png)');
+            playerPlane.img.src = 'images/planes/playerAbsorbingBullets.png';
             var tempHandleCollisionEnemy =  handleCollisionEnemy;
             handleCollisionEnemy = handleAbsorbCollisionEnemyBullets;
             window.setTimeout(function () {
                 handleCollisionEnemy = tempHandleCollisionEnemy;
-                 $(playerPlane.div).css('background-image', 'url(images/planes/player.png)');
+                playerPlane.img.src = 'images/planes/player.png';
             }, duration);
         },
 
@@ -1410,7 +1411,8 @@
 					trackRemainingHealth(playerPlane.currentHealth);
 				} else {
                     playerPlane.absorptionShieldStrength = 0;
-					$('#playerShield').remove();
+					//$('#playerShield').remove();
+                    playerPlane.move = playerPlane.originalMoveFunction;
 				}
 
             }
