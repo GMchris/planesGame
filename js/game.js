@@ -65,18 +65,6 @@ var Game = {
 	
 }
 
-var Test = {
-		Score:function(nickname,score){
-			this.nickname = nickname;
-			this.score = score;
-		},
-		testScores: [],
-		generateScores: function () {
-		    Leaderboard.getHighScoreAndDrawLeaderboard();
-		    
-		},
-	}
-
 window.addEventListener("load", function () {
     Visual.drawIntroScreen();
     if (!requestAnimationFrame) {

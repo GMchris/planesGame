@@ -17,7 +17,7 @@ var Visual = {
        .addClass("introButton")
        .appendTo("#introScreen")
        .on("click", function () {
-           Test.generateScores();
+           Leaderboard.getHighScoreAndDrawLeaderboard();
        });
 
         $("<div>Unlock Everything</div>")
