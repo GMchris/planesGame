@@ -1502,7 +1502,6 @@
 
         finishRocketPathDrawing = function () {
             rocketPathArray.splice(99, rocketPathArray.length - 99); //remove all but the first 100 entries
-            console.log(rocketPathArray.length);
             $(document).off('mousemove', drawRocketPath);
             $(document).off('mousedown', initiateRocketPathDrawing);
             $(document).off('mouseup', finishRocketPathDrawing);
@@ -1705,6 +1704,9 @@
             }
             for (i = 0; i < pickups.length; i++) {
                 pickups[i].draw();
+            }
+            for (i = 0; i < hazards.length; i++) {
+                hazards[i].draw();
             }
         },
 

@@ -4,9 +4,6 @@
             height = 50;
         this._super(left, bottom, width, height);
         this.healingAmount = 5;
-
-        this.width = 50;
-        this.height = 50;
         this.frameCount = 4;
     },
 

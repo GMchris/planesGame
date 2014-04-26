@@ -5,7 +5,6 @@
             width = 100,
             height = 80;
         this._super(left, bottom, maxHealth, damage, movementSpeed, shootFrequency, width, height); //stormer doesn't move
-        $(this.div).css('background-image', 'url(images/planes/stormer.png)');
         this.summonStormFrequencyMs = 2000;
 		this.lastStormTimestamp = Date.now();
 		this.healingOrbSpawnChance = 30;

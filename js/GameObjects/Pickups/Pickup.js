@@ -1,8 +1,7 @@
 ﻿Pickup = SpriteGameObject.extend({
     init: function (left, bottom, width, height) {
-        this._super(width, height);
+        this._super(left,bottom,width, height);
         this.updateCoords(left, bottom);
-        //this.move();
     },
 
     die: function () {

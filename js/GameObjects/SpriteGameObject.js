@@ -5,7 +5,6 @@ SpriteGameObject = GameObject.extend({
         this.move();
         this.spriteChangeFrequency = 50;
         this.lastSpriteChangeTimestampMs = -1;
-        //this.frameCount = 4;
         this.currentFrame = 1;
     },
 
@@ -21,7 +20,6 @@ SpriteGameObject = GameObject.extend({
             this.lastSpriteChangeTimestampMs = nowMs;
             this.currentFrame = (this.currentFrame < this.frameCount) ? (this.currentFrame + 1) : 1;
         }
-        ctx.drawImage(this.img, (this.currentFrame - 1) * this.width, 0, this.width, this.height, this.leftCoord, this.bottomCoord, 50, 50);
-        console.log(this.SWIDTH);
+        ctx.drawImage(this.img, (this.currentFrame - 1) * this.width, 0, this.width, this.height, this.leftCoord, this.bottomCoord, this.width, this.height);
     },
 });

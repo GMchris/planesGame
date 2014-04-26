@@ -117,19 +117,6 @@ section{
     
 }
 
-.enemyBulletDiv {
-    border-radius:  0px 0px 2px 2px;
-    position: absolute;
-    height: 15px;
-    width: 4px;
-  	background: -webkit-gradient(linear, 0 0, 0 100%, from(#df3100), to(#ff7100));
-    background: -webkit-linear-gradient(#df3100, #ff7100);
-    background: -moz-linear-gradient(#df3100, #ff7100);
-    background: -o-linear-gradient(#df3100, #ff7100);
-    background: linear-gradient(#df3100, #ff7100);
-}
-
-
 .blackHole{
     position: absolute;
     height: 400px;
@@ -139,26 +126,6 @@ section{
 	animation: blackHoleAnimation 0.5s ease-out;
 }
 
-
-.stormCloudDiv {
-    position: absolute;
-    height: 80px;
-    width: 80px;
-    z-index: 1;
-    background-image: url(../images/planes/stormCloudFrames.png);
-    -webkit-animation: stormCloudAnimation 0.3s infinite;
-	animation: stormCloudAnimation 0.3s infinite;
-}
-
-.healingOrbDiv {
-    position: absolute;
-    z-index: 1;
-     width: 50px;
-    height: 50px;
-    background-image: url(../images/skills/HealthOrbFrames.png);
-    animation:healingOrbSpin 0.3s infinite;
-    -webkit-animation:healingOrbSpin 0.3s infinite;
-}
 
 .stormCloudCast {
     position: absolute;
