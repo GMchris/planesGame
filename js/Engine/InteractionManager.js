@@ -850,7 +850,6 @@
         setVictoryTime = function(){
             Timer.finalTime = Timer.current;
             Timer.finalTime = 3600 - Timer.finalTime;
-            console.log(Timer.finalTime)
         },
 
         getVictoryTime = function(){
@@ -1417,7 +1416,7 @@
                     if(playerPlane.isStealthed){
                         playerPlane.move = playerPlane.stealthMove;
                     } else {
-                        playerPlane.move = playerPLane.originalMoveFunction;
+                        playerPlane.move = playerPlane.originalMoveFunction;
                     }
 				}
 

@@ -6,8 +6,6 @@
             width = 100,
             height = 80;
         this._super(maxHealth, damage, shootFrequency, width, height); //maxHealth, damage, shoot frequency, width, height
-        this.div.id = "playerPlaneDiv";
-        $(this.div).css('background-image', 'url(images/planes/player.png)');
         this.isShooting = false;
         this.isStealthed = false;
         this.skills = [];

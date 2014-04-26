@@ -34,7 +34,6 @@
             e.preventDefault();
         });
         $(document).on('keypress', function (e) {
-            console.log(e.keyCode);
             if (e.charCode == 97) { //a
                 interactionManager.rotateSentries('left');
             } else if (e.charCode == 100) { //d

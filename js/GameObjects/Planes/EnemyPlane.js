@@ -4,16 +4,7 @@
         this.movementSpeed = movementSpeed;
         this.updateCoords(left, bottom);
         this.move();
-        this.div.className = 'enemyPlane';
-        this.hpBar.className = "hpBarEnemy";
-        $(this.hpBar)
-            .addClass('hpBarEnemy')
-            .css('top', this.height);
-        $(this.hpBarEmpty)
-            .addClass('hpBarEnemyEmpty')
-            .css('top', this.height);
         this.lastDirectionChangeTimestamp = -1;
-        $(this.hpBar).appendTo(this.div);
     },
     movingRight: null,
     movingUp: null,

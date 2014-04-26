@@ -5,8 +5,6 @@ EnemyFighter = EnemyPlane.extend({
             width = 90,
             height = 72;
         this._super(left, bottom, maxHealth, damage, movementSpeed, shootFrequency, width, height);
-        this.div.className = 'enemyFighterDiv';
-        $(this.div).css('background-image', 'url(images/planes/fighter.png)');
         this.bulletType = "fighter";
         this.changeDirection();
         this.skills = [new SpreadShot(this)];
