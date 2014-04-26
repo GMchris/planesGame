@@ -14,5 +14,12 @@
 
     handleCollision: function () {
         this.toBeSpliced = true;
+    },
+
+    move: function () {
+        ctx.beginPath();
+        ctx.fillStyle = this.bulletColor;
+        ctx.rect(this.leftCoord, this.bottomCoord, this.height, this.width);
+        ctx.fill();
     }
 });
