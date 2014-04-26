@@ -332,6 +332,7 @@ var Visual = {
         if (interactionManager.getCurrentMission()) {
             ctx.clearRect(0, 0, 960, 700);
             Visual.iterateBackground();
+            CAnimations.iterate();
             interactionManager.redrawGameObjects();
         }
     },

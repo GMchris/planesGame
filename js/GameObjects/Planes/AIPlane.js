@@ -27,34 +27,57 @@
         }
 
         this.move();
-        $(this.div).css('opacity', 0);
-        $(this.div).animate({
-            'left': currentLeftCoord,
-            'opacity': 1
-        }, {
-            step: function (now, fx) {
-                if (fx.prop == 'opacity') {
-                    $(this).css('-webkit-transform', 'scale(' + now + ', ' + now + ')');
-					$(this).css('-ms-transform', 'scale(' + now + ', ' + now + ')');
-					$(this).css('transform', 'scale(' + now + ', ' + now + ')');
-                }
-            },
 
-            duration: 1500
+        this.animationProps.opacityCurrent = 0;
+        CAnimations.animate(this, {
+            opacity: 1,
+            rotation: 0,
+            scale: 1,
+            left: currentLeftCoord,
+            bottom: this.bottomCoord,
+            frames: 80
         });
 
-        this.leftCoord = currentLeftCoord;
-        this.move();
+        //this.move();
+        //$(this.div).css('opacity', 0);
+        //$(this.div).animate({
+        //    'left': currentLeftCoord,
+        //    'opacity': 1
+        //}, {
+        //    step: function (now, fx) {
+        //        if (fx.prop == 'opacity') {
+        //            $(this).css('-webkit-transform', 'scale(' + now + ', ' + now + ')');
+		//			$(this).css('-ms-transform', 'scale(' + now + ', ' + now + ')');
+		//			$(this).css('transform', 'scale(' + now + ', ' + now + ')');
+        //        }
+        //    },
+
+        //    duration: 1500
+        //});
+
+        //this.leftCoord = currentLeftCoord;
+        //this.move();
     },
 
     die: function () {
         var self = this;
-        $(this.hpBarEmpty).remove();
-        $(this.hpBar).remove();
-        this.div.style['-webkit-animation'] = 'enemyDeathAnimation 1.5s';
-		this.div.style['animation'] = 'enemyDeathAnimation 1.5s';
-        window.setTimeout(function () {
-            $(self.div).remove();
-        }, 1500);
+        CAnimations.animate(this, {
+            opacity: 0,
+            rotation: 179,
+            scale: 0,
+            left: this.leftCoord,
+            bottom: this.bottomCoord,
+            frames: 80,
+        });
+        //$(this.div).css({
+        //    'left': self.leftCoord,
+        //    'bottom': self.bottomCoord
+        //})
+        //    .appendTo('#gameScreen');
+        //this.div.style['-webkit-animation'] = 'enemyDeathAnimation 1.5s';
+		//this.div.style['animation'] = 'enemyDeathAnimation 1.5s';
+        //window.setTimeout(function () {
+        //    $(self.div).remove();
+        //}, 1500);
     }
 });

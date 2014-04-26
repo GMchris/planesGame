@@ -199,9 +199,7 @@
                 fighterMaxHealth, fighterDamage, fighterMovementSpeed);
             newFighter.addToScreen();
             newFighter.animateSpawn();
-            window.setTimeout(function () {
-                enemyPlanes.push(newFighter);
-            }, 1500);
+            enemyPlanes.push(newFighter);
         },
 
         spawnSupplier = function () {
@@ -209,9 +207,7 @@
                 supplierMaxHealth, supplierDamage, supplierMovementSpeed);
             newSupplier.addToScreen();
             newSupplier.animateSpawn();
-            window.setTimeout(function () {
-                enemyPlanes.push(newSupplier);
-            }, 1500);
+            enemyPlanes.push(newSupplier);
         },
 
         spawnKamikaze = function () {
@@ -219,9 +215,7 @@
                 kamikazeMaxHealth, kamikazeDamage, kamikazeMovementSpeed);
             newKamikaze.addToScreen();
             newKamikaze.animateSpawn();
-            window.setTimeout(function () {
-                enemyPlanes.push(newKamikaze);
-            }, 1500);
+            enemyPlanes.push(newKamikaze);
         },
 
         spawnStormer = function () {
@@ -229,9 +223,7 @@
                 stormerMaxHealth, stormerDamage);
             newStormer.addToScreen();
             newStormer.animateSpawn();
-            window.setTimeout(function () {
-                enemyPlanes.push(newStormer);
-            }, 1500);
+            enemyPlanes.push(newStormer);
         },
 
         spawnStormCloud = function (left, bottom, casterLeft, casterBottom, casterWidth) {
@@ -408,21 +400,25 @@
         iterateEnemyPlanes = function () {
             var i;
             for (i = 0; i < enemyPlanes.length; i++) {
-                if (enemyPlanes[i] instanceof EnemyFighter) {
-                    moveEnemyPlane(enemyPlanes[i]);
-                    enemyPlanes[i].shoot();
-                } else if (enemyPlanes[i] instanceof EnemySupplier) {
-                    moveEnemyPlane(enemyPlanes[i]);
-                    supplySupplier(enemyPlanes[i]);
-                } else if (enemyPlanes[i] instanceof EnemyKamikaze) {
-                    moveKamikaze(enemyPlanes[i]);
-                    if (detectCollision(playerPlane, enemyPlanes[i])) {
-                        handleCollisionKamikaze(enemyPlanes[i]);
-                        enemyPlanes.splice(i, 1);
-                        i++;
+                if (!enemyPlanes[i].isAnimated) {
+                    if (enemyPlanes[i] instanceof EnemyFighter) {
+                        moveEnemyPlane(enemyPlanes[i]);
+                        enemyPlanes[i].shoot();
+                    } else if (enemyPlanes[i] instanceof EnemySupplier) {
+                        moveEnemyPlane(enemyPlanes[i]);
+                        supplySupplier(enemyPlanes[i]);
+                    } else if (enemyPlanes[i] instanceof EnemyKamikaze) {
+                        moveKamikaze(enemyPlanes[i]);
+                        if (detectCollision(playerPlane, enemyPlanes[i])) {
+                            handleCollisionKamikaze(enemyPlanes[i]);
+                            enemyPlanes.splice(i, 1);
+                            i++;
+                        }
+                    } else if (enemyPlanes[i] instanceof EnemyStormer) {
+                        enemyPlanes[i].trySummonStorm();
                     }
-                } else if (enemyPlanes[i] instanceof EnemyStormer) {
-                    enemyPlanes[i].trySummonStorm();
+                } else {
+                    enemyPlanes[i].move();
                 }
             }
         },
@@ -1688,7 +1684,6 @@
             for (i = 0; i < bullets.length; i++) {
                 bullets[i].move();
             }
-
         },
 
         increasePlayerLevel = function () {
