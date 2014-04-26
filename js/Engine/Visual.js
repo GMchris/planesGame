@@ -19,7 +19,7 @@ var Visual = {
        .addClass("introButton")
        .appendTo("#introScreen")
        .on("click", function () {
-           Test.generateScores();
+           Leaderboard.getHighScoreAndDrawLeaderboard();
        });
 
         $("<div>Unlock Everything</div>")
@@ -309,7 +309,7 @@ var Visual = {
         }
 
         //If called with the arguement false instead of a numeric player position, it will just make a close button;
-        if (playerPosition == false) {
+        if (playerPosition == undefined) {
             $("<div id='closePrompt'>X<div/>")
                  .on("click", function () {
                      $("#GamePromptScreen").remove();
