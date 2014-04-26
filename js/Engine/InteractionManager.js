@@ -1702,6 +1702,9 @@
             for (i = 0; i < friendlyPlanes.length; i++) {
                 friendlyPlanes[i].rotate();
             }
+            for (i = 0; i < pickups.length; i++) {
+                pickups[i].draw();
+            }
         },
 
         increasePlayerLevel = function () {
