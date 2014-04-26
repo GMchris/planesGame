@@ -17,7 +17,7 @@
 
         Visual.adjustCSSofGameScreen(true);
         Visual.drawUI(self);
-        ctx = $('<canvas width="960" height="700"></canvas>')
+        ctx = $('<canvas width="960" height="700" id="gameCanvas"></canvas>')
                 .appendTo('#gameScreen')
         [0].getContext('2d');
         ctx.translate(0, 700);

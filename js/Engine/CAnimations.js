@@ -39,7 +39,9 @@
             obj.animationProps.rotationCurrent += obj.animationProps.rotationDelta;
             obj.animationProps.scaleCurrent += obj.animationProps.scaleDelta;
             obj.leftCoord += obj.animationProps.leftDelta;
+            obj.leftCoord = parseInt(obj.leftCoord);
             obj.bottomCoord += obj.animationProps.bottomDelta;
+            obj.bottomCoord = parseInt(obj.bottomCoord);
             this.normalizeAnimationProps(obj);
         }
         //animate

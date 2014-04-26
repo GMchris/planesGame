@@ -1452,14 +1452,22 @@
             moveKamikaze = function () { };
             for (i = 0; i < enemyPlanes.length; i++) {
                 enemyPlanes[i].readyToMove = false;
-                $(enemyPlanes[i].div)
-                    .animate({
-                        left: left,
-                        bottom: bottom
-                    }, animationLengthMs);
+                //$(enemyPlanes[i].div)
+                //    .animate({
+                //        left: left,
+                //        bottom: bottom
+                //    }, animationLengthMs);
                 
-                enemyPlanes[i].leftCoord = left;
-                enemyPlanes[i].bottomCoord = bottom;
+                //enemyPlanes[i].leftCoord = left;
+                //enemyPlanes[i].bottomCoord = bottom;
+                CAnimations.animate(enemyPlanes[i], {
+                    opacity: 1,
+                    rotation: 0,
+                    scale: 1,
+                    left: left,
+                    bottom: bottom,
+                    frames: 25,
+                });
             }
             window.setTimeout(function () {
                 moveEnemyPlane = currentMoveEnemyPlaneFunction;
