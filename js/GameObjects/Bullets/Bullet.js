@@ -12,6 +12,7 @@
 
     owner: null,
     toBeSpliced: null,
+    bulletColor: null,
 
     handleCollision: function () {
         this.toBeSpliced = true;

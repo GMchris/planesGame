@@ -1,7 +1,7 @@
 ﻿HomingBullet = PlayerBullet.extend({
     init: function (left, bottom, orientationDeg, owner, targetPlane) {
         this._super(left, bottom, orientationDeg, owner, 15, 4);
-        this.div.className = "homingBulletDiv";
+        this.bulletColor = '#e5ff51';
         this.targetPlane = targetPlane;
     },
 
@@ -49,7 +49,7 @@
             }
 
             ctx.beginPath();
-            ctx.fillStyle = "yellow";
+            ctx.fillStyle = this.bulletColor;
             ctx.rect(0, 0, this.height, this.width);
             ctx.fill();
             ctx.restore();

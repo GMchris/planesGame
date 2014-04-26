@@ -1414,11 +1414,11 @@
 					trackRemainingHealth(playerPlane.currentHealth);
 				} else {
                     playerPlane.absorptionShieldStrength = 0;
-                    if(playerPlane.isStealthed)
+                    if(playerPlane.isStealthed){
                         playerPlane.move = playerPlane.stealthMove;
-                    else
+                    } else {
                         playerPlane.move = playerPLane.originalMoveFunction;
-                    //playerPlane.move = playerPlane.currentMoveFunction;
+                    }
 				}
 
             }

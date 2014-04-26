@@ -118,18 +118,6 @@ section{
     height: 100px;
 }
 
-.playerBulletDiv {
-    border-radius: 2px 2px 0px 0px;
-    position: absolute;
-    height: 15px;
-    width: 4px;
-    background: -webkit-gradient(linear, 0 0, 0 100%, from(#fb2c00), color-stop(0.5, #ffcb00), to(rgb(255,113,0)));
-    background: -webkit-linear-gradient(#fb2c00, #ffcb00, rgb(255,113,0));
-    background: -moz-linear-gradient(#fb2c00, #ffcb00, rgb(255,113,0));
-    background: -o-linear-gradient(#fb2c00, #ffcb00, rgb(255,113,0));
-    background: linear-gradient(#fb2c00, #ffcb00, rgb(255,113,0));
-}
-
 .deathRayDiv {
     border-bottom-left-radius: 25px 50px;
     border-bottom-right-radius: 25px 50px;
@@ -182,45 +170,6 @@ section{
     background: linear-gradient(#df3100, #ff7100);
 }
 
-.bossBulletDiv {
-    border-radius:  0px 0px 4px 4px;
-    position: absolute;
-    height: 30px;
-    width: 6px;
-  	background: -webkit-gradient(linear, 0 0, 0 100%, from(#df3100), to(#ff7100));
-    background: -webkit-linear-gradient(#df3100, #ff7100);
-    background: -moz-linear-gradient(#df3100, #ff7100);
-    background: -o-linear-gradient(#df3100, #ff7100);
-    background: linear-gradient(#df3100, #ff7100);
-}
-
-.piercingBulletDiv {
-    border-radius: 2px 2px 0px 0px;
-    position: absolute;
-    height: 15px;
-    width: 4px;
-    background: -webkit-gradient(linear, 0 0, 0 100%, from(#78f1ff), to(#277aea));
-    background: -webkit-linear-gradient(#78f1ff, #277aea);
-    background: -moz-linear-gradient(#78f1ff, #277aea);
-    background: -o-linear-gradient(#78f1ff, #277aea);
-    background: linear-gradient(#78f1ff, #277aea);
-}
-
-.homingBulletDiv{
-    position: absolute;
-    height:15px;
-    width:4px;
-    border-radius: 2px 2px 0px 0px;
-    background: linear-gradient(#e5ff51,#4e5142);
-}
-
-.healingBulletDiv{
-    position: absolute;
-    height:15px;
-    width:4px;
-    border-radius: 2px 2px 0px 0px;
-    background: linear-gradient(#41ec1a,#1a6808);
-}
 
 .blackHole{
     position: absolute;
