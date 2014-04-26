@@ -6,36 +6,36 @@
 
     startMission: function () {
         this._super();
-        interactionManager.spawnBoss();
+        InteractionManager.spawnBoss();
     },
 
     mainLoop: function () {
         var self = this;
-        interactionManager.iterateBullets('all');
-        interactionManager.iterateFriendlyPlanes();
-        interactionManager.iterateEnemyPlanes();
-        interactionManager.iterateHazards();
-        interactionManager.shootPlayerPlane();
-        interactionManager.handleBossIteration();
+        InteractionManager.iterateBullets('all');
+        InteractionManager.iterateFriendlyPlanes();
+        InteractionManager.iterateEnemyPlanes();
+        InteractionManager.iterateHazards();
+        InteractionManager.shootPlayerPlane();
+        InteractionManager.handleBossIteration();
 
         if (self.checkWinConditions()) {
-            interactionManager.handleMissionWin();
+            InteractionManager.handleMissionWin();
             self.endMission();
         }
 
         if (self.checkLossConditions()) {
-            interactionManager.handleMissionLoss();
+            InteractionManager.handleMissionLoss();
             self.endMission();
         }
     },
 
     checkWinConditions: function () {
-        var win = (interactionManager.getBossHealth() <= 0);
+        var win = (InteractionManager.getBossHealth() <= 0);
         return win;
     },
 
     checkLossConditions: function () {
-        var loss = (interactionManager.getPlayerHealth() <= 0);
+        var loss = (InteractionManager.getPlayerHealth() <= 0);
         return loss;
     }
 });

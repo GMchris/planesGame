@@ -9,7 +9,7 @@ BossDeathRays = BossSkill.extend({
         this._super();
         
         for (i = 0; i < 3; i++) {
-            interactionManager.handleBossDeathRay(this.plane.thirdPhaseDeathRays[i]);
+            InteractionManager.handleBossDeathRay(this.plane.thirdPhaseDeathRays[i]);
         }
     },
 
@@ -33,7 +33,7 @@ BossDeathRays = BossSkill.extend({
                             'display': 'none',
                             'width': '0%'
                         });
-                        if (interactionManager.getCurrentMission()) {
+                        if (InteractionManager.getCurrentMission()) {
                             self.activate.call(self);
                         }
                     },

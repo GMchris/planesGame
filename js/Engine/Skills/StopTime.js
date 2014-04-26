@@ -5,19 +5,19 @@
 
     newMainLoop: function () {
         $("#fps").text(fps.getFPS());
-        interactionManager.iterateBullets('player');
-        interactionManager.iterateFriendlyPlanes();
-        interactionManager.iteratePickups();
-        interactionManager.shootPlayerPlane();
+        InteractionManager.iterateBullets('player');
+        InteractionManager.iterateFriendlyPlanes();
+        InteractionManager.iteratePickups();
+        InteractionManager.shootPlayerPlane();
     },
 
     activate: function () {
         this._super();
-        interactionManager.stopTimeOn(this.newMainLoop);
+        InteractionManager.stopTimeOn(this.newMainLoop);
     },
 
     deactivate: function () {
         this._super();
-        interactionManager.stopTimeOff();
+        InteractionManager.stopTimeOff();
     }
 });

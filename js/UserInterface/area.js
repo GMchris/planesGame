@@ -48,7 +48,7 @@ var AreaManager = {
 		.appendTo("#gameScreen");
 
 		//Draw the timer
-		 $('<div id="timer">' + interactionManager.getTime() + '</div>').addClass("inMap").appendTo('#gameScreen');
+		 $('<div id="timer">' + InteractionManager.getTime() + '</div>').addClass("inMap").appendTo('#gameScreen');
 
 		//Creates the three areas
 		for(var i=0;i<AreaManager.areas.length;i++){

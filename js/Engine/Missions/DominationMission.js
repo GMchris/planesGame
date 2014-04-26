@@ -8,33 +8,33 @@
     currentDominationStartTime: null,
 
     checkDominating: function () {
-        return (interactionManager.getEnemiesCount() <= 7);
+        return (InteractionManager.getEnemiesCount() <= 7);
     },
 
     resetDominationStartTime: function () {
-        this.currentDominationStartTime = interactionManager.getSeconds();
+        this.currentDominationStartTime = InteractionManager.getSeconds();
     },
 
     mainLoop: function () {
         if (!this.checkDominating()) {
             this.resetDominationStartTime();
         }
-        interactionManager.increaseSpawnTime();
+        InteractionManager.increaseSpawnTime();
         this._super();
     },
 
     checkWinConditions: function () {
         //A domination mission is 'won' if the player manages to dominate his enemies for (30) seconds;
-        var win = (interactionManager.getSeconds() - this.currentDominationStartTime) >= 30;
+        var win = (InteractionManager.getSeconds() - this.currentDominationStartTime) >= 30;
         return win;
     },
 
     checkLossConditions: function () {
         //A domination mission is 'lost/failed' if the player dies
-        var loss = (interactionManager.getPlayerHealth()) == 0;
+        var loss = (InteractionManager.getPlayerHealth()) == 0;
         return loss;
     },
     updatePrimaryStatus: function(){
-        $(".mainMissionName").html("Keep the enemy count below 7 another <b>"+(30-(interactionManager.getSeconds() - this.currentDominationStartTime))+"</b> seconds.");
+        $(".mainMissionName").html("Keep the enemy count below 7 another <b>"+(30-(InteractionManager.getSeconds() - this.currentDominationStartTime))+"</b> seconds.");
     }
 });

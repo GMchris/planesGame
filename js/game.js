@@ -5,7 +5,7 @@ var Game = {
     highScoreArr: [],
 	//Initialization
     init: function () {
-        interactionManager.startTimer();
+        InteractionManager.startTimer();
         Game.addSkill();
 		this.clearScreen();
 		AreaManager.areas[0].active = true;
@@ -72,7 +72,7 @@ var Test = {
 		},
 		testScores: [],
 		generateScores: function () {
-		    getHighScore();
+		    Leaderboard.getHighScoreAndDrawLeaderboard();
 		    
 		},
 	}

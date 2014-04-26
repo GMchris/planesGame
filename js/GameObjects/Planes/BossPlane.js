@@ -50,9 +50,9 @@
     },
 
     chasePlayer: function () {
-        var playerLeft = interactionManager.getPlayerLeftCoord(),
-            playerBottom = interactionManager.getPlayerBottomCoord();
-        this.orientationDeg = getChaseAngle(this.leftCoord + (this.width / 2) + Math.ceil(this.orientationDeg * 5 / 3), this.bottomCoord + Math.abs(this.orientationDeg * 4 / 3), playerLeft + 50, playerBottom + 40);
+        var playerLeft = InteractionManager.getPlayerLeftCoord(),
+            playerBottom = InteractionManager.getPlayerBottomCoord();
+        this.orientationDeg = Utility.getChaseAngle(this.leftCoord + (this.width / 2) + Math.ceil(this.orientationDeg * 5 / 3), this.bottomCoord + Math.abs(this.orientationDeg * 4 / 3), playerLeft + 50, playerBottom + 40);
 
         if (this.leftCoord + 150 > playerLeft + 50) {
             this.orientationDeg *= -1;
@@ -112,7 +112,7 @@
 
     shoot: function () {
         if (!this.isCasting && !this.isInQuarterPhase && this.tryShoot()) {
-            interactionManager.spawnBullet("boss", this.leftCoord + (this.width / 2) + Math.ceil(this.orientationDeg * 5 / 3), this.bottomCoord + Math.abs(this.orientationDeg * 4 / 3) , -this.orientationDeg, this);
+            InteractionManager.spawnBullet("boss", this.leftCoord + (this.width / 2) + Math.ceil(this.orientationDeg * 5 / 3), this.bottomCoord + Math.abs(this.orientationDeg * 4 / 3) , -this.orientationDeg, this);
         }
     },
 
@@ -127,10 +127,10 @@
             }
             if (!this.isCasting && !this.isInQuarterPhase) {
                 if (this.secondPhaseStats.bulletsPerShot == 1) {
-                    interactionManager.spawnBullet("boss", this.leftCoord + 150 + Math.ceil(this.orientationDeg * 5 / 3), this.bottomCoord + Math.abs(this.orientationDeg * 4 / 3), -this.orientationDeg, this);
+                    InteractionManager.spawnBullet("boss", this.leftCoord + 150 + Math.ceil(this.orientationDeg * 5 / 3), this.bottomCoord + Math.abs(this.orientationDeg * 4 / 3), -this.orientationDeg, this);
                 } else {
                     for (i = 0; i < this.secondPhaseStats.bulletsPerShot; i++) {
-                        interactionManager.spawnBullet(this.bulletType, this.leftCoord + 145, this.bottomCoord, -(this.secondPhaseStats.arcDegree / 2) + (i * (this.secondPhaseStats.arcDegree / (this.secondPhaseStats.bulletsPerShot - 1))), this);
+                        InteractionManager.spawnBullet(this.bulletType, this.leftCoord + 145, this.bottomCoord, -(this.secondPhaseStats.arcDegree / 2) + (i * (this.secondPhaseStats.arcDegree / (this.secondPhaseStats.bulletsPerShot - 1))), this);
                     }
                 }
                 this.secondPhaseStats.shootCount++;
@@ -144,8 +144,8 @@
 
     shootThirdPhase: function () {
         if (!this.isCasting && !this.isInQuarterPhase && this.tryShoot()) {
-            interactionManager.spawnBullet("boss", this.leftCoord + 150, this.bottomCoord + Math.abs(this.orientationDeg * 4 / 3), -this.orientationDeg, this);
-            this.thirdPhaseDeathRays.push(interactionManager.createAndSkewBossDeathRay(-this.orientationDeg));
+            InteractionManager.spawnBullet("boss", this.leftCoord + 150, this.bottomCoord + Math.abs(this.orientationDeg * 4 / 3), -this.orientationDeg, this);
+            this.thirdPhaseDeathRays.push(InteractionManager.createAndSkewBossDeathRay(-this.orientationDeg));
             if (this.thirdPhaseDeathRays.length >= 3) { //after shooting 5 bullets, the plane shoots 5 death rays, each in the same place as one of the 5 shot bullets
                 this.skills[0].use();
             }

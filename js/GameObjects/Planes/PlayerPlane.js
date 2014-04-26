@@ -26,10 +26,10 @@
     skills: null,
     shoot: function () {
         if (this.isShooting && this.tryShoot()) {
-            if (interactionManager.getEnemiesCount() > 0 || interactionManager.getCurrentMission() instanceof BossMission)  {
-                interactionManager.spawnBullet(this.bulletType, this.leftCoord + this.width/2, this.bottomCoord + this.height, 0, this);
+            if (InteractionManager.getEnemiesCount() > 0 || InteractionManager.getCurrentMission() instanceof BossMission)  {
+                InteractionManager.spawnBullet(this.bulletType, this.leftCoord + this.width/2, this.bottomCoord + this.height, 0, this);
             } else {
-                interactionManager.spawnBullet("player", this.leftCoord + this.width/2, this.bottomCoord + this.height, 0, this);
+                InteractionManager.spawnBullet("player", this.leftCoord + this.width/2, this.bottomCoord + this.height, 0, this);
             }
         }
     },

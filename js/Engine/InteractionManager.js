@@ -1,4 +1,4 @@
-﻿ var interactionManager = (function () {
+﻿ var InteractionManager = (function () {
     var playerPlane = new PlayerPlane(),
         starsToLevelUp = [1, 3, 6, 9, 12, 15, 18, 19, 20, 21, 22, 23, 24, 25],
         starsToLevelUpCopy = [1, 3, 6, 9, 12, 15, 18, 19, 20, 21, 22, 23, 24, 25],
@@ -43,16 +43,11 @@
                 this.current++;
             },
             updateTimerDiv: function () {
-                $('#timer').text(this.getTime());
+                $('#timer').text(getTime(this.current));
             },
-            getTime: function () {
-                var seconds = this.current % 60,
-                    minutes = Math.floor(this.current / 60),
-                    formattedSeconds = (seconds >= 10) ? seconds : ('0' + seconds),
-                    formattedMinutes = (minutes >= 10) ? minutes : ('0' + minutes),
-                    time = formattedMinutes + ':' + formattedSeconds;
 
-                return time;
+            getTime: function () {
+                return Utility.convertToTime(this.current);
             }
         },
         startTimer = function () {
@@ -117,7 +112,7 @@
             var handleBoss = handleBossIteration,
                 self = this;
             this.handleBossIteration = function () { };//delay the iteration of the boss until its spawn animation is complete
-            boss = new BossPlane(getRandomLeftCoord(150), getRandomBottomCoordTopHalf(120));
+            boss = new BossPlane(Utility.getRandomLeftCoord(150), Utility.getRandomBottomCoordTopHalf(120));
             boss.addToScreen();
             boss.animateSpawn();
             window.setTimeout(function () {
@@ -195,7 +190,7 @@
         },
 
         spawnFighter = function () {
-            var newFighter = new EnemyFighter(getRandomLeftCoord(45), getRandomBottomCoordTopHalf(35),
+            var newFighter = new EnemyFighter(Utility.getRandomLeftCoord(45), Utility.getRandomBottomCoordTopHalf(35),
                 fighterMaxHealth, fighterDamage, fighterMovementSpeed);
             newFighter.addToScreen();
             newFighter.animateSpawn();
@@ -205,7 +200,7 @@
         },
 
         spawnSupplier = function () {
-            var newSupplier = new EnemySupplier(getRandomLeftCoord(45), getRandomBottomCoordTopHalf(35),
+            var newSupplier = new EnemySupplier(Utility.getRandomLeftCoord(45), Utility.getRandomBottomCoordTopHalf(35),
                 supplierMaxHealth, supplierDamage, supplierMovementSpeed);
             newSupplier.addToScreen();
             newSupplier.animateSpawn();
@@ -215,7 +210,7 @@
         },
 
         spawnKamikaze = function () {
-            var newKamikaze = new EnemyKamikaze(getRandomLeftCoord(45), getRandomBottomCoordTopHalf(35),
+            var newKamikaze = new EnemyKamikaze(Utility.getRandomLeftCoord(45), Utility.getRandomBottomCoordTopHalf(35),
                 kamikazeMaxHealth, kamikazeDamage, kamikazeMovementSpeed);
             newKamikaze.addToScreen();
             newKamikaze.animateSpawn();
@@ -225,7 +220,7 @@
         },
 
         spawnStormer = function () {
-            var newStormer = new EnemyStormer(getRandomLeftCoord(45), getRandomBottomCoordTopHalf(35),
+            var newStormer = new EnemyStormer(Utility.getRandomLeftCoord(45), Utility.getRandomBottomCoordTopHalf(35),
                 stormerMaxHealth, stormerDamage);
             newStormer.addToScreen();
             newStormer.animateSpawn();
@@ -1241,7 +1236,7 @@
         createAndSkewBossDeathRay = function (orientationDeg) {
             //skew is an expensive operation, we do it preemptively to reduce performance issues
             var rayHeight = 500,
-                rayLeft = Math.floor(boss.leftCoord - (Math.tan(degreeToRadian(orientationDeg)) * (rayHeight / 2))),
+                rayLeft = Math.floor(boss.leftCoord - (Math.tan(Utility.degreeToRadian(orientationDeg)) * (rayHeight / 2))),
                 rayTop = 700 - Math.floor(boss.bottomCoord),
                 deathRay = {
                     div: null,
@@ -1307,8 +1302,8 @@
                 rightVectorSecondPointX,
                 rightVectorSecondPointY = rightVectorFirstPointY - deathRayHeight;
             leftVectorSecondPointX = (deathRay.skewDegree > 0) ?
-                leftVectorFirstPointX + Math.tan(Math.abs(degreeToRadian(deathRay.skewDegree))) * deathRayHeight
-                : leftVectorFirstPointX - Math.tan(Math.abs(degreeToRadian(deathRay.skewDegree))) * deathRayHeight;
+                leftVectorFirstPointX + Math.tan(Math.abs(Utility.degreeToRadian(deathRay.skewDegree))) * deathRayHeight
+                : leftVectorFirstPointX - Math.tan(Math.abs(Utility.degreeToRadian(deathRay.skewDegree))) * deathRayHeight;
             rightVectorSecondPointX = leftVectorSecondPointX + deathRayWidth - 45;
 
             deathRay.leftVector.a = (leftVectorFirstPointY - leftVectorSecondPointY) / (leftVectorFirstPointX - leftVectorSecondPointX); //a = (y1 - y2) / (x1 - x2); 

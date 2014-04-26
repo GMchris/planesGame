@@ -15,7 +15,7 @@ EnemyFighter = EnemyPlane.extend({
 
     shoot: function () {
         if (this.tryShoot()) {
-            interactionManager.spawnBullet(this.bulletType, this.leftCoord + this.width / 2, this.bottomCoord, 0, this);
+            InteractionManager.spawnBullet(this.bulletType, this.leftCoord + this.width / 2, this.bottomCoord, 0, this);
         }
     },
 

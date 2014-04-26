@@ -5,7 +5,7 @@
 
     activate: function () {
         this._super();
-        interactionManager.spawnSentry(this.plane.leftCoord, this.plane.bottomCoord);
+        InteractionManager.spawnSentry(this.plane.leftCoord, this.plane.bottomCoord);
     },
 
     deactivate: function () {

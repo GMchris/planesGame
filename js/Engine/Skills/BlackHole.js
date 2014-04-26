@@ -5,7 +5,7 @@
 
     activate: function () {
         this._super();
-        interactionManager.handleBlackHole();
+        InteractionManager.handleBlackHole();
     },
 
     deactivate: function () {

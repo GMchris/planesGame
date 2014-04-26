@@ -1,4 +1,4 @@
-﻿Scaling = (function () {
+﻿var Scaling = (function () {
     var scaling = [
         //area 1
         {

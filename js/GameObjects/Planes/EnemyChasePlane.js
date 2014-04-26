@@ -8,9 +8,9 @@ EnemyChasePlane = EnemyPlane.extend({
     orientationDeg: null,
 
     chasePlayer: function () {
-        var playerLeft = interactionManager.getPlayerLeftCoord(),
-            playerBottom = interactionManager.getPlayerBottomCoord();
-        this.orientationDeg = getChaseAngle(this.leftCoord, this.bottomCoord, playerLeft, playerBottom);
+        var playerLeft = InteractionManager.getPlayerLeftCoord(),
+            playerBottom = InteractionManager.getPlayerBottomCoord();
+        this.orientationDeg = Utility.getChaseAngle(this.leftCoord, this.bottomCoord, playerLeft, playerBottom);
 
         if (this.leftCoord > playerLeft) {
             this.orientationDeg *= -1;

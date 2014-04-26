@@ -2,7 +2,7 @@
     init: function (enemySpawnFrequencyMs, areaIndex) {
         this.enemySpawnFrequencyMs = enemySpawnFrequencyMs;
         this.areaIndex = areaIndex;
-        this.startTime = interactionManager.getSeconds();
+        this.startTime = InteractionManager.getSeconds();
     },
 
     areaIndex: null,
@@ -16,10 +16,10 @@
         Game.clearScreen();
         Visual.adjustCSSofGameScreen(true);
         Visual.drawUI(self);
-        interactionManager.spawnPlayer();
-        $(document).on('mousemove', interactionManager.movePlayerPlane);
-        $(document).on('mousedown', interactionManager.handleMouseClick);
-        $(document).on('mouseup', interactionManager.handleMouseClick);
+        InteractionManager.spawnPlayer();
+        $(document).on('mousemove', InteractionManager.movePlayerPlane);
+        $(document).on('mousedown', InteractionManager.handleMouseClick);
+        $(document).on('mouseup', InteractionManager.handleMouseClick);
         $(document).on('dragstart', function (e) {
             e.preventDefault();
         });
@@ -28,11 +28,11 @@
         });
         $(document).on('keypress', function (e) {
             if (e.keyCode == 97) { //a
-                interactionManager.rotateSentries('left');
+                InteractionManager.rotateSentries('left');
             } else if (e.keyCode == 100) { //d
-                interactionManager.rotateSentries('right');
+                InteractionManager.rotateSentries('right');
             } else if (e.keyCode >= 49 && e.keyCode <= 52) { //1-4 key was pressed
-                interactionManager.handleSkillUsage(e.keyCode - 49);
+                InteractionManager.handleSkillUsage(e.keyCode - 49);
             }
         });
         this.mainLoopInterval = window.setInterval(function () {
@@ -42,22 +42,22 @@
     mainLoop: function () {
         var self = this;
         $('#ips').text(ips.getIPS());
-        interactionManager.iterateBullets('all');
-        interactionManager.iterateFriendlyPlanes();
-        interactionManager.iterateEnemyPlanes();
-        interactionManager.iterateHazards();
-        interactionManager.iteratePickups();
-        interactionManager.shootPlayerPlane();
-        interactionManager.spawnEnemy();
+        InteractionManager.iterateBullets('all');
+        InteractionManager.iterateFriendlyPlanes();
+        InteractionManager.iterateEnemyPlanes();
+        InteractionManager.iterateHazards();
+        InteractionManager.iteratePickups();
+        InteractionManager.shootPlayerPlane();
+        InteractionManager.spawnEnemy();
         this.updatePrimaryStatus();
 
         if (self.checkWinConditions()) {
-            interactionManager.handleMissionWin();
+            InteractionManager.handleMissionWin();
             self.endMission();
         }
 
         if (self.checkLossConditions()) {
-            interactionManager.handleMissionLoss();
+            InteractionManager.handleMissionLoss();
             self.endMission();
         }
     },
