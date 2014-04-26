@@ -14,8 +14,8 @@
         this.absorptionShieldStrength = 0;
         this.level = 1;
         this.stars = 0;
-
         this.bulletType = "player";
+        this.originalMoveFunction = this.move;
     },
 
     img: $('<img src="images/planes/player.png"/>')[0],
@@ -51,10 +51,15 @@
         }
     },
 
-    shieldMove: function () {
+    shieldMove: function () { 
         if (!this.isAnimated) {
             ctx.save();
             ctx.globalAlpha = 0.5;
+            ctx.beginPath();
+            ctx.arc((this.leftCoord + this.width/2), (this.bottomCoord + this.height/2), this.width/2, 0, 2 * Math.PI, false);
+            ctx.fillStyle = '#ffff66';
+            ctx.fill();
+            ctx.globalAlpha = 1;
             ctx.drawImage(this.img, this.leftCoord, this.bottomCoord);
             this.drawHpBar();
             ctx.restore();

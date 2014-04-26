@@ -5,16 +5,17 @@
 
     activate: function () {
         this._super();
-        //$(this.plane.div).css('opacity', 0.5);
-        this.plane.originalMoveFunction = this.plane.move;
-        this.plane.move = this.plane.stealthMove;
         this.plane.isStealthed = true;
+        this.plane.move = this.plane.stealthMove;
     },
 
     deactivate: function () {
         this._super();
-        //$(this.plane.div).css('opacity', 1);
-        this.plane.move = this.plane.originalMoveFunction;
+        if(this.plane.absorptionShieldStrength !== 0){
+            this.plane.move = this.plane.shieldMove;
+        } else {
+            this.plane.move = this.plane.originalMoveFunction;
+        }
         this.plane.isStealthed = false;
     },
 });

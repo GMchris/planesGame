@@ -686,8 +686,11 @@
 			} else {
                 playerPlane.absorptionShieldStrength--;
                 if (playerPlane.absorptionShieldStrength == 0) {
-					//$('#playerShield').remove();
-                    playerPlane.move = playerPlane.originalMoveFunction;
+                    if(playerPlane.isStealthed){
+                        playerPlane.move = playerPlane.stealthMove;
+                    } else {
+                        playerPlane.move = playerPlane.originalMoveFunction;
+                    }
 				}
 			}
         },
@@ -1411,8 +1414,11 @@
 					trackRemainingHealth(playerPlane.currentHealth);
 				} else {
                     playerPlane.absorptionShieldStrength = 0;
-					//$('#playerShield').remove();
-                    playerPlane.move = playerPlane.originalMoveFunction;
+                    if(playerPlane.isStealthed)
+                        playerPlane.move = playerPlane.stealthMove;
+                    else
+                        playerPlane.move = playerPLane.originalMoveFunction;
+                    //playerPlane.move = playerPlane.currentMoveFunction;
 				}
 
             }
