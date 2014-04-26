@@ -6,8 +6,6 @@
         this.move();
         this.orientationDeg = orientationDeg;
         this.toBeSpliced = false;               //true if the bullet is to be removed from the bullets array 
-        
-        this.div.style['-webkit-transform'] = 'rotate(' + this.orientationDeg + 'deg)';
     },
 
     owner: null,
@@ -16,10 +14,5 @@
 
     handleCollision: function () {
         this.toBeSpliced = true;
-        this.die();
-    },
-
-    die: function () {
-        $(this.div).remove();
     }
 });

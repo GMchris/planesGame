@@ -110,7 +110,7 @@
 
         spawnPlayer = function () {
             playerPlane.currentHealth = playerPlane.maxHealth;
-            playerPlane.addToScreen();
+            //playerPlane.addToScreen();
         },
 
         spawnBoss = function () {
@@ -118,7 +118,7 @@
                 self = this;
             this.handleBossIteration = function () { };//delay the iteration of the boss until its spawn animation is complete
             boss = new BossPlane(getRandomLeftCoord(150), getRandomBottomCoordTopHalf(120));
-            boss.addToScreen();
+            //boss.addToScreen();
             boss.animateSpawn();
             window.setTimeout(function () {
                 self.handleBossIteration = handleBoss;
@@ -130,14 +130,14 @@
         spawnSentry = function (left, bottom) {
             var sentry = new SentryPlane(left, bottom, sentryMaxHealth, sentryDamage);
             friendlyPlanes.push(sentry);
-            sentry.addToScreen();
+            //sentry.addToScreen();
 
         },
 
         spawnRocket = function (left, bottom) {
             var rocket = new GuidedRocket(left, bottom, 0, playerPlane);
             bullets.push(rocket);
-            rocket.addToScreen();
+            //rocket.addToScreen();
         },
 
         spawnBullet = function (type, left, bottom, orientationDeg, owner) {
@@ -167,7 +167,7 @@
                     break;
             }
             bullets.push(newBullet);
-            newBullet.addToScreen();
+            //newBullet.addToScreen();
         },
 
         spawnEnemy = function () {
@@ -197,7 +197,7 @@
         spawnFighter = function () {
             var newFighter = new EnemyFighter(getRandomLeftCoord(45), getRandomBottomCoordTopHalf(35),
                 fighterMaxHealth, fighterDamage, fighterMovementSpeed);
-            newFighter.addToScreen();
+            //newFighter.addToScreen();
             newFighter.animateSpawn();
             enemyPlanes.push(newFighter);
         },
@@ -205,7 +205,7 @@
         spawnSupplier = function () {
             var newSupplier = new EnemySupplier(getRandomLeftCoord(45), getRandomBottomCoordTopHalf(35),
                 supplierMaxHealth, supplierDamage, supplierMovementSpeed);
-            newSupplier.addToScreen();
+            //newSupplier.addToScreen();
             newSupplier.animateSpawn();
             enemyPlanes.push(newSupplier);
         },
@@ -213,7 +213,7 @@
         spawnKamikaze = function () {
             var newKamikaze = new EnemyKamikaze(getRandomLeftCoord(45), getRandomBottomCoordTopHalf(35),
                 kamikazeMaxHealth, kamikazeDamage, kamikazeMovementSpeed);
-            newKamikaze.addToScreen();
+            //newKamikaze.addToScreen();
             newKamikaze.animateSpawn();
             enemyPlanes.push(newKamikaze);
         },
@@ -221,7 +221,7 @@
         spawnStormer = function () {
             var newStormer = new EnemyStormer(getRandomLeftCoord(45), getRandomBottomCoordTopHalf(35),
                 stormerMaxHealth, stormerDamage);
-            newStormer.addToScreen();
+            //newStormer.addToScreen();
             newStormer.animateSpawn();
             enemyPlanes.push(newStormer);
         },
@@ -282,11 +282,12 @@
             var i, toBeDestroyed = false, hitEnemyPlaneIndex, hitFriendlyPlaneIndex;
             for (i = 0; i < bullets.length; i++) {
                 toBeDestroyed = false;
-                //if out of the screen, flag the bullet for removal
-                if (bullets[i].bottomCoord < 0 || bullets[i].bottomCoord > 700 || bullets[i].leftCoord < 10 || bullets[i].leftCoord > 947
-                    || (bullets[i] instanceof GuidedRocket && rocketPathArray.length == 0)) {
-                    bullets[i].toBeSpliced = true;
+                if (bullets[i] instanceof GuidedRocket && rocketPathArray.length == 0) {
                     bullets[i].die();
+                    bullets[i].toBeSpliced = true;
+                    rocketPathArray = [];
+                } else if (bullets[i].bottomCoord < 0 || bullets[i].bottomCoord > 700 || bullets[i].leftCoord < 10 || bullets[i].leftCoord > 947) {
+                    bullets[i].toBeSpliced = true;
                     if (bullets[i] instanceof PlayerBullet) {
                         trackAccuracy(false);
                     }
@@ -1486,7 +1487,6 @@
         },
 
         handleGuidedRocket = function () {
-            var rocketPath = new Array();
             $("#gameScreen").css({
                 "cursor": "url(images/ui/pointerCursor.png), auto"
             });
@@ -1502,6 +1502,7 @@
 
         finishRocketPathDrawing = function () {
             rocketPathArray.splice(99, rocketPathArray.length - 99); //remove all but the first 100 entries
+            console.log(rocketPathArray.length);
             $(document).off('mousemove', drawRocketPath);
             $(document).off('mousedown', initiateRocketPathDrawing);
             $(document).off('mouseup', finishRocketPathDrawing);

@@ -95,9 +95,5 @@
             ctx.drawImage(this.img, this.leftCoord, this.bottomCoord);
             this.drawHpBar();
         }
-    },
-
-    addToScreen: function () {
-        //$(this.div).appendTo("#gameScreen");
-    },
+    }
 });

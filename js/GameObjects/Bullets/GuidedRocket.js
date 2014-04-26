@@ -1,9 +1,13 @@
 ﻿GuidedRocket = PiercingBullet.extend({
     init: function (left, bottom, orientationDeg, owner) {
-        this._super(left, bottom, orientationDeg, owner, 61, 100);
-        this.div.className = "guidedRocketDiv";
-        $(this.div).css('background-image', 'url(images/skills/guidedRocket.png)');
+        this._super(left, bottom, orientationDeg, owner, 90, 180);
+        this.div = document.createElement('div');
+        $(this.div)
+            .addClass('guidedRocketDiv')
+            .appendTo('#gameScreen');
     },
+
+    div: null,
 
     chaseTarget: function (targetLeft, targetBottom) {
         var i,
@@ -38,12 +42,11 @@
 
     die: function () {
         var self = this;
-        $(this.hpBarEmpty).remove();
-        $(this.hpBar).remove();
         this.div.style['-webkit-animation'] = 'enemyDeathAnimation 1.5s';
         this.div.style['animation'] = 'enemyDeathAnimation 1.5s';
         window.setTimeout(function () {
             $(self.div).remove();
+            console.log('removed');
         }, 1500);
     },
 
