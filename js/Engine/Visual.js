@@ -328,7 +328,7 @@ var Visual = {
 
     drawGameObjects: function () {
         requestAnimationFrame(Visual.drawGameObjects);
-        $('#fps').text(fps.getFPS());
+        //$('#fps').text(fps.getFPS());
         if (interactionManager.getCurrentMission()) {
             ctx.clearRect(0, 0, 960, 700);
             Visual.iterateBackground();

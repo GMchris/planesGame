@@ -49,7 +49,7 @@
     mainLoop: function () {
         var self = this;
 
-        $('#ips').text(ips.getIPS());
+        //$('#ips').text(ips.getIPS());
         interactionManager.iterateBullets('all');
         interactionManager.iterateFriendlyPlanes();
         interactionManager.iterateEnemyPlanes();
@@ -57,7 +57,7 @@
         interactionManager.iteratePickups();
         interactionManager.shootPlayerPlane();
         interactionManager.spawnEnemy();
-        this.updatePrimaryStatus();
+        //this.updatePrimaryStatus();
 
         if (self.checkWinConditions()) {
             interactionManager.handleMissionWin();

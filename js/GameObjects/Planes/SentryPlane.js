@@ -4,10 +4,7 @@
             width = 100,
             height = 75;
         this._super(left, bottom, maxHealth, damage, shootFrequency, width, height);
-        this.div.className = "sentryPlaneDiv";
         this.orientationDeg = 0;
-        $(this.div).css('background-image', 'url(images/planes/sentry.png)');
-        this.hpBar.className = "hpBarFriendly";
         this.bulletType = "player";
         this.lastShootTimestamp = -1;
         this.rotate();
@@ -20,9 +17,25 @@
         }
     },
 
+    drawHpBar: function () {
+        ctx.beginPath();
+        ctx.fillStyle = 'red';
+        ctx.rect(-this.width / 2, (-this.height / 2) - 5, this.width * (this.currentHealth / this.maxHealth), 5);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.lineWidth = 2;
+        ctx.rect(-this.width / 2, (-this.height / 2) - 5, this.width, 5);
+        ctx.stroke();
+    },
+
     rotate: function () {
-        $(this.div).css('webkit-transform', 'rotate(' + this.orientationDeg + 'deg)');
-		$(this.div).css('moz-transform', 'rotate(' + this.orientationDeg + 'deg)');
-		$(this.div).css('transform', 'rotate(' + this.orientationDeg + 'deg)');
+        ctx.save();
+        ctx.translate(this.leftCoord + this.width / 2, this.bottomCoord + this.height / 2);
+        //ctx.translate(this.leftCoord, this.bottomCoord); //kamikaze rotates around it's lower-left point, not around its center - feels unnatural
+        ctx.rotate(degreeToRadian(-this.orientationDeg));
+        ctx.drawImage(this.img, -this.width / 2, -this.height / 2);
+        //ctx.drawImage(this.img, 0, 0);
+        this.drawHpBar();
+        ctx.restore();
     }
 });

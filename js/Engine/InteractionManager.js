@@ -1699,6 +1699,9 @@
             for (i = 0; i < bullets.length; i++) {
                 bullets[i].move();
             }
+            for (i = 0; i < friendlyPlanes.length; i++) {
+                friendlyPlanes[i].rotate();
+            }
         },
 
         increasePlayerLevel = function () {
