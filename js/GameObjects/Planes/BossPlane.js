@@ -8,12 +8,6 @@
             movementSpeed = 3;
         this._super(left, bottom, health, damage, movementSpeed, shootFrequency, width, height);
         this.castBar = document.createElement('div');
-        $(this.castBar)
-            .toggleClass('castBarBoss')
-            .css('top', this.height)
-            .appendTo(this.div);
-        this.div.className = 'bossPlaneDiv';
-        $(this.div).css('background-image', 'url(images/planes/boss.png)');
         this.lastShootTimestamp = -1;
         this.isCasting = false;
         this.bulletType = 'boss';
@@ -57,16 +51,6 @@
         if (this.leftCoord + 150 > playerLeft + 50) {
             this.orientationDeg *= -1;
         }
-
-        //if (this.bottomCoord > playerBottom) {
-        //    this.div.style['-webkit-transform'] = 'rotate(' + (-this.orientationDeg) + 'deg)';
-		//	this.div.style['-moz-transform'] = 'rotate(' + (-this.orientationDeg) + 'deg)';
-		//	this.div.style['transform'] = 'rotate(' + (-this.orientationDeg) + 'deg)';
-        //} else {
-        //    this.div.style['-webkit-transform'] = 'rotate(' + (180 + this.orientationDeg) + 'deg)';
-		//	this.div.style['-moz-transform'] = 'rotate(' + (180 + this.orientationDeg) + 'deg)';
-		//	this.div.style['transform'] = 'rotate(' + (180 + this.orientationDeg) + 'deg)';
-        //}
     },
 
     moveAtDirection: function () {
@@ -158,40 +142,49 @@
         this.isCasting = true;
         this.isInvulnerable = true;
         this.isInQuarterPhase = true;
-        $(this.hpBar).css('display', 'none');
-        $(this.hpBarEmpty).css('display', 'none');
-        $(this.div).animate({
-            'opacity': 0.2
-        }, {
-            step: function (now, fx) {
-                $(this).css('-webkit-transform', 'scale(' + now + ', ' + now + ')');
-				$(this).css('-moz-transform', 'scale(' + now + ', ' + now + ')');
-				$(this).css('transform', 'scale(' + now + ', ' + now + ')');
-            },
-            duration: 3000
+        CAnimations.animate(this, {
+            opacity: 0,
+            scale: 0,
+            rotation: 0,
+            left: self.leftCoord,
+            bottom: self.bottomCoord,
+            frames: 180,
         });
     },
 
     leaveQuarterPhase: function () {
         var self = this;
         this.finishedSpawningReinforcements = false;
-        $(this.div).animate({
-            'opacity': 1
-        }, {
-            step: function (now, fx) {
-                $(this).css('-webkit-transform', 'scale(' + now + ', ' + now + ')');
-				$(this).css('-moz-transform', 'scale(' + now + ', ' + now + ')');
-				$(this).css('transform', 'scale(' + now + ', ' + now + ')');
-            },
-            complete: function () {
-                self.isCasting = false;
-                self.isInvulnerable = false;
-                self.isInQuarterPhase = false;
-                $(self.hpBar).css('display', 'block');
-                $(self.hpBarEmpty).css('display', 'block');
-            },
-            duration: 3000
+        CAnimations.animate(this, {
+            opacity: 1,
+            scale: 1,
+            rotation: 0,
+            left: self.leftCoord,
+            bottom: self.bottomCoord,
+            frames: 180,
         });
+        //$(this.div).animate({
+        //    'opacity': 1
+        //}, {
+        //    step: function (now, fx) {
+        //        $(this).css('-webkit-transform', 'scale(' + now + ', ' + now + ')');
+		//		$(this).css('-moz-transform', 'scale(' + now + ', ' + now + ')');
+		//		$(this).css('transform', 'scale(' + now + ', ' + now + ')');
+        //    },
+        //    complete: function () {
+        //        self.isCasting = false;
+        //        self.isInvulnerable = false;
+        //        self.isInQuarterPhase = false;
+        //        $(self.hpBar).css('display', 'block');
+        //        $(self.hpBarEmpty).css('display', 'block');
+        //    },
+        //    duration: 3000
+        //});
+        window.setTimeout(function () {
+            self.isCasting = false;
+            self.isInvulnerable = false;
+            self.isInQuarterPhase = false;
+        }, 3000);
     },
 
     phase75Percent: function () {
@@ -206,5 +199,33 @@
         this.moveAtDirection = this.moveFourthPhase;
         this.skills[0].lock();
         this.skills[1].unlock();
+    },
+
+    drawCastBar: function () {
+        ctx.beginPath();
+        ctx.fillStyle = 'white';
+        ctx.rect(-this.width / 2, (-this.height / 2) - 5, this.width * parseInt($(this.castBar).css('width')) / 100, 5);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.lineWidth = 2;
+        ctx.rect(-this.width / 2, (-this.height / 2) - 5, this.width, 5);
+        ctx.stroke();
+    },
+
+    move: function () {
+        var playerLeft = InteractionManager.getPlayerLeftCoord(),
+            playerBottom = InteractionManager.getPlayerBottomCoord();
+        ctx.save();
+        ctx.translate(this.leftCoord + this.width / 2, this.bottomCoord + this.height / 2);
+        //ctx.translate(this.leftCoord, this.bottomCoord); //kamikaze rotates around it's lower-left point, not around its center - feels unnatural
+        if (this.bottomCoord > playerBottom) {
+            ctx.rotate(Utility.degreeToRadian(this.orientationDeg));
+        } else {
+            ctx.rotate(Utility.degreeToRadian(180 - this.orientationDeg));
+        }
+        ctx.drawImage(this.img, -this.width / 2, -this.height / 2);
+        this.drawHpBar();
+        this.drawCastBar();
+        ctx.restore();
     }
 });
