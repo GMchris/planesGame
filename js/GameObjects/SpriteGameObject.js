@@ -2,7 +2,6 @@ SpriteGameObject = GameObject.extend({
     init: function (left, bottom, width, height) {
         this._super(width, height);
         this.updateCoords(left, bottom);
-        this.move();
         this.spriteChangeFrequency = 50;
         this.lastSpriteChangeTimestampMs = -1;
         this.currentFrame = 1;

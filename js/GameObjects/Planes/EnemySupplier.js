@@ -5,7 +5,6 @@ EnemySupplier = EnemyPlane.extend({
             width = 100,
             height = 80;
         this._super(left, bottom, maxHealth, damage, movementSpeed, shootFrequency, width, height);
-        $(this.div).css('background-image', 'url(images/planes/supplier.png)');
         this.changeDirection();
         this.lastSupplyTimestamp = -1;
         this.healingOrbSpawnChance = 30;

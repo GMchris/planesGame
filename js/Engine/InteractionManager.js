@@ -229,11 +229,6 @@
         spawnStormCloud = function (left, bottom, casterLeft, casterBottom, casterWidth) {
             var newStormCloud = new StormCloud(left, bottom);
             newStormCloud.animateCast(casterLeft, casterBottom, casterWidth);
-            window.setTimeout(function () {
-                if (currentMission) {
-                    newStormCloud.addToScreen();
-                }
-            }, 300);
             hazards.push(newStormCloud);
         },
 
@@ -241,7 +236,6 @@
             if (!(currentMission instanceof BossMission) && pickups.length < 3) { //no more than 3 pickups can be on the screen at once
                 var healingOrb = new HealingOrb(left, bottom);
                 pickups.push(healingOrb);
-                healingOrb.addToScreen();
             }
         },
 
@@ -354,7 +348,7 @@
                     (bullet.bottomCoord - (playerBulletsSpeed * (1 - Math.abs(bullet.orientationDeg / 90))))
                     : (bullet.bottomCoord + (playerBulletsSpeed * (1 - Math.abs(bullet.orientationDeg / 90))));
             } else {
-                bullet.removeTarget();
+                //bullet.removeTarget();
                 newLeftCoord = bullet.leftCoord + bullet.orientationDeg / 90 * playerBulletsSpeed;
                 newBottomCoord = bullet.bottomCoord + playerBulletsSpeed;
             }
@@ -443,7 +437,6 @@
                 if (pickups[i] instanceof HealingOrb) {
                     if (isPointInsideObject(pickups[i].leftCoord + pickups[i].width / 2, pickups[i].bottomCoord + pickups[i].height / 2, playerPlane)) {
                         pickups[i].heal(playerPlane);
-                        pickups[i].die();
                         pickups.splice(i, 1);
                         i--;
                     }
@@ -489,6 +482,8 @@
                         && distanceBetweenTwoPoints(supplier.leftCoord, supplier.bottomCoord, enemyPlanes[i].leftCoord, enemyPlanes[i].bottomCoord) < 250
                         && supplier.suppliedFighters.indexOf(enemyPlanes[i]) == -1) {
                         supplier.supply(enemyPlanes[i]);
+                        enemyPlanes[i].img = $('<img src="images/planes/fighter_spreadshot.png"/>')[0]
+
                     }
                 }
             }
