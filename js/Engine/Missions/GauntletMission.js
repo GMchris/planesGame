@@ -37,7 +37,23 @@
         return loss;
     },
 
-    updatePrimaryStatus: function(){
-        $(".mainMissionName").html("Kill another <b>" +(70 - this.enemiesKilled)+"</b> enemies");
+    updatePrimaryStatus: function () {
+        var enemiesToKill = 70 - this.enemiesKilled;
+        enemiesToKill = (enemiesToKill >= 0) ? enemiesToKill : 0;
+        ctx.save();
+        ctx.translate(0, 700);
+        ctx.scale(1, -1);
+        ctx.shadowOffsetX = 3;
+        ctx.shadowOffsetY = 3;
+        ctx.shadowBlur = 2;
+        ctx.shadowColor = 'black';
+        ctx.font = '18px sans-serif';
+        ctx.fillStyle = 'white';
+        ctx.fillText('Kill another', 675, 670);
+        ctx.font = '30px sans-serif';
+        ctx.fillText(enemiesToKill, 770, 670);
+        ctx.font = '18px sans-serif';
+        ctx.fillText('enemies', 810, 670);
+        ctx.restore();
     }
 });

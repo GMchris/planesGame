@@ -57,7 +57,6 @@
         InteractionManager.iteratePickups();
         InteractionManager.shootPlayerPlane();
         InteractionManager.spawnEnemy();
-        //this.updatePrimaryStatus();
 
         if (self.checkWinConditions()) {
             InteractionManager.handleMissionWin();

@@ -1,6 +1,7 @@
 var Visual = {
     backgroundImg: null,
     backgroundPattern: null,
+    uiImg: $('<img src="images/ui/UI.png" />')[0],
 
     drawIntroScreen: function () {
 
@@ -185,17 +186,6 @@ var Visual = {
         .addClass("ui")
         .appendTo("#gameScreen");
 
-         //Places the primary mission
-        $("<div/>")
-        .addClass("mainMissionName")
-        .appendTo(".ui");
-
-        $('<div id="fps"></div>')
-        .appendTo('.ui');
-
-        $('<div id="ips"></div>')
-        .appendTo('.ui');
-
         //Draw timer
         $('<div id="timer">' + InteractionManager.getTime() + '</div>')
         .addClass("inGame")
@@ -220,6 +210,10 @@ var Visual = {
             }
         }
 
+    },
+
+    redrawUI: function () {
+        ctx.drawImage(this.uiImg, 0, 0);
     },
 
     //Make a skill's icon grey
@@ -333,6 +327,8 @@ var Visual = {
             ctx.clearRect(0, 0, 960, 700);
             Visual.iterateBackground();
             CAnimations.iterate();
+            Visual.redrawUI();
+            InteractionManager.updatePrimaryStatus();
             InteractionManager.redrawGameObjects();
         }
     },

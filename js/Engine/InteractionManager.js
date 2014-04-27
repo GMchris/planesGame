@@ -856,6 +856,10 @@
             return boss.currentHealth;
         },
 
+        getBossHealthPercentage = function () {
+            return boss.healthPercentage;
+        },
+
         getPlayerLeftCoord = function () {
             return playerPlane.leftCoord;
         },
@@ -1694,6 +1698,10 @@
             playerPlane.level++;
         },
 
+        updatePrimaryStatus = function () {
+            currentMission.updatePrimaryStatus();
+        },
+
         handleSkillUsage = function (keyPressed) {
             if (playerPlane.skills[keyPressed]) {
                 playerPlane.skills[keyPressed].use();
@@ -1741,6 +1749,7 @@
         redrawGameObjects: redrawGameObjects,
         isPlayerShooting: isPlayerShooting,
         increasePlayerLevel: increasePlayerLevel, //this is safe, plane level only determines how many stars are needed for the next skill unlock
+        updatePrimaryStatus: updatePrimaryStatus,
 
         getTime: getTime,
         getSeconds: getSeconds,
@@ -1750,6 +1759,7 @@
         getPlayerLevel: getPlayerLevel,
         getStarsToLevelUp: getStarsToLevelUp,
         getBossHealth: getBossHealth,
+        getBossHealthPercentage: getBossHealthPercentage,
         getPlayerLeftCoord: getPlayerLeftCoord,
         getPlayerBottomCoord: getPlayerBottomCoord,
         getPlayerSkills: getPlayerSkills,

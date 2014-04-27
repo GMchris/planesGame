@@ -44,10 +44,9 @@ b{
 .ui{
 	bottom:0px;
 	position: absolute;
-	z-index: 20;
 	width: 960px;
 	height: 70px;
-	background-image: url(../images/ui/ui.png);
+	background-image: url(../images/ui/ui.png) no-repeat;
 }
 
 .skills{
@@ -139,11 +138,4 @@ b{
 	background: -moz-linear-gradient(#ce2c28, #a02825);
 	background: -o-linear-gradient(#ce2c28, #a02825);
 	background: linear-gradient(#ce2c28, #a02825);
-}
-
-@media screen and (max-height: 700px){
-	.ui{
-		position: fixed;
-		bottom:0px;
-	}
 }
