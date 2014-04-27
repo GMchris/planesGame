@@ -1,7 +1,7 @@
 var Visual = {
     backgroundImg: null,
     backgroundPattern: null,
-    uiImg: $('<img src="images/ui/UI.png" />')[0],
+    uiImg: $('<img src="images/UI/UI.png" />')[0],
 
     drawIntroScreen: function () {
 

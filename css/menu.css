@@ -26,7 +26,7 @@
 }
 
 .introButton:hover{
-	cursor:url(../images/ui/hoverCursor.png),auto;
+	cursor:url(../images/UI/hoverCursor.png),auto;
 	color:#333;
 	background: linear-gradient(#ffd600, #ffb400 65%,#b89030 95%);
 }
@@ -101,7 +101,7 @@
 }
 
 .missionMarker{
-	cursor:url(../images/ui/hoverCursor.png),auto;
+	cursor:url(../images/UI/hoverCursor.png),auto;
 	position: absolute;
 	height: 77px;
 	width: 70px;
@@ -230,7 +230,7 @@
 }
 
 #closePrompt:hover{
-	cursor:url(../images/ui/hoverCursor.png),auto;
+	cursor:url(../images/UI/hoverCursor.png),auto;
 	background: #3e0d08;
 	font-size: 2em;
 }
@@ -299,7 +299,7 @@
 }
 
 .deployButton:hover{
-	cursor:url(../images/ui/hoverCursor.png),auto;
+	cursor:url(../images/UI/hoverCursor.png),auto;
 	background: #f9ce25;
 	border:4px outset #ffda4d;
 }
@@ -352,7 +352,7 @@
 }
 
 .loadoutButton:hover{
-	cursor:url(../images/ui/hoverCursor.png),auto;
+	cursor:url(../images/UI/hoverCursor.png),auto;
 	background: linear-gradient(#da8333,#b25f32);
 }
 
@@ -393,7 +393,7 @@
 }
 
 .loadoutScreen .skillIcon:hover{
-	cursor:url(../images/ui/hoverCursor.png),auto;
+	cursor:url(../images/UI/hoverCursor.png),auto;
 	border:2px solid #ffcb2f;
 }
 
@@ -593,7 +593,7 @@ tr:nth-child(3)>.nicknameCell{
 .submitButton:hover{
 	border-color:#fff89d;
 	background: linear-gradient(#ffef21,#f8ba00);
-	cursor:url(../images/ui/hoverCursor.png),auto;
+	cursor:url(../images/UI/hoverCursor.png),auto;
 }
 
 .nameInput{
