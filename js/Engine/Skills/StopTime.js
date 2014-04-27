@@ -4,7 +4,6 @@
     },
 
     newMainLoop: function () {
-        $("#fps").text(fps.getFPS());
         interactionManager.iterateBullets('player');
         interactionManager.iterateFriendlyPlanes();
         interactionManager.iteratePickups();

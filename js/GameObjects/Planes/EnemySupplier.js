@@ -17,7 +17,6 @@ EnemySupplier = EnemyPlane.extend({
     suppliedFighters: null,
 
     supply: function (fighter) {
-        $(fighter.div).css('background-image', 'url(images/planes/fighter_spreadshot.png)');
         fighter.shoot = spreadShotEnemyShoot;
         this.suppliedFighters.push(fighter);
     }

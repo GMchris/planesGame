@@ -43,11 +43,10 @@
         this._super(left, bottom);
     },
 
-    updateHpBar: function () {
-        var newHp = parseInt(this.currentHealth / this.maxHealth * 100) + '%';
-        $(this.hpBar).css('width', newHp);
-        //this.hpBar.style.width = parseInt(this.currentHealth / this.maxHealth * 100) + '%';
-    },
+     updateHpBar: function () {
+    //     var newHp = parseInt(this.currentHealth / this.maxHealth * 100) + '%';
+    //     $(this.hpBar).css('width', newHp);
+     },
 
     takeDamage: function (damage){
         if(this.currentHealth > damage){

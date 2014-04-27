@@ -4,8 +4,10 @@
     },
 
     activate: function () {
-        this._super();
-        interactionManager.handleBlackHole();
+        if (!interactionManager.isPlayerShooting()) {
+            this._super();
+            interactionManager.handleBlackHole();
+        }
     },
 
     deactivate: function () {
