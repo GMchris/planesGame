@@ -275,7 +275,7 @@
                     bullets[i].die();
                     bullets[i].toBeSpliced = true;
                     rocketPathArray = [];
-                } else if (bullets[i].bottomCoord < 0 || bullets[i].bottomCoord > 700 || bullets[i].leftCoord < 10 || bullets[i].leftCoord > 947) {
+                } else if (bullets[i].bottomCoord <= 70 || bullets[i].bottomCoord > 700 || bullets[i].leftCoord < 10 || bullets[i].leftCoord > 947) {
                     bullets[i].toBeSpliced = true;
                     if (bullets[i] instanceof PlayerBullet) {
                         trackAccuracy(false);
