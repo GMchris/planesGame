@@ -805,6 +805,9 @@
         },
 
         handleMissionLoss = function () {
+            trackAccuracy();
+            trackRemainingHealth();
+            trackUsedSkills();
             $("<div/>", {
                 id: "effectScreen"
             })
