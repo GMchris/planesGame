@@ -45,5 +45,9 @@
             bottom: this.bottomCoord,
             frames: 80,
         });
+    },
+
+    move: function () {
+        this._super();
     }
 });

@@ -28,6 +28,10 @@
 
     },
 
+    move: function () {
+        this._super();
+    },
+
     moveAtDirection: function () {
         if (this.movingRight && this.leftCoord < (960 - 95)) {
             this.leftCoord += this.movementSpeed;
