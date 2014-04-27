@@ -309,7 +309,7 @@ var Visual = {
         }
 
         //If called with the arguement false instead of a numeric player position, it will just make a close button;
-        if (playerPosition == undefined) {
+        if (!playerPosition) {
             $("<div id='closePrompt'>X<div/>")
                  .on("click", function () {
                      $("#GamePromptScreen").remove();

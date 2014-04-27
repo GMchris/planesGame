@@ -43,6 +43,16 @@ var Utility = {
     degreeToRadian: function (deg) {
         return deg * Math.PI / 180;
     },
+
+    convertToTime: function (secondsInput) {
+        var seconds = secondsInput % 60,
+            minutes = Math.floor(secondsInput / 60),
+            formattedSeconds = (seconds >= 10) ? seconds : ('0' + seconds),
+            formattedMinutes = (minutes >= 10) ? minutes : ('0' + minutes),
+            time = formattedMinutes + ':' + formattedSeconds;
+
+        return time;
+    }
 }
 
 var fps = {
