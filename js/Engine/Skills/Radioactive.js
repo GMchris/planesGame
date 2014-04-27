@@ -5,7 +5,7 @@ Radioactive = Skill.extend({
 
     activate: function () {
         this._super();
-        interactionManager.handleRadioactive(this.plane.leftCoord, this.plane.bottomCoord);
+        InteractionManager.handleRadioactive(this.plane.leftCoord, this.plane.bottomCoord);
     },
 
     deactivate: function () {

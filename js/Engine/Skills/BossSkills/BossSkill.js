@@ -29,7 +29,7 @@ BossSkill = Skill.extend({
 
     tryUse: function () {
         var self = this;
-        if (interactionManager.getCurrentMission() && !interactionManager.isTimeStopped() && !this.plane.isCasting && this.plane.skills.indexOf(this) != -1) {
+        if (InteractionManager.getCurrentMission() && !InteractionManager.isTimeStopped() && !this.plane.isCasting && this.plane.skills.indexOf(this) != -1) {
             self.makeAvailable.call(self);
             this.use();
         } else if (this.isUnlocked) {
@@ -54,7 +54,7 @@ BossSkill = Skill.extend({
                             'display': 'none',
                             'width': '0%'
                         });
-                        if (interactionManager.getCurrentMission()) {
+                        if (InteractionManager.getCurrentMission()) {
                             self.activate.call(self);
                         }
                     },

@@ -22,7 +22,7 @@
         if(this.plane instanceof PlayerPlane){
             Visual.cooldownIcon(this.icon);
             Visual.animateDuration(this.icon, this.durationMs);
-            interactionManager.trackUsedSkillsExposed(this.name);
+            InteractionManager.trackUsedSkillsExposed(this.name);
         }
         this.isAvailable = false;
         this.isActive = true;

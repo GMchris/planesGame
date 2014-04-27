@@ -5,7 +5,7 @@ AbsorbBullets = Skill.extend({
 
     activate: function () {
         this._super();
-	    interactionManager.handleAbsorbBullets(this.durationMs);
+	    InteractionManager.handleAbsorbBullets(this.durationMs);
     },
 	
     deactivate: function () {

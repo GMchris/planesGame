@@ -48,7 +48,7 @@
         ctx.save();
         ctx.globalAlpha = obj.animationProps.opacityCurrent;
         ctx.translate(obj.leftCoord, obj.bottomCoord);
-        ctx.rotate(degreeToRadian(obj.animationProps.rotationCurrent));
+        ctx.rotate(Utility.degreeToRadian(obj.animationProps.rotationCurrent));
         ctx.drawImage(obj.img, 0, 0, obj.width * obj.animationProps.scaleCurrent, obj.height * obj.animationProps.scaleCurrent);
         ctx.restore();
     },

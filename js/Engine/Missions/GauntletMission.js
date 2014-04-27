@@ -14,7 +14,7 @@
     startMission: function () {
         $(document).on("keypress", function (e) {
             if (e.keyCode == 101) {//e
-                interactionManager.gauntletSpawnEnemies();
+                InteractionManager.gauntletSpawnEnemies();
             }
         });
 
@@ -33,7 +33,7 @@
 
     checkLossConditions: function () {
         //A gauntlet mission is 'lost/failed' if the player dies
-        var loss = (interactionManager.getPlayerHealth()) == 0;
+        var loss = (InteractionManager.getPlayerHealth()) == 0;
         return loss;
     },
 

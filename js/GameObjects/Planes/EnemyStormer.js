@@ -23,9 +23,9 @@
     },
 
     summonStorm: function () {
-        var stormBottomCoord = getRandomBottomCoordBottomHalf(35),
-            stormLeftCoord = getRandomLeftCoord(45);
+        var stormBottomCoord = Utility.getRandomBottomCoordBottomHalf(35),
+            stormLeftCoord = Utility.getRandomLeftCoord(45);
 
-        interactionManager.spawnStormCloud(stormLeftCoord, stormBottomCoord, this.leftCoord, this.bottomCoord, 100);
+        InteractionManager.spawnStormCloud(stormLeftCoord, stormBottomCoord, this.leftCoord, this.bottomCoord, 100);
     }
 });

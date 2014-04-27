@@ -5,7 +5,7 @@
 
     activate: function () {
         this._super();
-        interactionManager.handleDeathRay(this.plane.leftCoord, this.plane.bottomCoord);
+        InteractionManager.handleDeathRay(this.plane.leftCoord, this.plane.bottomCoord);
     },
 
     deactivate: function () {

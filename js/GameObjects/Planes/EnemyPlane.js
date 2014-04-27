@@ -45,7 +45,7 @@
     die: function () {
         this._super();
         if (parseInt(Math.random() * 100 + 1) <= this.healingOrbSpawnChance) {
-            interactionManager.spawnHealingOrb(this.leftCoord + (this.width / 2 - 20), this.bottomCoord + (this.height / 2 - 20));
+            InteractionManager.spawnHealingOrb(this.leftCoord + (this.width / 2 - 20), this.bottomCoord + (this.height / 2 - 20));
         }
     }
 });

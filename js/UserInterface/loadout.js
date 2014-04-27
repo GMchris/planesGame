@@ -107,7 +107,7 @@ var Loadout = {
 
 	//Draw the currently selected skills, taken from the player plane
 	savedSkills : function(){
-		var skillArray=interactionManager.getPlayerSkills(), currentSkill;
+		var skillArray=InteractionManager.getPlayerSkills(), currentSkill;
 			for(var i=0;i<skillArray.length;i++){
 				currentSkill = skillArray[i].icon.toLowerCase();
 				currentSkill = currentSkill.slice(0,-4)
@@ -163,7 +163,7 @@ var Loadout = {
 		$("<div>Confirm</div>")
 		.addClass("deployButton")
 		.on("click",function(){
-			interactionManager.setPlayerSkills(Loadout.current);
+			InteractionManager.setPlayerSkills(Loadout.current);
 			var count = Loadout.current.length;
 				for(var i=0;i<count;i++){
 					Game.unlockedSkills.push(Loadout.current.splice(0,1)[0]);

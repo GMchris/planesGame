@@ -40,9 +40,9 @@
             ctx.save();
             ctx.translate(this.leftCoord, this.bottomCoord);
             if (this.bottomCoord > this.targetPlane.bottomCoord + this.targetPlane.height / 2) {
-                ctx.rotate(degreeToRadian(-(180 - this.orientationDeg)));
+                ctx.rotate(Utility.degreeToRadian(-(180 - this.orientationDeg)));
             } else {
-                ctx.rotate(degreeToRadian(-this.orientationDeg));
+                ctx.rotate(Utility.degreeToRadian(-this.orientationDeg));
             }
 
             ctx.beginPath();

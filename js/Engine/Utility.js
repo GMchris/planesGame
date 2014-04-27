@@ -1,36 +1,49 @@
 ﻿//Utility methods go here
+var Utility = {
+    getRandomLeftCoord: function (offsetWidth) {
+        //returns a random number between (0 + offsetWidth) and (960 - offsetWidth)
+        var randLeftNum = parseInt(Math.random() * (960 - 2 * offsetWidth)); //randLeftNum belongs to [offsetWidth, 960 - offsetWidth]
+        return randLeftNum;
+    },
 
-function getRandomLeftCoord(offsetWidth) {
-    //returns a random number between (0 + offsetWidth) and (960 - offsetWidth)
-    var randLeftNum = parseInt(Math.random() * (960 - 2 * offsetWidth)); //randLeftNum belongs to [offsetWidth, 960 - offsetWidth]
-    return randLeftNum;
-};
+    getRandomBottomCoordTopHalf: function (offsetHeight) {
+        //returns a bottom coord in the top half of the screen
+        var randBottNum = parseInt(Math.random() * (350 - offsetHeight) + 350);
+        return randBottNum;
+    },
 
-function getRandomBottomCoordTopHalf(offsetHeight) {
-    //returns a bottom coord in the top half of the screen
-    var randBottNum = parseInt(Math.random() * (350 - offsetHeight) + 350);
-    return randBottNum;
-};
+    getRandomBottomCoordBottomHalf: function (offsetHeight) {
+        //returns a bottom coord in the bottom half of the screen
+        var randBottNum = parseInt(Math.random() * (280 - offsetHeight) + 70);
+        return randBottNum;
+    },
 
-function getRandomBottomCoordBottomHalf(offsetHeight) {
-    //returns a bottom coord in the bottom half of the screen
-    var randBottNum = parseInt(Math.random() * (280 - offsetHeight) + 70);
-    return randBottNum;
-};
+    getChaseAngle: function (chaserLeft, chaserBottom, targetLeft, targetBottom) {
+        //always returns a positive number
+        var angle;
+        if (chaserBottom == targetBottom) {
+            angle = 90;
+        } else {
+            angle = parseInt(Math.atan(
+                Math.abs(chaserLeft - targetLeft) / Math.abs(chaserBottom - targetBottom))
+                / (Math.PI / 180));
+        }
 
-function getChaseAngle(chaserLeft, chaserBottom, targetLeft, targetBottom) {
-    //always returns a positive number
-    var angle;
-    if (chaserBottom == targetBottom) {
-        angle = 90;
-    } else {
-        angle = parseInt(Math.atan(
-            Math.abs(chaserLeft - targetLeft) / Math.abs(chaserBottom - targetBottom))
-            / (Math.PI / 180));
-    }
+        return angle;
+    },
 
-    return angle;
-};
+    spreadShotEnemyShoot: function () {
+        if (this.tryShoot()) {
+            InteractionManager.spawnBullet(this.bulletType, this.leftCoord + 45, this.bottomCoord, -15, this);
+            InteractionManager.spawnBullet(this.bulletType, this.leftCoord + 45, this.bottomCoord, 0, this);
+            InteractionManager.spawnBullet(this.bulletType, this.leftCoord + 45, this.bottomCoord, 15, this);
+        }
+    },
+
+    degreeToRadian: function (deg) {
+        return deg * Math.PI / 180;
+    },
+}
 
 var fps = {
     startTime: 0,
@@ -38,8 +51,8 @@ var fps = {
     getFPS: function () {
         this.frameNumber++;
         var d = new Date().getTime(),
-			currentTime = (d - this.startTime) / 1000,
-			result = Math.floor((this.frameNumber / currentTime));
+            currentTime = (d - this.startTime) / 1000,
+            result = Math.floor((this.frameNumber / currentTime));
 
         if (currentTime > 1) {
             this.startTime = new Date().getTime();
@@ -55,8 +68,8 @@ var ips = {
     getIPS: function () {
         this.iterationNumber++;
         var d = new Date().getTime(),
-			currentTime = (d - this.startTime) / 1000,
-			result = Math.floor((this.iterationNumber / currentTime));
+            currentTime = (d - this.startTime) / 1000,
+            result = Math.floor((this.iterationNumber / currentTime));
 
         if (currentTime > 1) {
             this.startTime = new Date().getTime();
@@ -65,65 +78,3 @@ var ips = {
         return result;
     }
 };
-
-function spreadShotEnemyShoot() {
-    if (this.tryShoot()) {
-        interactionManager.spawnBullet(this.bulletType, this.leftCoord + 45, this.bottomCoord, -15, this);
-        interactionManager.spawnBullet(this.bulletType, this.leftCoord + 45, this.bottomCoord, 0, this);
-        interactionManager.spawnBullet(this.bulletType, this.leftCoord + 45, this.bottomCoord, 15, this);
-    }
-};
-
-function degreeToRadian(deg) {
-    return deg * Math.PI / 180;
-};
-
-var Leaderboard = {
-    currentPosition: null,
-    submitScore: function (name, score) {
-        var self = this;
-        $.ajax({
-            url: "http://bashibozuk.eu/games-score/?route=high-score/save-high-score&gameId=c4ca4238a0b923820dcc509a6f75849b&score=" + score + "&player=" + encodeURIComponent(name),
-            dataType: "jsonp",
-            data: {
-                format: "json"
-            },
-
-            success: function (response) {
-                self.getPosition(score);
-            }
-        });
-    },
-    getHighScoreAndDrawLeaderboard: function () {
-        var self = this;
-        $.ajax({
-            url: "http://bashibozuk.eu/games-score/?route=high-score/get-high-score&gameId=c4ca4238a0b923820dcc509a6f75849b&limit=15",
-            dataType: "jsonp",
-            data: {
-                format: "json"
-            },
-
-            success: function (response) {
-                Visual.drawLeaderBoard(response.data, self.currentPosition);
-            }
-        });
-    },
-    getPosition: function (score) {
-        var position = -1,
-            self = this;
-        $.ajax({
-            url: "http://bashibozuk.eu/games-score/?route=high-score/is-high-score&gameId=c4ca4238a0b923820dcc509a6f75849b&score=" + score,
-            dataType: "jsonp",
-            data: {
-                format: "json"
-            },
-
-            success: function (response) {
-                console.log(response.data.position);
-                self.currentPosition = response.data.position;
-                self.getHighScoreAndDrawLeaderboard(); //also draws the leaderboard
-            }
-        });
-        return position;
-    }
-}

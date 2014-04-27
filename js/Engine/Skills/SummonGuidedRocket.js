@@ -4,9 +4,9 @@
     },
 
     activate: function () {
-        if (!interactionManager.isPlayerShooting()) {
+        if (!InteractionManager.isPlayerShooting()) {
             this._super();
-            interactionManager.handleGuidedRocket();
+            InteractionManager.handleGuidedRocket();
         }
     },
 

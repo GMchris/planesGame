@@ -8,7 +8,7 @@
         if (this.orientationDeg != 0) {
             ctx.save();
             ctx.translate(this.leftCoord, this.bottomCoord);
-            ctx.rotate(degreeToRadian(180 - this.orientationDeg));
+            ctx.rotate(Utility.degreeToRadian(180 - this.orientationDeg));
             ctx.beginPath();
             ctx.fillStyle = this.bulletColor;
             ctx.rect(0, 0, this.height, this.width);

@@ -11,7 +11,7 @@
 
     chaseTarget: function (targetLeft, targetBottom) {
         var i,
-            newOrientationDeg = getChaseAngle(this.leftCoord, this.bottomCoord, targetLeft, targetBottom),
+            newOrientationDeg = Utility.getChaseAngle(this.leftCoord, this.bottomCoord, targetLeft, targetBottom),
             deltaDegree,
             direction;
         if (this.leftCoord > targetLeft) {

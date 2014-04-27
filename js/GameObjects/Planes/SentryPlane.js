@@ -13,7 +13,7 @@
 
     shoot: function () {
         if (this.tryShoot()) {
-            interactionManager.spawnBullet(this.bulletType, this.leftCoord + (this.orientationDeg / 90 + 1) * this.width / 2, this.bottomCoord + (this.height - Math.abs((this.orientationDeg / 90) * this.height / 2)), this.orientationDeg, this);
+            InteractionManager.spawnBullet(this.bulletType, this.leftCoord + (this.orientationDeg / 90 + 1) * this.width / 2, this.bottomCoord + (this.height - Math.abs((this.orientationDeg / 90) * this.height / 2)), this.orientationDeg, this);
         }
     },
 
@@ -32,7 +32,7 @@
         ctx.save();
         ctx.translate(this.leftCoord + this.width / 2, this.bottomCoord + this.height / 2);
         //ctx.translate(this.leftCoord, this.bottomCoord); //kamikaze rotates around it's lower-left point, not around its center - feels unnatural
-        ctx.rotate(degreeToRadian(-this.orientationDeg));
+        ctx.rotate(Utility.degreeToRadian(-this.orientationDeg));
         ctx.drawImage(this.img, -this.width / 2, -this.height / 2);
         //ctx.drawImage(this.img, 0, 0);
         this.drawHpBar();

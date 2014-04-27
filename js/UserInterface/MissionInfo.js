@@ -127,7 +127,7 @@ var MissionManager = {
         $("<div>Deploy<div/>")
 		.addClass("deployButton")
 		.on("click", function () {
-		    interactionManager.startNewMission(missionIndex, areaIndex);
+		    InteractionManager.startNewMission(missionIndex, areaIndex);
 		})
 		.appendTo("#GamePrompt");
 
@@ -135,9 +135,9 @@ var MissionManager = {
     //Creates a window displaying results of victory
     winScreen: function (stars) {
         var skillClass, skillDescription,
-            starsToLevelUp = interactionManager.getStarsToLevelUp(),
-            currentPlayerLevel = interactionManager.getPlayerLevel(),
-            currentPlayerStars = interactionManager.getPlayerStars();
+            starsToLevelUp = InteractionManager.getStarsToLevelUp(),
+            currentPlayerLevel = InteractionManager.getPlayerLevel(),
+            currentPlayerStars = InteractionManager.getPlayerStars();
         //Creates:
         //Black tint
         $("<div/>", {
@@ -181,7 +181,7 @@ var MissionManager = {
                     .appendTo("#GamePrompt");
 
             while (starsToLevelUp[currentPlayerLevel - 1] && currentPlayerStars >= starsToLevelUp[currentPlayerLevel - 1]) {
-                interactionManager.increasePlayerLevel();
+                InteractionManager.increasePlayerLevel();
                 currentPlayerLevel++;
                 switch (Game.addSkill()) {
 
