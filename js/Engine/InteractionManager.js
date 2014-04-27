@@ -1499,7 +1499,7 @@
         },
 
         drawRocketPath = function (e) {
-            var converted = convertEventCoordinates(e.clientX, e.clientY),
+            var converted = convertEventCoordinates(e.clientX, e.clientY, true),
                 lastCoordsInPath = rocketPathArray[rocketPathArray.length - 1];
             if (!lastCoordsInPath || distanceBetweenTwoPoints(converted.left, converted.bottom, lastCoordsInPath.left, lastCoordsInPath.bottom) > 20) {
                 rocketPathArray.push(converted);
@@ -1523,7 +1523,7 @@
             }
         },
 
-        convertEventCoordinates = function (clientX, clientY) {
+        convertEventCoordinates = function (clientX, clientY, drawing) {
             var converted = { left: 0, bottom: 0 };
             var nonGameScreenWidth = window.innerWidth - 960;
             //newLeft
@@ -1540,7 +1540,7 @@
             //newBottom
             if (clientY <= 570) {
                 converted.bottom = 700 - clientY - 50;
-                if ($('#gameScreen').css('cursor') != 'none') {
+                if ($('#gameScreen').css('cursor') != 'none' && !drawing) {
                     $('#gameScreen').css('cursor', 'none');
                 }
             } else {
