@@ -46,7 +46,6 @@
         this.div.style['animation'] = 'enemyDeathAnimation 1.5s';
         window.setTimeout(function () {
             $(self.div).remove();
-            console.log('removed');
         }, 1500);
     },
 

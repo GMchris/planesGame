@@ -379,19 +379,10 @@
         iterateFriendlyPlanes = function () {
             var i;
             for (i = 0; i < friendlyPlanes.length; i++) {
-                if (friendlyPlanes[i] instanceof SentryPlane) {
-                    friendlyPlanes[i].shoot();
-                } else if (friendlyPlanes[i] instanceof ReinforcementPlane) {
-                    if (rocketPathArray.length) {
-                        moveReinforcementPlane(friendlyPlanes[i]);
-                    } else {
-                        friendlyPlanes[i].die();
-                        friendlyPlanes.splice(i, 1);
-                        i--;
-                    }
-                }
+                friendlyPlanes[i].shoot();
             }
         },
+
         iterateEnemyPlanes = function () {
             var i;
             for (i = 0; i < enemyPlanes.length; i++) {
