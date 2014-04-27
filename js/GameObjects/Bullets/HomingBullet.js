@@ -30,13 +30,10 @@
   //       }
   //   },
 
-  //   removeTarget: function () {
-  //       this.targetPlane = undefined;
-  //       this.orientationDeg = 0;
-  //       this.div.style['-webkit-transform'] = 'rotate(0deg)';
-		// this.div.style['-ms-transform'] = 'rotate(0deg)';
-		// this.div.style['transform'] = 'rotate(0deg)';
-  //   },
+     removeTarget: function () {
+         this.targetPlane = undefined;
+         this.orientationDeg = 0;
+     },
 
     move: function () {
         if (this.targetPlane) {

@@ -18,6 +18,7 @@ EnemySupplier = EnemyPlane.extend({
 
     supply: function (fighter) {
         fighter.shoot = spreadShotEnemyShoot;
+        fighter.img.src = "images/planes/fighter_spreadshot.png";
         this.suppliedFighters.push(fighter);
     }
 });

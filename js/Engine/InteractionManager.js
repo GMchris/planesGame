@@ -348,7 +348,7 @@
                     (bullet.bottomCoord - (playerBulletsSpeed * (1 - Math.abs(bullet.orientationDeg / 90))))
                     : (bullet.bottomCoord + (playerBulletsSpeed * (1 - Math.abs(bullet.orientationDeg / 90))));
             } else {
-                //bullet.removeTarget();
+                bullet.removeTarget();
                 newLeftCoord = bullet.leftCoord + bullet.orientationDeg / 90 * playerBulletsSpeed;
                 newBottomCoord = bullet.bottomCoord + playerBulletsSpeed;
             }
@@ -482,8 +482,6 @@
                         && distanceBetweenTwoPoints(supplier.leftCoord, supplier.bottomCoord, enemyPlanes[i].leftCoord, enemyPlanes[i].bottomCoord) < 250
                         && supplier.suppliedFighters.indexOf(enemyPlanes[i]) == -1) {
                         supplier.supply(enemyPlanes[i]);
-                        enemyPlanes[i].img = $('<img src="images/planes/fighter_spreadshot.png"/>')[0]
-
                     }
                 }
             }
