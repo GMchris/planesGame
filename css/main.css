@@ -116,7 +116,6 @@ section{
 	animation: blackHoleAnimation 0.5s ease-out;
 }
 
-
 .stormCloudCast {
     position: absolute;
     border-radius: 10px;
@@ -128,18 +127,6 @@ section{
     background: -moz-linear-gradient(to right, rgba(86,181,255,0) 0%, rgba(86,181,255,1) 10%, white 20%, white 80%, rgba(86,181,255,1) 90%, rgba(86,181,255,0) 100%);
     background: -o-linear-gradient(to right, rgba(86,181,255,0) 0%, rgba(86,181,255,1) 10%, white 20%, white 80%, rgba(86,181,255,1) 90%, rgba(86,181,255,0) 100%);
     background: linear-gradient(to right, rgba(86,181,255,0) 0%, rgba(86,181,255,1) 10%, white 20%, white 80%, rgba(86,181,255,1) 90%, rgba(86,181,255,0) 100%);
-}
-
-.castBarBoss {
-    position: absolute;
-    width: 0%;
-    display: none;
-    height: 5px;
-    border-style: solid;
-    border-color: black;
-    border-bottom-width: 2px;
-    border-top-width: 2px;
-    background-color: antiquewhite;
 }
 
 
