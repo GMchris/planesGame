@@ -13,7 +13,7 @@
 
     startMission: function () {
         $(document).on("keypress", function (e) {
-            if (e.keyCode == 101) {//e
+            if (e.charCode == 101) {//e
                 InteractionManager.gauntletSpawnEnemies();
             }
         });

@@ -1695,7 +1695,6 @@
         handleBoss25Phase = function () {
             var i;
             boss.shoot = boss.normalShootFunction;
-            console.log(boss.shoot);
             for (i = 0; i < 8; i++) {
                 spawnKamikaze();
                 spawnFighter();
