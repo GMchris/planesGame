@@ -79,7 +79,7 @@
     drawHpBar: function () {
         ctx.beginPath();
         ctx.fillStyle = 'red';
-        ctx.rect(this.leftCoord, this.bottomCoord - 5, this.width * (this.currentHealth / this.maxHealth), 5);
+        ctx.rect(this.leftCoord, this.bottomCoord - 5, parseInt(this.width * (this.currentHealth / this.maxHealth)), 5);
         ctx.fill();
         ctx.beginPath();
         ctx.lineWidth = 2;

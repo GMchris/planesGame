@@ -20,7 +20,7 @@ EnemyChasePlane = EnemyPlane.extend({
     drawHpBar: function () {
         ctx.beginPath();
         ctx.fillStyle = 'red';
-        ctx.rect(-this.width / 2, (-this.height / 2) - 5, this.width * (this.currentHealth / this.maxHealth), 5);
+        ctx.rect(-this.width / 2, (-this.height / 2) - 5, parseInt(this.width * (this.currentHealth / this.maxHealth)), 5);
         ctx.fill();
         ctx.beginPath();
         ctx.lineWidth = 2;
@@ -29,7 +29,7 @@ EnemyChasePlane = EnemyPlane.extend({
     },
 
     move: function () {
-        if (this.orientationDeg != 0) {
+        if (!this.isAnimated) {
             var playerLeft = InteractionManager.getPlayerLeftCoord(),
                     playerBottom = InteractionManager.getPlayerBottomCoord();
             ctx.save();
