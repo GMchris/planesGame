@@ -608,8 +608,19 @@
             var nowMs = Date.now();
             if (nowMs - stormCloud.lastDamageTickTimestamp > stormCloud.damageFrequencyMs) {
                 stormCloud.lastDamageTickTimestamp = nowMs;
-                playerPlane.takeDamage(stormerDamage);
-                trackRemainingHealth(playerPlane.currentHealth);
+				if (playerPlane.absorptionShieldStrength == 0) {
+					playerPlane.takeDamage(stormerDamage);
+					trackRemainingHealth(playerPlane.currentHealth);
+				} else {
+					playerPlane.absorptionShieldStrength--;
+					if (playerPlane.absorptionShieldStrength == 0) {
+						if (playerPlane.isStealthed) {
+							playerPlane.move = playerPlane.stealthMove;
+						} else {
+							playerPlane.move = playerPlane.originalMoveFunction;
+						}
+					}
+				}
             }
         },
 
