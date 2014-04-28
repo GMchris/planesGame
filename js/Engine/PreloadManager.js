@@ -26,6 +26,10 @@
                 $('#loadingBar').css('width', self.percentageDone + '%');
                 $('#loadingPercentage').text(self.percentageDone + '%');
                 console.log('Error preloading ' + self.preloadQueue[i]);
+				Game.errorMessage('Error loading files');
+				window.setTimeout(function () {
+					location.reload();
+				}, 2000);
                 if (self.isDone()) {
                     callback();
                 }
