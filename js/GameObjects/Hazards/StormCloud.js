@@ -8,7 +8,7 @@
 
     damageFrequencyMs: null,
     lastDamageTickTimestamp: null,
-    img: $('<img src="images/planes/stormCloudFrames.png" />')[0],
+    img: $('<img src="images/sprites/stormCloudFrames.png" />')[0],
 
     animateCast: function (casterLeft, casterBottom, casterWidth) {
         var self = this,

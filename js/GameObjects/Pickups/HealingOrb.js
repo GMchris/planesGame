@@ -7,7 +7,7 @@
         this.frameCount = 4;
     },
 
-    img: $('<img src="images/skills/HealthOrbFrames.png" />')[0],
+    img: $('<img src="images/sprites/HealthOrbFrames.png" />')[0],
     healingAmount: null,
 
     heal: function (plane) {
