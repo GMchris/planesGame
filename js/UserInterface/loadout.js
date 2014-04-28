@@ -198,7 +198,7 @@ var Loadout = {
 			    return "Sentry<br/>Place an immobile sentry that shoots your enemies down. Rotate it using A and D.";
 
 		    case "skillIcon stealthIcon":
-		        return "Stealth<br/>Vanish from your enemies' sight, causing all bullets to miss you for 2 seconds.";
+		        return "Stealth<br/>Vanish from your enemies' sight, causing all bullets to miss you for 4 seconds.";
 
 		    case "skillIcon radioactiveIcon":
 		        return "Radioactive<br/>Release a decimating radioactive wave to your enemies.";
@@ -210,7 +210,7 @@ var Loadout = {
 		        return "Guided Rocket<br/>Draw a path and the rocket will follow it, destroying all before it.";
 				
 			case "skillIcon shieldIcon":
-		        return "Shield<br/>Shields you from harm, preventing all damage from the next 5 bullets.";
+		        return "Shield<br/>Shields you from harm, preventing all incoming damage for 5 attacks.";
 
 		    case "skillIcon absorbBulletsIcon":
 		        return "Absorb Bullets<br/>Enemy bullets will temporarily heal (instead of harm) you.";
