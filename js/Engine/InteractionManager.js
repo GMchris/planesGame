@@ -799,12 +799,14 @@
                 abortMission();
                 //Clear screen, update the area and mission statuses
                 Visual.adjustCSSofGameScreen(false);
+                Game.clearScreen();
                 //Draw the win screen
                 if (MissionManager.currentAreaIndex == 3) { //boss mission
                     setVictoryTime();
                     Visual.drawVictoryScreen();
+                    localStorage.setItem('saveData', '');
+                    localStorage.setItem('resumeAvailable', 'false');
                 } else {
-                    Game.clearScreen();
                     AreaManager.updateAreaStatus(starsWonForMission);
                     AreaManager.drawMap();
                     playerPlane.stars += starsWonForMission;
