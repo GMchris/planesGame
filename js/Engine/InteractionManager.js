@@ -588,7 +588,7 @@
         detectCollisionPlayerBullet = function (bullet) {
             var i, isHit, indexEnemiesHit;
             for (i = 0; i < enemyPlanes.length; i++) {
-                isHit = !enemyPlanes[i].isAnimated && detectCollision(bullet, enemyPlanes[i]);
+                isHit = (bullet instanceof HomingBullet || !enemyPlanes[i].isAnimated) && detectCollision(bullet, enemyPlanes[i]);
                 if (isHit) { //return the index of the hit plane in the enemyPlanes array
                     return i;
                 } else if (bullet instanceof PiercingBullet) {
