@@ -48,7 +48,7 @@ var Visual = {
                });
         }
 
-        $("<div>Start Game</div>")
+        $("<div>New Game</div>")
         .addClass("introButton")
         .appendTo("#introScreen")
         .on("click", function () {
