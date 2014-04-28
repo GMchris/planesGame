@@ -31,7 +31,6 @@
                 }
             });
             currentElem.src = this.preloadQueue[i];
-            console.log(currentElem);
         }
     },
     updatePercentageDone: function () {
