@@ -38,10 +38,22 @@ var Visual = {
         .css("background-image", "url(images/map/IntroScreen.png)")
         .appendTo("#gameScreen");
 
-        $("<div>Play</div>")
+        if (localStorage.getItem('resumeAvailable') === 'true') {
+            $("<div>Resume Game</div>")
+               .addClass("introButton")
+               .appendTo("#introScreen")
+               .on("click", function () {
+                   InteractionManager.loadGame();
+                   Game.load();
+               });
+        }
+
+        $("<div>Start Game</div>")
         .addClass("introButton")
         .appendTo("#introScreen")
         .on("click", function () {
+            localStorage.setItem('resumeAvailable', 'false');
+            localStorage.setItem('saveData', '');
             Game.init();
         });
         

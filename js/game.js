@@ -10,13 +10,21 @@ var Game = {
         Game.addSkill();
 		this.clearScreen();
 		AreaManager.areas[0].active = true;
-		MissionManager.generateMissions();
 		AreaManager.drawMap();
 		Visual.drawGameObjects();
 		if (!this.allUnlocked) {
 		    Visual.updateStarsTracker();
 		}
-	},
+    },
+
+    load: function () {
+        this.clearScreen();
+        AreaManager.drawMap();
+        Visual.drawGameObjects();
+        if (!this.allUnlocked) {
+            Visual.updateStarsTracker();
+        }
+    },
 
 	//Remove all contents of the main game window
 	clearScreen : function(){
