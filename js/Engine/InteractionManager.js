@@ -660,7 +660,23 @@
             }
         },
         handleAbsorbCollisionEnemyBullets = function (hitter) {
-            playerPlane.receiveHeal(1);
+			if(!(hitter instanceof EnemyKamikaze)){
+				playerPlane.receiveHeal(1);
+			}else{
+				if (playerPlane.absorptionShieldStrength == 0) {
+					playerPlane.takeDamage(hitter.damage);
+					trackRemainingHealth(playerPlane.currentHealth);
+				} else {
+					playerPlane.absorptionShieldStrength--;
+					if (playerPlane.absorptionShieldStrength == 0) {
+						if (playerPlane.isStealthed) {
+							playerPlane.move = playerPlane.stealthMove;
+						} else {
+							playerPlane.move = playerPlane.originalMoveFunction;
+						}
+					}
+				}
+			}			
         },
 
         handleAbsorbBullets = function (duration) {
