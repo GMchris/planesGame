@@ -31,7 +31,7 @@
             scale: 1,
             left: currentLeftCoord,
             bottom: this.bottomCoord,
-            frames: 80
+            frames: 90
         });
     },
 
