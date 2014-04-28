@@ -58,8 +58,23 @@ var Game = {
 	
 }
 
+var imgPaths = ['images/planes/player.png', 'images/planes/fighter.png', 'images/planes/kamikaze.png', 'images/planes/supplier.png', 'images/planes/stormer.png', 'images/planes/boss.png', 'images/planes/playerAbsorbingBullets.png', 'images/planes/sentry.png', 'images/planes/stormCloudFrames.png', 'images/planes/fighter_spreadshot.png', 'images/backgrounds/desert.jpg', 'images/backgrounds/ocean.jpg', 'images/backgrounds/river.jpg', 'images/backgrounds/snow.jpg',
+    'images/map/AreaOneColored.png', 'images/map/AreaOneGreyscale.png', 'images/map/AreaTwoColored.png', 'images/map/AreaTwoGreyscale.png', 'images/map/AreaThreeColored.png', 'images/map/AreaThreeGreyscale.png', 'images/map/endScreen.png', 'images/map/IntroScreen.png', 'images/map/MissionMarkerBoss.png', 'images/map/MissionMarkerEmpty.png', 'images/map/MissionMarkerOne.png', 'images/map/MissionMarkerTwo.png', 'images/map/MissionMarkerThree.png',
+    'images/map/MissionMarkerUnplayed.png', 'images/map/promptStar.png', 'images/map/star.png', 'images/map/starMini.png', 'images/map/WorldMapMinified.png', 'images/skills/guidedRocket.png', 'images/skills/HealthOrbFrames.png', 'images/UI/UI.png', 'images/UI/pointerCursor.png', 'images/UI/hoverCursor.png'];
+
 window.addEventListener("load", function () {
-    Visual.drawIntroScreen();
+    var i;
+    Visual.drawLoadingScreen();
+    for (i = 0; i < imgPaths.length; i++) {
+        PreloadManager.addToQueue(imgPaths[i]);
+    }
+    PreloadManager.preloadAll(function () {
+        $('<div id="effectScreen"> </div>').appendTo("#gameScreen");
+        window.setTimeout(function () {
+            $('#effectScreen').remove();
+            Visual.drawIntroScreen();
+        }, 1500);
+    });
     
     if (!requestAnimationFrame) {
         window.requestAnimationFrame = window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame

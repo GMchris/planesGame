@@ -59,7 +59,6 @@
         },
         setInitialValues = function () {
             playerPlane.absorptionShieldStrength = 0;
-            playerPlane.move = playerPlane.originalMoveFunction;
             boss = null;
             playerPlane.isShooting = false;
             timeIsStopped = false;
