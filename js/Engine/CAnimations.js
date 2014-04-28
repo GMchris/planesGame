@@ -70,7 +70,5 @@
         obj.animationProps.opacityCurrent = obj.animationProps.opacityTarget;
         obj.animationProps.scaleCurrent = obj.animationProps.scaleTarget;
         obj.animationProps.rotationCurrent = obj.animationProps.rotationTarget;
-        //obj.leftCoord = obj.leftTarget;
-        //obj.bottomCoord = obj.bottomTarget;
     }
 };

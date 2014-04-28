@@ -15,7 +15,6 @@
         var loss = (InteractionManager.getPlayerHealth()) == 0;
         return loss;
     },
-    //
 
     updatePrimaryStatus: function(past){
         var remainingTime = 45 - (InteractionManager.getSeconds() - this.startTime);

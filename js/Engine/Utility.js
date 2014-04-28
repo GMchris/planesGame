@@ -71,20 +71,3 @@ var fps = {
         return result;
     }
 };
-
-var ips = {
-    startTime: 0,
-    iterationNumber: 0,
-    getIPS: function () {
-        this.iterationNumber++;
-        var d = new Date().getTime(),
-            currentTime = (d - this.startTime) / 1000,
-            result = Math.floor((this.iterationNumber / currentTime));
-
-        if (currentTime > 1) {
-            this.startTime = new Date().getTime();
-            this.iterationNumber = 0;
-        }
-        return result;
-    }
-};

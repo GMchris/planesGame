@@ -37,8 +37,6 @@
     updatePrimaryStatus: function () {
         var seconds = (30 - (InteractionManager.getSeconds() - this.currentDominationStartTime));
         seconds = (seconds >= 0) ? seconds : 0;
-        //$(".mainMissionName")
-            //.html("Keep the enemy count below 7 another <b>" + seconds + "</b> seconds.");
         ctx.save();
         ctx.translate(0, 700);
         ctx.scale(1, -1);

@@ -105,7 +105,6 @@
 
         spawnPlayer = function () {
             playerPlane.currentHealth = playerPlane.maxHealth;
-            //playerPlane.addToScreen();
         },
 
         spawnBoss = function () {
@@ -113,7 +112,6 @@
                 self = this;
             this.handleBossIteration = function () { };//delay the iteration of the boss until its spawn animation is complete
             boss = new BossPlane(Utility.getRandomLeftCoord(150), Utility.getRandomBottomCoordTopHalf(120));
-            //boss.addToScreen();
             boss.animateSpawn();
             window.setTimeout(function () {
                 self.handleBossIteration = handleBoss;
@@ -125,14 +123,11 @@
         spawnSentry = function (left, bottom) {
             var sentry = new SentryPlane(left, bottom, sentryMaxHealth, sentryDamage);
             friendlyPlanes.push(sentry);
-            //sentry.addToScreen();
-
         },
 
         spawnRocket = function (left, bottom) {
             var rocket = new GuidedRocket(left, bottom, 0, playerPlane);
             bullets.push(rocket);
-            //rocket.addToScreen();
         },
 
         spawnBullet = function (type, left, bottom, orientationDeg, owner) {
@@ -162,7 +157,6 @@
                     break;
             }
             bullets.push(newBullet);
-            //newBullet.addToScreen();
         },
 
         spawnEnemy = function () {
@@ -192,7 +186,6 @@
         spawnFighter = function () {
             var newFighter = new EnemyFighter(Utility.getRandomLeftCoord(45), Utility.getRandomBottomCoordTopHalf(35),
                 fighterMaxHealth, fighterDamage, fighterMovementSpeed);
-            //newFighter.addToScreen();
             newFighter.animateSpawn();
             enemyPlanes.push(newFighter);
         },
@@ -200,7 +193,6 @@
         spawnSupplier = function () {
             var newSupplier = new EnemySupplier(Utility.getRandomLeftCoord(45), Utility.getRandomBottomCoordTopHalf(35),
                 supplierMaxHealth, supplierDamage, supplierMovementSpeed);
-            //newSupplier.addToScreen();
             newSupplier.animateSpawn();
             enemyPlanes.push(newSupplier);
         },
@@ -208,7 +200,6 @@
         spawnKamikaze = function () {
             var newKamikaze = new EnemyKamikaze(Utility.getRandomLeftCoord(45), Utility.getRandomBottomCoordTopHalf(35),
                 kamikazeMaxHealth, kamikazeDamage, kamikazeMovementSpeed);
-            //newKamikaze.addToScreen();
             newKamikaze.animateSpawn();
             enemyPlanes.push(newKamikaze);
         },
@@ -216,7 +207,6 @@
         spawnStormer = function () {
             var newStormer = new EnemyStormer(Utility.getRandomLeftCoord(45), Utility.getRandomBottomCoordTopHalf(35),
                 stormerMaxHealth, stormerDamage);
-            //newStormer.addToScreen();
             newStormer.animateSpawn();
             enemyPlanes.push(newStormer);
         },
@@ -251,7 +241,6 @@
 
             newCoords.left -= 50; //adjust plane to cursor
             playerPlane.updateCoords(newCoords.left, newCoords.bottom);
-            //playerPlane.move();
         },
 
         rotateSentries = function (direction) {

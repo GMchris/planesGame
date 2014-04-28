@@ -14,7 +14,6 @@
         var self = this;
         //TODO: Draw mission interface - call a UI function
         Game.clearScreen();
-
         Visual.adjustCSSofGameScreen(true);
         Visual.drawUI(self);
         ctx = $('<canvas width="960" height="700" id="gameCanvas"></canvas>')
@@ -48,8 +47,6 @@
     },
     mainLoop: function () {
         var self = this;
-
-        //$('#ips').text(ips.getIPS());
         InteractionManager.iterateBullets('all');
         InteractionManager.iterateFriendlyPlanes();
         InteractionManager.iterateEnemyPlanes();
@@ -68,8 +65,6 @@
             self.endMission();
         }
     },
-
-    
 
     endMission: function () {
         $(document).off(); //removes all event listeners
