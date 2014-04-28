@@ -817,6 +817,9 @@
                 Visual.adjustCSSofGameScreen(false);
                 Game.clearScreen();
                 AreaManager.drawMap();
+                if (!Game.allUnlocked) {
+                    Visual.updateStarsTracker();
+                }
                 Game.errorMessage("Mission failed");
             }, 1500);
 
