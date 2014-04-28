@@ -316,7 +316,6 @@
                 : (bullet.bottomCoord - (playerBulletsSpeed * (1 - Math.abs(bullet.orientationDeg / 90)))));
                 //will travel diagonally at (playerBulletsSpeed) speed
                 bullet.updateCoords(newLeftCoord, newBottomCoord);
-                //bullet.move();
             }
         },
 
@@ -338,7 +337,6 @@
             }
 
             bullet.updateCoords(newLeftCoord, newBottomCoord);
-            //bullet.move();
         },
 
         moveEnemyBullet = function (bullet) {
@@ -422,7 +420,6 @@
         moveEnemyPlane = function (enemyPlane) {
             var nowMs = Date.now();
             enemyPlane.moveAtDirection();
-            //enemyPlane.move();
 
             if (nowMs - enemyPlane.lastDirectionChangeTimestamp > enemyDirectionChangeFrequencyMs) {
                 enemyPlane.lastDirectionChangeTimestamp = nowMs;
@@ -438,7 +435,6 @@
                 : (kamikaze.bottomCoord + (kamikaze.movementSpeed * (1 - Math.abs(kamikaze.orientationDeg / 90))));
             kamikaze.chasePlayer();
             kamikaze.updateCoords(newLeft, newBottom);
-            //kamikaze.move();
         },
 
         handleMouseClick = function (e) {
@@ -1464,14 +1460,6 @@
             moveKamikaze = function () { };
             for (i = 0; i < enemyPlanes.length; i++) {
                 enemyPlanes[i].readyToMove = false;
-                //$(enemyPlanes[i].div)
-                //    .animate({
-                //        left: left,
-                //        bottom: bottom
-                //    }, animationLengthMs);
-
-                //enemyPlanes[i].leftCoord = left;
-                //enemyPlanes[i].bottomCoord = bottom;
                 CAnimations.animate(enemyPlanes[i], {
                     opacity: 1,
                     rotation: 0,
@@ -1544,7 +1532,6 @@
                     (rocket.bottomCoord - (rocket.movementSpeed * (1 - Math.abs(rocket.orientationDeg / 90))))
                     : (rocket.bottomCoord + (rocket.movementSpeed * (1 - Math.abs(rocket.orientationDeg / 90))));
                 rocket.updateCoords(coords.left, coords.bottom);
-                //rocket.move();
             }
         },
 

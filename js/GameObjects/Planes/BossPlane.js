@@ -163,23 +163,6 @@
             bottom: self.bottomCoord,
             frames: 180,
         });
-        //$(this.div).animate({
-        //    'opacity': 1
-        //}, {
-        //    step: function (now, fx) {
-        //        $(this).css('-webkit-transform', 'scale(' + now + ', ' + now + ')');
-		//		$(this).css('-moz-transform', 'scale(' + now + ', ' + now + ')');
-		//		$(this).css('transform', 'scale(' + now + ', ' + now + ')');
-        //    },
-        //    complete: function () {
-        //        self.isCasting = false;
-        //        self.isInvulnerable = false;
-        //        self.isInQuarterPhase = false;
-        //        $(self.hpBar).css('display', 'block');
-        //        $(self.hpBarEmpty).css('display', 'block');
-        //    },
-        //    duration: 3000
-        //});
         window.setTimeout(function () {
             self.isCasting = false;
             self.isInvulnerable = false;
@@ -217,7 +200,6 @@
             playerBottom = InteractionManager.getPlayerBottomCoord();
         ctx.save();
         ctx.translate(this.leftCoord + this.width / 2, this.bottomCoord + this.height / 2);
-        //ctx.translate(this.leftCoord, this.bottomCoord); //kamikaze rotates around it's lower-left point, not around its center - feels unnatural
         if (this.bottomCoord > playerBottom) {
             ctx.rotate(Utility.degreeToRadian(this.orientationDeg));
         } else {

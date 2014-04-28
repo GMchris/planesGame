@@ -44,8 +44,6 @@
     },
 
      updateHpBar: function () {
-    //     var newHp = parseInt(this.currentHealth / this.maxHealth * 100) + '%';
-    //     $(this.hpBar).css('width', newHp);
      },
 
     takeDamage: function (damage){

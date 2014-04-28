@@ -17,8 +17,6 @@
         if (this.leftCoord > targetLeft) {
             newOrientationDeg *= -1;
         }
-        //this.orientationDeg = newOrientationDeg;
-        //this.rotate(targetBottom);
         direction = (newOrientationDeg > this.orientationDeg) ? 1 : -1;
         deltaDegree = Math.abs(this.orientationDeg - newOrientationDeg);
         for (i = 0; i < deltaDegree ; i++) { //rotate at increments of 1

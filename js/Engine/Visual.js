@@ -105,13 +105,8 @@ var Visual = {
 
         if (isStartMission) {
             this.backgroundOffset = 0;
-            //$("#gameScreen").css({
-            //    "cursor": "none",
-            //    "background-image": "url(images/backgrounds/" + backgrounds[MissionManager.currentAreaIndex] + ".jpg)"
-            //});
             this.backgroundImg = document.createElement('img');
             this.backgroundImg.src = 'images/backgrounds/' + backgrounds[MissionManager.currentAreaIndex] + ".jpg";
-            //this.backgroundPattern = ctx.createPattern(this.backgroundImg, 'repeat-y');
         }
         else {
             $("#gameScreen").css({
@@ -132,8 +127,6 @@ var Visual = {
             this.backgroundOffset = 0;
         }
         ctx.drawImage(self.backgroundImg, 0, -this.backgroundOffset);
-        
-        //$('#gameScreen').css('backgroundPosition', 'right 0px top ' + this.backgroundOffset + 'px');
     },
 
 
@@ -356,7 +349,6 @@ var Visual = {
 
     drawGameObjects: function () {
         requestAnimationFrame(Visual.drawGameObjects);
-        //$('#fps').text(fps.getFPS());
         if (InteractionManager.getCurrentMission()) {
             ctx.clearRect(0, 0, 960, 700);
             Visual.iterateBackground();
