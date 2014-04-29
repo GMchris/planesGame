@@ -359,6 +359,19 @@ var Visual = {
         }
     },
 
+    drawExplosion: function(left,bottom){
+        var explosion = $("<div/>");
+
+        explosion.addClass("explosionDiv")
+        .css({
+            "left":left,
+            "bottom":bottom
+        })
+        .appendTo("#gameScreen");
+
+        setTimeout(function(){explosion.remove()},450)
+    },
+
     updateStarsTracker: function () {
         var starsToLevelUp = InteractionManager.getStarsToLevelUp(),
             playerLevel = InteractionManager.getPlayerLevel(),

@@ -37,6 +37,7 @@
 
     die: function () {
         var self = this;
+        Visual.drawExplosion(this.leftCoord,this.bottomCoord);
         CAnimations.animate(this, {
             opacity: 0,
             rotation: 179,
