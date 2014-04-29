@@ -847,6 +847,8 @@
                 time: Timer.current,
                 areas: AreaManager.areas,
                 unlockedSkills: Game.unlockedSkills,
+                allSkills: Game.allSkills,
+                allUnlocked: Game.allUnlocked,
                 playerSkills: Loadout.current,
                 earnedStars: playerPlane.stars,
                 level: playerPlane.level,
@@ -861,6 +863,8 @@
             startTimer();
             AreaManager.areas = loadData.areas;
             Game.unlockedSkills = loadData.unlockedSkills;
+            Game.allSkills = loadData.allSkills;
+            Game.allUnlocked = loadData.allUnlocked;
             Loadout.current = loadData.playerSkills;
             playerPlane.stars = loadData.earnedStars;
             playerPlane.level = loadData.level;
