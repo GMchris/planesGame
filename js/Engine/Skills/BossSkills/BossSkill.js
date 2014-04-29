@@ -29,7 +29,7 @@ BossSkill = Skill.extend({
 
     tryUse: function () {
         var self = this;
-        if (InteractionManager.getCurrentMission() && !InteractionManager.isTimeStopped() && !this.plane.isCasting && this.plane.skills.indexOf(this) != -1) {
+        if (InteractionManager.getCurrentMission() && !InteractionManager.isTimeStopped() && !this.plane.isCasting && this.plane.skills && this.plane.skills.indexOf(this) != -1) {
             self.makeAvailable.call(self);
             this.use();
         } else if (this.isUnlocked) {

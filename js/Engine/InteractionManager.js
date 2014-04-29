@@ -589,6 +589,7 @@
         },
 
         handleCollisionKamikaze = function (kamikaze) {
+            Visual.drawExplosion(kamikaze.leftCoord, kamikaze.bottomCoord);
             kamikaze.die();
 
             handleCollisionEnemy(kamikaze);

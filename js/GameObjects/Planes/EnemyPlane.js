@@ -25,7 +25,6 @@
             default:
                 throw new Error("Error with generating a random number [0,1] @ EnemyFighter::changeDirection()");
         }
-
     },
 
     move: function () {
