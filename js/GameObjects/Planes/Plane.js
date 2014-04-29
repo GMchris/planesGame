@@ -43,11 +43,11 @@
         this._super(left, bottom);
     },
 
-     updateHpBar: function () {
-     },
+    updateHpBar: function () {
+    },
 
-    takeDamage: function (damage){
-        if(this.currentHealth > damage){
+    takeDamage: function (damage) {
+        if (this.currentHealth > damage) {
             this.currentHealth -= damage;
         } else {
             this.currentHealth = 0;
@@ -55,8 +55,8 @@
         this.updateHpBar();
     },
 
-    receiveHeal: function(healingPoints){
-        if((this.currentHealth + healingPoints) >= this.maxHealth){
+    receiveHeal: function (healingPoints) {
+        if ((this.currentHealth + healingPoints) >= this.maxHealth) {
             this.currentHealth = this.maxHealth;
         } else {
             this.currentHealth += healingPoints;

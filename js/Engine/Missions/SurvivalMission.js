@@ -16,7 +16,7 @@
         return loss;
     },
 
-    updatePrimaryStatus: function(past){
+    updatePrimaryStatus: function (past) {
         var remainingTime = 45 - (InteractionManager.getSeconds() - this.startTime);
         remainingTime = (remainingTime >= 0) ? remainingTime : 0;
         ctx.save();

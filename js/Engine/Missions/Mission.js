@@ -21,7 +21,7 @@
         [0].getContext('2d');
         ctx.translate(0, 700);
         ctx.scale(1, -1);
-        
+
         InteractionManager.spawnPlayer();
         $(document).on('mousemove', InteractionManager.movePlayerPlane);
         $(document).on('mousedown', InteractionManager.handleMouseClick);
@@ -72,5 +72,5 @@
     },
     checkWinConditions: function () { },
     checkLossConditions: function () { },
-    updatePrimaryStatus: function() { }
+    updatePrimaryStatus: function () { }
 });

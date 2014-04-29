@@ -11,7 +11,7 @@
 
     deactivate: function () {
         this._super();
-        if(this.plane.absorptionShieldStrength !== 0){
+        if (this.plane.absorptionShieldStrength !== 0) {
             this.plane.move = this.plane.shieldMove;
         } else {
             this.plane.move = this.plane.originalMoveFunction;

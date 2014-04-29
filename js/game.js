@@ -1,20 +1,20 @@
 'use strict'
 var ctx;
 var Game = {
-    unlockableSkills : ["spreadshot","homingshot","penetratingshot","sentry","stoptime","deathray", "blackhole", "stealth", "radioactive", "healingshot", 'guidedrocket', 'shield', 'absorbbullets'],
+    unlockableSkills: ["spreadshot", "homingshot", "penetratingshot", "sentry", "stoptime", "deathray", "blackhole", "stealth", "radioactive", "healingshot", 'guidedrocket', 'shield', 'absorbbullets'],
     unlockedSkills: [],
     highScoreArr: [],
-	//Initialization
+    //Initialization
     init: function () {
         InteractionManager.startTimer();
         Game.addSkill();
-		this.clearScreen();
-		AreaManager.areas[0].active = true;
-		AreaManager.drawMap();
-		Visual.drawGameObjects();
-		if (!this.allUnlocked) {
-		    Visual.updateStarsTracker();
-		}
+        this.clearScreen();
+        AreaManager.areas[0].active = true;
+        AreaManager.drawMap();
+        Visual.drawGameObjects();
+        if (!this.allUnlocked) {
+            Visual.updateStarsTracker();
+        }
     },
 
     load: function () {
@@ -26,44 +26,44 @@ var Game = {
         }
     },
 
-	//Remove all contents of the main game window
-	clearScreen : function(){
-	    $("#gameScreen").html("");
-	},
+    //Remove all contents of the main game window
+    clearScreen: function () {
+        $("#gameScreen").html("");
+    },
 
-	//Creates an error message with given content
-	errorMessage : function(content){
-		$("<div>"+content+"</div>")
+    //Creates an error message with given content
+    errorMessage: function (content) {
+        $("<div>" + content + "</div>")
 		.addClass("errorMessage")
 		.appendTo("#gameScreen")
-		.fadeOut(2000,"linear",function(){
-		$(this).remove();
-	})
-	},
+		.fadeOut(2000, "linear", function () {
+		    $(this).remove();
+		})
+    },
 
-	//Skills
-	addSkill : function(){
-		var index = Math.floor(Math.random() * (this.unlockableSkills.length));
-		if(this.unlockableSkills[index]==undefined){
-			return;
-		}
-		this.unlockedSkills.push(this.unlockableSkills.splice(index,1)[0]);
-		return this.unlockedSkills[this.unlockedSkills.length-1];
-	},
+    //Skills
+    addSkill: function () {
+        var index = Math.floor(Math.random() * (this.unlockableSkills.length));
+        if (this.unlockableSkills[index] == undefined) {
+            return;
+        }
+        this.unlockedSkills.push(this.unlockableSkills.splice(index, 1)[0]);
+        return this.unlockedSkills[this.unlockedSkills.length - 1];
+    },
 
-	unlockEverything: function () {
-	    var i;
-	    for (i = 0; i < 13; i++) {
-	        Game.addSkill();
-	    }
-	    AreaManager.areas[1].active = true;
-	    AreaManager.areas[2].active = true;
-	    AreaManager.areas[3].active = true;
-	    this.allUnlocked = true;
-	},
+    unlockEverything: function () {
+        var i;
+        for (i = 0; i < 13; i++) {
+            Game.addSkill();
+        }
+        AreaManager.areas[1].active = true;
+        AreaManager.areas[2].active = true;
+        AreaManager.areas[3].active = true;
+        this.allUnlocked = true;
+    },
 
     allUnlocked: false
-	
+
 }
 
 var imgPaths = ['images/planes/player.png', 'images/planes/fighter.png', 'images/planes/kamikaze.png', 'images/planes/supplier.png', 'images/planes/stormer.png', 'images/planes/boss.png', 'images/planes/playerAbsorbingBullets.png', 'images/planes/sentry.png', 'images/sprites/stormCloudFrames.png', 'images/planes/fighter_spreadshot.png', 'images/backgrounds/desert.jpg', 'images/backgrounds/ocean.jpg', 'images/backgrounds/river.jpg', 'images/backgrounds/snow.jpg',
@@ -86,7 +86,7 @@ window.addEventListener("load", function () {
             Visual.drawIntroScreen();
         }, 1500);
     });
-    
+
     if (!requestAnimationFrame) {
         window.requestAnimationFrame = window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame
         || window.oRequestAnimationFrame || window.msRequestAnimationFrame;

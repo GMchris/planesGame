@@ -60,7 +60,7 @@ BossSkill = Skill.extend({
                     },
                     duration: self.castTime
                 });
-            
+
             window.setTimeout(function () {
                 self.deactivate.call(self);
             }, self.durationMs + self.castTime);

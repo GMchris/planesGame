@@ -26,10 +26,10 @@
     skills: null,
     shoot: function () {
         if (this.isShooting && this.tryShoot()) {
-            if (InteractionManager.getEnemiesCount() > 0 || InteractionManager.getCurrentMission() instanceof BossMission)  {
-                InteractionManager.spawnBullet(this.bulletType, this.leftCoord + this.width/2, this.bottomCoord + this.height, 0, this);
+            if (InteractionManager.getEnemiesCount() > 0 || InteractionManager.getCurrentMission() instanceof BossMission) {
+                InteractionManager.spawnBullet(this.bulletType, this.leftCoord + this.width / 2, this.bottomCoord + this.height, 0, this);
             } else {
-                InteractionManager.spawnBullet("player", this.leftCoord + this.width/2, this.bottomCoord + this.height, 0, this);
+                InteractionManager.spawnBullet("player", this.leftCoord + this.width / 2, this.bottomCoord + this.height, 0, this);
             }
         }
     },
@@ -49,12 +49,12 @@
         }
     },
 
-    shieldMove: function () { 
+    shieldMove: function () {
         if (!this.isAnimated) {
             ctx.save();
             ctx.globalAlpha = 0.5;
             ctx.beginPath();
-            ctx.arc((this.leftCoord + this.width/2), (this.bottomCoord + this.height/2), this.width/2, 0, 2 * Math.PI, false);
+            ctx.arc((this.leftCoord + this.width / 2), (this.bottomCoord + this.height / 2), this.width / 2, 0, 2 * Math.PI, false);
             ctx.fillStyle = '#ffff66';
             ctx.fill();
             ctx.globalAlpha = 1;

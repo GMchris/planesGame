@@ -19,7 +19,7 @@
     isActive: null,
     isOnCooldown: null,
     activate: function () {
-        if(this.plane instanceof PlayerPlane){
+        if (this.plane instanceof PlayerPlane) {
             Visual.cooldownIcon(this.icon);
             Visual.animateDuration(this.icon, this.durationMs);
             InteractionManager.trackUsedSkillsExposed(this.name);
@@ -46,7 +46,7 @@
 
     use: function () {
         var self = this;
-        
+
         if (this.isAvailable) {
             this.activate();
 

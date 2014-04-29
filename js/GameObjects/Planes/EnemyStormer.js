@@ -6,8 +6,8 @@
             height = 80;
         this._super(left, bottom, maxHealth, damage, movementSpeed, shootFrequency, width, height); //stormer doesn't move
         this.summonStormFrequencyMs = 2000;
-		this.lastStormTimestamp = Date.now();
-		this.healingOrbSpawnChance = 30;
+        this.lastStormTimestamp = Date.now();
+        this.healingOrbSpawnChance = 30;
     },
 
     img: $('<img src="images/planes/stormer.png"/>')[0],

@@ -11,7 +11,7 @@
     lastDirectionChangeTimestamp: null,
     healingOrbSpawnChance: null, //percent
 
-    
+
 
     changeDirection: function () {
         //Generates a random number [0,3] and changes direction accordingly

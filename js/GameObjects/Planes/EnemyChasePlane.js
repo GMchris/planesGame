@@ -24,7 +24,7 @@ EnemyChasePlane = EnemyPlane.extend({
         ctx.fill();
         ctx.beginPath();
         ctx.lineWidth = 2;
-        ctx.rect(-this.width / 2, (-this.height / 2)  - 5, this.width, 5);
+        ctx.rect(-this.width / 2, (-this.height / 2) - 5, this.width, 5);
         ctx.stroke();
     },
 

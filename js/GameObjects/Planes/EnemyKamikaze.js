@@ -5,7 +5,7 @@ EnemyKamikaze = EnemyChasePlane.extend({
             width = 100,
             height = 80;
         this._super(left, bottom, maxHealth, damage, movementSpeed, shootFrequency, width, height);
-		this.healingOrbSpawnChance = 30;
+        this.healingOrbSpawnChance = 30;
     },
     img: $('<img src="images/planes/kamikaze.png"/>')[0],
 });

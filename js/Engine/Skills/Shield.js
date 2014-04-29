@@ -5,10 +5,10 @@
 
     activate: function () {
         this._super();
-		this.plane.absorptionShieldStrength = 5;
+        this.plane.absorptionShieldStrength = 5;
         this.plane.move = this.plane.shieldMove;
     },
-	
+
     deactivate: function () {
         this._super();
     }

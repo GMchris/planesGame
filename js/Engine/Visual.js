@@ -56,7 +56,7 @@ var Visual = {
             localStorage.setItem('saveData', '');
             Game.init();
         });
-        
+
         $("<div>Leaderboard</div>")
        .addClass("introButton")
        .appendTo("#introScreen")
@@ -66,7 +66,7 @@ var Visual = {
     },
 
     //Draws the screen at the end of the game
-    drawVictoryScreen:function(){
+    drawVictoryScreen: function () {
         $("<div/>")
         .addClass("victoryScreen gameWindow")
         .appendTo("#gameScreen");
@@ -87,8 +87,8 @@ var Visual = {
         $("<div>Submit</div>")
         .addClass("submitButton")
         .appendTo(".scoreSubmissionBox")
-        .on("click",function(){
-            if($(".nameInput").val().length>15 ||$(".nameInput").val().length<1){ 
+        .on("click", function () {
+            if ($(".nameInput").val().length > 15 || $(".nameInput").val().length < 1) {
                 Game.errorMessage("Enter a name under fifteen characters");
                 return;
             }
@@ -198,15 +198,15 @@ var Visual = {
         .addClass("missionList")
         .appendTo("#gameScreen");
 
-        if(!(mission instanceof BossMission)){
-        for (var i = 0; i < 3; i++) {
-            $("<li/>")
-            .attr("id", "listItem" + i)
-            .addClass("secondaryListItem").
-            appendTo(".missionList");
-        }
+        if (!(mission instanceof BossMission)) {
+            for (var i = 0; i < 3; i++) {
+                $("<li/>")
+                .attr("id", "listItem" + i)
+                .addClass("secondaryListItem").
+                appendTo(".missionList");
+            }
 
-        this.setSecondaryDescriptions();
+            this.setSecondaryDescriptions();
         }
 
         $("<div/>")
@@ -322,7 +322,7 @@ var Visual = {
         for (var i = 0; i < 15; i++) {
             if (topArray[i]) {
                 var tableRow = $("<tr/>");
-                $("<td/>").addClass("positionCell").text(i+1).appendTo(tableRow);
+                $("<td/>").addClass("positionCell").text(i + 1).appendTo(tableRow);
                 $("<td/>").addClass("nicknameCell").text(topArray[i].player).appendTo(tableRow);
                 $("<td/>").addClass("scoreCell").text(topArray[i].score).appendTo(tableRow);
                 tableRow.appendTo(".leaderboard")
@@ -359,25 +359,25 @@ var Visual = {
         }
     },
 
-    drawExplosion: function(left,bottom){
+    drawExplosion: function (left, bottom) {
         var explosion = $("<div/>");
 
         explosion.addClass("explosionDiv")
         .css({
-            "left":left,
-            "bottom":bottom
+            "left": left,
+            "bottom": bottom
         })
         .appendTo("#gameScreen");
 
-        setTimeout(function(){explosion.remove()},450)
+        setTimeout(function () { explosion.remove() }, 450)
     },
 
     updateStarsTracker: function () {
         var starsToLevelUp = InteractionManager.getStarsToLevelUp(),
             playerLevel = InteractionManager.getPlayerLevel(),
             starHtml = '<img src="images/map/starMini.png" />',
-            starsEarnedHtml =starHtml+ InteractionManager.getPlayerStars() + ' earned',
-            starsToNextLevelHtml =  starHtml + ((starsToLevelUp[playerLevel - 1]) ?
+            starsEarnedHtml = starHtml + InteractionManager.getPlayerStars() + ' earned',
+            starsToNextLevelHtml = starHtml + ((starsToLevelUp[playerLevel - 1]) ?
                 starsToLevelUp[playerLevel - 1] : '-')
         + ' needed';
         $('<div></div>')

@@ -256,11 +256,11 @@ var MissionManager = {
                 $("<div/>")
                 .addClass("skillIcon " + skillClass)
                 .appendTo(".promptText:odd")
-                .on("mouseenter",function(){
-            $("<div/>").addClass("descriptionBox gameWindow").html(Loadout.generateDescription($(this))).appendTo("#gameScreen")
-        }).on("mouseleave",function(){
-           $(".descriptionBox").remove();
-        });
+                .on("mouseenter", function () {
+                    $("<div/>").addClass("descriptionBox gameWindow").html(Loadout.generateDescription($(this))).appendTo("#gameScreen")
+                }).on("mouseleave", function () {
+                    $(".descriptionBox").remove();
+                });
             }
         }
         else {

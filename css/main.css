@@ -1,55 +1,55 @@
 /*MAIN---------------------------*/
 
-*{
-	color:white;
-	margin: 0px;
-	padding: 0px;
-	font-family: sans-serif;
-	font-weight: bold;
+* {
+    color: white;
+    margin: 0px;
+    padding: 0px;
+    font-family: sans-serif;
+    font-weight: bold;
 }
 
-html,body{
-	overflow:hidden;
-	height: 100%;
+html, body {
+    overflow: hidden;
+    height: 100%;
 }
 
-body{
-    cursor:url(../images/UI/pointerCursor.png),auto;
+body {
+    cursor: url(../images/UI/pointerCursor.png),auto;
     background: -webkit-gradient(linear, 0 0, 100% 0, from(#0e1b20), to(#23363c));
     background: -webkit-linear-gradient( #23363c, #0e1b20, #23363c);
     background: -moz-linear-gradient( #23363c, #0e1b20, #23363c);
     background: -o-linear-gradient( #23363c, #0e1b20, #23363c);
     background: linear-gradient( #23363c, #0e1b20, #23363c);
     -webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
-@font-face{
-	font-family: boston;
-	src: url(../css/boston_traffic.ttf);
+@font-face {
+    font-family: boston;
+    src: url(../css/boston_traffic.ttf);
 }
 
-section{
+section {
     width: 960px;
     height: 100%;
     margin-left: auto;
     margin-right: auto;
 }
 
-#gameScreen{
-	position: relative;
-	margin-top:0%;
-	height: 700px;
-	width: 960px;
-	background: black;
+#gameScreen {
+    position: relative;
+    margin-top: 0%;
+    height: 700px;
+    width: 960px;
+    background: black;
     overflow: hidden;
 }
 
 /*GAME-----------------*/
 
-#effectScreen{
-    top:0px;
+#effectScreen {
+    top: 0px;
     z-index: 50;
     position: absolute;
     height: 700px;
@@ -57,7 +57,7 @@ section{
     background: black;
     opacity: 0;
     -webkit-animation: effectsScreenAnimation 1.5s;
-	animation: effectsScreenAnimation 1.5s;
+    animation: effectsScreenAnimation 1.5s;
 }
 
 .guidedRocketDiv {
@@ -79,7 +79,6 @@ section{
     background: -moz-linear-gradient(to right, rgba(86,181,255,0) 0%, rgba(86,181,255,1) 10%, white 20%, white 80%, rgba(86,181,255,1) 90%, rgba(86,181,255,0) 100%);
     background: -o-linear-gradient(to right, rgba(86,181,255,0) 0%, rgba(86,181,255,1) 10%, white 20%, white 80%, rgba(86,181,255,1) 90%, rgba(86,181,255,0) 100%);
     background: linear-gradient(to right, rgba(86,181,255,0) 0%, rgba(86,181,255,1) 10%, white 20%, white 80%, rgba(86,181,255,1) 90%, rgba(86,181,255,0) 100%);
-    
 }
 
 .bossDeathRayDiv {
@@ -93,27 +92,25 @@ section{
     background: -moz-linear-gradient(to right, rgba(86,181,255,0) 0%, rgba(86,181,255,1) 10%, white 20%, white 80%, rgba(86,181,255,1) 90%, rgba(86,181,255,0) 100%);
     background: -o-linear-gradient(to right, rgba(86,181,255,0) 0%, rgba(86,181,255,1) 10%, white 20%, white 80%, rgba(86,181,255,1) 90%, rgba(86,181,255,0) 100%);
     background: linear-gradient(to right, rgba(86,181,255,0) 0%, rgba(86,181,255,1) 10%, white 20%, white 80%, rgba(86,181,255,1) 90%, rgba(86,181,255,0) 100%);
-    
 }
 
 .radioactiveDiv {
-    position:absolute;
-    bottom: 0px; 
+    position: absolute;
+    bottom: 0px;
     left: 0px;
-    width: 0px; 
+    width: 0px;
     height: 0px;
-    border-radius:100%;
-    background: radial-gradient(#22e700, #f0ff00)
-    
+    border-radius: 100%;
+    background: radial-gradient(#22e700, #f0ff00);
 }
 
-.blackHole{
+.blackHole {
     position: absolute;
     height: 400px;
-    width:400px;
+    width: 400px;
     border-radius: 200px;
-    -webkit-animation : blackHoleAnimation 0.5s ease-out;
-	animation: blackHoleAnimation 0.5s ease-out;
+    -webkit-animation: blackHoleAnimation 0.5s ease-out;
+    animation: blackHoleAnimation 0.5s ease-out;
 }
 
 .stormCloudCast {
@@ -129,82 +126,167 @@ section{
     background: linear-gradient(to right, rgba(86,181,255,0) 0%, rgba(86,181,255,1) 10%, white 20%, white 80%, rgba(86,181,255,1) 90%, rgba(86,181,255,0) 100%);
 }
 
-.explosionDiv{
+.explosionDiv {
     position: absolute;
     height: 65px;
-    width:65px;
+    width: 65px;
     background-image: url(../images/sprites/explosionFrames.png);
-
-    -webkit-animation : explodeAnimation 0.4s linear;
-    animation : explodeAnimation 0.4s linear;
-
+    -webkit-animation: explodeAnimation 0.4s linear;
+    animation: explodeAnimation 0.4s linear;
 }
 
 @-webkit-keyframes enemyDeathAnimation {
-	from  {opacity: 1; -webkit-transform: scale(1, 1) rotateY(0deg)}
-	to {opacity: 0.05; -webkit-transform: scale(0.01, 0.01) rotateY(240deg)}
+    from {
+        opacity: 1;
+        -webkit-transform: scale(1, 1) rotateY(0deg);
+    }
+
+    to {
+        opacity: 0.05;
+        -webkit-transform: scale(0.01, 0.01) rotateY(240deg);
+    }
 }
 
 @keyframes enemyDeathAnimation {
-	from  {opacity: 1; transform: scale(1, 1) rotateY(0deg)}
-	to {opacity: 0.05; transform: scale(0.01, 0.01) rotateY(240deg)}
+    from {
+        opacity: 1;
+        transform: scale(1, 1) rotateY(0deg);
+    }
+
+    to {
+        opacity: 0.05;
+        transform: scale(0.01, 0.01) rotateY(240deg);
+    }
 }
 
 @-webkit-keyframes effectsScreenAnimation {
-	from  {opacity: 0; }
-	to {opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
+
 @keyframes effectsScreenAnimation {
-	from  {opacity: 0; }
-	to {opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
-@-webkit-keyframes blackHoleAnimation{
-            0%{
-                background: #795a98;
-                -webkit-transform: scale(1);
-                opacity: 0.2;
-            }
-            100%{
-                background: #342740;
-                -webkit-transform: scale(0);
-                opacity: 0.8;
-            }
-        }
-@keyframes blackHoleAnimation{
-            0%{
-                background: #795a98;
-                transform: scale(1);
-                opacity: 0.2;
-            }
-            100%{
-                background: #342740;
-                transform: scale(0);
-                opacity: 0.8;
-            }
-        }
-@-webkit-keyframes explodeAnimation{
-                0%{background-position: 65px 0px}
-                19.9%{background-position: 65px 0px}
-                20%{background-position: 130px 0px}
-                39.9%{background-position: 130px 0px}
-                40%{background-position: 195px 0px}
-                59.9%{background-position: 195px 0px}
-                60%{background-position: 260px 0px}
-                79.9%{background-position: 260px 0px}
-                80%{background-position: 0px 0px}
-                99.9%{background-position: 0px 0px}
-            }
+@-webkit-keyframes blackHoleAnimation {
+    0% {
+        background: #795a98;
+        -webkit-transform: scale(1);
+        opacity: 0.2;
+    }
 
-@keyframes explodeAnimation{
-                0%{background-position: 65px 0px}
-                19.9%{background-position: 65px 0px}
-                20%{background-position: 130px 0px}
-                39.9%{background-position: 130px 0px}
-                40%{background-position: 195px 0px}
-                59.9%{background-position: 195px 0px}
-                60%{background-position: 260px 0px}
-                79.9%{background-position: 260px 0px}
-                80%{background-position: 0px 0px}
-                99.9%{background-position: 0px 0px}
+    100% {
+        background: #342740;
+        -webkit-transform: scale(0);
+        opacity: 0.8;
+    }
+}
+
+@keyframes blackHoleAnimation {
+    0% {
+        background: #795a98;
+        transform: scale(1);
+        opacity: 0.2;
+    }
+
+    100% {
+        background: #342740;
+        transform: scale(0);
+        opacity: 0.8;
+    }
+}
+
+@-webkit-keyframes explodeAnimation {
+    0% {
+        background-position: 65px 0px;
+    }
+
+    19.9% {
+        background-position: 65px 0px;
+    }
+
+    20% {
+        background-position: 130px 0px;
+    }
+
+    39.9% {
+        background-position: 130px 0px;
+    }
+
+    40% {
+        background-position: 195px 0px;
+    }
+
+    59.9% {
+        background-position: 195px 0px;
+    }
+
+    60% {
+        background-position: 260px 0px;
+    }
+
+    79.9% {
+        background-position: 260px 0px;
+    }
+
+    80% {
+        background-position: 0px 0px;
+    }
+
+    99.9% {
+        background-position: 0px 0px;
+    }
+}
+
+@keyframes explodeAnimation {
+    0% {
+        background-position: 65px 0px;
+    }
+
+    19.9% {
+        background-position: 65px 0px;
+    }
+
+    20% {
+        background-position: 130px 0px;
+    }
+
+    39.9% {
+        background-position: 130px 0px;
+    }
+
+    40% {
+        background-position: 195px 0px;
+    }
+
+    59.9% {
+        background-position: 195px 0px;
+    }
+
+    60% {
+        background-position: 260px 0px;
+    }
+
+    79.9% {
+        background-position: 260px 0px;
+    }
+
+    80% {
+        background-position: 0px 0px;
+    }
+
+    99.9% {
+        background-position: 0px 0px;
+    }
 }

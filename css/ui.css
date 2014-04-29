@@ -1,90 +1,92 @@
-.uncompletedSecondary{
-	color:gray;
+.uncompletedSecondary {
+    color: gray;
 }
 
-.missionList{
-	position: absolute;
-	z-index: 50;
-	top:10px;
-	left:10px;
-	list-style-image:url(../images/map/starMini.png)
-}
-.missionList>li{
-	text-shadow: 0px 0px 6px rgba(0, 0, 0, 1),0px 0px 6px rgba(0, 0, 0, 1),0px 0px 6px rgba(0, 0, 0, 1);
-	font-size: 0.8em;
-	margin-left: 25px;
-}
-.mainMissionName{
-	position:absolute;
-	left:650px;
-	top:15px;
-	width:300px;
-	text-shadow: 0px 0px 6px rgba(0, 0, 0, 1),0px 0px 6px rgba(0, 0, 0, 1),0px 0px 6px rgba(0, 0, 0, 1);
-	font-weight: bolder;
-	font-size: 0.9em;
+.missionList {
+    position: absolute;
+    z-index: 50;
+    top: 10px;
+    left: 10px;
+    list-style-image: url(../images/map/starMini.png);
 }
 
-b{
-	font-size: 1.5em;
+    .missionList > li {
+        text-shadow: 0px 0px 6px rgba(0, 0, 0, 1),0px 0px 6px rgba(0, 0, 0, 1),0px 0px 6px rgba(0, 0, 0, 1);
+        font-size: 0.8em;
+        margin-left: 25px;
+    }
+
+.mainMissionName {
+    position: absolute;
+    left: 650px;
+    top: 15px;
+    width: 300px;
+    text-shadow: 0px 0px 6px rgba(0, 0, 0, 1),0px 0px 6px rgba(0, 0, 0, 1),0px 0px 6px rgba(0, 0, 0, 1);
+    font-weight: bolder;
+    font-size: 0.9em;
 }
 
-.ui{
-	bottom:0px;
-	position: absolute;
-	width: 960px;
-	height: 70px;
-	background-image: url(../images/UI/ui.png) no-repeat;
+b {
+    font-size: 1.5em;
 }
 
-.skills{
-	-webkit-box-shadow: inset 3px 3px 5px 0px rgba(0, 0, 0, 0.75);
-	-moz-box-shadow: inset 3px 3px 5px 0px rgba(0, 0, 0, 0.75);
-	box-shadow: inset 3px 3px 5px 0px rgba(0, 0, 0, 0.75);
-	top:10px;
-	height: 50px;
-	width: 50px;
-	display: inline-block;
-	position: absolute;
+.ui {
+    bottom: 0px;
+    position: absolute;
+    width: 960px;
+    height: 70px;
+    background-image: url(../images/UI/ui.png) no-repeat;
 }
 
-#skill0{
-	left:396px;
+.skills {
+    -webkit-box-shadow: inset 3px 3px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: inset 3px 3px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: inset 3px 3px 5px 0px rgba(0, 0, 0, 0.75);
+    top: 10px;
+    height: 50px;
+    width: 50px;
+    display: inline-block;
+    position: absolute;
 }
 
-#skill1{
-	left:452px;
+#skill0 {
+    left: 396px;
 }
 
-#skill2{
-	left:508px;
+#skill1 {
+    left: 452px;
 }
 
-#skill3{
-	left:564px;
+#skill2 {
+    left: 508px;
 }
 
-.spreadShotIcon{
-	background-image: url(../images/UI/spreadShotIcon.png);
+#skill3 {
+    left: 564px;
 }
 
-.penetratingShotIcon{
-	background-image: url(../images/UI/penetratingShotIcon.png);
+.spreadShotIcon {
+    background-image: url(../images/UI/spreadShotIcon.png);
 }
 
-.homingShotIcon{
-	background-image: url(../images/UI/homingShotIcon.png);
+.penetratingShotIcon {
+    background-image: url(../images/UI/penetratingShotIcon.png);
 }
 
-.sentryIcon{
-	background-image: url(../images/UI/sentryIcon.png)
+.homingShotIcon {
+    background-image: url(../images/UI/homingShotIcon.png);
 }
 
-.deathRayIcon{
-	background-image: url(../images/UI/deathRayIcon.png);
+.sentryIcon {
+    background-image: url(../images/UI/sentryIcon.png);
 }
 
-.stopTimeIcon{
-	background-image: url(../images/UI/stopTimeIcon.png);
+.deathRayIcon {
+    background-image: url(../images/UI/deathRayIcon.png);
+}
+
+.stopTimeIcon {
+    background-image: url(../images/UI/stopTimeIcon.png);
 }
 
 .blackHoleIcon {
@@ -106,23 +108,25 @@ b{
 .guidedRocketIcon {
     background-image: url(../images/UI/guidedRocketIcon.png);
 }
+
 .shieldIcon {
     background-image: url(../images/UI/shieldIcon.png);
 }
+
 .absorbBulletsIcon {
     background-image: url(../images/UI/absorbBulletsIcon.png);
 }
 
-#hpBar{
-	display: inline-block;
-	position: absolute;
-	top:21px;
-	left: 189px;
-	height: 27px;
-	width: 200px;
-	background: -webkit-gradient(linear, 0 0, 0 100%, from(#ce2c28), to(#a02825));
-	background: -webkit-linear-gradient(#ce2c28, #a02825);
-	background: -moz-linear-gradient(#ce2c28, #a02825);
-	background: -o-linear-gradient(#ce2c28, #a02825);
-	background: linear-gradient(#ce2c28, #a02825);
+#hpBar {
+    display: inline-block;
+    position: absolute;
+    top: 21px;
+    left: 189px;
+    height: 27px;
+    width: 200px;
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#ce2c28), to(#a02825));
+    background: -webkit-linear-gradient(#ce2c28, #a02825);
+    background: -moz-linear-gradient(#ce2c28, #a02825);
+    background: -o-linear-gradient(#ce2c28, #a02825);
+    background: linear-gradient(#ce2c28, #a02825);
 }

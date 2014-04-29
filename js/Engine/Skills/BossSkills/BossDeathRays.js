@@ -7,7 +7,7 @@ BossDeathRays = BossSkill.extend({
     activate: function () {
         var i;
         this._super();
-        
+
         for (i = 0; i < 3; i++) {
             InteractionManager.handleBossDeathRay(this.plane.thirdPhaseDeathRays[i]);
         }
