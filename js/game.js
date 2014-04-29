@@ -1,7 +1,7 @@
 'use strict'
 var ctx;
 var Game = {
-    allSkills : ["spreadshot","homingshot","penetratingshot","sentry","stoptime","deathray", "blackhole", "stealth", "radioactive", "healingshot", 'guidedrocket', 'shield', 'absorbbullets'],
+    unlockableSkills : ["spreadshot","homingshot","penetratingshot","sentry","stoptime","deathray", "blackhole", "stealth", "radioactive", "healingshot", 'guidedrocket', 'shield', 'absorbbullets'],
     unlockedSkills: [],
     highScoreArr: [],
 	//Initialization
@@ -43,11 +43,11 @@ var Game = {
 
 	//Skills
 	addSkill : function(){
-		var index = Math.floor(Math.random() * (this.allSkills.length));
-		if(this.allSkills[index]==undefined){
+		var index = Math.floor(Math.random() * (this.unlockableSkills.length));
+		if(this.unlockableSkills[index]==undefined){
 			return;
 		}
-		this.unlockedSkills.push(this.allSkills.splice(index,1)[0]);
+		this.unlockedSkills.push(this.unlockableSkills.splice(index,1)[0]);
 		return this.unlockedSkills[this.unlockedSkills.length-1];
 	},
 

@@ -847,7 +847,7 @@
                 time: Timer.current,
                 areas: AreaManager.areas,
                 unlockedSkills: Game.unlockedSkills,
-                allSkills: Game.allSkills,
+                availableSkills: Game.availableSkills,
                 allUnlocked: Game.allUnlocked,
                 playerSkills: Loadout.current,
                 earnedStars: playerPlane.stars,
@@ -863,7 +863,7 @@
             startTimer();
             AreaManager.areas = loadData.areas;
             Game.unlockedSkills = loadData.unlockedSkills;
-            Game.allSkills = loadData.allSkills;
+            Game.availableSkills = loadData.availableSkills;
             Game.allUnlocked = loadData.allUnlocked;
             Loadout.current = loadData.playerSkills;
             playerPlane.stars = loadData.earnedStars;
@@ -1470,9 +1470,13 @@
         placeBlackHole = function (e) {
             //add black hole image
             var convertedCoords = convertEventCoordinates(e.clientX, e.clientY),
-                convertedLeft = (convertedCoords.left <= 860) ? convertedCoords.left : 860;
-            Visual.drawBlackHole(convertedCoords.left, convertedCoords.bottom);
-            moveEnemiesBlackHole(convertedLeft, convertedCoords.bottom);
+                convertedLeft = (convertedCoords.left <= 860) ? convertedCoords.left : 860,
+                convertedBottom = (convertedCoords.bottom >= 350) ? convertedCoords.bottom : 350;
+            if (currentMission instanceof BossMission && !boss.isInQuarterPhase) {
+                convertedLeft = (convertedCoords.left <= 660) ? convertedCoords.left : 660;
+            }
+            Visual.drawBlackHole(convertedLeft, convertedBottom);
+            moveEnemiesBlackHole(convertedCoords.left, convertedBottom);
 
             window.setTimeout(function () {
                 $(document).bind('mouseup mousedown', handleMouseClick);

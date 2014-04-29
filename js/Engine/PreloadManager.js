@@ -10,6 +10,7 @@
         var i, currentElem,
             self = this;
         for (i = 0; i < this.preloadQueue.length; i++) {
+            console.log(i);
             currentElem = new Image();
             currentElem.addEventListener('load', function () {
                 self.successCount++;
