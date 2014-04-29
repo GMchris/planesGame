@@ -3,7 +3,7 @@
         var piercingWidth = width ? width : 15,
             piercingHeight = height ? height : 4;
         this._super(left, bottom, orientationDeg, owner, piercingWidth, piercingHeight);
-        this.bulletColor = '#78f1ff';
+        this.bulletColor = '#a34ba9';
         this.enemiesHit = [];
     },
 
