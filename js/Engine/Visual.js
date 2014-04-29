@@ -110,7 +110,7 @@ var Visual = {
         }
         else {
             $("#gameScreen").css({
-                "cursor": "inherit",
+                "cursor": "url(../images/UI/pointerCursor.png),auto;",
                 "background-image": "none"
             });
         }
